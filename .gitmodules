@@ -13,3 +13,9 @@
 [submodule "vendor/yasnippet"]
 	path = vendor/yasnippet
 	url = https://github.com/emacsmirror/yasnippet.git
+[submodule "vendor/vimpulse"]
+	path = vendor/vimpulse
+	url = git://gitorious.org/vimpulse/vimpulse.git
+[submodule "vendor/color-theme"]
+	path = vendor/color-theme
+	url = https://github.com/emacsmirror/color-theme.git
