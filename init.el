@@ -56,6 +56,7 @@
 ;; make ctrl-w work as expected
 (global-set-key "\C-w" 'backward-kill-word)
 (global-set-key "\C-x\C-k" 'kill-region)
+(global-set-key "\C-z" 'other-window)
 
 (global-set-key [?\C-6] (lambda ()
 			  (interactive)
