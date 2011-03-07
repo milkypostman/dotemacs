@@ -55,19 +55,12 @@
 (add-to-list 'auto-mode-alist '("\\.bashrc_.*" . sh-mode))
 
 
-
-;; modules
-(require 'misc-cmds)
-
-
 ;; keybindings
 
 ;; make ctrl-w work as expected
 (global-set-key "\C-w" 'backward-kill-word)
 (global-set-key "\C-x\C-k" 'kill-region)
 (global-set-key "\C-z" 'other-window)
-(global-set-key "\C-a" 'beginning-or-indentation)
-(global-set-key "\C-c\C-t" 'idomenu)
 (global-set-key "\M-`" 'other-frame)
 
 ;; (global-set-key [?\C-6] (lambda ()
@@ -93,6 +86,7 @@
 (global-set-key (kbd "C-c y") 'bury-buffer)
 
 ;; change M-w to copy the line if no region selected
+;; WARN: replaces function
 (put 'kill-ring-save 'interactive-form
      '(interactive
        (if (use-region-p)
@@ -100,6 +94,7 @@
          (list (line-beginning-position) (line-beginning-position 2)))))
 
 ;; change C-x C-k to kill the line if no region selected
+;; WARN: replaces function
 (put 'kill-region 'interactive-form      
      '(interactive
        (if (use-region-p)
@@ -117,9 +112,15 @@
 ;; (global-hl-line-mode 1)
 
 
+;; misc useful functions
+;; http://www.emacswiki.org/cgi-bin/wiki/misc-cmds.el
+(require 'misc-cmds)
+(global-set-key "\C-a" 'beginning-or-indentation)
+
 ;; recent files
 (recentf-mode 1)
 (global-set-key (kbd "C-x f") 'recentf-ido-find-file)
+(global-set-key "\C-c\C-t" 'idomenu)
 (defun recentf-ido-find-file ()
   "Find a recent file using ido."
   (interactive)
@@ -127,6 +128,8 @@
     (when file
       (find-file file))))
 
+;; magit
+(global-set-key "\C-cms" 'magit-status)
 
 ;; cua mode
 (setq cua-enable-cua-keys nil)
@@ -155,6 +158,7 @@
 
 ;; ido-mode
 (require 'ido)
+;; http://www.emacswiki.org/emacs/idomenu.el
 (require 'idomenu)
 (ido-mode t)
 (ido-everywhere t)
