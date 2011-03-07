@@ -3,6 +3,7 @@
 ;; Autocompletion is setup automatically.
 ;; To complete using Rope completion hit M-/
 
+;; basic configuration
 
 ;; properly setup the environment
 (push "/usr/local/bin" exec-path)
@@ -12,7 +13,7 @@
 	 (getenv "PATH")
 	 )
 	)
- 
+
 ;; Load all of my plugins
 (add-to-list 'load-path "~/.emacs.d/")
 (add-to-list 'load-path "~/.emacs.d/vendor")
@@ -20,10 +21,9 @@
        (normal-top-level-add-subdirs-to-load-path))
 (cd "~/.emacs.d/")
 
-(add-to-list 'auto-mode-alist '("\\.bashrc_.*" . sh-mode))
+;; external modules
 ;; do we want VIM mode
 ;; (require 'vimpulse)
-
 
 ;; start the server
 (server-start)
@@ -51,17 +51,33 @@
 (defalias 'yes-or-no-p 'y-or-n-p)
 
 (show-paren-mode 1)
-;; (global-hl-line-mode 1)
+
+(add-to-list 'auto-mode-alist '("\\.bashrc_.*" . sh-mode))
+
+
+
+;; modules
+(require 'misc-cmds)
+
+
+;; keybindings
 
 ;; make ctrl-w work as expected
 (global-set-key "\C-w" 'backward-kill-word)
 (global-set-key "\C-x\C-k" 'kill-region)
 (global-set-key "\C-z" 'other-window)
+(global-set-key "\C-a" 'beginning-or-indentation)
+(global-set-key "\C-c\C-t" 'idomenu)
+(global-set-key "\M-`" 'other-frame)
 
-(global-set-key [?\C-6] (lambda ()
-			  (interactive)
-			  (switch-to-buffer (other-buffer))))
+;; (global-set-key [?\C-6] (lambda ()
+;; 			  (interactive)
+;; 			  (switch-to-buffer (other-buffer))))
 
+(global-set-key (kbd "C-s") 'isearch-forward-regexp)
+(global-set-key (kbd "C-r") 'isearch-backward-regexp)
+(global-set-key (kbd "C-M-s") 'isearch-forward)
+(global-set-key (kbd "C-M-r") 'isearch-backward)
 
 ;; hack alternative for M-x
 (global-set-key "\C-x\C-m" 'execute-extended-command)
@@ -72,6 +88,24 @@
 (define-key isearch-mode-map "\C-h" 'isearch-delete-char)
 (global-set-key [(hyper h)] 'help-command)
 
+;; misc commands stolen from the starter kit
+(global-set-key (kbd "C-x C-p") 'find-file-at-point)
+(global-set-key (kbd "C-c y") 'bury-buffer)
+
+;; change M-w to copy the line if no region selected
+(put 'kill-ring-save 'interactive-form
+     '(interactive
+       (if (use-region-p)
+           (list (region-beginning) (region-end))
+         (list (line-beginning-position) (line-beginning-position 2)))))
+
+;; change C-x C-k to kill the line if no region selected
+(put 'kill-region 'interactive-form      
+     '(interactive
+       (if (use-region-p)
+           (list (region-beginning) (region-end))
+         (list (line-beginning-position) (line-beginning-position 2)))))
+
 
 ;; color theming
 (require 'color-theme)
@@ -79,6 +113,38 @@
   '(progn
      (color-theme-initialize)
      (color-theme-hober)))
+;; global hl mode doesn't look good with hober!
+;; (global-hl-line-mode 1)
+
+
+;; recent files
+(recentf-mode 1)
+(global-set-key (kbd "C-x f") 'recentf-ido-find-file)
+(defun recentf-ido-find-file ()
+  "Find a recent file using ido."
+  (interactive)
+  (let ((file (ido-completing-read "Choose recent file: " recentf-list nil t)))
+    (when file
+      (find-file file))))
+
+
+;; cua mode
+(setq cua-enable-cua-keys nil)
+(cua-mode t)
+
+
+;; save place
+(require 'saveplace)
+(setq-default save-place t)
+
+
+;; markdown
+(autoload 'markdown-mode "markdown-mode.el"
+   "Major mode for editing Markdown files" t)
+(setq auto-mode-alist
+   (cons '("\\.text" . markdown-mode) auto-mode-alist))
+(setq auto-mode-alist
+   (cons '("\\.md" . markdown-mode) auto-mode-alist))
 
 
 ;; yasnippet
@@ -89,8 +155,9 @@
 
 ;; ido-mode
 (require 'ido)
-(ido-mode 1)
-(ido-everywhere 1)
+(require 'idomenu)
+(ido-mode t)
+(ido-everywhere t)
 (setq ido-enable-flex-matching t)
 
 (add-hook 'ido-setup-hook
@@ -112,12 +179,13 @@
 (ac-config-default)
 
 
-;; pymacs
-(require 'pymacs)
-
 ;; setup Python path properly
+;; (require 'python-mode) ; use specialized python-mode
 (if (string-equal (shell-command-to-string "uname -s") "Darwin\n")
     (setenv "PYTHONPATH" "/Users/dcurtis/Development/compepi:/Users/dcurtis/Development/networkx"))
+
+;; pymacs
+(require 'pymacs)
 
 ;; function to load pymacs when python file is loaded
 (defvar ropemacs-loaded nil)
@@ -147,6 +215,7 @@
 (add-hook 'python-mode-hook 'ropemacs-require)
 
 
+;; custom stuff
 (custom-set-variables
   ;; custom-set-variables was added by Custom.
   ;; If you edit it by hand, you could mess it up, so be careful.

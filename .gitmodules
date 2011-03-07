@@ -19,3 +19,6 @@
 [submodule "vendor/color-theme"]
 	path = vendor/color-theme
 	url = https://github.com/emacsmirror/color-theme.git
+[submodule "vendor/markdown-mode"]
+	path = vendor/markdown-mode
+	url = git://jblevins.org/git/markdown-mode.git
