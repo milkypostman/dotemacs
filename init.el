@@ -47,6 +47,7 @@
 (setq line-number-mode t)
 (setq column-number-mode t)
 (setq scroll-bar-mode nil)
+
 (set-default 'indicate-empty-lines t)
 (defalias 'yes-or-no-p 'y-or-n-p)
 
@@ -129,6 +130,9 @@
       (find-file file))))
 
 ;; magit
+(autoload 'magit-status "magit.el"
+   "Function for managing git" t)
+;; (require 'magit)
 (global-set-key "\C-cms" 'magit-status)
 
 ;; cua mode
@@ -142,6 +146,7 @@
 
 
 ;; markdown
+;; use autoload because it delays loading the function until we need it.
 (autoload 'markdown-mode "markdown-mode.el"
    "Major mode for editing Markdown files" t)
 (setq auto-mode-alist
