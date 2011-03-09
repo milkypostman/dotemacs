@@ -22,3 +22,6 @@
 [submodule "vendor/markdown-mode"]
 	path = vendor/markdown-mode
 	url = git://jblevins.org/git/markdown-mode.git
+[submodule "snippets"]
+	path = snippets
+	url = git@github.com:milkypostman/milkyasnippets.git
