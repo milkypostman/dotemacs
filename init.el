@@ -1,4 +1,5 @@
 ;; Milkmacs
+;; 
 ;; Simple setup for Python and other things.
 ;; Autocompletion is setup automatically.
 ;; To complete using Rope completion hit M-/
@@ -39,6 +40,9 @@
 
 (setq auto-save-file-name-transforms `((".*", "~/.emacs.d/autosave")))
 
+(setq default-indicate-buffer-boundaries (quote left))
+;; (add-to-list 'default-fringe-indicator-alist '(empty-line . empty-line))
+
 (setq visible-bell t)
 (setq ring-bell-function 'ignore)
 (setq inhibit-splash-screen t)
@@ -57,6 +61,9 @@
 
 
 ;; keybindings
+
+;; autoindent
+(global-set-key (kbd "RET") 'newline-and-indent)
 
 ;; make ctrl-w work as expected
 (global-set-key "\C-w" 'backward-kill-word)
@@ -85,6 +92,16 @@
 ;; misc commands stolen from the starter kit
 (global-set-key (kbd "C-x C-p") 'find-file-at-point)
 (global-set-key (kbd "C-c y") 'bury-buffer)
+
+;; prefixing window commands is a pain
+(global-set-key (kbd "C-0") 'delete-window)
+(global-set-key (kbd "C-1") 'delete-other-windows)
+(global-set-key (kbd "C-2") 'split-window-vertically)
+(global-set-key (kbd "C-3") 'split-window-horizontally)
+(global-set-key (kbd "C-4") 'ctl-x-4-prefix)
+(global-set-key (kbd "C-5") 'ctl-x-5-prefix)
+
+
 
 ;; change M-w to copy the line if no region selected
 ;; WARN: replaces function
@@ -121,17 +138,25 @@
 ;; recent files
 (recentf-mode 1)
 (global-set-key (kbd "C-x f") 'recentf-ido-find-file)
+(define-key ctl-x-4-map "f" 'recentf-ido-find-file-other-window)
 (global-set-key "\C-c\C-t" 'idomenu)
 (defun recentf-ido-find-file ()
   "Find a recent file using ido."
   (interactive)
-  (let ((file (ido-completing-read "Choose recent file: " recentf-list nil t)))
+  (let ((file (ido-completing-read "Recent file: " recentf-list nil t)))
     (when file
       (find-file file))))
 
+(defun recentf-ido-find-file-other-window ()
+  "Find a recent file using ido."
+  (interactive)
+  (let ((file (ido-completing-read "Recent file: " recentf-list nil t)))
+    (when file
+      (find-file-other-window file))))
+
+
 ;; magit
-(autoload 'magit-status "magit.el"
-   "Function for managing git" t)
+(autoload 'magit-status "magit.el" "Function for managing git" t)
 ;; (require 'magit)
 (global-set-key "\C-cms" 'magit-status)
 
@@ -156,9 +181,21 @@
 
 
 ;; yasnippet
+(setq yas/trigger-key (kbd "C-c <kp-multiply>"))
 (require 'yasnippet)
 (yas/initialize)
+(yas/load-directory "~/.emacs.d/vendor/yasnippet/snippets")
 (yas/load-directory "~/.emacs.d/snippets")
+
+
+;; auto-complete
+(require 'auto-complete)
+(global-auto-complete-mode t)
+
+(require 'auto-complete-config)
+(ac-config-default)
+(setq-default ac-sources (append (list 'ac-source-yasnippet) ac-sources))
+
 
 
 ;; ido-mode
@@ -179,19 +216,19 @@
 	    (define-key ido-completion-map [tab] 'ido-complete)
 	    ))
 
-
-;; auto-complete
-(require 'auto-complete)
-(global-auto-complete-mode t)
-
-(require 'auto-complete-config)
-(ac-config-default)
+;; disable auto searching for files unless called explicitly
+(setq ido-auto-merge-delay-time 99999)
+(define-key ido-file-dir-completion-map (kbd "C-c C-s") 
+  (lambda() 
+    (interactive)
+    (ido-initiate-auto-merge (current-buffer))))
 
 
 ;; setup Python path properly
 ;; (require 'python-mode) ; use specialized python-mode
 (if (string-equal (shell-command-to-string "uname -s") "Darwin\n")
-    (setenv "PYTHONPATH" "/Users/dcurtis/Development/compepi:/Users/dcurtis/Development/networkx"))
+    (setenv "PYTHONPATH" 
+	    "/Users/dcurtis/Development/compepi:/Users/dcurtis/Development/networkx"))
 
 ;; pymacs
 (require 'pymacs)
@@ -209,20 +246,39 @@
       (setq ropemacs-loaded t)
       (ropemacs-mode)
       ))
-    (cond ((file-exists-p ".ropeproject")
-	   (rope-open-project default-directory))
-	  ((file-exists-p "../.ropeproject")
-	   (rope-open-project (concat default-directory "..")))
-	  )
+  (cond ((file-exists-p ".ropeproject")
+	 (rope-open-project default-directory))
+	((file-exists-p "../.ropeproject")
+	 (rope-open-project (concat default-directory "..")))
+	)
   )
 
+(defun python-mode-setup ()
+  (define-key python-mode-map "\C-c\C-e" 'python-end-of-block)
+  (define-key python-mode-map "\C-\M-d" 'python-end-of-block)
+  (define-key python-mode-map "\C-c\C-e" 'python-end-of-block)
+  (define-key python-mode-map "\C-\M-d" 'python-end-of-block)
+  )
+
+;; (defun specialtab ()
+;;   (interactive)
+;;   (unless (let ((yas/fallback-behavior 'return-nil)) (yas/expand))
+;;     (ac-start)
+;;     )
+;;   )
+
+;; (global-set-key "\t" 'specialtab)
+  
 (autoload 'pymacs-apply "pymacs")
 (autoload 'pymacs-call "pymacs")
 (autoload 'pymacs-eval "pymacs" nil t)
 (autoload 'pymacs-exec "pymacs" nil t)
 (autoload 'pymacs-load "pymacs" nil t)
 (add-hook 'python-mode-hook 'ropemacs-require)
+(add-hook 'python-mode-hook 'python-mode-setup)
 
+;; (global-set-key [(hyper /)] 'hippie-expand)
+;; (setq hippie-expand-try-functions-list '(yas/hippie-try-expand try-expand-dabbrev try-expand-dabbrev-all-buffers try-expand-dabbrev-from-kill try-complete-file-name-partially try-complete-file-name try-expand-all-abbrevs try-expand-list try-expand-line try-complete-lisp-symbol-partially try-complete-lisp-symbol))
 
 ;; custom stuff
 (custom-set-variables
@@ -237,5 +293,4 @@
   ;; If you edit it by hand, you could mess it up, so be careful.
   ;; Your init file should contain only one such instance.
   ;; If there is more than one, they won't work right.
- '(default ((t (:weight normal :height 120 :width normal :foundry "apple" :family "Menlo"))))
-)
+ '(default ((t (:inherit nil :stipple nil :background "black" :foreground "#c0c0c0" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 120 :width normal :foundry "apple" :family "Menlo")))))
