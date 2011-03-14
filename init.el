@@ -6,6 +6,9 @@
 
 ;; basic configuration
 
+;; debug if we would like
+;; (setq debug-on-error t)
+
 ;; properly setup the environment
 (push "/usr/local/bin" exec-path)
 (setenv "PATH"
@@ -47,7 +50,7 @@
 (setq ring-bell-function 'ignore)
 (setq inhibit-splash-screen t)
 (setq mac-command-modifier 'meta)
-(setq mac-option-modifier 'hyper)
+(setq mac-option-modifier 'super)
 (setq line-number-mode t)
 (setq column-number-mode t)
 (setq scroll-bar-mode nil)
@@ -56,20 +59,24 @@
 (defalias 'yes-or-no-p 'y-or-n-p)
 
 (show-paren-mode 1)
+(transient-mark-mode 0)
 
 (add-to-list 'auto-mode-alist '("\\.bashrc_.*" . sh-mode))
 
 
 ;; keybindings
 
+;; make C-tab bet M-tab
+(define-key function-key-map [(control tab)] [?\M-\t])
+
 ;; autoindent
 (global-set-key (kbd "RET") 'newline-and-indent)
 
 ;; make ctrl-w work as expected
-(global-set-key "\C-w" 'backward-kill-word)
-(global-set-key "\C-x\C-k" 'kill-region)
-(global-set-key "\C-z" 'other-window)
-(global-set-key "\M-`" 'other-frame)
+(global-set-key (kbd "C-x C-k") 'kill-region)
+(global-set-key (kbd "C-w") 'backward-kill-word)
+(global-set-key (kbd "C-z") 'other-window)
+(global-set-key (kbd "M-`") 'other-frame)
 
 ;; (global-set-key [?\C-6] (lambda ()
 ;; 			  (interactive)
@@ -81,17 +88,19 @@
 (global-set-key (kbd "C-M-r") 'isearch-backward)
 
 ;; hack alternative for M-x
-(global-set-key "\C-x\C-m" 'execute-extended-command)
-(global-unset-key "\C-xm") ; disable mail
+(global-set-key (kbd "C-x C-m") 'execute-extended-command)
+(global-unset-key (kbd "C-x m")) ; disable mail
 
 ;; remap the delete key, who needs help?
-(global-set-key "\C-h" 'backward-delete-char-untabify)
+(global-set-key (kbd "C-h") 'backward-delete-char-untabify)
 (define-key isearch-mode-map "\C-h" 'isearch-delete-char)
 (global-set-key [(hyper h)] 'help-command)
 
 ;; misc commands stolen from the starter kit
 (global-set-key (kbd "C-x C-p") 'find-file-at-point)
 (global-set-key (kbd "C-c y") 'bury-buffer)
+(global-set-key (kbd "C-c k") 'kill-this-buffer)
+(global-set-key (kbd "C-x C-b") 'ibuffer)
 
 ;; prefixing window commands is a pain
 (global-set-key (kbd "C-0") 'delete-window)
@@ -100,39 +109,47 @@
 (global-set-key (kbd "C-3") 'split-window-horizontally)
 (global-set-key (kbd "C-4") 'ctl-x-4-prefix)
 (global-set-key (kbd "C-5") 'ctl-x-5-prefix)
+(global-set-key (kbd "C-.") 'repeat)
+
+
+;; To help Unlearn C-x 0, 1, 2, o
+(global-unset-key (kbd "C-x 3")) ; was split-window-horizontally
+(global-unset-key (kbd "C-x 2")) ; was split-window-vertically
+(global-unset-key (kbd "C-x 1")) ; was delete-other-windows
+(global-unset-key (kbd "C-x 0")) ; was delete-window
+(global-unset-key (kbd "C-x o")) ; was other-window
+
+(global-set-key (kbd "M-;") 'comment-or-uncomment-region)
+(global-set-key (kbd "C-M-;") 'comment-or-uncomment-region)
 
 
 
-;; change M-w to copy the line if no region selected
-;; WARN: replaces function
-(put 'kill-ring-save 'interactive-form
-     '(interactive
-       (if (use-region-p)
-           (list (region-beginning) (region-end))
-         (list (line-beginning-position) (line-beginning-position 2)))))
+;; ;; change M-w to copy the line if no region selected
+;; ;; WARN: replaces function
+;; (put 'kill-ring-save 'interactive-form
+;;      '(interactive
+;;        (if (use-region-p)
+;;            (list (region-beginning) (region-end))
+;;          (list (line-beginning-position) (line-beginning-position 2)))))
 
-;; change C-x C-k to kill the line if no region selected
-;; WARN: replaces function
-(put 'kill-region 'interactive-form      
-     '(interactive
-       (if (use-region-p)
-           (list (region-beginning) (region-end))
-         (list (line-beginning-position) (line-beginning-position 2)))))
+;; ;; change C-x C-k to kill the line if no region selected
+;; ;; WARN: replaces function
+;; (put 'kill-region 'interactive-form      
+;;      '(interactive
+;;        (if (use-region-p)
+;;            (list (region-beginning) (region-end))
+;;          (list (line-beginning-position) (line-beginning-position 2)))))
 
-
-;; color theming
-(require 'color-theme)
-(eval-after-load "color-theme"
-  '(progn
-     (color-theme-initialize)
-     (color-theme-hober)))
-;; global hl mode doesn't look good with hober!
-;; (global-hl-line-mode 1)
+;; ispell
+(setq-default ispell-program-name "aspell")
+(setq ispell-list-command "list")
+(setq ispell-extra-args '("--sug-mode=ultra"))
 
 
 ;; misc useful functions
-;; http://www.emacswiki.org/cgi-bin/wiki/misc-cmds.el
-(require 'misc-cmds)
+;; http://www.emacswiki.org/cgi-bin/wiki/misc-cmds
+;; (require 'misc-cmds)
+(autoload 'beginning-or-indentation "misc-cmds")
 (global-set-key "\C-a" 'beginning-or-indentation)
 
 ;; recent files
@@ -146,33 +163,37 @@
   (let ((file (ido-completing-read "Recent file: " recentf-list nil t)))
     (when file
       (find-file file))))
-
+	       	  
 (defun recentf-ido-find-file-other-window ()
   "Find a recent file using ido."
   (interactive)
   (let ((file (ido-completing-read "Recent file: " recentf-list nil t)))
     (when file
       (find-file-other-window file))))
+	       	  
 
+;; textmate.el
+;; (require 'textmate)
 
-;; magit
-(autoload 'magit-status "magit.el" "Function for managing git" t)
-;; (require 'magit)
+	       	  
+;; magit      
+(autoload 'magit-status "magit" "Function for managing git" t)
 (global-set-key "\C-cms" 'magit-status)
 
 ;; cua mode
-(setq cua-enable-cua-keys nil)
-(cua-mode t)
+;; (setq cua-enable-cua-keys nil)
+;; (setq cua-highlight-region-shift-only t)
+;; (setq cua-toggle-set-mark nil)
+;; (cua-mode t)
 
 
 ;; save place
 (require 'saveplace)
 (setq-default save-place t)
 
-
 ;; markdown
 ;; use autoload because it delays loading the function until we need it.
-(autoload 'markdown-mode "markdown-mode.el"
+(autoload 'markdown-mode "markdown-mode"
    "Major mode for editing Markdown files" t)
 (setq auto-mode-alist
    (cons '("\\.text" . markdown-mode) auto-mode-alist))
@@ -181,7 +202,7 @@
 
 
 ;; yasnippet
-(setq yas/trigger-key (kbd "C-c <kp-multiply>"))
+;; (setq yas/trigger-key (kbd "C-c <kp-multiply>"))
 (require 'yasnippet)
 (yas/initialize)
 (yas/load-directory "~/.emacs.d/vendor/yasnippet/snippets")
@@ -199,9 +220,9 @@
 
 
 ;; ido-mode
+;; (autoload 'ido-mode "ido")
 (require 'ido)
-;; http://www.emacswiki.org/emacs/idomenu.el
-(require 'idomenu)
+
 (ido-mode t)
 (ido-everywhere t)
 (setq ido-enable-flex-matching t)
@@ -223,62 +244,61 @@
     (interactive)
     (ido-initiate-auto-merge (current-buffer))))
 
+;; http://www.emacswiki.org/emacs/idomenu
+(autoload 'idomenu "idomenu")
+
+
+;; python-mode.el
+(setq auto-mode-alist (cons '("\\.py$" . python-mode) auto-mode-alist))
+(setq interpreter-mode-alist (cons '("python" . python-mode)
+				   interpreter-mode-alist))
+(autoload 'python-mode "python-mode" "Python editing mode." t)
 
 ;; setup Python path properly
-;; (require 'python-mode) ; use specialized python-mode
 (if (string-equal (shell-command-to-string "uname -s") "Darwin\n")
-    (setenv "PYTHONPATH" 
-	    "/Users/dcurtis/Development/compepi:/Users/dcurtis/Development/networkx"))
+    (setenv "PYTHONPATH" "/Users/dcurtis/Development/compepi:/Users/dcurtis/Development/networkx"))
 
 ;; pymacs
-(require 'pymacs)
-
-;; function to load pymacs when python file is loaded
-(defvar ropemacs-loaded nil)
-(defun ropemacs-require ()
-  (with-no-warnings
-    (unless ropemacs-loaded
-      (pymacs-load "ropemacs" "rope-")
-      (if (boundp 'ropemacs-enable-autoimport)
-	  (setq ropemacs-guess-project t))
-      (if (boundp 'ropemacs-enable-autoimport)
-	  (setq ropemacs-enable-autoimport t))
-      (setq ropemacs-loaded t)
-      (ropemacs-mode)
-      ))
-  (cond ((file-exists-p ".ropeproject")
-	 (rope-open-project default-directory))
-	((file-exists-p "../.ropeproject")
-	 (rope-open-project (concat default-directory "..")))
-	)
-  )
-
-(defun python-mode-setup ()
-  (define-key python-mode-map "\C-c\C-e" 'python-end-of-block)
-  (define-key python-mode-map "\C-\M-d" 'python-end-of-block)
-  (define-key python-mode-map "\C-c\C-e" 'python-end-of-block)
-  (define-key python-mode-map "\C-\M-d" 'python-end-of-block)
-  )
-
-;; (defun specialtab ()
-;;   (interactive)
-;;   (unless (let ((yas/fallback-behavior 'return-nil)) (yas/expand))
-;;     (ac-start)
-;;     )
-;;   )
-
-;; (global-set-key "\t" 'specialtab)
-  
 (autoload 'pymacs-apply "pymacs")
 (autoload 'pymacs-call "pymacs")
 (autoload 'pymacs-eval "pymacs" nil t)
 (autoload 'pymacs-exec "pymacs" nil t)
 (autoload 'pymacs-load "pymacs" nil t)
-(add-hook 'python-mode-hook 'ropemacs-require)
-(add-hook 'python-mode-hook 'python-mode-setup)
 
-;; (global-set-key [(hyper /)] 'hippie-expand)
-;; (setq hippie-expand-try-functions-list '(yas/hippie-try-expand try-expand-dabbrev try-expand-dabbrev-all-buffers try-expand-dabbrev-from-kill try-complete-file-name-partially try-complete-file-name try-expand-all-abbrevs try-expand-list try-expand-line try-complete-lisp-symbol-partially try-complete-lisp-symbol))
+
+(defun setup-ropemacs ()
+  "Setup ropemacs"
+  (pymacs-load "ropemacs" "rope-")
+
+  ;; (setq ropemacs-codeassist-maxfixes 3)
+  (setq ropemacs-guess-project t)
+  (setq ropemacs-enable-autoimport t)
+
+  (add-hook 'python-mode-hook
+	    (lambda ()
+	      (cond ((file-exists-p ".ropeproject")
+		     (rope-open-project default-directory))
+		    ((file-exists-p "../.ropeproject")
+		     (rope-open-project (concat default-directory "..")))
+		    )))
+  )
+
+(eval-after-load 'python
+  '(progn
+     (setup-ropemacs)
+     ))
+
+(when (load "flymake" t)
+  (defun flymake-pylint-init ()
+    (let* ((temp-file (flymake-init-create-temp-buffer-copy
+		       'flymake-create-temp-inplace))
+           (local-file (file-relative-name
+                        temp-file
+                        (file-name-directory buffer-file-name))))
+      (list "epylint" (list local-file))))
+  
+  (add-to-list 'flymake-allowed-file-name-masks
+               '("\\.py\\'" flymake-pylint-init)))
 
 ;; custom stuff
 (custom-set-variables
@@ -288,9 +308,21 @@
   ;; If there is more than one, they won't work right.
  '(scroll-bar-mode nil))
 
+
 (custom-set-faces
   ;; custom-set-faces was added by Custom.
   ;; If you edit it by hand, you could mess it up, so be careful.
   ;; Your init file should contain only one such instance.
   ;; If there is more than one, they won't work right.
- '(default ((t (:inherit nil :stipple nil :background "black" :foreground "#c0c0c0" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 120 :width normal :foundry "apple" :family "Menlo")))))
+ '(default ((t (:inherit nil :stipple nil :background "black" :foreground "light gray" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 120 :width normal :foundry "apple" :family "Menlo")))))
+
+;; color theming
+;; (autoload 'color-theme-initialize "color-theme")
+(require 'color-theme)
+;; (require 'zenburn)
+;; (color-theme-zenburn)
+(require 'color-theme-hober2)
+(color-theme-hober2)
+;; global hl mode doesn't look good with hober!
+;; (global-hl-line-mode 1)
+
