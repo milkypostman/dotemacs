@@ -18,15 +18,21 @@
 	 )
 	)
 
+
 ;; Load all of my plugins
 (add-to-list 'load-path "~/.emacs.d/")
-(add-to-list 'load-path "~/.emacs.d/vendor")
-(progn (cd "~/.emacs.d/vendor")
-       (normal-top-level-add-subdirs-to-load-path))
-(cd "~/.emacs.d/")
+(add-to-list 'load-path "~/.emacs.d/vendor/")
+;; my function for adding all vendor specific directories (not subdirectories) to the load-path
+;; and put them first!
+(let* ((default-directory "~/.emacs.d/vendor/") (dirs (directory-files default-directory)))
+  (dolist (dir dirs)
+    (unless (member dir '("." ".." "RCS" "CVS" "rcs" "cvs"))
+      (let ((fullpath (concat default-directory dir)))
+	(when (file-directory-p dir)
+	  (add-to-list 'load-path fullpath))))))
 
-;; external modules
-;; do we want VIM mode
+
+;; do we want VIM mode?
 ;; (require 'vimpulse)
 
 ;; start the server
@@ -94,12 +100,13 @@
 ;; remap the delete key, who needs help?
 (global-set-key (kbd "C-h") 'backward-delete-char-untabify)
 (define-key isearch-mode-map "\C-h" 'isearch-delete-char)
-(global-set-key [(hyper h)] 'help-command)
+(global-set-key (kbd "C-c h") 'help-command)
 
 ;; misc commands stolen from the starter kit
 (global-set-key (kbd "C-x C-p") 'find-file-at-point)
 (global-set-key (kbd "C-c y") 'bury-buffer)
 (global-set-key (kbd "C-c k") 'kill-this-buffer)
+(global-set-key (kbd "C-c C-k") 'kill-this-buffer)
 (global-set-key (kbd "C-x C-b") 'ibuffer)
 
 ;; prefixing window commands is a pain
@@ -113,6 +120,8 @@
 
 
 ;; To help Unlearn C-x 0, 1, 2, o
+(global-unset-key (kbd "C-x 5")) ; was split-window-horizontally
+(global-unset-key (kbd "C-x 4")) ; was split-window-horizontally
 (global-unset-key (kbd "C-x 3")) ; was split-window-horizontally
 (global-unset-key (kbd "C-x 2")) ; was split-window-vertically
 (global-unset-key (kbd "C-x 1")) ; was delete-other-windows
@@ -122,23 +131,28 @@
 (global-set-key (kbd "M-;") 'comment-or-uncomment-region)
 (global-set-key (kbd "C-M-;") 'comment-or-uncomment-region)
 
+;; Behave like vi's o command
+(defun open-next-line (arg)
+  "Move to the next line and then opens a line.
+    See also `newline-and-indent'."
+  (interactive "p")
+  (end-of-line)
+  (open-line arg)
+  (next-line 1)
+  (indent-according-to-mode))
 
+;; Behave like vi's O command
+(defun open-previous-line (arg)
+  "Open a new line before the current one. 
+     See also `newline-and-indent'."
+  (interactive "p")
+  (beginning-of-line)
+  (open-line arg)
+  (indent-according-to-mode))
 
-;; ;; change M-w to copy the line if no region selected
-;; ;; WARN: replaces function
-;; (put 'kill-ring-save 'interactive-form
-;;      '(interactive
-;;        (if (use-region-p)
-;;            (list (region-beginning) (region-end))
-;;          (list (line-beginning-position) (line-beginning-position 2)))))
-
-;; ;; change C-x C-k to kill the line if no region selected
-;; ;; WARN: replaces function
-;; (put 'kill-region 'interactive-form      
-;;      '(interactive
-;;        (if (use-region-p)
-;;            (list (region-beginning) (region-end))
-;;          (list (line-beginning-position) (line-beginning-position 2)))))
+(global-set-key (kbd "M-C-m")   'open-next-line)
+;; (global-set-key (kbd "C-o") 'open-next-line)
+(global-set-key (kbd "M-o") 'open-previous-line)
 
 ;; ispell
 (setq-default ispell-program-name "aspell")
@@ -175,10 +189,16 @@
 ;; textmate.el
 ;; (require 'textmate)
 
+;; (require 'test-case-mode)
+(autoload 'test-case-mode "test-case-mode" nil t)
+(autoload 'enable-test-case-mode-if-test "test-case-mode")
+(autoload 'test-case-find-all-tests "test-case-mode" nil t)
+(autoload 'test-case-compilation-finish-run-all "test-case-mode")
+
 	       	  
 ;; magit      
 (autoload 'magit-status "magit" "Function for managing git" t)
-(global-set-key "\C-cms" 'magit-status)
+(global-set-key "\C-xg" 'magit-status)
 
 ;; cua mode
 ;; (setq cua-enable-cua-keys nil)
@@ -248,11 +268,11 @@
 (autoload 'idomenu "idomenu")
 
 
-;; python-mode.el
-(setq auto-mode-alist (cons '("\\.py$" . python-mode) auto-mode-alist))
-(setq interpreter-mode-alist (cons '("python" . python-mode)
-				   interpreter-mode-alist))
-(autoload 'python-mode "python-mode" "Python editing mode." t)
+;; ;; python-mode.el
+;; (setq auto-mode-alist (cons '("\\.py$" . python-mode) auto-mode-alist))
+;; (setq interpreter-mode-alist (cons '("python" . python-mode)
+;; 				   interpreter-mode-alist))
+;; (autoload 'python-mode "python-mode" "Python editing mode." t)
 
 ;; setup Python path properly
 (if (string-equal (shell-command-to-string "uname -s") "Darwin\n")
@@ -283,7 +303,12 @@
 		    )))
   )
 
-(eval-after-load 'python
+;; python.el by fabia'n
+;; (add-to-list 'load-path "~/.emacs.d/vendor/python.el")
+;; (require 'python)
+
+;;(autoload 'python-mode "python" "Python editing mode." t)
+(eval-after-load 'python-mode
   '(progn
      (setup-ropemacs)
      ))
@@ -309,13 +334,6 @@
  '(scroll-bar-mode nil))
 
 
-(custom-set-faces
-  ;; custom-set-faces was added by Custom.
-  ;; If you edit it by hand, you could mess it up, so be careful.
-  ;; Your init file should contain only one such instance.
-  ;; If there is more than one, they won't work right.
- '(default ((t (:inherit nil :stipple nil :background "black" :foreground "light gray" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 120 :width normal :foundry "apple" :family "Menlo")))))
-
 ;; color theming
 ;; (autoload 'color-theme-initialize "color-theme")
 (require 'color-theme)
@@ -326,3 +344,9 @@
 ;; global hl mode doesn't look good with hober!
 ;; (global-hl-line-mode 1)
 
+(custom-set-faces
+  ;; custom-set-faces was added by Custom.
+  ;; If you edit it by hand, you could mess it up, so be careful.
+  ;; Your init file should contain only one such instance.
+  ;; If there is more than one, they won't work right.
+ '(default ((t (:inherit nil :stipple nil :background "black" :foreground "light gray" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 120 :width normal :foundry "apple" :family "Menlo")))))
