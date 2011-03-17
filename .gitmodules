@@ -28,3 +28,12 @@
 [submodule "vendor/python.el"]
 	path = vendor/python.el
 	url = https://github.com/fgallina/python.el.git
+[submodule "vendor/virtualenv.el"]
+	path = vendor/virtualenv.el
+	url = https://github.com/aculich/virtualenv.el.git
+[submodule "vendor/Pymacs"]
+	path = vendor/Pymacs
+	url = https://github.com/pinard/Pymacs.git
+[submodule "vendor/zenburn"]
+	path = vendor/zenburn
+	url = https://github.com/dbrock/zenburn-el.git

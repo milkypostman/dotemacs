@@ -59,15 +59,30 @@
 (setq mac-option-modifier 'super)
 (setq line-number-mode t)
 (setq column-number-mode t)
+(setq set-mark-command-repeat-pop t)
 
 (set-default 'indicate-empty-lines t)
 (defalias 'yes-or-no-p 'y-or-n-p)
 
 (show-paren-mode 1)
-(transient-mark-mode 0)
+
+(defun push-mark-no-activate ()
+  "Pushes `point' to `mark-ring' and does not activate the region
+Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
+  (interactive)
+  (push-mark (point) t nil)
+  (message "Pushed mark to ring"))
+(global-set-key (kbd "C-'") 'push-mark-no-activate)
+
+(defun exchange-point-and-mark-no-activate ()
+  "Identical to \\[exchange-point-and-mark] but will not activate the region."
+  (interactive)
+  (exchange-point-and-mark)
+  (deactivate-mark nil))
+(define-key global-map [remap exchange-point-and-mark] 'exchange-point-and-mark-no-activate)
+
 
 (add-to-list 'auto-mode-alist '("\\.bashrc_.*" . sh-mode))
-
 
 ;; keybindings
 
@@ -119,8 +134,8 @@
 
 
 ;; To help Unlearn C-x 0, 1, 2, o
-(global-unset-key (kbd "C-x 5")) ; was split-window-horizontally
-(global-unset-key (kbd "C-x 4")) ; was split-window-horizontally
+(global-unset-key (kbd "C-x 5")) ; was ctl-x-5-prefix
+(global-unset-key (kbd "C-x 4")) ; was ctl-x-4-prefix
 (global-unset-key (kbd "C-x 3")) ; was split-window-horizontally
 (global-unset-key (kbd "C-x 2")) ; was split-window-vertically
 (global-unset-key (kbd "C-x 1")) ; was delete-other-windows
@@ -129,6 +144,15 @@
 
 (global-set-key (kbd "M-;") 'comment-or-uncomment-region)
 (global-set-key (kbd "C-M-;") 'comment-or-uncomment-region)
+
+(require 'misc)
+(global-set-key (kbd "M-z") 'zap-up-to-char)
+
+(global-set-key (kbd "C-x m") 'point-to-register)
+(global-set-key (kbd "C-x j") 'jump-to-register)
+
+(defadvice jump-to-register (before jump-to-register-advice activate)
+  (push-mark (point) t nil))
 
 ;; Behave like vi's o command
 (defun open-next-line (arg)
@@ -161,9 +185,29 @@
 
 ;; misc useful functions
 ;; http://www.emacswiki.org/cgi-bin/wiki/misc-cmds
-;; (require 'misc-cmds)
 (autoload 'beginning-or-indentation "misc-cmds")
 (global-set-key "\C-a" 'beginning-or-indentation)
+
+;; overlay an arrow where the mark is
+(defvar mp-overlay-arrow-position)
+(make-variable-buffer-local 'mp-overlay-arrow-position)
+;; (delq 'mp-overlay-arrow-position overlay-arrow-variable-list)
+(add-to-list 'overlay-arrow-variable-list  'mp-overlay-arrow-position)
+(defun mp-mark-hook ()
+  ;; (make-local-variable 'mp-overlay-arrow-position)
+  (unless (or (minibufferp (current-buffer)) (not (mark)))
+    (set
+     'mp-overlay-arrow-position
+     (save-excursion
+       (goto-char (mark))
+       (forward-line 0)
+       (point-marker)))))
+(add-hook 'post-command-hook 'mp-mark-hook)
+
+;; make the mark fringe bitmap look cool dude
+(define-fringe-bitmap 'mp-hollow-right-arrow [128 192 96 48 24 48 96 192 128] 9 8 'center)
+(put 'mp-overlay-arrow-position 'overlay-arrow-bitmap 'mp-hollow-right-arrow)
+
 
 ;; recent files
 (recentf-mode 1)
@@ -294,6 +338,16 @@
 
   (add-hook 'python-mode-hook
 	    (lambda ()
+	      (setq python-shell-process-environment
+		    (list
+		     (format "PATH=%s" (mapconcat
+					'identity
+					(reverse
+					 (cons (getenv "PATH")
+					       '("~/.virtualenvs/default/bin/")))
+					":"))
+		     "VIRTUAL_ENV=~/.virtualenvs/default/"))
+	      (setq python-shell-exec-path '("~/.virtualenvs/default/bin/"))
 	      (cond ((file-exists-p ".ropeproject")
 		     (rope-open-project default-directory))
 		    ((file-exists-p "../.ropeproject")
@@ -306,9 +360,10 @@
 ;; (require 'python)
 
 ;;(autoload 'python-mode "python" "Python editing mode." t)
-(eval-after-load 'python-mode
+(eval-after-load 'python
   '(progn
      (setup-ropemacs)
+     (require 'virtualenv)
      ))
 
 (when (load "flymake" t)
@@ -323,6 +378,23 @@
   (add-to-list 'flymake-allowed-file-name-masks
                '("\\.py\\'" flymake-pylint-init)))
 
+
+;; RUBY
+(autoload 'run-ruby "inf-ruby"
+  "Run an inferior Ruby process")
+(autoload 'inf-ruby-keys "inf-ruby"
+  "Set local key defs for inf-ruby in ruby-mode")
+(add-hook 'ruby-mode-hook
+	  '(lambda ()
+	     (inf-ruby-keys)
+	     ))
+
+(eval-after-load 'ruby-mode
+  '(progn
+     (define-key ruby-mode-map (kbd "C-c C-c") 'ruby-run-w/compilation)
+     ))
+
+
 ;; custom stuff
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -332,20 +404,27 @@
  '(scroll-bar-mode nil)
  '(tool-bar-mode nil))
 
-
 ;; color theming
 ;; (autoload 'color-theme-initialize "color-theme")
 (require 'color-theme)
+;; (color-theme-initialize)
 ;; (require 'zenburn)
 ;; (color-theme-zenburn)
-(require 'color-theme-hober2)
-(color-theme-hober2)
-;; global hl mode doesn't look good with hober!
-;; (global-hl-line-mode 1)
+;; (require 'color-theme-hober2)
+;; (color-theme-hober2)
+;; (set-face-attribute 'hl-line nil
+;; 		    :inherit 'unspecified
+;; 		    :background "gray8")
+;; (set-face-foreground 'hl-line nil)
+;; (set-face-background 'hl-line nil)
+;; (require 'color-theme-irblack)
+;; (color-theme-irblack)
 
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(default ((t (:inherit nil :stipple nil :background "black" :foreground "light gray" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 120 :width normal :foundry "apple" :family "Menlo")))))
+;; global hl mode doesn't look good with hober!
+(global-hl-line-mode 1)
+
+
+(set-face-font 'default "Menlo")
+
+
+
