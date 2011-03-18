@@ -276,6 +276,7 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
 
 ;; emacsclient map
 (defun server-edit-save ()
+  "Save the file and exit server mode."
   (interactive)
   (save-buffer)
   (server-edit))
