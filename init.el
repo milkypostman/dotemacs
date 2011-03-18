@@ -124,23 +124,23 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
 (global-set-key (kbd "C-x C-b") 'ibuffer)
 
 ;; prefixing window commands is a pain
-;; (global-set-key (kbd "C-0") 'delete-window)
-;; (global-set-key (kbd "C-1") 'delete-other-windows)
-;; (global-set-key (kbd "C-2") 'split-window-vertically)
-;; (global-set-key (kbd "C-3") 'split-window-horizontally)
-;; (global-set-key (kbd "C-4") 'ctl-x-4-prefix)
-;; (global-set-key (kbd "C-5") 'ctl-x-5-prefix)
-;; (global-set-key (kbd "C-.") 'repeat)
+(global-set-key (kbd "C-0") 'delete-window)
+(global-set-key (kbd "C-1") 'delete-other-windows)
+(global-set-key (kbd "C-2") 'split-window-vertically)
+(global-set-key (kbd "C-3") 'split-window-horizontally)
+(global-set-key (kbd "C-4") 'ctl-x-4-prefix)
+(global-set-key (kbd "C-5") 'ctl-x-5-prefix)
+(global-set-key (kbd "C-.") 'repeat)
 
 
 ;; To help Unlearn C-x 0, 1, 2, o
-(global-unset-key (kbd "C-x 5")) ; was ctl-x-5-prefix
-(global-unset-key (kbd "C-x 4")) ; was ctl-x-4-prefix
-(global-unset-key (kbd "C-x 3")) ; was split-window-horizontally
-(global-unset-key (kbd "C-x 2")) ; was split-window-vertically
-(global-unset-key (kbd "C-x 1")) ; was delete-other-windows
-(global-unset-key (kbd "C-x 0")) ; was delete-window
-(global-unset-key (kbd "C-x o")) ; was other-window
+;; (global-unset-key (kbd "C-x 5")) ; was ctl-x-5-prefix
+;; (global-unset-key (kbd "C-x 4")) ; was ctl-x-4-prefix
+;; (global-unset-key (kbd "C-x 3")) ; was split-window-horizontally
+;; (global-unset-key (kbd "C-x 2")) ; was split-window-vertically
+;; (global-unset-key (kbd "C-x 1")) ; was delete-other-windows
+;; (global-unset-key (kbd "C-x 0")) ; was delete-window
+;; (global-unset-key (kbd "C-x o")) ; was other-window
 
 (global-set-key (kbd "M-;") 'comment-or-uncomment-region)
 (global-set-key (kbd "C-M-;") 'comment-or-uncomment-region)
