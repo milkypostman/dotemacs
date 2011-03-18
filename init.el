@@ -104,8 +104,8 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
 
 (global-set-key (kbd "C-s") 'isearch-forward-regexp)
 (global-set-key (kbd "C-r") 'isearch-backward-regexp)
-(global-set-key (kbd "C-M-s") 'isearch-forward)
-(global-set-key (kbd "C-M-r") 'isearch-backward)
+;; (global-set-key (kbd "C-M-s") 'isearch-forward)
+;; (global-set-key (kbd "C-M-r") 'isearch-backward)
 
 ;; hack alternative for M-x
 (global-set-key (kbd "C-x C-m") 'execute-extended-command)
@@ -151,6 +151,9 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
 (global-set-key (kbd "C-x m") 'point-to-register)
 (global-set-key (kbd "C-x j") 'jump-to-register)
 
+(global-set-key (kbd "M-r") 'query-replace-regexp)
+(global-set-key (kbd "M-C-r") 'replace-regexp)
+
 (defadvice jump-to-register (before jump-to-register-advice activate)
   (push-mark (point) t nil))
 
@@ -176,6 +179,18 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
 (global-set-key (kbd "M-C-m")   'open-next-line)
 ;; (global-set-key (kbd "C-o") 'open-next-line)
 (global-set-key (kbd "M-o") 'open-previous-line)
+
+;; (put 'kill-ring-save 'interactive-form
+;;      '(interactive
+;;        (if (use-region-p)
+;;            (list (region-beginning) (region-end))
+;;          (list (line-beginning-position) (line-beginning-position 2)))))
+
+;; (put 'kill-region 'interactive-form      
+;;      '(interactive
+;;        (if (use-region-p)
+;;            (list (region-beginning) (region-end))
+;;          (list (line-beginning-position) (line-beginning-position 2)))))
 
 ;; ispell
 (setq-default ispell-program-name "aspell")
@@ -263,7 +278,10 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
 (setq auto-mode-alist
    (cons '("\\.md" . markdown-mode) auto-mode-alist))
 
+(add-hook 'markdown-mode-hook '(lambda ()
+				 (auto-fill-mode 1)))
 
+		
 ;; yasnippet
 ;; (setq yas/trigger-key (kbd "C-c <kp-multiply>"))
 (require 'yasnippet)
