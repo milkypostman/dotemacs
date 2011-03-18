@@ -1,5 +1,5 @@
 ;; Milkmacs
-;; 
+;;
 ;; Simple setup for Python and other things.
 ;; Autocompletion is setup automatically.
 ;; To complete using Rope completion hit M-/
@@ -124,13 +124,13 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
 (global-set-key (kbd "C-x C-b") 'ibuffer)
 
 ;; prefixing window commands is a pain
-(global-set-key (kbd "C-0") 'delete-window)
-(global-set-key (kbd "C-1") 'delete-other-windows)
-(global-set-key (kbd "C-2") 'split-window-vertically)
-(global-set-key (kbd "C-3") 'split-window-horizontally)
-(global-set-key (kbd "C-4") 'ctl-x-4-prefix)
-(global-set-key (kbd "C-5") 'ctl-x-5-prefix)
-(global-set-key (kbd "C-.") 'repeat)
+;; (global-set-key (kbd "C-0") 'delete-window)
+;; (global-set-key (kbd "C-1") 'delete-other-windows)
+;; (global-set-key (kbd "C-2") 'split-window-vertically)
+;; (global-set-key (kbd "C-3") 'split-window-horizontally)
+;; (global-set-key (kbd "C-4") 'ctl-x-4-prefix)
+;; (global-set-key (kbd "C-5") 'ctl-x-5-prefix)
+;; (global-set-key (kbd "C-.") 'repeat)
 
 
 ;; To help Unlearn C-x 0, 1, 2, o
@@ -169,7 +169,7 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
 
 ;; Behave like vi's O command
 (defun open-previous-line (arg)
-  "Open a new line before the current one. 
+  "Open a new line before the current one.
      See also `newline-and-indent'."
   (interactive "p")
   (beginning-of-line)
@@ -186,7 +186,7 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
 ;;            (list (region-beginning) (region-end))
 ;;          (list (line-beginning-position) (line-beginning-position 2)))))
 
-;; (put 'kill-region 'interactive-form      
+;; (put 'kill-region 'interactive-form
 ;;      '(interactive
 ;;        (if (use-region-p)
 ;;            (list (region-beginning) (region-end))
@@ -203,26 +203,28 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
 (autoload 'beginning-or-indentation "misc-cmds")
 (global-set-key "\C-a" 'beginning-or-indentation)
 
+(if window-system
+    (progn
+      ;; overlay an arrow where the mark is
+      (defvar mp-overlay-arrow-position)
+      (make-variable-buffer-local 'mp-overlay-arrow-position)
+      ;; (delq 'mp-overlay-arrow-position overlay-arrow-variable-list)
+      (add-to-list 'overlay-arrow-variable-list  'mp-overlay-arrow-position)
+      (defun mp-mark-hook ()
+	;; (make-local-variable 'mp-overlay-arrow-position)
+	(unless (or (minibufferp (current-buffer)) (not (mark)))
+	  (set
+	   'mp-overlay-arrow-position
+	   (save-excursion
+	     (goto-char (mark))
+	     (forward-line 0)
+	     (point-marker)))))
+      (add-hook 'post-command-hook 'mp-mark-hook)
 
-;; overlay an arrow where the mark is
-(defvar mp-overlay-arrow-position)
-(make-variable-buffer-local 'mp-overlay-arrow-position)
-(add-to-list 'overlay-arrow-variable-list  'mp-overlay-arrow-position)
-
-(defun mp-mark-hook ()
-  ;; (make-local-variable 'mp-overlay-arrow-position)
-  (unless (or (minibufferp (current-buffer)) (not (mark)))
-    (set
-     'mp-overlay-arrow-position
-     (save-excursion
-       (goto-char (mark))
-       (forward-line 0)
-       (point-marker)))))
-(add-hook 'post-command-hook 'mp-mark-hook)
-
-;; make the mark fringe bitmap look cool dude
-(define-fringe-bitmap 'mp-hollow-right-arrow [128 192 96 48 24 48 96 192 128] 9 8 'center)
-(put 'mp-overlay-arrow-position 'overlay-arrow-bitmap 'mp-hollow-right-arrow)
+      ;; make the mark fringe bitmap look cool dude
+      (define-fringe-bitmap 'mp-hollow-right-arrow [128 192 96 48 24 48 96 192 128] 9 8 'center)
+      (put 'mp-overlay-arrow-position 'overlay-arrow-bitmap 'mp-hollow-right-arrow)
+      ))
 
 
 ;; recent files
@@ -236,17 +238,17 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
   (let ((file (ido-completing-read "Recent file: " recentf-list nil t)))
     (when file
       (find-file file))))
-	       	  
+
 (defun recentf-ido-find-file-other-window ()
   "Find a recent file using ido."
   (interactive)
   (let ((file (ido-completing-read "Recent file: " recentf-list nil t)))
     (when file
       (find-file-other-window file))))
-	       	  
 
-	       	  
-;; magit      
+
+
+;; magit
 (autoload 'magit-status "magit" "Function for managing git" t)
 (global-set-key "\C-xg" 'magit-status)
 
@@ -284,15 +286,17 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
 				(setq save-place nil)
 				(local-set-key (kbd "C-c C-c") 'server-edit-save)))
 
-				
-				
-		
-;; yasnippet
-;; (setq yas/trigger-key (kbd "C-c <kp-multiply>"))
-(require 'yasnippet)
-(yas/initialize)
-(yas/load-directory "~/.emacs.d/vendor/yasnippet/snippets")
-(yas/load-directory "~/.emacs.d/snippets")
+
+
+;; yasnippet -- really slow so don't load it less we're on the desktop
+
+(defun mp-load-yasnippet ()
+  ;; (setq yas/trigger-key (kbd "C-c <kp-multiply>"))
+  (require 'yasnippet)
+  (yas/initialize)
+  (yas/load-directory "~/.emacs.d/vendor/yasnippet/snippets")
+  (yas/load-directory "~/.emacs.d/snippets")
+  )
 
 
 ;; auto-complete
@@ -325,8 +329,8 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
 
 ;; disable auto searching for files unless called explicitly
 (setq ido-auto-merge-delay-time 99999)
-(define-key ido-file-dir-completion-map (kbd "C-c C-s") 
-  (lambda() 
+(define-key ido-file-dir-completion-map (kbd "C-c C-s")
+  (lambda()
     (interactive)
     (ido-initiate-auto-merge (current-buffer))))
 
@@ -339,9 +343,6 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
 ;; 				   interpreter-mode-alist))
 ;; (autoload 'python-mode "python-mode" "Python editing mode." t)
 
-;; setup Python path properly
-(if (string-equal (shell-command-to-string "uname -s") "Darwin\n")
-    (setenv "PYTHONPATH" "/Users/dcurtis/Development/compepi:/Users/dcurtis/Development/networkx"))
 
 ;; pymacs
 (autoload 'pymacs-apply "pymacs")
@@ -353,29 +354,30 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
 
 (defun setup-ropemacs ()
   "Setup ropemacs"
-  (pymacs-load "ropemacs" "rope-")
+  (ignore-errors (pymacs-load "ropemacs" "rope-")
 
-  ;; (setq ropemacs-codeassist-maxfixes 3)
-  (setq ropemacs-guess-project t)
-  (setq ropemacs-enable-autoimport t)
 
-  (add-hook 'python-mode-hook
-	    (lambda ()
-	      (setq python-shell-process-environment
-		    (list
-		     (format "PATH=%s" (mapconcat
-					'identity
-					(reverse
-					 (cons (getenv "PATH")
-					       '("~/.virtualenvs/default/bin/")))
-					":"))
-		     "VIRTUAL_ENV=~/.virtualenvs/default/"))
-	      (setq python-shell-exec-path '("~/.virtualenvs/default/bin/"))
-	      (cond ((file-exists-p ".ropeproject")
-		     (rope-open-project default-directory))
-		    ((file-exists-p "../.ropeproject")
-		     (rope-open-project (concat default-directory "..")))
-		    )))
+		 ;; (setq ropemacs-codeassist-maxfixes 3)
+		 (setq ropemacs-guess-project t)
+		 (setq ropemacs-enable-autoimport t)
+
+		 (add-hook 'python-mode-hook
+			   (lambda ()
+			     (setq python-shell-process-environment
+				   (list
+				    (format "PATH=%s" (mapconcat
+						       'identity
+						       (reverse
+							(cons (getenv "PATH")
+							      '("~/.virtualenvs/default/bin/")))
+						       ":"))
+				    "VIRTUAL_ENV=~/.virtualenvs/default/"))
+			     (setq python-shell-exec-path '("~/.virtualenvs/default/bin/"))
+			     (cond ((file-exists-p ".ropeproject")
+				    (rope-open-project default-directory))
+				   ((file-exists-p "../.ropeproject")
+				    (rope-open-project (concat default-directory "..")))
+				   ))))
   )
 
 ;; python.el by fabia'n
@@ -397,7 +399,7 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
                         temp-file
                         (file-name-directory buffer-file-name))))
       (list "epylint" (list local-file))))
-  
+
   (add-to-list 'flymake-allowed-file-name-masks
                '("\\.py\\'" flymake-pylint-init)))
 
@@ -447,7 +449,11 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
 (global-hl-line-mode 1)
 
 
-(set-face-font 'default "Menlo")
+;; setup Python path properly
+(if (string-equal (shell-command-to-string "uname -s") "Darwin\n")
+    (progn
+      (setenv "PYTHONPATH" "/Users/dcurtis/Development/compepi:/Users/dcurtis/Development/networkx")
 
+      (mp-load-yasnippet)
 
-
+      (set-face-font 'default "Menlo")))
