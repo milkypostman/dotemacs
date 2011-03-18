@@ -81,8 +81,8 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
   (deactivate-mark nil))
 (define-key global-map [remap exchange-point-and-mark] 'exchange-point-and-mark-no-activate)
 
-
 (add-to-list 'auto-mode-alist '("\\.bashrc_.*" . sh-mode))
+
 
 ;; keybindings
 
@@ -203,11 +203,12 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
 (autoload 'beginning-or-indentation "misc-cmds")
 (global-set-key "\C-a" 'beginning-or-indentation)
 
+
 ;; overlay an arrow where the mark is
 (defvar mp-overlay-arrow-position)
 (make-variable-buffer-local 'mp-overlay-arrow-position)
-;; (delq 'mp-overlay-arrow-position overlay-arrow-variable-list)
 (add-to-list 'overlay-arrow-variable-list  'mp-overlay-arrow-position)
+
 (defun mp-mark-hook ()
   ;; (make-local-variable 'mp-overlay-arrow-position)
   (unless (or (minibufferp (current-buffer)) (not (mark)))
@@ -244,15 +245,6 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
       (find-file-other-window file))))
 	       	  
 
-;; textmate.el
-;; (require 'textmate)
-
-;; (require 'test-case-mode)
-(autoload 'test-case-mode "test-case-mode" nil t)
-(autoload 'enable-test-case-mode-if-test "test-case-mode")
-(autoload 'test-case-find-all-tests "test-case-mode" nil t)
-(autoload 'test-case-compilation-finish-run-all "test-case-mode")
-
 	       	  
 ;; magit      
 (autoload 'magit-status "magit" "Function for managing git" t)
@@ -281,6 +273,18 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
 (add-hook 'markdown-mode-hook '(lambda ()
 				 (auto-fill-mode 1)))
 
+
+;; emacsclient map
+(defun server-edit-save ()
+  (interactive)
+  (save-buffer)
+  (server-edit))
+(add-hook 'server-visit-hook '(lambda ()
+				(setq save-place nil)
+				(local-set-key (kbd "C-c C-c") 'server-edit-save)))
+
+				
+				
 		
 ;; yasnippet
 ;; (setq yas/trigger-key (kbd "C-c <kp-multiply>"))
