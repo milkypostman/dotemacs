@@ -134,13 +134,13 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
 
 
 ;; To help Unlearn C-x 0, 1, 2, o
-(global-unset-key (kbd "C-x 5")) ; was ctl-x-5-prefix
-(global-unset-key (kbd "C-x 4")) ; was ctl-x-4-prefix
-(global-unset-key (kbd "C-x 3")) ; was split-window-horizontally
-(global-unset-key (kbd "C-x 2")) ; was split-window-vertically
-(global-unset-key (kbd "C-x 1")) ; was delete-other-windows
-(global-unset-key (kbd "C-x 0")) ; was delete-window
-(global-unset-key (kbd "C-x o")) ; was other-window
+;;;; (global-unset-key (kbd "C-x 5")) ; was ctl-x-5-prefix
+;; (global-unset-key (kbd "C-x 4")) ; was ctl-x-4-prefix
+;; (global-unset-key (kbd "C-x 3")) ; was split-window-horizontally
+;; (global-unset-key (kbd "C-x 2")) ; was split-window-vertically
+;; (global-unset-key (kbd "C-x 1")) ; was delete-other-windows
+;; (global-unset-key (kbd "C-x 0")) ; was delete-window
+;; (global-unset-key (kbd "C-x o")) ; was other-window
 
 (global-set-key (kbd "M-;") 'comment-or-uncomment-region)
 (global-set-key (kbd "C-M-;") 'comment-or-uncomment-region)
@@ -203,25 +203,27 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
 (autoload 'beginning-or-indentation "misc-cmds")
 (global-set-key "\C-a" 'beginning-or-indentation)
 
-;; overlay an arrow where the mark is
-(defvar mp-overlay-arrow-position)
-(make-variable-buffer-local 'mp-overlay-arrow-position)
-;; (delq 'mp-overlay-arrow-position overlay-arrow-variable-list)
-(add-to-list 'overlay-arrow-variable-list  'mp-overlay-arrow-position)
-(defun mp-mark-hook ()
-  ;; (make-local-variable 'mp-overlay-arrow-position)
-  (unless (or (minibufferp (current-buffer)) (not (mark)))
-    (set
-     'mp-overlay-arrow-position
-     (save-excursion
-       (goto-char (mark))
-       (forward-line 0)
-       (point-marker)))))
-(add-hook 'post-command-hook 'mp-mark-hook)
+(if window-system
+    ;; overlay an arrow where the mark is
+    (defvar mp-overlay-arrow-position)
+  (make-variable-buffer-local 'mp-overlay-arrow-position)
+  ;; (delq 'mp-overlay-arrow-position overlay-arrow-variable-list)
+  (add-to-list 'overlay-arrow-variable-list  'mp-overlay-arrow-position)
+  (defun mp-mark-hook ()
+    ;; (make-local-variable 'mp-overlay-arrow-position)
+    (unless (or (minibufferp (current-buffer)) (not (mark)))
+      (set
+       'mp-overlay-arrow-position
+       (save-excursion
+	 (goto-char (mark))
+	 (forward-line 0)
+	 (point-marker)))))
+  (add-hook 'post-command-hook 'mp-mark-hook)
 
-;; make the mark fringe bitmap look cool dude
-(define-fringe-bitmap 'mp-hollow-right-arrow [128 192 96 48 24 48 96 192 128] 9 8 'center)
-(put 'mp-overlay-arrow-position 'overlay-arrow-bitmap 'mp-hollow-right-arrow)
+  ;; make the mark fringe bitmap look cool dude
+  (define-fringe-bitmap 'mp-hollow-right-arrow [128 192 96 48 24 48 96 192 128] 9 8 'center)
+  (put 'mp-overlay-arrow-position 'overlay-arrow-bitmap 'mp-hollow-right-arrow)
+)
 
 
 ;; recent files
@@ -334,9 +336,6 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
 ;; 				   interpreter-mode-alist))
 ;; (autoload 'python-mode "python-mode" "Python editing mode." t)
 
-;; setup Python path properly
-(if (string-equal (shell-command-to-string "uname -s") "Darwin\n")
-    (setenv "PYTHONPATH" "/Users/dcurtis/Development/compepi:/Users/dcurtis/Development/networkx"))
 
 ;; pymacs
 (autoload 'pymacs-apply "pymacs")
@@ -442,7 +441,10 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
 (global-hl-line-mode 1)
 
 
-(set-face-font 'default "Menlo")
+;; setup Python path properly
+(if (string-equal (shell-command-to-string "uname -s") "Darwin\n")
+    (setenv "PYTHONPATH" "/Users/dcurtis/Development/compepi:/Users/dcurtis/Development/networkx")
+  (set-face-font 'default "Menlo"))
 
 
 
