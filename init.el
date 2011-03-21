@@ -500,7 +500,8 @@ Key bindings:
 ;; (color-theme-hober2)
 ;; (require 'color-theme-twilight)
 ;; (color-theme-twilight)
-;; (require '
+;; (require 'color-theme-inkpot)
+;; (color-theme-inkpot)
 ;; (set-face-attribute 'hl-line nil
 ;; 		    :inherit 'unspecified
 ;; 		    :background "gray8")
