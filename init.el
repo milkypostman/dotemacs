@@ -24,13 +24,16 @@
 (add-to-list 'load-path "~/.emacs.d/vendor/")
 ;; my function for adding all vendor specific directories (not subdirectories) to the load-path
 ;; and put them first!
-(let* ((default-directory "~/.emacs.d/vendor/") (dirs (directory-files default-directory)))
-  (dolist (dir dirs)
-    (unless (member dir '("." ".." "RCS" "CVS" "rcs" "cvs"))
-      (let ((fullpath (concat default-directory dir)))
-	(when (file-directory-p dir)
-	  (add-to-list 'load-path fullpath))))))
+(defun load-directory (default-directory)
+  (let* ((dirs (directory-files default-directory)))
+    (dolist (dir dirs)
+      (unless (member dir '("." ".." "RCS" "CVS" "rcs" "cvs"))
+	(let ((fullpath (concat default-directory dir)))
+	  (when (file-directory-p dir)
+	    (add-to-list 'load-path fullpath)))))))
 
+(load-directory "~/.emacs.d/vendor/")
+(load-directory "~/.emacs.d/themes/")
 
 ;; do we want VIM mode?
 ;; (require 'vimpulse)
