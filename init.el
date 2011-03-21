@@ -493,6 +493,15 @@ Key bindings:
 ;; color theming
 ;; (autoload 'color-theme-initialize "color-theme")
 (require 'color-theme)
+(defun color-theme-undo ()
+  (interactive)
+  ;; (color-theme-reset-faces)
+  (color-theme-snapshot))
+
+;; backup current color theme
+(fset 'color-theme-snapshot (color-theme-make-snapshot))
+
+
 ;; (color-theme-initialize)
 ;; (require 'zenburn)
 ;; (color-theme-zenburn)

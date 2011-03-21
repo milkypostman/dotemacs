@@ -40,3 +40,9 @@
 [submodule "vendor/twilight"]
 	path = vendor/twilight
 	url = https://github.com/crafterm/twilight-emacs.git
+[submodule "vendor/brookstream-emacs"]
+	path = vendor/brookstream-emacs
+	url = https://github.com/justinlilly/brookstream-emacs.git
+[submodule "vendor/color-theme-ir-black"]
+	path = vendor/color-theme-ir-black
+	url = https://github.com/burke/color-theme-ir-black.git
