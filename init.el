@@ -41,6 +41,7 @@
 ;; start the server
 (server-start)
 
+;; backup settings
 (setq
    backup-by-copying t      ; don't clobber symlinks
    backup-directory-alist
@@ -50,7 +51,6 @@
    kept-old-versions 2
    version-control t
    )
-
 
 (setq auto-save-file-name-transforms '((".*" "~/.emacs/autosave/" t)))
 
