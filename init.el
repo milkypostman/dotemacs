@@ -48,9 +48,12 @@
    delete-old-versions t
    kept-new-versions 6
    kept-old-versions 2
-   version-control t)
+   version-control t
+   )
 
-(setq auto-save-file-name-transforms `((".*", "~/.emacs.d/autosave")))
+
+(setq auto-save-file-name-transforms '((".*" "~/.emacs/autosave/" t)))
+
 
 (setq default-indicate-buffer-boundaries (quote left))
 ;; (add-to-list 'default-fringe-indicator-alist '(empty-line . empty-line))
@@ -68,7 +71,9 @@
 (defalias 'yes-or-no-p 'y-or-n-p)
 
 (show-paren-mode 1)
-(menu-bar-mode 0)
+(if (not (window-system))
+    (menu-bar-mode 0)
+  )
 
 (defun push-mark-no-activate ()
   "Pushes `point' to `mark-ring' and does not activate the region
@@ -399,13 +404,13 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
 		 (setq ropemacs-guess-project t)
 		 (setq ropemacs-enable-autoimport t)
 
-		 (add-hook 'python-mode-hook
-			   (lambda ()
-			     (cond ((file-exists-p ".ropeproject")
-				    (rope-open-project default-directory))
-				   ((file-exists-p "../.ropeproject")
-				    (rope-open-project (concat default-directory "..")))
-				   )))
+		 ;; (add-hook 'python-mode-hook
+		 ;; 	   (lambda ()
+		 ;; 	     (cond ((file-exists-p ".ropeproject")
+		 ;; 		    (rope-open-project default-directory))
+		 ;; 		   ((file-exists-p "../.ropeproject")
+		 ;; 		    (rope-open-project (concat default-directory "..")))
+		 ;; 		   )))
 		 ))
 
 ;; python.el by fabia'n
@@ -519,8 +524,8 @@ Key bindings:
 ;; 		    :background "gray8")
 ;; (set-face-foreground 'hl-line nil)
 ;; (set-face-background 'hl-line nil)
-;; (require 'color-theme-irblack)
-;; (color-theme-irblack)
+;; (require 'color-theme-ir-black)
+;; (color-theme-ir-black)
 
 ;; global hl mode doesn't look good with hober!
 (global-hl-line-mode 1)
@@ -533,4 +538,5 @@ Key bindings:
 
       (mp-load-yasnippet)
 
-      (set-face-font 'default "Menlo")))
+      (set-face-font 'default "Menlo")
+      ))

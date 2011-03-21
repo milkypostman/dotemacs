@@ -46,3 +46,12 @@
 [submodule "themes/ir-black"]
 	path = themes/ir-black
 	url = https://github.com/burke/color-theme-ir-black.git
+[submodule "themes/github"]
+	path = themes/github
+	url = https://github.com/dudleyf/color-theme-github.git
+[submodule "themes/vibrant-ink"]
+	path = themes/vibrant-ink
+	url = https://github.com/mig/color-theme-vibrant-ink.git
+[submodule "themes/tango-2"]
+	path = themes/tango-2
+	url = https://github.com/wfarr/color-theme-tango-2.git
