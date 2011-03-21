@@ -68,6 +68,7 @@
 (defalias 'yes-or-no-p 'y-or-n-p)
 
 (show-paren-mode 1)
+(menu-bar-mode 0)
 
 (defun push-mark-no-activate ()
   "Pushes `point' to `mark-ring' and does not activate the region
@@ -320,7 +321,6 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
 (require 'auto-complete-config)
 (ac-config-default)
 (setq-default ac-sources (append (list 'ac-source-yasnippet) ac-sources))
-
 
 
 ;; ido-mode
