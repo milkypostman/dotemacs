@@ -34,15 +34,15 @@
 [submodule "vendor/Pymacs"]
 	path = vendor/Pymacs
 	url = https://github.com/pinard/Pymacs.git
-[submodule "vendor/zenburn"]
-	path = vendor/zenburn
+[submodule "themes/zenburn"]
+	path = themes/zenburn
 	url = https://github.com/dbrock/zenburn-el.git
-[submodule "vendor/twilight"]
-	path = vendor/twilight
+[submodule "themes/twilight"]
+	path = themes/twilight
 	url = https://github.com/crafterm/twilight-emacs.git
-[submodule "vendor/brookstream-emacs"]
-	path = vendor/brookstream-emacs
+[submodule "themes/brookstream"]
+	path = themes/brookstream
 	url = https://github.com/justinlilly/brookstream-emacs.git
-[submodule "vendor/color-theme-ir-black"]
-	path = vendor/color-theme-ir-black
+[submodule "themes/ir-black"]
+	path = themes/ir-black
 	url = https://github.com/burke/color-theme-ir-black.git
