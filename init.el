@@ -74,11 +74,13 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
   (message "Pushed mark to ring"))
 (global-set-key (kbd "C-'") 'push-mark-no-activate)
 
-(defun exchange-point-and-mark-no-activate ()
+(defun exchange-point-and-mark-no-activate (&optional arg)
   "Identical to \\[exchange-point-and-mark] but will not activate the region."
-  (interactive)
-  (exchange-point-and-mark)
-  (deactivate-mark nil))
+  (interactive "P")
+  (let ((region-active (region-active-p)))
+    (exchange-point-and-mark)
+    (if (or arg region-active) (activate-mark)
+      (deactivate-mark))))
 (define-key global-map [remap exchange-point-and-mark] 'exchange-point-and-mark-no-activate)
 
 (add-to-list 'auto-mode-alist '("\\.bashrc_.*" . sh-mode))
@@ -180,17 +182,26 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
 ;; (global-set-key (kbd "C-o") 'open-next-line)
 (global-set-key (kbd "M-o") 'open-previous-line)
 
-;; (put 'kill-ring-save 'interactive-form
-;;      '(interactive
-;;        (if (use-region-p)
-;;            (list (region-beginning) (region-end))
-;;          (list (line-beginning-position) (line-beginning-position 2)))))
+(put 'kill-ring-save 'interactive-form
+     '(interactive
+       (if (use-region-p)
+           (list (region-beginning) (region-end))
+         (list (line-beginning-position) (line-beginning-position 2)))))
 
-;; (put 'kill-region 'interactive-form
-;;      '(interactive
-;;        (if (use-region-p)
-;;            (list (region-beginning) (region-end))
-;;          (list (line-beginning-position) (line-beginning-position 2)))))
+(put 'kill-region 'interactive-form
+     '(interactive
+       (if (use-region-p)
+           (list (region-beginning) (region-end))
+         (list (line-beginning-position) (line-beginning-position 2)))))
+
+(defun make-executable ()
+  "Make the current file loaded in the buffer executable"
+  (interactive)
+  (if (buffer-file-name)
+      (shell-command
+       (mapconcat 'identity
+		  (list "chmod" "u+x" (shell-quote-argument (buffer-file-name))) " "))
+    (message "Buffer has no filename.")))
 
 ;; ispell
 (setq-default ispell-program-name "aspell")
@@ -352,10 +363,34 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
 (autoload 'pymacs-load "pymacs" nil t)
 
 
+(defun setup-virtualenv ()
+  "Setup virtualenv"
+  (ignore-errors
+    ;; setup virtualenv for the python-shell-process-environment
+    (push "~/.virtualenvs/default/bin" exec-path)
+    (setenv "PATH"
+	    (concat
+	     "~/.virtualenvs/default/bin" ":"
+	     (getenv "PATH")
+	     ))
+    (add-hook 'python-mode-hook
+	      (lambda ()
+		(setq python-shell-process-environment
+		      (list
+		       (format "PATH=%s" (mapconcat
+					  'identity
+					  (reverse
+					   (cons (getenv "PATH")
+						 '("~/.virtualenvs/default/bin/")))
+					  ":"))
+		       "VIRTUAL_ENV=~/.virtualenvs/default/"))
+		(setq python-shell-exec-path '("~/.virtualenvs/default/bin/"))))
+    ))
+
+    
 (defun setup-ropemacs ()
   "Setup ropemacs"
   (ignore-errors (pymacs-load "ropemacs" "rope-")
-
 
 		 ;; (setq ropemacs-codeassist-maxfixes 3)
 		 (setq ropemacs-guess-project t)
@@ -363,22 +398,12 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
 
 		 (add-hook 'python-mode-hook
 			   (lambda ()
-			     (setq python-shell-process-environment
-				   (list
-				    (format "PATH=%s" (mapconcat
-						       'identity
-						       (reverse
-							(cons (getenv "PATH")
-							      '("~/.virtualenvs/default/bin/")))
-						       ":"))
-				    "VIRTUAL_ENV=~/.virtualenvs/default/"))
-			     (setq python-shell-exec-path '("~/.virtualenvs/default/bin/"))
 			     (cond ((file-exists-p ".ropeproject")
 				    (rope-open-project default-directory))
 				   ((file-exists-p "../.ropeproject")
 				    (rope-open-project (concat default-directory "..")))
-				   ))))
-  )
+				   )))
+		 ))
 
 ;; python.el by fabia'n
 ;; (add-to-list 'load-path "~/.emacs.d/vendor/python.el")
@@ -388,7 +413,7 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
 (eval-after-load 'python
   '(progn
      (setup-ropemacs)
-     (require 'virtualenv)
+     (setup-virtualenv)
      ))
 
 (when (load "flymake" t)
@@ -402,6 +427,42 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
 
   (add-to-list 'flymake-allowed-file-name-masks
                '("\\.py\\'" flymake-pylint-init)))
+
+(defvar flymake-minor-mode-map
+  (let ((map (make-sparse-keymap)))
+    (define-key map "\M-p" 'flymake-goto-prev-error)
+    (define-key map "\M-n" 'flymake-goto-next-error)
+    map)
+  "Keymap for my flymake minor mode.")
+
+
+(defun flymake-err-at (pos)
+  (let ((overlays (overlays-at pos)))
+    (remove nil
+            (mapcar (lambda (overlay)
+                      (and (overlay-get overlay 'flymake-overlay)
+                           (overlay-get overlay 'help-echo)))
+                    overlays))))
+
+(defun flymake-err-echo ()
+  (message "%s" (mapconcat 'identity (flymake-err-at (point)) "\n")))
+
+(defadvice flymake-goto-next-error (after display-message activate compile)
+  (flymake-err-echo))
+
+(defadvice flymake-goto-prev-error (after display-message activate compile)
+  (flymake-err-echo))
+
+
+(define-minor-mode flymake-minor-mode
+  "Simple minor mode which adds some key bindings for moving to the next and previous errors.
+
+Key bindings:
+
+\\{flymake-minor-mode-map}"
+  nil
+  nil
+  :keymap flymake-minor-mode-map)
 
 
 ;; RUBY
@@ -437,6 +498,9 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
 ;; (color-theme-zenburn)
 ;; (require 'color-theme-hober2)
 ;; (color-theme-hober2)
+;; (require 'color-theme-twilight)
+;; (color-theme-twilight)
+;; (require '
 ;; (set-face-attribute 'hl-line nil
 ;; 		    :inherit 'unspecified
 ;; 		    :background "gray8")

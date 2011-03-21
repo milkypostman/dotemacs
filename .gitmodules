@@ -37,3 +37,6 @@
 [submodule "vendor/zenburn"]
 	path = vendor/zenburn
 	url = https://github.com/dbrock/zenburn-el.git
+[submodule "vendor/twilight"]
+	path = vendor/twilight
+	url = https://github.com/crafterm/twilight-emacs.git
