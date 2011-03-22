@@ -13,3 +13,4 @@
      (define-key ruby-mode-map (kbd "C-c C-c") 'ruby-run-w/compilation)
      ))
 
+(provide 'milkmacs-ruby)

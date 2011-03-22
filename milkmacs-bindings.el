@@ -76,3 +76,4 @@
 (global-set-key "\C-a" 'beginning-or-indentation)
 
 (provide 'milkmacs-bindings)
+

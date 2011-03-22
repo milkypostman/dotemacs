@@ -34,7 +34,8 @@
 
 (if (not (window-system))
     (menu-bar-mode 0)
-  (load "~/.emacs.d/milk/fringemark.el")
+  (require 'fringemark)
   )
 
 
+(provide 'milkmacs-visual)

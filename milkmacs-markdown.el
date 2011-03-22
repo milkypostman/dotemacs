@@ -10,3 +10,4 @@
 (add-hook 'markdown-mode-hook '(lambda ()
 				 (auto-fill-mode 1)))
 
+(provide 'milkmacs-markdown)

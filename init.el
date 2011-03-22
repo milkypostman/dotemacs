@@ -73,15 +73,6 @@
 (setq ispell-list-command "list")
 (setq ispell-extra-args '("--sug-mode=ultra"))
 
-(require 'milkmacs-bindings)
-(require 'milkmacs-defun)
-(require 'milkmacs-fringemark)
-(require 'milkmacs-ido)
-(require 'milkmacs-markdown)
-(require 'milkmacs-python)
-(require 'milkmacs-ruby)
-(require 'milkmacs-visual)
-
 ;; magit
 (autoload 'magit-status "magit" "Function for managing git" t)
 (global-set-key "\C-xg" 'magit-status)
@@ -124,9 +115,8 @@
 ;; yasnippet -- really slow so don't load it less we're on the desktop
 (autoload 'yas/initialize "yasnippet" "Initialize yasnippet")
 (defun yas-initialize () (interactive) (yas/initialize))
-(defadvice yas/initialize (before yas-load-directories activate)
-  "Load my snippet directories when initializing."
-  (progn
+(eval-after-load 'yasnippet
+  '(progn
     (yas/load-directory "~/.emacs.d/vendor/yasnippet/snippets")
     (yas/load-directory "~/.emacs.d/snippets")))
 
@@ -135,5 +125,6 @@
 
 ;; load system specific stuff.
 (ignore-errors
-  (load (concat "~/.emacs.d/milk/" (symbol-name system-type) ".el")))
+  (require (intern (concat "milkmacs-" (symbol-name system-type)))))
+
 

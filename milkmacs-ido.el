@@ -47,3 +47,4 @@
 
 
 
+(provide 'milkmacs-ido)

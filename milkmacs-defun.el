@@ -70,3 +70,4 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
 
 
 
+(provide 'milkmacs-defun)

@@ -65,17 +65,19 @@
      (setup-virtualenv)
      ))
 
-(when (load "flymake" t)
-  (defun flymake-pylint-init ()
-    (let* ((temp-file (flymake-init-create-temp-buffer-copy
-		       'flymake-create-temp-inplace))
-           (local-file (file-relative-name
-                        temp-file
-                        (file-name-directory buffer-file-name))))
-      (list "epylint" (list local-file))))
+(eval-after-load 'flymake
+  '(progn
+     (defun flymake-pylint-init ()
+       (let* ((temp-file (flymake-init-create-temp-buffer-copy
+			  'flymake-create-temp-inplace))
+	      (local-file (file-relative-name
+			   temp-file
+			   (file-name-directory buffer-file-name))))
+	 (list "epylint" (list local-file))))
+     
+     (add-to-list 'flymake-allowed-file-name-masks
+		  '("\\.py\\'" flymake-pylint-init))))
 
-  (add-to-list 'flymake-allowed-file-name-masks
-               '("\\.py\\'" flymake-pylint-init)))
 
 (defvar flymake-minor-mode-map
   (let ((map (make-sparse-keymap)))
@@ -85,31 +87,4 @@
   "Keymap for my flymake minor mode.")
 
 
-(defun flymake-err-at (pos)
-  (let ((overlays (overlays-at pos)))
-    (remove nil
-            (mapcar (lambda (overlay)
-                      (and (overlay-get overlay 'flymake-overlay)
-                           (overlay-get overlay 'help-echo)))
-                    overlays))))
-
-(defun flymake-err-echo ()
-  (message "%s" (mapconcat 'identity (flymake-err-at (point)) "\n")))
-
-(defadvice flymake-goto-next-error (after display-message activate compile)
-  (flymake-err-echo))
-
-(defadvice flymake-goto-prev-error (after display-message activate compile)
-  (flymake-err-echo))
-
-
-(define-minor-mode flymake-minor-mode
-  "Simple minor mode which adds some key bindings for moving to the next and previous errors.
-
-Key bindings:
-
-\\{flymake-minor-mode-map}"
-  nil
-  nil
-  :keymap flymake-minor-mode-map)
-
+(provide 'milkmacs-python)
