@@ -25,8 +25,8 @@
 [submodule "snippets"]
 	path = snippets
 	url = git@github.com:milkypostman/milkyasnippets.git
-[submodule "vendor/python.el"]
-	path = vendor/python.el
+[submodule "vendor/python"]
+	path = vendor/python
 	url = https://github.com/fgallina/python.el.git
 [submodule "vendor/virtualenv.el"]
 	path = vendor/virtualenv.el

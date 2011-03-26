@@ -11,12 +11,25 @@
 
 ;; properly setup the environment
 (push "/usr/local/bin" exec-path)
-(setenv "PATH" (concat "/usr/local/bin" ":" (getenv "PATH")))
+
+(setenv "PATH"
+	(mapconcat 'identity
+		   (delete-dups
+		    (append (list "/usr/local/bin" "~/bin" "/usr/texbin")
+			    (split-string (getenv "PATH") ":")))
+		   ":"))
+
+
 
 
 ;; Load all of my plugins
 (add-to-list 'load-path "~/.emacs.d/")
 (add-to-list 'load-path "~/.emacs.d/vendor/")
+
+(require 'package)
+(add-to-list 'package-archives '("elpa" . "http://tromey.com/elpa/") t)
+(add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/") t)
+(package-initialize)
 
 ;; my function for adding all vendor specific directories (not
 ;; subdirectories) to the load-path and put them first!
@@ -32,12 +45,14 @@
 (add-subdirs-load-path "~/.emacs.d/themes/")
 (add-to-list 'load-path "~/.emacs.d/vendor/ess/lisp/")
 
-
 ;; do we want VIM mode?
 ;; (require 'vimpulse)
 
 ;; start the server
 (server-start)
+
+;; don't be poppin' new frames
+(setq ns-pop-up-frames nil)
 
 ;; backup settings
 (setq backup-by-copying t)
@@ -156,9 +171,16 @@
 ;; http://www.emacswiki.org/cgi-bin/wiki/misc-cmds
 (global-set-key "\C-a" 'beginning-or-indentation)
 
-
+(eval-after-load "dired"
+  '(define-key dired-mode-map "F" 'dired-find-file-other-frame))
 
 ;; defun
+
+(defun dired-find-file-other-frame ()
+  "In Dired, visit this file or directory in another window."
+  (interactive)
+  (find-file-other-frame (dired-get-file-for-visit)))
+
 
 ;; emacsclient map
 (defun server-edit-save ()
@@ -166,9 +188,10 @@
   (interactive)
   (save-buffer)
   (server-edit))
-(add-hook 'server-visit-hook '(lambda ()
-				(setq save-place nil)
-				(local-set-key (kbd "C-c C-c") 'server-edit-save)))
+
+;; (add-hook 'server-visit-hook '(lambda ()
+;; 				(setq save-place nil)
+;; 				(local-set-key (kbd "C-c C-c") 'server-edit-save)))
 
 (defun push-mark-no-activate ()
   "Pushes `point' to `mark-ring' and does not activate the region
@@ -232,45 +255,6 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
 
 
 
-;; flymake keybindings
-(defun flymake-err-at (pos)
-  (let ((overlays (overlays-at pos)))
-    (remove nil
-            (mapcar (lambda (overlay)
-                      (and (overlay-get overlay 'flymake-overlay)
-                           (overlay-get overlay 'help-echo)))
-                    overlays))))
-
-(defun flymake-err-echo ()
-  (message "%s" (mapconcat 'identity (flymake-err-at (point)) "\n")))
-
-(defadvice flymake-goto-next-error (after display-message activate compile)
-  (flymake-err-echo))
-
-(defadvice flymake-goto-prev-error (after display-message activate compile)
-  (flymake-err-echo))
-
-(defvar flymake-minor-mode-map
-  (let ((map (make-sparse-keymap)))
-    (define-key map "\M-p" 'flymake-goto-prev-error)
-    (define-key map "\M-n" 'flymake-goto-next-error)
-    map)
-  "Keymap for my flymake minor mode.")
-
-
-(define-minor-mode flymake-minor-mode
-  "Simple minor mode which adds some key bindings for moving to the next and previous errors.
-
-Key bindings:
-
-\\{flymake-minor-mode-map}"
-  nil
-  nil
-  :keymap flymake-minor-mode-map)
-
-(defadvice flymake-mode (after flymake-enable-keybindings activate)
-  (message "minor-mode keybindings enabled")
-  (flymake-minor-mode))
 
 
 ;; ispell
@@ -278,9 +262,11 @@ Key bindings:
 (setq ispell-list-command "list")
 (setq ispell-extra-args '("--sug-mode=ultra"))
 
+
 ;; magit
 (autoload 'magit-status "magit" "Function for managing git" t)
 (global-set-key "\C-xg" 'magit-status)
+
 
 ;; save place
 (require 'saveplace)
@@ -289,13 +275,29 @@ Key bindings:
 (require 'misc)
 (autoload 'beginning-or-indentation "misc-cmds")
 
-;; auto-complete
-(require 'auto-complete)
-(global-auto-complete-mode t)
+(add-to-list 'hippie-expand-try-functions-list 'yas/hippie-try-expand)
+(global-set-key (kbd "TAB") 'hippie-expand)
 
-(require 'auto-complete-config)
-(ac-config-default)
-(setq-default ac-sources (append (list 'ac-source-yasnippet) ac-sources))
+(add-hook 'emacs-lisp-mode-hook 'move-lisp-completion-to-front)
+(defun move-lisp-completion-to-front ()
+  "Adjust hippie-expand-try-functions-list to have lisp completion at the front."
+  (make-local-variable 'hippie-expand-try-functions-list)
+  (setq hippie-expand-try-functions-list
+	(append (list 'yas/hippie-try-expand 'try-complete-lisp-symbol-partially 'try-complete-lisp-symbol)
+		(delq 'yas/hippie-try-expand
+		      (delq 'try-complete-lisp-symbol-partially
+			    (delq 'try-complete-lisp-symbol
+				  hippie-expand-try-functions-list))))))
+
+
+
+;; auto-complete
+;; (require 'auto-complete)
+;; (global-auto-complete-mode t)
+
+;; (require 'auto-complete-config)
+;; (ac-config-default)
+;; (setq-default ac-sources (append (list 'ac-source-yasnippet) ac-sources))
 
 
 ;; ido-mode
@@ -322,8 +324,10 @@ Key bindings:
     (interactive)
     (ido-initiate-auto-merge (current-buffer))))
 
+
 ;; http://www.emacswiki.org/emacs/idomenu
 (autoload 'idomenu "idomenu")
+
 
 ;; ido recent files
 (recentf-mode 1)
@@ -346,20 +350,48 @@ Key bindings:
 
 
 ;; yasnippet -- really slow so don't load it less we're on the desktop
-(autoload 'yas/initialize "yasnippet" "Initialize yasnippet")
-(defun yas-initialize () (interactive) (yas/initialize))
+;; (autoload 'yas/initialize "yasnippet" "Initialize yasnippet")
+;; (defun yas-initialize () (interactive) (yas/initialize))
 (eval-after-load 'yasnippet
   '(progn
-    (yas/load-directory "~/.emacs.d/vendor/yasnippet/snippets")
     (yas/load-directory "~/.emacs.d/snippets")))
+;; (yas/load-directory "~/.emacs.d/snippets")
 
-;; only load yasnippet if we're using a window system
-(if (window-system)
-    (yas/initialize))
 
+;; auctex
+(eval-after-load 'latex
+  '(progn
+     (add-hook 'LaTeX-mode-hook 'TeX-source-correlate-mode)
+     (setq TeX-source-correlate-method 'synctex)
+
+
+     (setq TeX-auto-save t)
+     (setq TeX-parse-self t)
+     (setq TeX-save-query nil)
+     ;; (setq-default TeX-master nil)
+     ;; (setq LaTeX-command "latex")
+     (setq TeX-view-program-list '(("Skim" "/Applications/Skim.app/Contents/SharedSupport/displayline %n %o %b")))
+     (setq TeX-view-program-selection '((output-pdf "Skim")))
+     (add-hook 'LaTeX-mode-hook 'auto-fill-mode)
+     (add-hook 'LaTeX-mode-hook 'flyspell-mode)
+     (add-hook 'LaTeX-mode-hook 'LaTeX-math-mode)
+     (add-hook 'LaTeX-mode-hook 'turn-on-reftex)
+     (setq reftex-plug-into-AUCTeX t)
+     (define-key TeX-mode-map (kbd "C-c C-c")
+       (lambda ()
+	 (interactive)
+	 (TeX-save-document (TeX-master-file))
+	 (TeX-command "LaTeX" 'TeX-master-file)
+	 ))
+     ))
+
+(eval-after-load 'reftex
+  '(progn
+     (add-to-list 'reftex-section-prefixes '(1 . "chap:"))))
 
 ;; erlang
 (require 'erlang-start)
+
 
 ;; scala
 (require 'scala-mode-auto)
@@ -367,6 +399,17 @@ Key bindings:
 	  (lambda ()
 	    (yas/load-directory "~/.emacs.d/vendor/scala-mode/contrib/yasnippet/snippets")
 	    ))
+
+
+;; R
+;; manually do autoloads so the whole shebang doesn't load everytime.
+;; I hardly use R.
+;; (require 'ess-site)
+(autoload 'R-mode "ess-site" "R mode")
+(autoload 'R "ess-site" "R inferior shell" t)
+(setq auto-mode-alist
+   (cons '("\\.[rR]\\'"	. R-mode) auto-mode-alist))
+	   
 
 ;; markdown
 ;; use autoload because it delays loading the function until we need it.
@@ -451,16 +494,22 @@ Key bindings:
      (add-to-list 'flymake-allowed-file-name-masks
 		  '("\\.py\\'" flymake-pylint-init))))
 
+(defadvice flymake-mode (after post-command-stuff activate compile)
+  "add keybindings"
+   (local-set-key "\M-p" 'flymake-goto-prev-error)
+   (local-set-key "\M-n" 'flymake-goto-next-error))
 
-;; ruby
-(autoload 'run-ruby "inf-ruby"
-  "Run an inferior Ruby process")
-(autoload 'inf-ruby-keys "inf-ruby"
-  "Set local key defs for inf-ruby in ruby-mode")
-(add-hook 'ruby-mode-hook
-	  '(lambda ()
-	     (inf-ruby-keys)
-	     ))
+
+
+;; ;; ruby
+;; (autoload 'run-ruby "inf-ruby"
+;;   "Run an inferior Ruby process")
+;; (autoload 'inf-ruby-keys "inf-ruby"
+;;   "Set local key defs for inf-ruby in ruby-mode")
+;; (add-hook 'ruby-mode-hook
+;; 	  '(lambda ()
+;; 	     (inf-ruby-keys)
+;; 	     ))
 
 (eval-after-load 'ruby-mode
   '(progn
@@ -512,6 +561,7 @@ Key bindings:
 
 (set-face-font 'default "Menlo")
 
+
 ;; custom stuff
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -526,3 +576,9 @@ Key bindings:
       )
 
 
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
