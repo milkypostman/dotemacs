@@ -1,9 +1,3 @@
-[submodule "Pymacs"]
-	path = Pymacs
-	url = https://github.com/pinard/Pymacs.git
-[submodule "vimpulse"]
-	path = vimpulse
-	url = git://gitorious.org/vimpulse/vimpulse.git
 [submodule "vendor/auto-complete"]
 	path = vendor/auto-complete
 	url = https://github.com/m2ym/auto-complete.git
@@ -55,3 +49,4 @@
 [submodule "themes/tango-2"]
 	path = themes/tango-2
 	url = https://github.com/wfarr/color-theme-tango-2.git
+

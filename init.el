@@ -7,7 +7,7 @@
 ;; basic configuration
 
 ;; debug if we would like
-;; (setq debug-on-error t)
+(setq debug-on-error t)
 
 ;; properly setup the environment
 (push "/usr/local/bin" exec-path)
@@ -31,6 +31,7 @@
 (add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/") t)
 (package-initialize)
 
+
 ;; my function for adding all vendor specific directories (not
 ;; subdirectories) to the load-path and put them first!
 (defun add-subdirs-load-path (default-directory)
@@ -44,6 +45,10 @@
 (add-subdirs-load-path "~/.emacs.d/vendor/")
 (add-subdirs-load-path "~/.emacs.d/themes/")
 (add-to-list 'load-path "~/.emacs.d/vendor/ess/lisp/")
+
+;; (add-to-list 'load-path "~/.emacs.d/el-get/el-get")
+;; (require 'el-get)
+
 
 ;; do we want VIM mode?
 ;; (require 'vimpulse)
@@ -65,7 +70,6 @@
 (setq auto-save-file-name-transforms '((".*" "~/.emacs.d/autosave/" t)))
 
 (setq default-indicate-buffer-boundaries (quote left))
-;; (add-to-list 'default-fringe-indicator-alist '(empty-line . empty-line))
 
 (setq visible-bell t)
 (setq ring-bell-function 'ignore)
@@ -256,24 +260,16 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
 
 
 
-
 ;; ispell
 (setq-default ispell-program-name "aspell")
 (setq ispell-list-command "list")
 (setq ispell-extra-args '("--sug-mode=ultra"))
-
-
-;; magit
-(autoload 'magit-status "magit" "Function for managing git" t)
-(global-set-key "\C-xg" 'magit-status)
-
 
 ;; save place
 (require 'saveplace)
 (setq-default save-place t)
 
 (require 'misc)
-(autoload 'beginning-or-indentation "misc-cmds")
 
 (add-to-list 'hippie-expand-try-functions-list 'yas/hippie-try-expand)
 (global-set-key (kbd "TAB") 'hippie-expand)
@@ -291,14 +287,43 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
 
 
 
-;; auto-complete
-;; (require 'auto-complete)
-;; (global-auto-complete-mode t)
 
-;; (require 'auto-complete-config)
-;; (ac-config-default)
-;; (setq-default ac-sources (append (list 'ac-source-yasnippet) ac-sources))
+;; (setq el-get-sources
+;;       '(el-get
+;; 	magit
+;; 	yasnippet
+;; 	python
+;; 	pymacs
+;; 	;;auctex
+;; 	scala-mode
+;; 	ess
+;; 	color-theme
+;; 	color-theme-almost-monokai
+;; 	color-theme-railscasts
+;; 	color-theme-twilight
+;; 	color-theme-chocolate-rain
+;; 	color-theme-sanityinc
+;; 	color-theme-zen-and-art
+;; 	color-theme-desert
+;; 	color-theme-subdued
+;; 	color-theme-zenburn
+;; 	color-theme-ir-black
+;; 	color-theme-tango-2
+;; 	color-theme-mac-classic
+;; 	color-theme-tango
+;; 	(:name fringemark
+;; 	       :type git
+;; 	       :url "https://github.com/milkypostman/fringemark.git")
+;; 	(:name misc-cmds
+;; 	       :type emacswiki
+;; 	       :features beginning-or-indentation)
+;; 	(:name ido-menu
+;; 	       :type emacswiki
+;; 	       :features idomenu)
+;; 	))
 
+;; (el-get)
+	
 
 ;; ido-mode
 ;; (autoload 'ido-mode "ido")
@@ -326,7 +351,6 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
 
 
 ;; http://www.emacswiki.org/emacs/idomenu
-(autoload 'idomenu "idomenu")
 
 
 ;; ido recent files
@@ -368,6 +392,7 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
      (setq TeX-auto-save t)
      (setq TeX-parse-self t)
      (setq TeX-save-query nil)
+     (setq TeX-PDF-mode t)
      ;; (setq-default TeX-master nil)
      ;; (setq LaTeX-command "latex")
      (setq TeX-view-program-list '(("Skim" "/Applications/Skim.app/Contents/SharedSupport/displayline %n %o %b")))
@@ -433,7 +458,6 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
 (autoload 'pymacs-exec "pymacs" nil t)
 (autoload 'pymacs-load "pymacs" nil t)
 
-
 (defun setup-virtualenv ()
   "Setup virtualenv"
   (ignore-errors
@@ -461,18 +485,9 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
 (defun setup-ropemacs ()
   "Setup ropemacs"
   (ignore-errors (pymacs-load "ropemacs" "rope-")
-
 		 ;; (setq ropemacs-codeassist-maxfixes 3)
 		 (setq ropemacs-guess-project t)
 		 (setq ropemacs-enable-autoimport t)
-
-		 ;; (add-hook 'python-mode-hook
-		 ;; 	   (lambda ()
-		 ;; 	     (cond ((file-exists-p ".ropeproject")
-		 ;; 		    (rope-open-project default-directory))
-		 ;; 		   ((file-exists-p "../.ropeproject")
-		 ;; 		    (rope-open-project (concat default-directory "..")))
-		 ;; 		   )))
 		 ))
 
 (eval-after-load 'python
@@ -548,16 +563,16 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
 ;; (color-theme-ir-black)
 (require 'color-theme-vibrant-ink)
 (color-theme-vibrant-ink)
-(set-face-background 'default "black")
+;; (set-face-background 'default "black")
 
 ;; global hl mode doesn't look good with hober!
-(global-hl-line-mode 1)
-(show-paren-mode 1)
-
 (if (not (window-system))
     (menu-bar-mode 0)
   (require 'fringemark)
   )
+
+(global-hl-line-mode 1)
+(show-paren-mode 1)
 
 (set-face-font 'default "Menlo")
 
@@ -576,9 +591,3 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
       )
 
 
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
