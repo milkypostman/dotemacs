@@ -173,6 +173,7 @@
 
 ;; misc useful functions
 ;; http://www.emacswiki.org/cgi-bin/wiki/misc-cmds
+(autoload 'beginning-or-indentation "misc-cmds")
 (global-set-key "\C-a" 'beginning-or-indentation)
 
 (eval-after-load "dired"
@@ -284,8 +285,6 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
 		      (delq 'try-complete-lisp-symbol-partially
 			    (delq 'try-complete-lisp-symbol
 				  hippie-expand-try-functions-list))))))
-
-
 
 
 ;; (setq el-get-sources
