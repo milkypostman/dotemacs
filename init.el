@@ -21,7 +21,6 @@
 
 
 
-
 ;; Load all of my plugins
 (add-to-list 'load-path "~/.emacs.d/")
 (add-to-list 'load-path "~/.emacs.d/vendor/")
@@ -29,6 +28,9 @@
 (require 'package)
 (add-to-list 'package-archives '("elpa" . "http://tromey.com/elpa/") t)
 (add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/") t)
+(add-to-list 'package-archives '("kieranhealy" . "http://kieranhealy.org/packages/") t)
+(add-to-list 'package-archives '("josh" . "http://josh.github.com/elpa/") t)
+
 (package-initialize)
 
 
@@ -272,8 +274,21 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
 
 (require 'misc)
 
-(add-to-list 'hippie-expand-try-functions-list 'yas/hippie-try-expand)
-(global-set-key (kbd "TAB") 'hippie-expand)
+;; (add-to-list 'hippie-expand-try-functions-list 'yas/hippie-try-expand)
+
+(defun fancy-tab (arg)
+  (interactive "P")
+  (setq this-command last-command)
+  (if (or (eq this-command 'hippie-expand) (looking-at "\\_>"))
+      (progn
+	(setq this-command 'hippie-expand)
+	(hippie-expand arg))
+    (setq this-command 'indent-for-tab-command)
+    (indent-for-tab-command arg)))
+
+
+(define-key read-expression-map [(tab)] 'hippie-expand)
+(global-set-key (kbd "TAB") 'fancy-tab)
 
 (add-hook 'emacs-lisp-mode-hook 'move-lisp-completion-to-front)
 (defun move-lisp-completion-to-front ()
@@ -285,44 +300,6 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
 		      (delq 'try-complete-lisp-symbol-partially
 			    (delq 'try-complete-lisp-symbol
 				  hippie-expand-try-functions-list))))))
-
-
-;; (setq el-get-sources
-;;       '(el-get
-;; 	magit
-;; 	yasnippet
-;; 	python
-;; 	pymacs
-;; 	;;auctex
-;; 	scala-mode
-;; 	ess
-;; 	color-theme
-;; 	color-theme-almost-monokai
-;; 	color-theme-railscasts
-;; 	color-theme-twilight
-;; 	color-theme-chocolate-rain
-;; 	color-theme-sanityinc
-;; 	color-theme-zen-and-art
-;; 	color-theme-desert
-;; 	color-theme-subdued
-;; 	color-theme-zenburn
-;; 	color-theme-ir-black
-;; 	color-theme-tango-2
-;; 	color-theme-mac-classic
-;; 	color-theme-tango
-;; 	(:name fringemark
-;; 	       :type git
-;; 	       :url "https://github.com/milkypostman/fringemark.git")
-;; 	(:name misc-cmds
-;; 	       :type emacswiki
-;; 	       :features beginning-or-indentation)
-;; 	(:name ido-menu
-;; 	       :type emacswiki
-;; 	       :features idomenu)
-;; 	))
-
-;; (el-get)
-	
 
 ;; ido-mode
 ;; (autoload 'ido-mode "ido")
@@ -371,6 +348,17 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
     (when file
       (find-file-other-window file))))
 
+(defun ido-yank ()
+  (interactive)
+  (insert-for-yank
+   (ido-completing-read "Select kill: " kill-ring)))
+
+;; (setq-default dirtrack-list '("^[^@]*@\\([^$]*\\)\\$" 1))
+;; (add-hook 'shell-mode-hook
+;;           (lambda ()
+;; 	    (comint-send-string (current-buffer) "export PS1=\"dcurtis@/:\\w$ \"\n")
+;;             (dirtrack-mode 1)
+;;             ))
 
 ;; yasnippet -- really slow so don't load it less we're on the desktop
 ;; (autoload 'yas/initialize "yasnippet" "Initialize yasnippet")
@@ -380,6 +368,7 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
     (yas/load-directory "~/.emacs.d/snippets")))
 ;; (yas/load-directory "~/.emacs.d/snippets")
 
+(global-set-key (kbd "C-x g") 'magit-status)
 
 ;; auctex
 (eval-after-load 'latex
@@ -391,7 +380,7 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
      (setq TeX-auto-save t)
      (setq TeX-parse-self t)
      (setq TeX-save-query nil)
-     (setq TeX-PDF-mode t)
+     (setq-default TeX-PDF-mode t)
      ;; (setq-default TeX-master nil)
      ;; (setq LaTeX-command "latex")
      (setq TeX-view-program-list '(("Skim" "/Applications/Skim.app/Contents/SharedSupport/displayline %n %o %b")))
@@ -493,6 +482,7 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
   '(progn
      (setup-ropemacs)
      (setup-virtualenv)
+     (define-key python-mode-map (kbd "C-h") 'python-indent-dedent-line-backspace)
      ))
 
 (eval-after-load 'flymake
@@ -560,20 +550,22 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
 ;; (set-face-background 'hl-line nil)
 ;; (require 'color-theme-ir-black)
 ;; (color-theme-ir-black)
-(require 'color-theme-vibrant-ink)
-(color-theme-vibrant-ink)
+;; (load "~/.emacs.d/themes/vibrant-ink/color-theme-vibrant-ink.el")
+;; (color-theme-vibrant-ink)
 ;; (set-face-background 'default "black")
+(require 'color-theme-complexity)
+(color-theme-complexity)
 
 ;; global hl mode doesn't look good with hober!
 (if (not (window-system))
     (menu-bar-mode 0)
   (require 'fringemark)
+  (set-face-font 'default "Menlo")
   )
 
 (global-hl-line-mode 1)
 (show-paren-mode 1)
 
-(set-face-font 'default "Menlo")
 
 
 ;; custom stuff

@@ -31,9 +31,6 @@
 [submodule "themes/zenburn"]
 	path = themes/zenburn
 	url = https://github.com/dbrock/zenburn-el.git
-[submodule "themes/twilight"]
-	path = themes/twilight
-	url = https://github.com/crafterm/twilight-emacs.git
 [submodule "themes/brookstream"]
 	path = themes/brookstream
 	url = https://github.com/justinlilly/brookstream-emacs.git
@@ -53,3 +50,6 @@
 [submodule "vendor/fringemark"]
 	path = vendor/fringemark
 	url = git@github.com:milkypostman/fringemark.git
+[submodule "themes/complexity"]
+	path = themes/complexity
+	url = https://github.com/tsally/color-theme-complexity.git
