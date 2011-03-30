@@ -48,9 +48,6 @@
 (add-subdirs-load-path "~/.emacs.d/themes/")
 (add-to-list 'load-path "~/.emacs.d/vendor/ess/lisp/")
 
-;; (add-to-list 'load-path "~/.emacs.d/el-get/el-get")
-;; (require 'el-get)
-
 
 ;; do we want VIM mode?
 ;; (require 'vimpulse)
@@ -58,8 +55,12 @@
 ;; start the server
 (server-start)
 
+
+
 ;; don't be poppin' new frames
 (setq ns-pop-up-frames nil)
+
+
 
 ;; backup settings
 (setq backup-by-copying t)
@@ -69,7 +70,9 @@
 (setq kept-old-versions 2)
 (setq version-control t)
 
+
 (setq auto-save-file-name-transforms '((".*" "~/.emacs.d/autosave/" t)))
+(setq delete-auto-save-files nil)
 
 (setq default-indicate-buffer-boundaries (quote left))
 
@@ -135,7 +138,6 @@
 (global-set-key (kbd "C-5") 'ctl-x-5-prefix)
 (global-set-key (kbd "C-.") 'repeat)
 
-
 ;; To help Unlearn C-x 0, 1, 2, o
 ;; (global-unset-key (kbd "C-x 5")) ; was ctl-x-5-prefix
 ;; (global-unset-key (kbd "C-x 4")) ; was ctl-x-4-prefix
@@ -200,6 +202,16 @@
 ;; 				(setq save-place nil)
 ;; 				(local-set-key (kbd "C-c C-c") 'server-edit-save)))
 
+;; automatically recursive search
+(defadvice isearch-search (after isearch-no-fail activate)
+  (unless isearch-success
+    (ad-disable-advice 'isearch-search 'after 'isearch-no-fail)
+    (ad-activate 'isearch-search)
+    (isearch-repeat (if isearch-forward 'forward))
+    (ad-enable-advice 'isearch-search 'after 'isearch-no-fail)
+    (ad-activate 'isearch-search)
+    ))
+
 (defun push-mark-no-activate ()
   "Pushes `point' to `mark-ring' and does not activate the region
 Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
@@ -262,11 +274,11 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
 
 
 
-
 ;; ispell
 (setq-default ispell-program-name "aspell")
 (setq ispell-list-command "list")
 (setq ispell-extra-args '("--sug-mode=ultra"))
+
 
 ;; save place
 (require 'saveplace)
@@ -330,13 +342,13 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
 
 
 ;; ido recent files
-(recentf-mode 1)
 (global-set-key (kbd "C-x f") 'recentf-ido-find-file)
 (define-key ctl-x-4-map "f" 'recentf-ido-find-file-other-window)
 (global-set-key "\C-c\C-t" 'idomenu)
 (defun recentf-ido-find-file ()
   "Find a recent file using ido."
   (interactive)
+  (recentf-mode 1)
   (let ((file (ido-completing-read "Recent file: " recentf-list nil t)))
     (when file
       (find-file file))))
@@ -344,6 +356,7 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
 (defun recentf-ido-find-file-other-window ()
   "Find a recent file using ido."
   (interactive)
+  (recentf-mode 1)
   (let ((file (ido-completing-read "Recent file: " recentf-list nil t)))
     (when file
       (find-file-other-window file))))
@@ -352,13 +365,6 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
   (interactive)
   (insert-for-yank
    (ido-completing-read "Select kill: " kill-ring)))
-
-;; (setq-default dirtrack-list '("^[^@]*@\\([^$]*\\)\\$" 1))
-;; (add-hook 'shell-mode-hook
-;;           (lambda ()
-;; 	    (comint-send-string (current-buffer) "export PS1=\"dcurtis@/:\\w$ \"\n")
-;;             (dirtrack-mode 1)
-;;             ))
 
 ;; yasnippet -- really slow so don't load it less we're on the desktop
 ;; (autoload 'yas/initialize "yasnippet" "Initialize yasnippet")
@@ -401,6 +407,7 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
 (eval-after-load 'reftex
   '(progn
      (add-to-list 'reftex-section-prefixes '(1 . "chap:"))))
+
 
 ;; erlang
 (require 'erlang-start)
@@ -472,11 +479,63 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
 
 (defun setup-ropemacs ()
   "Setup ropemacs"
-  (ignore-errors (pymacs-load "ropemacs" "rope-")
-		 ;; (setq ropemacs-codeassist-maxfixes 3)
-		 (setq ropemacs-guess-project t)
-		 (setq ropemacs-enable-autoimport t)
-		 ))
+  (with-temp-buffer
+    (cd "~")
+    (pymacs-load "ropemacs" "rope-"))
+  ;; (ignore-errors (pymacs-load "ropemacs" "rope-")
+  (setq ropemacs-codeassist-maxfixes 3)
+  (setq ropemacs-guess-project t)
+  (setq ropemacs-enable-autoimport t)
+  )
+
+;; (require 'auto-complete)
+;; (defvar ac-ropemacs-last-candidates)
+;; (defun ac-ropemacs-candidates ()
+;;   (setq ac-ropemacs-last-candidates ())
+;;   (mapcar (lambda (item)
+;;             (let ((name (car item))
+;;                   (doc (cadr item))
+;;                   (type (caddr item)))
+;;               (add-to-list 'ac-ropemacs-last-candidates
+;;                            (cons (concat ac-prefix name) doc))
+;;               (concat ac-prefix name)))
+;;           (rope-extended-completions)))
+
+;; (defun ac-ropemacs-document (name)
+;;   (let ((item (assoc name ac-ropemacs-last-candidates)))
+;;     (if item (cdr item))))
+
+;; (ac-define-source nropemacs
+;;   '((candidates . ac-ropemacs-candidates)
+;;     (symbol     . "p")
+;;     (document   . ac-ropemacs-document)
+;;     (cache      . t)))
+
+;; (ac-define-source nropemacs-dot
+;;   '((candidates . ac-ropemacs-candidates)
+;;     (symbol     . "p")
+;;     (document   . ac-ropemacs-document)
+;;     (cache      . t)
+;;     (prefix     . c-dot)
+;;     (requires   . 0)))
+
+;; (defun ac-python-mode-setup ()
+;;   (setq ac-sources
+;;         '(ac-source-nropemacs ac-source-nropemacs-dot ac-source-yasnippet)))
+
+;; (defun ac-self-insert-and-complete ()
+;;   (interactive)
+;;   (self-insert-command 1)
+;;   (ac-start))
+
+;; (require 'auto-complete-config)
+;; (add-to-list 'ac-dictionary-directories "~/.emacs.d/ac-dict")
+;; (ac-config-default)
+
+
+(eval-after-load 'pymacs
+  (setq pymacs-python-command "/Users/dcurtis/.virtualenvs/default/bin/python")
+  )
 
 (eval-after-load 'python
   '(progn
@@ -504,7 +563,6 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
    (local-set-key "\M-n" 'flymake-goto-next-error))
 
 
-
 ;; ;; ruby
 ;; (autoload 'run-ruby "inf-ruby"
 ;;   "Run an inferior Ruby process")
@@ -519,6 +577,7 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
   '(progn
      (define-key ruby-mode-map (kbd "C-c C-c") 'ruby-run-w/compilation)
      ))
+
 
 
 ;; visual
@@ -553,8 +612,11 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
 ;; (load "~/.emacs.d/themes/vibrant-ink/color-theme-vibrant-ink.el")
 ;; (color-theme-vibrant-ink)
 ;; (set-face-background 'default "black")
-(require 'color-theme-complexity)
-(color-theme-complexity)
+;; (require 'color-theme-complexity)
+;; (color-theme-complexity)
+(load "~/.emacs.d/themes/merbivore/color-theme-merbivore.el")
+(color-theme-merbivore)
+
 
 ;; global hl mode doesn't look good with hober!
 (if (not (window-system))
@@ -563,9 +625,9 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
   (set-face-font 'default "Menlo")
   )
 
+
 (global-hl-line-mode 1)
 (show-paren-mode 1)
-
 
 
 ;; custom stuff

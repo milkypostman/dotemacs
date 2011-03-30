@@ -4,3 +4,4 @@ ac-comphist.dat
 tramp
 abbrev_defs
 autosave
+*.elc

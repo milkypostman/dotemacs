@@ -53,3 +53,9 @@
 [submodule "themes/complexity"]
 	path = themes/complexity
 	url = https://github.com/tsally/color-theme-complexity.git
+[submodule "themes/merbivore"]
+	path = themes/merbivore
+	url = https://github.com/mig/color-theme-merbivore.git
+[submodule "vendor/cssh"]
+	path = vendor/cssh
+	url = https://github.com/dimitri/cssh.git
