@@ -59,3 +59,6 @@
 [submodule "vendor/cssh"]
 	path = vendor/cssh
 	url = https://github.com/dimitri/cssh.git
+[submodule "themes/twilight"]
+	path = themes/twilight
+	url = https://github.com/crafterm/twilight-emacs.git
