@@ -27,17 +27,17 @@ svn:wc:ra_dav:version-url
 V 87
 /svn-repos/scala/!svn/ver/24032/scala-tool-support/trunk/src/emacs/scala-mode-indent.el
 END
-scala-mode-feature-electric.el
-K 25
-svn:wc:ra_dav:version-url
-V 97
-/svn-repos/scala/!svn/ver/24032/scala-tool-support/trunk/src/emacs/scala-mode-feature-electric.el
-END
 AUTHORS
 K 25
 svn:wc:ra_dav:version-url
 V 74
 /svn-repos/scala/!svn/ver/21921/scala-tool-support/trunk/src/emacs/AUTHORS
+END
+scala-mode-feature-electric.el
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/svn-repos/scala/!svn/ver/24032/scala-tool-support/trunk/src/emacs/scala-mode-feature-electric.el
 END
 scala-mode-feature-tags.el
 K 25
@@ -45,17 +45,17 @@ svn:wc:ra_dav:version-url
 V 93
 /svn-repos/scala/!svn/ver/24032/scala-tool-support/trunk/src/emacs/scala-mode-feature-tags.el
 END
-scala-mode-feature.el
-K 25
-svn:wc:ra_dav:version-url
-V 88
-/svn-repos/scala/!svn/ver/24032/scala-tool-support/trunk/src/emacs/scala-mode-feature.el
-END
 README
 K 25
 svn:wc:ra_dav:version-url
 V 73
 /svn-repos/scala/!svn/ver/21921/scala-tool-support/trunk/src/emacs/README
+END
+scala-mode-feature.el
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svn-repos/scala/!svn/ver/24032/scala-tool-support/trunk/src/emacs/scala-mode-feature.el
 END
 scala-mode-navigation.el
 K 25
@@ -75,11 +75,11 @@ svn:wc:ra_dav:version-url
 V 84
 /svn-repos/scala/!svn/ver/24032/scala-tool-support/trunk/src/emacs/scala-mode-lib.el
 END
-scala-mode-auto.el
+scala-mode-variables.el
 K 25
 svn:wc:ra_dav:version-url
-V 85
-/svn-repos/scala/!svn/ver/24032/scala-tool-support/trunk/src/emacs/scala-mode-auto.el
+V 90
+/svn-repos/scala/!svn/ver/24032/scala-tool-support/trunk/src/emacs/scala-mode-variables.el
 END
 FUTURE
 K 25
@@ -87,11 +87,11 @@ svn:wc:ra_dav:version-url
 V 73
 /svn-repos/scala/!svn/ver/21921/scala-tool-support/trunk/src/emacs/FUTURE
 END
-scala-mode-variables.el
+scala-mode-auto.el
 K 25
 svn:wc:ra_dav:version-url
-V 90
-/svn-repos/scala/!svn/ver/24032/scala-tool-support/trunk/src/emacs/scala-mode-variables.el
+V 85
+/svn-repos/scala/!svn/ver/24032/scala-tool-support/trunk/src/emacs/scala-mode-auto.el
 END
 Makefile
 K 25

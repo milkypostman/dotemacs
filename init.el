@@ -447,10 +447,10 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
 ;; manually do autoloads so the whole shebang doesn't load everytime.
 ;; I hardly use R.
 ;; (require 'ess-site)
-(autoload 'R-mode "ess-site" "R mode")
-(autoload 'R "ess-site" "R inferior shell" t)
-(setq auto-mode-alist
-   (cons '("\\.[rR]\\'"	. R-mode) auto-mode-alist))
+;; (autoload 'R-mode "ess-site" "R mode")
+;; (autoload 'R "ess-site" "R inferior shell" t)
+;; (setq auto-mode-alist
+;;    (cons '("\\.[rR]\\'"	. R-mode) auto-mode-alist))
 
 
 ;; markdown

@@ -1,7 +1,7 @@
 10
 
 dir
-24535
+24774
 http://lampsvn.epfl.ch/svn-repos/scala/scala-tool-support/trunk/src/emacs/contrib
 http://lampsvn.epfl.ch/svn-repos/scala
 
@@ -32,7 +32,7 @@ file
 
 
 
-2011-03-22T03:19:16.000000Z
+2011-04-15T23:52:55.000000Z
 e030aa9c44197c9ad1e4e8dd1e3acc47
 2008-08-20T11:01:13.643412Z
 15859
@@ -69,7 +69,7 @@ file
 
 
 
-2011-03-22T03:19:16.000000Z
+2011-04-15T23:52:55.000000Z
 a388f00ba06d6818917c7f73099b4103
 2008-08-20T11:01:13.643412Z
 15859
