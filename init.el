@@ -232,21 +232,36 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
 (defadvice jump-to-register (before jump-to-register-advice activate)
   (push-mark (point) t nil))
 
+
+
+
+(defun special-open-line (n)
+  (interactive "p")
+  (save-excursion
+    (while (> n 0)
+      (newline)
+      (setq n (1- n)))
+    (if (not (eolp)) (indent-according-to-mode))
+    )
+  (if (bolp) (indent-according-to-mode))
+  )
+(global-set-key (kbd "C-o") 'special-open-line)
+
+
 ;; Behave like vi's o command
 (defun open-next-line (arg)
   "Move to the next line and then opens a line.
     See also `newline-and-indent'."
   (interactive "p")
   (end-of-line)
-  (open-line arg)
-  (next-line 1)
-  (indent-according-to-mode))
+  (newline-and-indent))
 
 ;; Behave like vi's O command
 (defun open-previous-line (arg)
   "Open a new line before the current one.
      See also `newline-and-indent'."
   (interactive "p")
+  (if (eolp) (save-excursion (delete-region (point) (progn (skip-chars-backward " \t") (point)))))
   (beginning-of-line)
   (open-line arg)
   (indent-according-to-mode))
@@ -271,8 +286,6 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
        (mapconcat 'identity
 		  (list "chmod" "u+x" (shell-quote-argument (buffer-file-name))) " "))
     (message "Buffer has no filename.")))
-
-
 
 ;; ispell
 (setq-default ispell-program-name "aspell")
@@ -429,7 +442,7 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
 (autoload 'R "ess-site" "R inferior shell" t)
 (setq auto-mode-alist
    (cons '("\\.[rR]\\'"	. R-mode) auto-mode-alist))
-	   
+
 
 ;; markdown
 ;; use autoload because it delays loading the function until we need it.
@@ -441,7 +454,9 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
    (cons '("\\.md" . markdown-mode) auto-mode-alist))
 
 (add-hook 'markdown-mode-hook '(lambda ()
-				 (auto-fill-mode 1)))
+				 (auto-fill-mode 1)
+				 (remove-hook 'before-save-hook 'delete-trailing-whitespace t)
+				 ))
 
 
 ;; python
@@ -544,6 +559,8 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
      (define-key python-mode-map (kbd "C-h") 'python-indent-dedent-line-backspace)
      ))
 
+(add-hook 'before-save-hook 'delete-trailing-whitespace nil nil)
+
 (eval-after-load 'flymake
   '(progn
      (defun flymake-pylint-init ()
@@ -553,14 +570,25 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
 			   temp-file
 			   (file-name-directory buffer-file-name))))
 	 (list "epylint" (list local-file))))
-     
+
      (add-to-list 'flymake-allowed-file-name-masks
 		  '("\\.py\\'" flymake-pylint-init))))
 
-(defadvice flymake-mode (after post-command-stuff activate compile)
-  "add keybindings"
-   (local-set-key "\M-p" 'flymake-goto-prev-error)
-   (local-set-key "\M-n" 'flymake-goto-next-error))
+(require 'flymake-cursor)
+
+(defadvice kill-line (after kill-line-cleanup-whitespace activate compile)
+  "cleanup whitespace on kill-line"
+  (if (not (bolp))
+      (delete-region (point) (progn (skip-chars-forward " \t") (point)))))
+
+
+
+
+
+;; (defadvice flymake-mode (after post-command-stuff activate compile)
+;;   "add keybindings"
+;;    (local-set-key "\M-p" 'flymake-goto-prev-error)
+;;    (local-set-key "\M-n" 'flymake-goto-next-error))
 
 
 ;; ;; ruby
