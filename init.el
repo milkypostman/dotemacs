@@ -5,6 +5,9 @@
 ;; To complete using Rope completion hit M-/
 
 ;; basic configuration
+(if (fboundp 'menu-bar-mode) (menu-bar-mode -1))
+(if (fboundp 'tool-bar-mode) (tool-bar-mode -1))
+(if (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
 
 ;; debug if we would like
 (setq debug-on-error t)
@@ -32,6 +35,7 @@
 (add-to-list 'package-archives '("josh" . "http://josh.github.com/elpa/") t)
 
 (package-initialize)
+
 
 
 ;; my function for adding all vendor specific directories (not
@@ -627,7 +631,8 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
 ;; (require 'color-theme-hober2)
 ;; (color-theme-hober2)
 ;; (require 'color-theme-twilight)
-;; (color-theme-twilight)
+(load "~/.emacs.d/themes/twilight/color-theme-twilight.el")
+(color-theme-twilight)
 ;; (require 'color-theme-inkpot)
 ;; (color-theme-inkpot)
 ;; (set-face-attribute 'hl-line nil
@@ -642,8 +647,8 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
 ;; (set-face-background 'default "black")
 ;; (require 'color-theme-complexity)
 ;; (color-theme-complexity)
-(load "~/.emacs.d/themes/merbivore/color-theme-merbivore.el")
-(color-theme-merbivore)
+;; (load "~/.emacs.d/themes/merbivore/color-theme-merbivore.el")
+;; (color-theme-merbivore)
 
 
 ;; global hl mode doesn't look good with hober!
