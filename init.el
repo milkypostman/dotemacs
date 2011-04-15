@@ -5,7 +5,7 @@
 ;; To complete using Rope completion hit M-/
 
 ;; basic configuration
-(if (fboundp 'menu-bar-mode) (menu-bar-mode -1))
+;; (if (fboundp 'menu-bar-mode) (menu-bar-mode -1))
 (if (fboundp 'tool-bar-mode) (tool-bar-mode -1))
 (if (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
 
@@ -29,11 +29,12 @@
 (add-to-list 'load-path "~/.emacs.d/vendor/")
 
 (require 'package)
-(add-to-list 'package-archives '("elpa" . "http://tromey.com/elpa/") t)
 (add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/") t)
+(add-to-list 'package-archives '("elpa" . "http://tromey.com/elpa/") t)
 (add-to-list 'package-archives '("kieranhealy" . "http://kieranhealy.org/packages/") t)
 (add-to-list 'package-archives '("josh" . "http://josh.github.com/elpa/") t)
 
+;; required for cssh
 (package-initialize)
 
 
@@ -305,6 +306,9 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
 
 ;; (add-to-list 'hippie-expand-try-functions-list 'yas/hippie-try-expand)
 
+(setq hippie-expand-try-functions-list (delq 'try-expand-line hippie-expand-try-functions-list))
+(add-to-list 'hippie-expand-try-functions-list 'try-expand-line t)
+
 (defun fancy-tab (arg)
   (interactive "P")
   (setq this-command last-command)
@@ -318,6 +322,7 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
 
 (define-key read-expression-map [(tab)] 'hippie-expand)
 (global-set-key (kbd "TAB") 'fancy-tab)
+
 
 (add-hook 'emacs-lisp-mode-hook 'move-lisp-completion-to-front)
 (defun move-lisp-completion-to-front ()
@@ -617,13 +622,13 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
 ;; color theming
 ;; (autoload 'color-theme-initialize "color-theme")
 (require 'color-theme)
+;; backup current color theme
+(fset 'color-theme-snapshot (color-theme-make-snapshot))
+
 (defun color-theme-undo ()
   (interactive)
   ;; (color-theme-reset-faces)
   (color-theme-snapshot))
-
-;; backup current color theme
-(fset 'color-theme-snapshot (color-theme-make-snapshot))
 
 ;; (color-theme-initialize)
 ;; (require 'zenburn)
@@ -662,7 +667,6 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
 (global-hl-line-mode 1)
 (show-paren-mode 1)
 
-
 ;; custom stuff
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -672,6 +676,8 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
  '(scroll-bar-mode nil)
  '(tool-bar-mode nil))
 
+
+;; System Specific Settings
 (cond ((eq system-type 'darwin)
        (setenv "PYTHONPATH" "/Users/dcurtis/Development/compepi:/Users/dcurtis/Development/networkx"))
       )
