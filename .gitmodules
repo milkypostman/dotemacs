@@ -61,3 +61,9 @@
 [submodule "elisp/gist"]
 	path = elisp/gist
 	url = https://github.com/defunkt/gist.el.git
+[submodule "elisp/ess"]
+	path = elisp/ess
+	url = https://github.com/emacsmirror/ess
+[submodule "elisp/maxframe"]
+	path = elisp/maxframe
+	url = https://github.com/markhepburn/maxframe-el.git
