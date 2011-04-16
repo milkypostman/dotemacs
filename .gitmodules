@@ -1,32 +1,32 @@
-[submodule "vendor/auto-complete"]
-	path = vendor/auto-complete
+[submodule "elisp/auto-complete"]
+	path = elisp/auto-complete
 	url = https://github.com/m2ym/auto-complete.git
-[submodule "vendor/magit"]
-	path = vendor/magit
+[submodule "elisp/magit"]
+	path = elisp/magit
 	url = https://github.com/philjackson/magit.git
-[submodule "vendor/yasnippet"]
-	path = vendor/yasnippet
+[submodule "elisp/yasnippet"]
+	path = elisp/yasnippet
 	url = https://github.com/emacsmirror/yasnippet.git
-[submodule "vendor/vimpulse"]
-	path = vendor/vimpulse
+[submodule "elisp/vimpulse"]
+	path = elisp/vimpulse
 	url = git://gitorious.org/vimpulse/vimpulse.git
-[submodule "vendor/color-theme"]
-	path = vendor/color-theme
+[submodule "elisp/color-theme"]
+	path = elisp/color-theme
 	url = https://github.com/emacsmirror/color-theme.git
-[submodule "vendor/markdown-mode"]
-	path = vendor/markdown-mode
+[submodule "elisp/markdown-mode"]
+	path = elisp/markdown-mode
 	url = git://jblevins.org/git/markdown-mode.git
 [submodule "snippets"]
 	path = snippets
 	url = git@github.com:milkypostman/milkyasnippets.git
-[submodule "vendor/python"]
-	path = vendor/python
+[submodule "elisp/python"]
+	path = elisp/python
 	url = https://github.com/fgallina/python.el.git
-[submodule "vendor/virtualenv.el"]
-	path = vendor/virtualenv.el
+[submodule "elisp/virtualenv.el"]
+	path = elisp/virtualenv.el
 	url = https://github.com/aculich/virtualenv.el.git
-[submodule "vendor/Pymacs"]
-	path = vendor/Pymacs
+[submodule "elisp/Pymacs"]
+	path = elisp/Pymacs
 	url = https://github.com/pinard/Pymacs.git
 [submodule "themes/zenburn"]
 	path = themes/zenburn
@@ -47,8 +47,8 @@
 	path = themes/tango-2
 	url = https://github.com/wfarr/color-theme-tango-2.git
 
-[submodule "vendor/fringemark"]
-	path = vendor/fringemark
+[submodule "elisp/fringemark"]
+	path = elisp/fringemark
 	url = git@github.com:milkypostman/fringemark.git
 [submodule "themes/complexity"]
 	path = themes/complexity
@@ -56,8 +56,8 @@
 [submodule "themes/merbivore"]
 	path = themes/merbivore
 	url = https://github.com/mig/color-theme-merbivore.git
-[submodule "vendor/cssh"]
-	path = vendor/cssh
+[submodule "elisp/cssh"]
+	path = elisp/cssh
 	url = https://github.com/dimitri/cssh.git
 [submodule "themes/twilight"]
 	path = themes/twilight
