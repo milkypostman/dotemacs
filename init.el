@@ -399,6 +399,7 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
   '(progn
     (yas/load-directory "~/.emacs.d/snippets")))
 
+(autoload 'magit-status "magit")
 (global-set-key (kbd "C-x g") 'magit-status)
 
 ;; auctex
@@ -649,8 +650,8 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
 ;; 		    :background "gray8")
 ;; (set-face-foreground 'hl-line nil)
 ;; (set-face-background 'hl-line nil)
-;; (require 'color-theme-ir-black)
-;; (color-theme-ir-black)
+(require 'color-theme-ir-black)
+(color-theme-ir-black)
 ;; (load "~/.emacs.d/themes/vibrant-ink/color-theme-vibrant-ink.el")
 ;; (color-theme-vibrant-ink)
 ;; (set-face-background 'default "black")
