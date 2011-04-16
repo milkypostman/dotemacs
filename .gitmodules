@@ -25,9 +25,9 @@
 [submodule "elisp/virtualenv.el"]
 	path = elisp/virtualenv.el
 	url = https://github.com/aculich/virtualenv.el.git
-[submodule "elisp/Pymacs"]
-	path = elisp/Pymacs
-	url = https://github.com/pinard/Pymacs.git
+[submodule "elisp/pymacs"]
+	path = elisp/pymacs
+	url = https://github.com/pinard/pymacs.git
 [submodule "themes/zenburn"]
 	path = themes/zenburn
 	url = https://github.com/dbrock/zenburn-el.git
@@ -46,7 +46,6 @@
 [submodule "themes/tango-2"]
 	path = themes/tango-2
 	url = https://github.com/wfarr/color-theme-tango-2.git
-
 [submodule "elisp/fringemark"]
 	path = elisp/fringemark
 	url = git@github.com:milkypostman/fringemark.git
