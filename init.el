@@ -4,6 +4,9 @@
 ;; Autocompletion is setup automatically.
 ;; To complete using Rope completion hit M-/
 
+;; the following command should be run manually ever once and a while.
+;; (byte-recompile-directory "~/.emacs.d/elisp/" 0 t)
+
 ;; basic configuration
 ;; (if (fboundp 'menu-bar-mode) (menu-bar-mode -1))
 (if (fboundp 'tool-bar-mode) (tool-bar-mode -1))

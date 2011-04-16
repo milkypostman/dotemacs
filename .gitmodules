@@ -58,3 +58,6 @@
 [submodule "themes/twilight"]
 	path = themes/twilight
 	url = https://github.com/crafterm/twilight-emacs.git
+[submodule "elisp/gist"]
+	path = elisp/gist
+	url = https://github.com/defunkt/gist.el.git
