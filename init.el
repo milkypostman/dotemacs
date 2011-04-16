@@ -26,7 +26,7 @@
 
 ;; Load all of my plugins
 (add-to-list 'load-path "~/.emacs.d/")
-(add-to-list 'load-path "~/.emacs.d/vendor/")
+(add-to-list 'load-path "~/.emacs.d/elisp/")
 
 (require 'package)
 (add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/") t)
@@ -49,9 +49,9 @@
 	  (when (file-directory-p dir)
 	    (add-to-list 'load-path fullpath)))))))
 
-(add-subdirs-load-path "~/.emacs.d/vendor/")
+(add-subdirs-load-path "~/.emacs.d/elisp/")
 (add-subdirs-load-path "~/.emacs.d/themes/")
-(add-to-list 'load-path "~/.emacs.d/vendor/ess/lisp/")
+(add-to-list 'load-path "~/.emacs.d/elisp/ess/lisp/")
 
 
 ;; do we want VIM mode?
@@ -64,8 +64,6 @@
 
 ;; don't be poppin' new frames
 (setq ns-pop-up-frames nil)
-
-
 
 ;; backup settings
 (setq backup-by-copying t)
@@ -92,6 +90,8 @@
 
 (set-default 'indicate-empty-lines t)
 (defalias 'yes-or-no-p 'y-or-n-p)
+
+(global-auto-revert-mode 1)
 
 (add-to-list 'auto-mode-alist '("\\.bashrc_.*" . sh-mode))
 
@@ -389,12 +389,11 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
    (ido-completing-read "Select kill: " kill-ring)))
 
 ;; yasnippet -- really slow so don't load it less we're on the desktop
-;; (autoload 'yas/initialize "yasnippet" "Initialize yasnippet")
-;; (defun yas-initialize () (interactive) (yas/initialize))
+(require 'yasnippet)
+(yas/initialize)
 (eval-after-load 'yasnippet
   '(progn
     (yas/load-directory "~/.emacs.d/snippets")))
-;; (yas/load-directory "~/.emacs.d/snippets")
 
 (global-set-key (kbd "C-x g") 'magit-status)
 
@@ -431,8 +430,8 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
      (add-to-list 'reftex-section-prefixes '(1 . "chap:"))))
 
 
-;; erlang
-(require 'erlang-start)
+;; erlang -- FIXME
+;;(require 'erlang-start)
 
 
 ;; scala
@@ -583,7 +582,8 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
      (add-to-list 'flymake-allowed-file-name-masks
 		  '("\\.py\\'" flymake-pylint-init))))
 
-(require 'flymake-cursor)
+;; FIXME
+;; (require 'flymake-cursor)
 
 (defadvice kill-line (after kill-line-cleanup-whitespace activate compile)
   "cleanup whitespace on kill-line"

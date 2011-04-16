@@ -1,33 +1,36 @@
 [submodule "elisp/auto-complete"]
 	path = elisp/auto-complete
 	url = https://github.com/m2ym/auto-complete.git
-[submodule "elisp/magit"]
-	path = elisp/magit
-	url = https://github.com/philjackson/magit.git
-[submodule "elisp/yasnippet"]
-	path = elisp/yasnippet
-	url = https://github.com/emacsmirror/yasnippet.git
-[submodule "elisp/vimpulse"]
-	path = elisp/vimpulse
-	url = git://gitorious.org/vimpulse/vimpulse.git
 [submodule "elisp/color-theme"]
 	path = elisp/color-theme
 	url = https://github.com/emacsmirror/color-theme.git
+[submodule "elisp/cssh"]
+	path = elisp/cssh
+	url = https://github.com/dimitri/cssh.git
+[submodule "elisp/fringemark"]
+	path = elisp/fringemark
+	url = git@github.com:milkypostman/fringemark.git
+[submodule "elisp/magit"]
+	path = elisp/magit
+	url = https://github.com/philjackson/magit.git
 [submodule "elisp/markdown-mode"]
 	path = elisp/markdown-mode
-	url = git://jblevins.org/git/markdown-mode.git
-[submodule "snippets"]
-	path = snippets
-	url = git@github.com:milkypostman/milkyasnippets.git
+	url = https://github.com/defunkt/markdown-mode.git
+[submodule "elisp/pymacs"]
+	path = elisp/pymacs
+	url = https://github.com/pinard/Pymacs.git
 [submodule "elisp/python"]
 	path = elisp/python
 	url = https://github.com/fgallina/python.el.git
-[submodule "elisp/virtualenv.el"]
-	path = elisp/virtualenv.el
-	url = https://github.com/aculich/virtualenv.el.git
-[submodule "elisp/pymacs"]
-	path = elisp/pymacs
-	url = https://github.com/pinard/pymacs.git
+[submodule "snippets"]
+	path = snippets
+	url = git@github.com:milkypostman/milkyasnippets.git
+[submodule "elisp/vimpulse"]
+	path = elisp/vimpulse
+	url = git://gitorious.org/vimpulse/vimpulse.git
+[submodule "elisp/yasnippet"]
+	path = elisp/yasnippet
+	url = https://github.com/emacsmirror/yasnippet.git
 [submodule "themes/zenburn"]
 	path = themes/zenburn
 	url = https://github.com/dbrock/zenburn-el.git
@@ -46,18 +49,12 @@
 [submodule "themes/tango-2"]
 	path = themes/tango-2
 	url = https://github.com/wfarr/color-theme-tango-2.git
-[submodule "elisp/fringemark"]
-	path = elisp/fringemark
-	url = git@github.com:milkypostman/fringemark.git
 [submodule "themes/complexity"]
 	path = themes/complexity
 	url = https://github.com/tsally/color-theme-complexity.git
 [submodule "themes/merbivore"]
 	path = themes/merbivore
 	url = https://github.com/mig/color-theme-merbivore.git
-[submodule "elisp/cssh"]
-	path = elisp/cssh
-	url = https://github.com/dimitri/cssh.git
 [submodule "themes/twilight"]
 	path = themes/twilight
 	url = https://github.com/crafterm/twilight-emacs.git
