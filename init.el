@@ -34,13 +34,15 @@
 (require 'package)
 (add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/") t)
 (add-to-list 'package-archives '("elpa" . "http://tromey.com/elpa/") t)
-(add-to-list 'package-archives '("kieranhealy" . "http://kieranhealy.org/packages/") t)
-(add-to-list 'package-archives '("josh" . "http://josh.github.com/elpa/") t)
+;; (add-to-list 'package-archives '("kieranhealy" . "http://kieranhealy.org/packages/") t)
+;; (add-to-list 'package-archives '("josh" . "http://josh.github.com/elpa/") t)
 
 ;; required for cssh
 (package-initialize)
 
 
+(setq user-full-name "Donald Ephraim Curtis")
+(setq user-mail-address "dcurtis@milkbox.net")
 
 ;; my function for adding all vendor specific directories (not
 ;; subdirectories) to the load-path and put them first!
@@ -55,6 +57,7 @@
 (add-subdirs-load-path "~/.emacs.d/elisp/")
 (add-subdirs-load-path "~/.emacs.d/themes/")
 (add-to-list 'load-path "~/.emacs.d/elisp/ess/lisp/")
+(add-to-list 'load-path "~/.emacs.d/elisp/slime/contrib/")
 
 
 ;; do we want VIM mode?
@@ -64,9 +67,24 @@
 (server-start)
 
 
-
 ;; don't be poppin' new frames
 (setq ns-pop-up-frames nil)
+
+;; use default Mac browser
+(setq browse-url-browser-function 'browse-url-default-macosx-browser)
+
+;; delete files by moving them to the OS X trash
+(setq delete-by-moving-to-trash t)
+
+(global-set-key (kbd "s-<return>") 'ns-toggle-fullscreen)
+
+;; don't confirm opening non-existant files/buffers
+(setq confirm-nonexistent-file-or-buffer nil)
+
+;; yes, I want to kill buffers with processes attached
+(setq kill-buffer-query-functions
+      (remq 'process-kill-buffer-query-function
+	    kill-buffer-query-functions))
 
 ;; backup settings
 (setq backup-by-copying t)
@@ -76,7 +94,6 @@
 (setq kept-old-versions 2)
 (setq version-control t)
 
-
 (setq auto-save-file-name-transforms '((".*" "~/.emacs.d/autosave/" t)))
 (setq delete-auto-save-files nil)
 
@@ -85,8 +102,16 @@
 (setq visible-bell t)
 (setq ring-bell-function 'ignore)
 (setq inhibit-splash-screen t)
+
+;; try it as the default
+(setq mac-command-key-is-meta nil)
+;; (setq mac-command-modifier 'meta)
+;; (setq mac-option-modifier 'super)
+(setq mac-option-key-is-meta nil)
+(setq mac-command-key-is-meta t)
 (setq mac-command-modifier 'meta)
 (setq mac-option-modifier 'super)
+
 (setq line-number-mode t)
 (setq column-number-mode t)
 (setq set-mark-command-repeat-pop t)
@@ -94,7 +119,13 @@
 (set-default 'indicate-empty-lines t)
 (defalias 'yes-or-no-p 'y-or-n-p)
 
+(delete-selection-mode 1)
+
 (global-auto-revert-mode 1)
+
+(setq comint-prompt-read-only t)
+;; (require 'ansi-color)
+;; (add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
 
 (add-to-list 'auto-mode-alist '("\\.bashrc_.*" . sh-mode))
 
@@ -112,15 +143,6 @@
 (global-set-key (kbd "C-z") 'other-window)
 (global-set-key (kbd "M-`") 'other-frame)
 
-;; (global-set-key [?\C-6] (lambda ()
-;; 			  (interactive)
-;; 			  (switch-to-buffer (other-buffer))))
-
-(global-set-key (kbd "C-s") 'isearch-forward-regexp)
-(global-set-key (kbd "C-r") 'isearch-backward-regexp)
-;; (global-set-key (kbd "C-M-s") 'isearch-forward)
-;; (global-set-key (kbd "C-M-r") 'isearch-backward)
-
 ;; hack alternative for M-x
 (global-set-key (kbd "C-x C-m") 'execute-extended-command)
 (global-unset-key (kbd "C-x m")) ; disable mail
@@ -137,23 +159,8 @@
 (global-set-key (kbd "C-c C-k") 'kill-this-buffer)
 (global-set-key (kbd "C-x C-b") 'ibuffer)
 
-;; prefixing window commands is a pain
-;; (global-set-key (kbd "C-0") 'delete-window)
-;; (global-set-key (kbd "C-1") 'delete-other-windows)
-;; (global-set-key (kbd "C-2") 'split-window-vertically)
-;; (global-set-key (kbd "C-3") 'split-window-horizontally)
 (global-set-key (kbd "C-4") 'ctl-x-4-prefix)
-(global-set-key (kbd "C-5") 'ctl-x-5-prefix)
 (global-set-key (kbd "C-.") 'repeat)
-
-;; To help Unlearn C-x 0, 1, 2, o
-;; (global-unset-key (kbd "C-x 5")) ; was ctl-x-5-prefix
-;; (global-unset-key (kbd "C-x 4")) ; was ctl-x-4-prefix
-;; (global-unset-key (kbd "C-x 3")) ; was split-window-horizontally
-;; (global-unset-key (kbd "C-x 2")) ; was split-window-vertically
-;; (global-unset-key (kbd "C-x 1")) ; was delete-other-windows
-;; (global-unset-key (kbd "C-x 0")) ; was delete-window
-;; (global-unset-key (kbd "C-x o")) ; was other-window
 
 ;; Original idea from
 ;; http://www.opensubscriber.com/message/emacs-devel@gnu.org/10971693.html
@@ -242,8 +249,6 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
   (push-mark (point) t nil))
 
 
-
-
 (defun special-open-line (n)
   (interactive "p")
   (save-excursion
@@ -305,6 +310,7 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
 ;; save place
 (require 'saveplace)
 (setq-default save-place t)
+(setq save-place-file "~/.emacs.d/places")
 
 (require 'misc)
 
@@ -397,9 +403,10 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
 (yas/initialize)
 (eval-after-load 'yasnippet
   '(progn
-    (yas/load-directory "~/.emacs.d/snippets")))
+     (yas/load-directory "~/.emacs.d/elisp/yasnippet/snippets")
+     (yas/load-directory "~/.emacs.d/snippets")))
 
-(autoload 'magit-status "magit")
+(autoload 'magit-status "magit" "MaGIT")
 (global-set-key (kbd "C-x g") 'magit-status)
 
 ;; auctex
@@ -437,6 +444,11 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
 
 ;; erlang -- FIXME
 ;;(require 'erlang-start)
+
+;; clojure
+(require 'clojure-mode)
+(require 'slime)
+(slime-setup '(slime-repl))
 
 
 ;; scala
@@ -627,13 +639,32 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
 ;; color theming
 ;; (autoload 'color-theme-initialize "color-theme")
 (require 'color-theme)
-;; backup current color theme
-(fset 'color-theme-snapshot (color-theme-make-snapshot))
+
+(load "~/.emacs.d/themes/twilight/color-theme-twilight.el")
+(require 'color-theme-solarized)
+(require 'color-theme-ir-black)
+(load "~/.emacs.d/themes/vibrant-ink/color-theme-vibrant-ink.el")
 
 (defun color-theme-undo ()
   (interactive)
   ;; (color-theme-reset-faces)
   (color-theme-snapshot))
+
+(make-face 'font-lock-number-face)
+(set-face-attribute 'font-lock-number-face nil :inherit font-lock-constant-face)
+(setq font-lock-number-face 'font-lock-number-face)
+(defvar font-lock-number "[0-9]+\\([eE][+-]?[0-9]*\\)?")
+(defvar font-lock-hexnumber "0[xX][0-9a-fA-F]+")
+(defun add-font-lock-numbers ()
+	    (font-lock-add-keywords nil (list
+					  (list (concat "\\<\\(" font-lock-number "\\)\\>" )
+					   0 font-lock-number-face)
+					  (list (concat "\\<\\(" font-lock-hexnumber "\\)\\>" )
+					   0 font-lock-number-face)
+					  )))
+
+(add-hook 'python-mode-hook 'add-font-lock-numbers)
+
 
 ;; (color-theme-initialize)
 ;; (require 'zenburn)
@@ -641,8 +672,7 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
 ;; (require 'color-theme-hober2)
 ;; (color-theme-hober2)
 ;; (require 'color-theme-twilight)
-(load "~/.emacs.d/themes/twilight/color-theme-twilight.el")
-(color-theme-twilight)
+;; (color-theme-twilight)
 ;; (require 'color-theme-inkpot)
 ;; (color-theme-inkpot)
 ;; (set-face-attribute 'hl-line nil
@@ -650,16 +680,16 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
 ;; 		    :background "gray8")
 ;; (set-face-foreground 'hl-line nil)
 ;; (set-face-background 'hl-line nil)
-(require 'color-theme-ir-black)
-(color-theme-ir-black)
-;; (load "~/.emacs.d/themes/vibrant-ink/color-theme-vibrant-ink.el")
+;; (load-file "~/.emacs.d/themes/dz_ir_black/color-theme-irblack.el")
+;; (color-theme-irblack)
+;; (color-theme-solarized-dark)
+;; (color-theme-ir-black)
 ;; (color-theme-vibrant-ink)
 ;; (set-face-background 'default "black")
 ;; (require 'color-theme-complexity)
 ;; (color-theme-complexity)
 ;; (load "~/.emacs.d/themes/merbivore/color-theme-merbivore.el")
 ;; (color-theme-merbivore)
-
 
 ;; global hl mode doesn't look good with hober!
 (if (not (window-system))
@@ -688,3 +718,5 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
       )
 
 
+;; backup current color theme
+(fset 'color-theme-snapshot (color-theme-make-snapshot))

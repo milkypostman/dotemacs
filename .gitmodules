@@ -37,9 +37,6 @@
 [submodule "themes/brookstream"]
 	path = themes/brookstream
 	url = https://github.com/justinlilly/brookstream-emacs.git
-[submodule "themes/ir-black"]
-	path = themes/ir-black
-	url = https://github.com/burke/color-theme-ir-black.git
 [submodule "themes/github"]
 	path = themes/github
 	url = https://github.com/dudleyf/color-theme-github.git
@@ -64,4 +61,12 @@
 [submodule "elisp/ess"]
 	path = elisp/ess
 	url = https://github.com/emacsmirror/ess
-
+[submodule "themes/dz_ir_black"]
+	path = themes/dz_ir_black
+	url = https://github.com/dz/ir_black_emacs.git
+[submodule "themes/solarized"]
+	path = themes/solarized
+	url = https://github.com/sellout/emacs-color-theme-solarized
+[submodule "elisp/python-mode"]
+	path = elisp/python-mode
+	url = https://github.com/emacsmirror/python-mode.git
