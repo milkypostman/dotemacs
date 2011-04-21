@@ -31,15 +31,16 @@
 (add-to-list 'load-path "~/.emacs.d/")
 (add-to-list 'load-path "~/.emacs.d/elisp/")
 
-(require 'package)
-(add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/") t)
-(add-to-list 'package-archives '("elpa" . "http://tromey.com/elpa/") t)
-;; (add-to-list 'package-archives '("kieranhealy" . "http://kieranhealy.org/packages/") t)
-;; (add-to-list 'package-archives '("josh" . "http://josh.github.com/elpa/") t)
+(ignore-errors
+ (require 'package)
+ (add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/") t)
+ (add-to-list 'package-archives '("elpa" . "http://tromey.com/elpa/") t)
+ ;; (add-to-list 'package-archives '("kieranhealy" . "http://kieranhealy.org/packages/") t)
+ ;; (add-to-list 'package-archives '("josh" . "http://josh.github.com/elpa/") t)
 
-(require 'dired)
-;; required for cssh
-(package-initialize)
+ (require 'dired)
+ ;; required for cssh
+ (package-initialize))
 
 
 (setq user-full-name "Donald Ephraim Curtis")
