@@ -79,3 +79,6 @@
 [submodule "elisp/full-ack"]
 	path = elisp/full-ack
 	url = https://github.com/nschum/full-ack
+[submodule "themes/ir-black"]
+	path = themes/ir-black
+	url = https://github.com/burke/color-theme-ir-black.git
