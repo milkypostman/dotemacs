@@ -37,6 +37,7 @@
 ;; (add-to-list 'package-archives '("kieranhealy" . "http://kieranhealy.org/packages/") t)
 ;; (add-to-list 'package-archives '("josh" . "http://josh.github.com/elpa/") t)
 
+(require 'dired)
 ;; required for cssh
 (package-initialize)
 
@@ -449,7 +450,7 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
 (require 'clojure-mode)
 (require 'slime)
 (slime-setup '(slime-repl))
-
+(add-hook 'slime-repl-mode-hook 'clojure-mode-font-lock-setup)
 
 ;; scala
 (require 'scala-mode-auto)

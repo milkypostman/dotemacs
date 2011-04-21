@@ -70,3 +70,12 @@
 [submodule "elisp/python-mode"]
 	path = elisp/python-mode
 	url = https://github.com/emacsmirror/python-mode.git
+[submodule "elisp/clojure-mode"]
+	path = elisp/clojure-mode
+	url = https://github.com/technomancy/clojure-mode.git
+[submodule "elisp/slime"]
+	path = elisp/slime
+	url = https://github.com/technomancy/slime.git
+[submodule "elisp/full-ack"]
+	path = elisp/full-ack
+	url = https://github.com/nschum/full-ack
