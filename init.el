@@ -58,14 +58,14 @@
 
 (add-subdirs-load-path "~/.emacs.d/elisp/")
 (add-subdirs-load-path "~/.emacs.d/themes/")
-(add-to-list 'load-path "~/.emacs.d/elisp/ess/lisp/")
-(add-to-list 'load-path "~/.emacs.d/elisp/slime/contrib/")
+;; (add-to-list 'load-path "~/.emacs.d/elisp/slime/contrib/")
 
 
 ;; do we want VIM mode?
 ;; (require 'vimpulse)
 
 ;; start the server
+;; (setq server-use-tcp t)
 (server-start)
 
 
@@ -136,6 +136,9 @@
 ;; make C-tab bet M-tab
 (define-key function-key-map [(control tab)] [?\M-\t])
 
+;; don't quit so easy
+(global-unset-key (kbd "C-x C-c"))
+
 ;; autoindent
 (global-set-key (kbd "RET") 'newline-and-indent)
 
@@ -202,6 +205,21 @@
   '(define-key dired-mode-map "F" 'dired-find-file-other-frame))
 
 ;; defun
+
+
+
+(defun mpround ()
+  "round the current floating-point"
+  (interactive)
+  (save-excursion
+    (let* ((start (point)) (end (point)))
+      (forward-word 2)
+      (setq end (point))
+      (insert (number-to-string
+	       (/ (round
+	(* (string-to-number (buffer-substring-no-properties start end)) 1000.0))  1000.0)))
+      (delete-region start end)
+      )))
 
 (defun dired-find-file-other-frame ()
   "In Dired, visit this file or directory in another window."
@@ -431,6 +449,7 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
      (add-hook 'LaTeX-mode-hook 'LaTeX-math-mode)
      (add-hook 'LaTeX-mode-hook 'turn-on-reftex)
      (setq reftex-plug-into-AUCTeX t)
+     (define-key TeX-mode-map (kbd "C-c C-m") 'TeX-command-master)
      (define-key TeX-mode-map (kbd "C-c C-c")
        (lambda ()
 	 (interactive)
@@ -443,6 +462,12 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
   '(progn
      (add-to-list 'reftex-section-prefixes '(1 . "chap:"))))
 
+;; disable vc
+(remove-hook 'find-file-hooks 'vc-find-file-hook)
+;; (eval-after-load "vc" '(remove-hook 'find-file-hooks 'vc-find-file-hook))
+
+;; cssh
+(require 'cssh)
 
 ;; erlang -- FIXME
 ;;(require 'erlang-start)
@@ -465,10 +490,11 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
 ;; manually do autoloads so the whole shebang doesn't load everytime.
 ;; I hardly use R.
 ;; (require 'ess-site)
-;; (autoload 'R-mode "ess-site" "R mode")
-;; (autoload 'R "ess-site" "R inferior shell" t)
-;; (setq auto-mode-alist
-;;    (cons '("\\.[rR]\\'"	. R-mode) auto-mode-alist))
+(add-to-list 'load-path "~/.emacs.d/elisp/ess/lisp/")
+(autoload 'R-mode "ess-site" "R mode")
+(autoload 'R "ess-site" "R inferior shell" t)
+(setq auto-mode-alist
+   (cons '("\\.[rR]\\'"	. R-mode) auto-mode-alist))
 
 
 ;; markdown
@@ -581,7 +607,7 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
 
 (eval-after-load 'python
   '(progn
-     (setup-ropemacs)
+     ;; (setup-ropemacs)
      (setup-virtualenv)
      (define-key python-mode-map (kbd "C-h") 'python-indent-dedent-line-backspace)
      ))
@@ -601,22 +627,18 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
      (add-to-list 'flymake-allowed-file-name-masks
 		  '("\\.py\\'" flymake-pylint-init))))
 
-;; FIXME
-;; (require 'flymake-cursor)
+(load-file "~/.emacs.d/elisp/flymake-cursor.el")
+
+(defadvice flymake-mode (after post-command-stuff activate compile)
+  "add keybindings"
+   (local-set-key "\M-p" 'flymake-goto-prev-error)
+   (local-set-key "\M-n" 'flymake-goto-next-error))
+
 
 (defadvice kill-line (after kill-line-cleanup-whitespace activate compile)
   "cleanup whitespace on kill-line"
   (if (not (bolp))
       (delete-region (point) (progn (skip-chars-forward " \t") (point)))))
-
-
-
-
-
-;; (defadvice flymake-mode (after post-command-stuff activate compile)
-;;   "add keybindings"
-;;    (local-set-key "\M-p" 'flymake-goto-prev-error)
-;;    (local-set-key "\M-n" 'flymake-goto-next-error))
 
 
 ;; ;; ruby
@@ -677,6 +699,8 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
 ;; (color-theme-twilight)
 ;; (require 'color-theme-inkpot)
 ;; (color-theme-inkpot)
+(load-file "~/.emacs.d/themes/railscasts/color-theme-railscasts.el")
+(color-theme-railscasts)
 ;; (set-face-attribute 'hl-line nil
 ;; 		    :inherit 'unspecified
 ;; 		    :background "gray8")
@@ -698,6 +722,7 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
     (menu-bar-mode 0)
   (require 'fringemark)
   (set-face-font 'default "Menlo")
+  (set-face-attribute 'default nil :height 110)
   )
 
 

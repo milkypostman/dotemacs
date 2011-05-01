@@ -82,3 +82,12 @@
 [submodule "themes/ir-black"]
 	path = themes/ir-black
 	url = https://github.com/burke/color-theme-ir-black.git
+[submodule "themes/sunburst"]
+	path = themes/sunburst
+	url = https://github.com/wfarr/sunburst-theme.el.git
+[submodule "themes/railscasts"]
+	path = themes/railscasts
+	url = https://github.com/olegshaldybin/color-theme-railscasts.git
+[submodule "elisp/haskell-mode"]
+	path = elisp/haskell-mode
+	url = https://github.com/emacsmirror/haskell-mode.git
