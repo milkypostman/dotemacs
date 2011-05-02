@@ -485,6 +485,11 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
 	    (yas/load-directory "~/.emacs.d/vendor/scala-mode/contrib/yasnippet/snippets")
 	    ))
 
+;; haskell
+(load "~/.emacs.d/elisp/haskell-mode/haskell-site-file")
+(add-hook 'haskell-mode-hook 'turn-on-haskell-doc-mode)
+(add-hook 'haskell-mode-hook 'turn-on-haskell-indentation)
+
 
 ;; R
 ;; manually do autoloads so the whole shebang doesn't load everytime.
@@ -722,7 +727,7 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
     (menu-bar-mode 0)
   (require 'fringemark)
   (set-face-font 'default "Menlo")
-  (set-face-attribute 'default nil :height 110)
+  (set-face-attribute 'default nil :height 120)
   )
 
 
