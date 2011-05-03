@@ -31,9 +31,6 @@
 [submodule "elisp/yasnippet"]
 	path = elisp/yasnippet
 	url = https://github.com/emacsmirror/yasnippet.git
-[submodule "themes/zenburn"]
-	path = themes/zenburn
-	url = https://github.com/dbrock/zenburn-el.git
 [submodule "themes/brookstream"]
 	path = themes/brookstream
 	url = https://github.com/justinlilly/brookstream-emacs.git
@@ -94,3 +91,6 @@
 [submodule "elisp/paredit"]
 	path = elisp/paredit
 	url = https://github.com/emacsmirror/paredit.git
+[submodule "themes/zenburn"]
+	path = themes/zenburn
+	url = https://github.com/bbatsov/zenburn-emacs.git
