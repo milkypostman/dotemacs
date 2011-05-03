@@ -6,6 +6,7 @@
 
 ;; the following command should be run manually ever once and a while.
 ;; (byte-recompile-directory "~/.emacs.d/elisp/" 0 t)
+;; (save-buffers-kill-emacs)
 
 ;; basic configuration
 ;; (if (fboundp 'menu-bar-mode) (menu-bar-mode -1))
@@ -482,7 +483,7 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
 (require 'scala-mode-auto)
 (add-hook 'scala-mode-hook
 	  (lambda ()
-	    (yas/load-directory "~/.emacs.d/vendor/scala-mode/contrib/yasnippet/snippets")
+	    (yas/load-directory "~/.emacs.d/elisp/scala-mode/contrib/yasnippet/snippets")
 	    ))
 
 ;; haskell
@@ -668,32 +669,7 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
 ;; color theming
 ;; (autoload 'color-theme-initialize "color-theme")
 (require 'color-theme)
-
-(load "~/.emacs.d/themes/twilight/color-theme-twilight.el")
-(require 'color-theme-solarized)
-(require 'color-theme-ir-black)
-(load "~/.emacs.d/themes/vibrant-ink/color-theme-vibrant-ink.el")
-
-(defun color-theme-undo ()
-  (interactive)
-  ;; (color-theme-reset-faces)
-  (color-theme-snapshot))
-
-(make-face 'font-lock-number-face)
-(set-face-attribute 'font-lock-number-face nil :inherit font-lock-constant-face)
-(setq font-lock-number-face 'font-lock-number-face)
-(defvar font-lock-number "[0-9]+\\([eE][+-]?[0-9]*\\)?")
-(defvar font-lock-hexnumber "0[xX][0-9a-fA-F]+")
-(defun add-font-lock-numbers ()
-	    (font-lock-add-keywords nil (list
-					  (list (concat "\\<\\(" font-lock-number "\\)\\>" )
-					   0 font-lock-number-face)
-					  (list (concat "\\<\\(" font-lock-hexnumber "\\)\\>" )
-					   0 font-lock-number-face)
-					  )))
-
-(add-hook 'python-mode-hook 'add-font-lock-numbers)
-
+(setq color-theme-is-global nil)
 
 ;; (color-theme-initialize)
 ;; (require 'zenburn)
@@ -704,8 +680,6 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
 ;; (color-theme-twilight)
 ;; (require 'color-theme-inkpot)
 ;; (color-theme-inkpot)
-(load-file "~/.emacs.d/themes/railscasts/color-theme-railscasts.el")
-(color-theme-railscasts)
 ;; (set-face-attribute 'hl-line nil
 ;; 		    :inherit 'unspecified
 ;; 		    :background "gray8")
@@ -721,6 +695,33 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
 ;; (color-theme-complexity)
 ;; (load "~/.emacs.d/themes/merbivore/color-theme-merbivore.el")
 ;; (color-theme-merbivore)
+
+(load "~/.emacs.d/themes/twilight/color-theme-twilight.el")
+(require 'color-theme-solarized)
+(require 'color-theme-ir-black)
+(load "~/.emacs.d/themes/vibrant-ink/color-theme-vibrant-ink.el")
+(load-file "~/.emacs.d/themes/railscasts/color-theme-railscasts.el")
+
+(defun color-theme-undo ()
+  (interactive)
+  ;; (color-theme-reset-faces)
+  (color-theme-snapshot))
+
+(make-face 'font-lock-number-face)
+(set-face-attribute 'font-lock-number-face nil :inherit font-lock-constant-face)
+(setq font-lock-number-face 'font-lock-number-face)
+(defvar font-lock-number "[0-9]+\\([eE][+-]?[0-9]*\\)?")
+(defvar font-lock-hexnumber "0[xX][0-9a-fA-F]+")
+(defun add-font-lock-numbers ()
+  (font-lock-add-keywords nil (list
+			       (list (concat "\\<\\(" font-lock-number "\\)\\>" )
+				     0 font-lock-number-face)
+			       (list (concat "\\<\\(" font-lock-hexnumber "\\)\\>" )
+				     0 font-lock-number-face)
+			       )))
+
+(add-hook 'python-mode-hook 'add-font-lock-numbers)
+
 
 ;; global hl mode doesn't look good with hober!
 (if (not (window-system))
@@ -752,3 +753,4 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
 
 ;; backup current color theme
 (fset 'color-theme-snapshot (color-theme-make-snapshot))
+
