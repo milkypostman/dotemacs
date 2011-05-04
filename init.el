@@ -371,6 +371,7 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
 (require 'ido)
 (ido-mode t)
 (ido-everywhere t)
+(setq ido-default-buffer-method 'selected-window)
 (setq ido-enable-flex-matching t)
 
 (add-hook 'ido-setup-hook
@@ -427,6 +428,7 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
      (yas/load-directory "~/.emacs.d/elisp/yasnippet/snippets")
      (yas/load-directory "~/.emacs.d/snippets")))
 
+;; magit
 (autoload 'magit-status "magit" "MaGIT")
 (global-set-key (kbd "C-x g") 'magit-status)
 
@@ -729,6 +731,7 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
   (require 'fringemark)
   (set-face-font 'default "Menlo")
   (set-face-attribute 'default nil :height 120)
+  (setq mouse-wheel-scroll-amount '(0.001))
   )
 
 
@@ -747,8 +750,7 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
 
 ;; System Specific Settings
 (cond ((eq system-type 'darwin)
-       (setenv "PYTHONPATH" "/Users/dcurtis/Development/compepi:/Users/dcurtis/Development/networkx"))
-      )
+       (setenv "PYTHONPATH" "/Users/dcurtis/Development/compepi:/Users/dcurtis/Development/networkx")))
 
 
 ;; backup current color theme
