@@ -672,7 +672,7 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
 (setq color-theme-is-global nil)
 
 ;; (color-theme-initialize)
-;; (require 'zenburn)
+(require 'zenburn)
 ;; (color-theme-zenburn)
 ;; (require 'color-theme-hober2)
 ;; (color-theme-hober2)
