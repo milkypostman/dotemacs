@@ -272,14 +272,25 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
 
 (defun special-open-line (n)
   (interactive "p")
-  (save-excursion
-    (while (> n 0)
-      (newline)
-      (setq n (1- n)))
-    (if (not (eolp)) (indent-according-to-mode))
-    )
-  (if (bolp) (indent-according-to-mode))
-  )
+  (let ((before-indent
+	 (buffer-substring-no-properties
+	  (point) (save-excursion (skip-chars-backward "\t ") (point))))
+	(after-indent
+	 (buffer-substring-no-properties
+	  (point) (save-excursion (skip-chars-forward "\t ") (point)))))
+    (if (not (bolp))
+	(let ((in-the-gut (save-excursion (skip-chars-backward "\t ") (bolp))))
+	  (save-excursion
+	    (while (> n 0)
+	      (newline)
+	      (setq n (1- n)))
+	    (cond ((not in-the-gut) (indent-according-to-mode))
+		  ((bolp) (insert before-indent))))
+	  (if in-the-gut (insert after-indent)))
+      (save-excursion (open-line n))
+      (insert after-indent))
+    ))
+
 (global-set-key (kbd "C-o") 'special-open-line)
 
 
@@ -731,7 +742,7 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
   (require 'fringemark)
   (set-face-font 'default "Menlo")
   (set-face-attribute 'default nil :height 120)
-  (setq mouse-wheel-scroll-amount '(0.001))
+  (setq mouse-wheel-scroll-amount '(0.0001))
   )
 
 
