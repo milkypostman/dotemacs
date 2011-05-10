@@ -270,6 +270,7 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
   (push-mark (point) t nil))
 
 
+
 (defun special-open-line (n)
   (interactive "p")
   (let ((before-indent
@@ -324,6 +325,12 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
            (list (region-beginning) (region-end))
          (list (line-beginning-position) (line-beginning-position 2)))))
 
+(defun finder-cwd ()
+  "Open the current working directory in finder."
+  (interactive)
+  (shell-command (concat "open " default-directory))
+  )
+
 (defun make-executable ()
   "Make the current file loaded in the buffer executable"
   (interactive)
@@ -343,6 +350,7 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
 (require 'saveplace)
 (setq-default save-place t)
 (setq save-place-file "~/.emacs.d/places")
+
 
 (require 'misc)
 
@@ -407,10 +415,11 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
 
 
 ;; ido recent files
-(global-set-key (kbd "C-x f") 'recentf-ido-find-file)
-(define-key ctl-x-4-map "f" 'recentf-ido-find-file-other-window)
+(global-set-key (kbd "C-x f") 'ido-find-recentfile)
+(global-set-key (kbd "M-.") 'ido-find-tag)
+(define-key ctl-x-4-map "f" 'ido-find-recentfile-other-window)
 (global-set-key "\C-c\C-t" 'idomenu)
-(defun recentf-ido-find-file ()
+(defun ido-find-recentfile ()
   "Find a recent file using ido."
   (interactive)
   (recentf-mode 1)
@@ -418,13 +427,24 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
     (when file
       (find-file file))))
 
-(defun recentf-ido-find-file-other-window ()
+(defun ido-find-recentfile-other-window ()
   "Find a recent file using ido."
   (interactive)
   (recentf-mode 1)
   (let ((file (ido-completing-read "Recent file: " recentf-list nil t)))
     (when file
       (find-file-other-window file))))
+
+(defun ido-find-tag ()
+  "Find a tag using ido."
+  (interactive)
+  (tags-completion-table)
+  (let (tag-names)
+    (mapc (lambda (x)
+	    (unless (integerp x)
+	      (push (prin1-to-string x t) tag-names)))
+	  tags-completion-table)
+    (find-tag (ido-completing-read "Tag: " tag-names))))
 
 (defun ido-yank ()
   (interactive)
@@ -442,6 +462,11 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
 ;; magit
 (autoload 'magit-status "magit" "MaGIT")
 (global-set-key (kbd "C-x g") 'magit-status)
+
+;; git-commit-mode
+(require 'git-commit)
+(add-hook 'git-commit-mode-hook 'turn-on-flyspell)
+(add-hook 'git-commit-mode-hook (lambda () (toggle-save-place 0)))
 
 ;; auctex
 (eval-after-load 'latex
@@ -741,7 +766,7 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
     (menu-bar-mode 0)
   (require 'fringemark)
   (set-face-font 'default "Menlo")
-  (set-face-attribute 'default nil :height 120)
+  (set-face-attribute 'default nil :height 110)
   (setq mouse-wheel-scroll-amount '(0.0001))
   )
 

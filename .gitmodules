@@ -97,3 +97,6 @@
 [submodule "elisp/wrap-region"]
 	path = elisp/wrap-region
 	url = https://github.com/rejeep/wrap-region.git
+[submodule "elisp/git-commit-mode"]
+	path = elisp/git-commit-mode
+	url = https://github.com/rafl/git-commit-mode.git
