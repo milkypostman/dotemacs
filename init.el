@@ -235,9 +235,8 @@
   (save-buffer)
   (server-edit))
 
-;; (add-hook 'server-visit-hook '(lambda ()
-;; 				(setq save-place nil)
-;; 				(local-set-key (kbd "C-c C-c") 'server-edit-save)))
+(add-hook 'server-visit-hook '(lambda ()
+				(local-set-key (kbd "C-c c") 'server-edit-save)))
 
 ;; automatically recursive search
 ;; (defadvice isearch-search (after isearch-no-fail activate)
