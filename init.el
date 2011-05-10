@@ -351,6 +351,7 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
 (setq-default save-place t)
 (setq save-place-file "~/.emacs.d/places")
 
+(require 'midnight)
 
 (require 'misc)
 
