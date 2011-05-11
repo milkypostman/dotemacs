@@ -138,7 +138,13 @@
 (define-key function-key-map [(control tab)] [?\M-\t])
 
 ;; don't quit so easy
-(global-unset-key (kbd "C-x C-c"))
+(defun close-frame-or-client (&optional args)
+  (interactive "P")
+  (if (> (length (frame-list)) 1)
+      (progn (save-some-buffers)
+	     (delete-frame))))
+(global-set-key (kbd "C-x C-c") 'close-frame-or-client)
+;; (global-unset-key (kbd "C-x C-c"))
 
 ;; autoindent
 (global-set-key (kbd "RET") 'newline-and-indent)
@@ -206,8 +212,6 @@
   '(define-key dired-mode-map "F" 'dired-find-file-other-frame))
 
 ;; defun
-
-
 
 (defun mpround ()
   "round the current floating-point"
@@ -339,6 +343,27 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
        (mapconcat 'identity
 		  (list "chmod" "u+x" (shell-quote-argument (buffer-file-name))) " "))
     (message "Buffer has no filename.")))
+
+;; elisp
+
+;; org-mode
+(setq org-log-done 'time)
+(global-set-key "\C-cc" 'org-capture)
+;; (global-set-key "\C-ca" 'org-agenda)
+;; (global-set-key "\C-cb" 'org-iswitchb)
+(setq org-completion-use-ido t)
+(setq org-directory "~/Dropbox/Notational")
+(setq org-capture-templates
+      '(("t" "Todo" entry (file+headline "~/Dropbox/Notational/dox inbox.org" "Incoming")
+	 "* TODO %?\n  %i\n  %a")))
+(setq org-agenda-files (list "~/Dropbox/Notational"))
+(setq org-refile-targets (quote ((nil :maxlevel . 2)
+                                 (org-agenda-files :maxlevel . 2))))
+(setq org-refile-use-outline-path (quote file))
+;; Set to the name of the file where new notes will be stored
+(setq org-mobile-inbox-for-pull "~/Dropbox/Notational/dox inbox.org")
+;; Set to <your Dropbox root directory>/MobileOrg.
+(setq org-mobile-directory "~/Dropbox/Notational/Mobile")
 
 ;; ispell
 (setq-default ispell-program-name "aspell")
