@@ -100,3 +100,12 @@
 [submodule "elisp/git-commit-mode"]
 	path = elisp/git-commit-mode
 	url = https://github.com/rafl/git-commit-mode.git
+[submodule "elisp/ruby-electric"]
+	path = elisp/ruby-electric
+	url = https://github.com/qoobaa/ruby-electric.git
+[submodule "elisp/idomenu"]
+	path = elisp/idomenu
+	url = https://github.com/emacsmirror/idomenu.git
+[submodule "elisp/misc-cmds"]
+	path = elisp/misc-cmds
+	url = https://github.com/emacsmirror/misc-cmds.git

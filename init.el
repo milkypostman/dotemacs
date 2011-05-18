@@ -20,11 +20,11 @@
 (push "/usr/local/bin" exec-path)
 
 (setenv "PATH"
-	(mapconcat 'identity
-		   (delete-dups
-		    (append (list "/usr/local/bin" "~/bin" "/usr/texbin")
-			    (split-string (getenv "PATH") ":")))
-		   ":"))
+        (mapconcat 'identity
+                   (delete-dups
+                    (append (list "/usr/local/bin" "~/bin" "/usr/texbin")
+                            (split-string (getenv "PATH") ":")))
+                   ":"))
 
 
 
@@ -33,15 +33,15 @@
 (add-to-list 'load-path "~/.emacs.d/elisp/")
 
 (ignore-errors
- (require 'package)
- (add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/") t)
- (add-to-list 'package-archives '("elpa" . "http://tromey.com/elpa/") t)
- ;; (add-to-list 'package-archives '("kieranhealy" . "http://kieranhealy.org/packages/") t)
- ;; (add-to-list 'package-archives '("josh" . "http://josh.github.com/elpa/") t)
+  (require 'package)
+  (add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/") t)
+  (add-to-list 'package-archives '("elpa" . "http://tromey.com/elpa/") t)
+  ;; (add-to-list 'package-archives '("kieranhealy" . "http://kieranhealy.org/packages/") t)
+  ;; (add-to-list 'package-archives '("josh" . "http://josh.github.com/elpa/") t)
 
- (require 'dired)
- ;; required for cssh
- (package-initialize))
+  (require 'dired)
+  ;; required for cssh
+  (package-initialize))
 
 
 (setq user-full-name "Donald Ephraim Curtis")
@@ -53,9 +53,9 @@
   (let* ((dirs (directory-files default-directory)))
     (dolist (dir dirs)
       (unless (member dir '("." ".." "RCS" "CVS" "rcs" "cvs"))
-	(let ((fullpath (concat default-directory dir)))
-	  (when (file-directory-p dir)
-	    (add-to-list 'load-path fullpath)))))))
+        (let ((fullpath (concat default-directory dir)))
+          (when (file-directory-p dir)
+            (add-to-list 'load-path fullpath)))))))
 
 (add-subdirs-load-path "~/.emacs.d/elisp/")
 (add-subdirs-load-path "~/.emacs.d/themes/")
@@ -87,7 +87,7 @@
 ;; yes, I want to kill buffers with processes attached
 (setq kill-buffer-query-functions
       (remq 'process-kill-buffer-query-function
-	    kill-buffer-query-functions))
+            kill-buffer-query-functions))
 
 ;; backup settings
 (setq backup-by-copying t)
@@ -96,6 +96,10 @@
 (setq kept-new-versions 6)
 (setq kept-old-versions 2)
 (setq version-control t)
+
+(setq-default tab-width 4)
+(setq-default indent-tabs-mode nil)
+(setq default-abbrev-mode t)
 
 (setq auto-save-file-name-transforms '((".*" "~/.emacs.d/autosave/" t)))
 (setq delete-auto-save-files nil)
@@ -142,7 +146,7 @@
   (interactive "P")
   (if (> (length (frame-list)) 1)
       (progn (save-some-buffers)
-	     (delete-frame))))
+             (delete-frame))))
 (global-set-key (kbd "C-x C-c") 'close-frame-or-client)
 ;; (global-unset-key (kbd "C-x C-c"))
 
@@ -183,7 +187,7 @@
         Replaces default behaviour of comment-dwim, when it inserts comment at the end of the line."
   (interactive "*P")
   (comment-normalize-vars)
-  (if (and (not (region-active-p)) (not (looking-at "[ \t]*$")))
+  (if (not (region-active-p))
       (comment-or-uncomment-region (line-beginning-position) (line-end-position))
     (comment-dwim arg)))
 
@@ -213,6 +217,52 @@
 
 ;; defun
 
+(defun unpop-to-mark-command ()
+  "Unpop off mark ring into the buffer's actual mark.
+Does not set point.  Does nothing if mark ring is empty."
+  (interactive)
+  (let ((num-times (if (equal last-command 'pop-to-mark-command) 2
+                     (if (equal last-command 'unpop-to-mark-command) 1
+                       (error "Previous command was not a (un)pop-to-mark-command")))))
+    (dotimes (x num-times)
+      (when mark-ring
+        (setq mark-ring (cons (copy-marker (mark-marker)) mark-ring))
+        (set-marker (mark-marker) (+ 0 (car (last mark-ring))) (current-buffer))
+        (when (null (mark t)) (ding))
+        (setq mark-ring (nbutlast mark-ring))
+        (goto-char (mark t)))
+      (deactivate-mark))))
+
+(global-set-key (kbd "C-c C-SPC") 'unpop-to-mark-command)
+
+
+(defun delete-this-buffer-and-file ()
+  "Deletes current buffer and file it is visiting."
+  (interactive)
+  (let ((filename (buffer-file-name)))
+    (if (not (and filename (file-exists-p filename)))
+        (error "Buffer '%s' is not visiting a file!" name)
+      (delete-file filename)
+      (kill-this-buffer))))
+
+
+(defun rename-this-buffer-and-file ()
+  "Renames current buffer and file it is visiting."
+  (interactive)
+  (let ((name (buffer-name))
+        (filename (buffer-file-name)))
+    (if (not (and filename (file-exists-p filename)))
+        (error "Buffer '%s' is not visiting a file!" name)
+      (let ((new-name (read-file-name "New name: " filename)))
+        (cond ((get-buffer new-name)
+               (error "A buffer named '%s' already exists!" new-name))
+              (t
+               (rename-file filename new-name 1)
+               (rename-buffer new-name)
+               (set-visited-file-name new-name)
+               (set-buffer-modified-p nil)
+               (message "File '%s' successfully renamed to '%s'" name (file-name-nondirectory new-name))))))))
+
 (defun mpround ()
   "round the current floating-point"
   (interactive)
@@ -221,8 +271,8 @@
       (forward-word 2)
       (setq end (point))
       (insert (number-to-string
-	       (/ (round
-	(* (string-to-number (buffer-substring-no-properties start end)) 1000.0))  1000.0)))
+               (/ (round
+                   (* (string-to-number (buffer-substring-no-properties start end)) 1000.0))  1000.0)))
       (delete-region start end)
       )))
 
@@ -239,9 +289,9 @@
   (save-buffer)
   (server-edit))
 
-(add-hook 'server-visit-hook
-	  '(lambda ()
-	     (local-set-key (kbd "C-c c") 'server-edit-save)))
+;; (add-hook 'server-visit-hook
+;;           '(lambda ()
+;;              (local-set-key (kbd "C-c c") 'server-edit-save)))
 
 ;; automatically recursive search
 ;; (defadvice isearch-search (after isearch-no-fail activate)
@@ -268,30 +318,30 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
     (exchange-point-and-mark)
     (if (or arg region-active) (activate-mark)
       (deactivate-mark))))
-(define-key global-map [remap exchange-point-and-mark] 'exchange-point-and-mark-no-activate)
+(define-key global-map [remap exchange-point-and-mark] 'exchange-point-and-mark)
+;; (define-key global-map [remap exchange-point-and-mark] 'exchange-point-and-mark-no-activate)
 
 (defadvice jump-to-register (before jump-to-register-advice activate)
   (push-mark (point) t nil))
 
 
-
 (defun special-open-line (n)
   (interactive "p")
   (let ((before-indent
-	 (buffer-substring-no-properties
-	  (point) (save-excursion (skip-chars-backward "\t ") (point))))
-	(after-indent
-	 (buffer-substring-no-properties
-	  (point) (save-excursion (skip-chars-forward "\t ") (point)))))
+         (buffer-substring-no-properties
+          (point) (save-excursion (skip-chars-backward "\t ") (point))))
+        (after-indent
+         (buffer-substring-no-properties
+          (point) (save-excursion (skip-chars-forward "\t ") (point)))))
     (if (not (bolp))
-	(let ((in-the-gut (save-excursion (skip-chars-backward "\t ") (bolp))))
-	  (save-excursion
-	    (while (> n 0)
-	      (newline)
-	      (setq n (1- n)))
-	    (cond ((not in-the-gut) (indent-according-to-mode))
-		  ((bolp) (insert before-indent))))
-	  (if in-the-gut (insert after-indent)))
+        (let ((in-the-gut (save-excursion (skip-chars-backward "\t ") (bolp))))
+          (save-excursion
+            (while (> n 0)
+              (newline)
+              (setq n (1- n)))
+            (cond ((not in-the-gut) (indent-according-to-mode))
+                  ((bolp) (insert before-indent))))
+          (if in-the-gut (insert after-indent)))
       (save-excursion (open-line n))
       (insert after-indent))
     ))
@@ -341,21 +391,24 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
   (if (buffer-file-name)
       (shell-command
        (mapconcat 'identity
-		  (list "chmod" "u+x" (shell-quote-argument (buffer-file-name))) " "))
+                  (list "chmod" "u+x" (shell-quote-argument (buffer-file-name))) " "))
     (message "Buffer has no filename.")))
 
 ;; elisp
 
 ;; org-mode
 (setq org-log-done 'time)
+(setq org-startup-indented t)
+(setq org-archive-location "~/Dropbox/Notational/dox archive.org::* %s")
 (global-set-key "\C-cc" 'org-capture)
-;; (global-set-key "\C-ca" 'org-agenda)
-;; (global-set-key "\C-cb" 'org-iswitchb)
+(global-set-key "\C-cl" 'org-store-link)
+(global-set-key "\C-ca" 'org-agenda)
+(global-set-key "\C-cb" 'org-iswitchb)
 (setq org-completion-use-ido t)
 (setq org-directory "~/Dropbox/Notational")
 (setq org-capture-templates
       '(("t" "Todo" entry (file+headline "~/Dropbox/Notational/dox inbox.org" "Incoming")
-	 "* TODO %?\n  %i\n  %a")))
+         "* TODO %?\n  %i\n  %a")))
 (setq org-agenda-files (list "~/Dropbox/Notational"))
 (setq org-refile-targets (quote ((nil :maxlevel . 2)
                                  (org-agenda-files :maxlevel . 2))))
@@ -363,7 +416,7 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
 ;; Set to the name of the file where new notes will be stored
 (setq org-mobile-inbox-for-pull "~/Dropbox/Notational/dox inbox.org")
 ;; Set to <your Dropbox root directory>/MobileOrg.
-(setq org-mobile-directory "~/Dropbox/Notational/Mobile")
+(setq org-mobile-directory "~/Dropbox/MobileOrg")
 
 ;; ispell
 (setq-default ispell-program-name "aspell")
@@ -390,14 +443,18 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
   (setq this-command last-command)
   (if (or (eq this-command 'hippie-expand) (looking-at "\\_>"))
       (progn
-	(setq this-command 'hippie-expand)
-	(hippie-expand arg))
+        (setq this-command 'hippie-expand)
+        (hippie-expand arg))
     (setq this-command 'indent-for-tab-command)
     (indent-for-tab-command arg)))
 
 
-(define-key read-expression-map [(tab)] 'hippie-expand)
-(global-set-key (kbd "TAB") 'fancy-tab)
+(define-key read-expression-map (kbd "M-/") 'hippie-expand)
+;; (global-set-key (kbd "TAB") 'fancy-tab)
+(global-set-key (kbd "TAB") 'indent-for-tab-command)
+(global-set-key (kbd "M-/") 'hippie-expand)
+
+
 
 
 (add-hook 'emacs-lisp-mode-hook 'move-lisp-completion-to-front)
@@ -405,11 +462,11 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
   "Adjust hippie-expand-try-functions-list to have lisp completion at the front."
   (make-local-variable 'hippie-expand-try-functions-list)
   (setq hippie-expand-try-functions-list
-	(append (list 'yas/hippie-try-expand 'try-complete-lisp-symbol-partially 'try-complete-lisp-symbol)
-		(delq 'yas/hippie-try-expand
-		      (delq 'try-complete-lisp-symbol-partially
-			    (delq 'try-complete-lisp-symbol
-				  hippie-expand-try-functions-list))))))
+        (append (list 'yas/hippie-try-expand 'try-complete-lisp-symbol-partially 'try-complete-lisp-symbol)
+                (delq 'yas/hippie-try-expand
+                      (delq 'try-complete-lisp-symbol-partially
+                            (delq 'try-complete-lisp-symbol
+                                  hippie-expand-try-functions-list))))))
 
 ;; ido-mode
 ;; (autoload 'ido-mode "ido")
@@ -418,16 +475,17 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
 (ido-everywhere t)
 (setq ido-default-buffer-method 'selected-window)
 (setq ido-enable-flex-matching t)
+(setq ido-save-directory-list-file "~/.emacs.d/ido.last")
 
 (add-hook 'ido-setup-hook
-	  (lambda ()
-	    (setq ido-mode-map ido-completion-map)
-	    (define-key ido-mode-map "\C-h" 'ido-delete-backward-updir)
-	    (define-key ido-mode-map "\C-w" 'ido-delete-backward-word-updir)
-	    (define-key ido-mode-map "\C-n" 'ido-next-match)
-	    (define-key ido-mode-map "\C-p" 'ido-prev-match)
-	    (define-key ido-completion-map [tab] 'ido-complete)
-	    ))
+          (lambda ()
+            (setq ido-mode-map ido-completion-map)
+            (define-key ido-mode-map "\C-h" 'ido-delete-backward-updir)
+            (define-key ido-mode-map "\C-w" 'ido-delete-backward-word-updir)
+            (define-key ido-mode-map "\C-n" 'ido-next-match)
+            (define-key ido-mode-map "\C-p" 'ido-prev-match)
+            (define-key ido-completion-map [tab] 'ido-complete)
+            ))
 
 ;; disable auto searching for files unless called explicitly
 (setq ido-auto-merge-delay-time 99999)
@@ -467,9 +525,9 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
   (tags-completion-table)
   (let (tag-names)
     (mapc (lambda (x)
-	    (unless (integerp x)
-	      (push (prin1-to-string x t) tag-names)))
-	  tags-completion-table)
+            (unless (integerp x)
+              (push (prin1-to-string x t) tag-names)))
+          tags-completion-table)
     (find-tag (ido-completing-read "Tag: " tag-names))))
 
 (defun ido-yank ()
@@ -517,10 +575,10 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
      (define-key TeX-mode-map (kbd "C-c C-m") 'TeX-command-master)
      (define-key TeX-mode-map (kbd "C-c C-c")
        (lambda ()
-	 (interactive)
-	 (TeX-save-document (TeX-master-file))
-	 (TeX-command "LaTeX" 'TeX-master-file)
-	 ))
+         (interactive)
+         (TeX-save-document (TeX-master-file))
+         (TeX-command "LaTeX" 'TeX-master-file)
+         ))
      ))
 
 (eval-after-load 'reftex
@@ -546,9 +604,9 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
 ;; scala
 (require 'scala-mode-auto)
 (add-hook 'scala-mode-hook
-	  (lambda ()
-	    (yas/load-directory "~/.emacs.d/elisp/scala-mode/contrib/yasnippet/snippets")
-	    ))
+          (lambda ()
+            (yas/load-directory "~/.emacs.d/elisp/scala-mode/contrib/yasnippet/snippets")
+            ))
 
 ;; haskell
 (load "~/.emacs.d/elisp/haskell-mode/haskell-site-file")
@@ -564,22 +622,22 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
 (autoload 'R-mode "ess-site" "R mode")
 (autoload 'R "ess-site" "R inferior shell" t)
 (setq auto-mode-alist
-   (cons '("\\.[rR]\\'"	. R-mode) auto-mode-alist))
+      (cons '("\\.[rR]\\'"      . R-mode) auto-mode-alist))
 
 
 ;; markdown
 ;; use autoload because it delays loading the function until we need it.
 (autoload 'markdown-mode "markdown-mode"
-   "Major mode for editing Markdown files" t)
+  "Major mode for editing Markdown files" t)
 (setq auto-mode-alist
-   (cons '("\\.text" . markdown-mode) auto-mode-alist))
+      (cons '("\\.text" . markdown-mode) auto-mode-alist))
 (setq auto-mode-alist
-   (cons '("\\.md" . markdown-mode) auto-mode-alist))
+      (cons '("\\.md" . markdown-mode) auto-mode-alist))
 
 (add-hook 'markdown-mode-hook '(lambda ()
-				 (auto-fill-mode 1)
-				 (remove-hook 'before-save-hook 'delete-trailing-whitespace t)
-				 ))
+                                 (auto-fill-mode 1)
+                                 (remove-hook 'before-save-hook 'delete-trailing-whitespace t)
+                                 ))
 
 
 ;; python
@@ -597,22 +655,22 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
     ;; setup virtualenv for the python-shell-process-environment
     (push "~/.virtualenvs/default/bin" exec-path)
     (setenv "PATH"
-	    (concat
-	     "~/.virtualenvs/default/bin" ":"
-	     (getenv "PATH")
-	     ))
+            (concat
+             "~/.virtualenvs/default/bin" ":"
+             (getenv "PATH")
+             ))
     (add-hook 'python-mode-hook
-	      (lambda ()
-		(setq python-shell-process-environment
-		      (list
-		       (format "PATH=%s" (mapconcat
-					  'identity
-					  (reverse
-					   (cons (getenv "PATH")
-						 '("~/.virtualenvs/default/bin/")))
-					  ":"))
-		       "VIRTUAL_ENV=~/.virtualenvs/default/"))
-		(setq python-shell-exec-path '("~/.virtualenvs/default/bin/"))))
+              (lambda ()
+                (setq python-shell-process-environment
+                      (list
+                       (format "PATH=%s" (mapconcat
+                                          'identity
+                                          (reverse
+                                           (cons (getenv "PATH")
+                                                 '("~/.virtualenvs/default/bin/")))
+                                          ":"))
+                       "VIRTUAL_ENV=~/.virtualenvs/default/"))
+                (setq python-shell-exec-path '("~/.virtualenvs/default/bin/"))))
     ))
 
 (defun setup-ropemacs ()
@@ -688,21 +746,21 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
   '(progn
      (defun flymake-pylint-init ()
        (let* ((temp-file (flymake-init-create-temp-buffer-copy
-			  'flymake-create-temp-inplace))
-	      (local-file (file-relative-name
-			   temp-file
-			   (file-name-directory buffer-file-name))))
-	 (list "epylint" (list local-file))))
+                          'flymake-create-temp-inplace))
+              (local-file (file-relative-name
+                           temp-file
+                           (file-name-directory buffer-file-name))))
+         (list "epylint" (list local-file))))
 
      (add-to-list 'flymake-allowed-file-name-masks
-		  '("\\.py\\'" flymake-pylint-init))))
+                  '("\\.py\\'" flymake-pylint-init))))
 
 (load-file "~/.emacs.d/elisp/flymake-cursor.el")
 
 (defadvice flymake-mode (after post-command-stuff activate compile)
   "add keybindings"
-   (local-set-key "\M-p" 'flymake-goto-prev-error)
-   (local-set-key "\M-n" 'flymake-goto-next-error))
+  (local-set-key "\M-p" 'flymake-goto-prev-error)
+  (local-set-key "\M-n" 'flymake-goto-next-error))
 
 
 (defadvice kill-line (after kill-line-cleanup-whitespace activate compile)
@@ -711,20 +769,22 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
       (delete-region (point) (progn (skip-chars-forward " \t") (point)))))
 
 
-;; ;; ruby
+;; ruby
+
 ;; (autoload 'run-ruby "inf-ruby"
 ;;   "Run an inferior Ruby process")
 ;; (autoload 'inf-ruby-keys "inf-ruby"
 ;;   "Set local key defs for inf-ruby in ruby-mode")
 ;; (add-hook 'ruby-mode-hook
-;; 	  '(lambda ()
-;; 	     (inf-ruby-keys)
-;; 	     ))
+;;        '(lambda ()
+;;           (inf-ruby-keys)
+;;           ))
+;; (add-hook 'ruby-mode-hook (lambda () (local-set-key "\r" 'newline-and-indent)))
 
-(eval-after-load 'ruby-mode
-  '(progn
-     (define-key ruby-mode-map (kbd "C-c C-c") 'ruby-run-w/compilation)
-     ))
+;; (eval-after-load 'ruby-mode
+;;   '(progn
+;;      (define-key ruby-mode-map (kbd "C-c C-c") 'ruby-run-w/compilation)
+;;      ))
 
 
 
@@ -742,11 +802,13 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
 ;; (color-theme-hober2)
 ;; (require 'color-theme-twilight)
 ;; (color-theme-twilight)
+(require 'color-theme-tango-2)
+
 ;; (require 'color-theme-inkpot)
 ;; (color-theme-inkpot)
 ;; (set-face-attribute 'hl-line nil
-;; 		    :inherit 'unspecified
-;; 		    :background "gray8")
+;;                  :inherit 'unspecified
+;;                  :background "gray8")
 ;; (set-face-foreground 'hl-line nil)
 ;; (set-face-background 'hl-line nil)
 ;; (load-file "~/.emacs.d/themes/dz_ir_black/color-theme-irblack.el")
@@ -778,11 +840,11 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
 (defvar font-lock-hexnumber "0[xX][0-9a-fA-F]+")
 (defun add-font-lock-numbers ()
   (font-lock-add-keywords nil (list
-			       (list (concat "\\<\\(" font-lock-number "\\)\\>" )
-				     0 font-lock-number-face)
-			       (list (concat "\\<\\(" font-lock-hexnumber "\\)\\>" )
-				     0 font-lock-number-face)
-			       )))
+                               (list (concat "\\<\\(" font-lock-number "\\)\\>" )
+                                     0 font-lock-number-face)
+                               (list (concat "\\<\\(" font-lock-hexnumber "\\)\\>" )
+                                     0 font-lock-number-face)
+                               )))
 
 (add-hook 'python-mode-hook 'add-font-lock-numbers)
 
@@ -818,3 +880,10 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
 ;; backup current color theme
 (fset 'color-theme-snapshot (color-theme-make-snapshot))
 
+(put 'narrow-to-region 'disabled nil)
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
