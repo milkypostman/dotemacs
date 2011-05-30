@@ -10,6 +10,9 @@
 
 ;; basic configuration
 ;; (if (fboundp 'menu-bar-mode) (menu-bar-mode -1))
+(message "milkmacs")
+
+(message "milkmacs: setting up path")
 (if (fboundp 'tool-bar-mode) (tool-bar-mode -1))
 (if (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
 
@@ -31,6 +34,7 @@
 ;; Load all of my plugins
 (add-to-list 'load-path "~/.emacs.d/")
 (add-to-list 'load-path "~/.emacs.d/elisp/")
+
 
 (ignore-errors
   (require 'package)
@@ -57,18 +61,31 @@
           (when (file-directory-p dir)
             (add-to-list 'load-path fullpath)))))))
 
+(defun add-subdirs-theme-path (default-directory)
+  (let* ((dirs (directory-files default-directory)))
+    (dolist (dir dirs)
+      (unless (member dir '("." ".." "RCS" "CVS" "rcs" "cvs"))
+        (let ((fullpath (concat default-directory dir)))
+          (when (file-directory-p dir)
+            (add-to-list 'custom-theme-load-path fullpath)))))))
+
 (add-subdirs-load-path "~/.emacs.d/elisp/")
 (add-subdirs-load-path "~/.emacs.d/themes/")
+(add-subdirs-theme-path "~/.emacs.d/themes/")
 ;; (add-to-list 'load-path "~/.emacs.d/elisp/slime/contrib/")
 
 
 ;; do we want VIM mode?
 ;; (require 'vimpulse)
 
+(message "milkmacs: starting server")
+
 ;; start the server
 ;; (setq server-use-tcp t)
 (server-start)
 
+
+(message "milkmacs: setting settings")
 
 ;; don't be poppin' new frames
 (setq ns-pop-up-frames nil)
@@ -101,8 +118,12 @@
 (setq-default indent-tabs-mode nil)
 (setq default-abbrev-mode t)
 
+(setq-default cursor-type 'bar)
+
 (setq auto-save-file-name-transforms '((".*" "~/.emacs.d/autosave/" t)))
 (setq delete-auto-save-files nil)
+
+(setq recentf-save-file "~/.emacs.d/recentf")
 
 (setq default-indicate-buffer-boundaries (quote left))
 
@@ -118,6 +139,8 @@
 (setq mac-command-key-is-meta t)
 (setq mac-command-modifier 'meta)
 (setq mac-option-modifier 'super)
+;; (setq mac-command-modifier 'super)
+;; (setq mac-option-modifier 'meta)
 
 (setq line-number-mode t)
 (setq column-number-mode t)
@@ -137,9 +160,10 @@
 (add-to-list 'auto-mode-alist '("\\.bashrc_.*" . sh-mode))
 
 ;; keybindings
+(message "milkmacs: binding bindings")
 
-;; make C-tab bet M-tab
-(define-key function-key-map [(control tab)] [?\M-\t])
+;; make <C-tab> be M-TAB
+(define-key function-key-map (kbd "<C-tab>") (kbd "M-TAB"))
 
 ;; don't quit so easy
 (defun close-frame-or-client (&optional args)
@@ -148,6 +172,7 @@
       (progn (save-some-buffers)
              (delete-frame))))
 (global-set-key (kbd "C-x C-c") 'close-frame-or-client)
+(defalias 'wq 'save-buffers-kill-emacs)
 ;; (global-unset-key (kbd "C-x C-c"))
 
 ;; autoindent
@@ -211,11 +236,27 @@
 (autoload 'beginning-or-indentation "misc-cmds")
 (global-set-key "\C-a" 'beginning-or-indentation)
 
+(eval-after-load "term"
+  '(progn
+    ;; allow M-` to switch windows in terminal raw mode.
+    (define-key term-raw-map (kbd "M-`") nil)
+    (define-key term-raw-map (kbd "C-z") nil)
+    ;; (define-key term-raw-map (kbd "C-c") 'mode-specific-command-prefix)
+    ;; (define-key term-raw-map (kbd "C-c C-c") 'term-send-raw)
+    (define-key term-raw-map (kbd "C-x") 'Control-X-prefix)))
+
+    ;; (define-key term-raw-map (kbd "C-x C-z") 'term-send-raw)))
+
+
 
 (eval-after-load "dired"
   '(define-key dired-mode-map "F" 'dired-find-file-other-frame))
 
+
+
 ;; defun
+(message "milkmacs: defuning functions")
+
 
 (defun unpop-to-mark-command ()
   "Unpop off mark ring into the buffer's actual mark.
@@ -324,6 +365,11 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
 (defadvice jump-to-register (before jump-to-register-advice activate)
   (push-mark (point) t nil))
 
+(defun what-face (pos)
+  (interactive "d")
+  (let ((face (or (get-char-property (point) 'read-face-name)
+                  (get-char-property (point) 'face))))
+    (if face (message "Face: %s" face) (message "No face at %d" pos))))
 
 (defun special-open-line (n)
   (interactive "p")
@@ -394,7 +440,9 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
                   (list "chmod" "u+x" (shell-quote-argument (buffer-file-name))) " "))
     (message "Buffer has no filename.")))
 
+
 ;; elisp
+(message "milkmacs: loading elisp packages")
 
 ;; org-mode
 (setq org-log-done 'time)
@@ -417,6 +465,7 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
 (setq org-mobile-inbox-for-pull "~/Dropbox/Notational/dox inbox.org")
 ;; Set to <your Dropbox root directory>/MobileOrg.
 (setq org-mobile-directory "~/Dropbox/MobileOrg")
+
 
 ;; ispell
 (setq-default ispell-program-name "aspell")
@@ -471,11 +520,14 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
 ;; ido-mode
 ;; (autoload 'ido-mode "ido")
 (require 'ido)
-(ido-mode t)
-(ido-everywhere t)
+
+;; these must be set *before* enabling ido mode
 (setq ido-default-buffer-method 'selected-window)
 (setq ido-enable-flex-matching t)
 (setq ido-save-directory-list-file "~/.emacs.d/ido.last")
+
+(ido-mode t)
+(ido-everywhere t)
 
 (add-hook 'ido-setup-hook
           (lambda ()
@@ -592,6 +644,7 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
 ;; cssh
 (require 'cssh)
 
+
 ;; erlang -- FIXME
 ;;(require 'erlang-start)
 
@@ -641,6 +694,10 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
 
 
 ;; python
+;; (setq auto-mode-alist (cons '("\\.py$" . python-mode) auto-mode-alist))
+;; (setq interpreter-mode-alist (cons '("python" . python-mode)
+;;                                    interpreter-mode-alist))
+;; (autoload 'python-mode "python-mode" "Python editing mode." t)
 
 ;; pymacs
 (autoload 'pymacs-apply "pymacs")
@@ -683,6 +740,40 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
   (setq ropemacs-guess-project t)
   (setq ropemacs-enable-autoimport t)
   )
+
+(eval-after-load 'pymacs
+  (setq pymacs-python-command "/Users/dcurtis/.virtualenvs/default/bin/python")
+  )
+
+
+(eval-after-load 'python
+  '(progn
+     (setup-virtualenv)
+     (define-key python-mode-map (kbd "C-h") 'python-indent-dedent-line-backspace)
+     (font-lock-add-keywords 'python-mode `((,(rx symbol-start (or "import" "from") symbol-end) 0 font-lock-preprocessor-face)))
+     (add-font-lock-numbers 'python-mode)
+     (font-lock-add-keywords
+      'python-mode
+      `(("^[ 	]*\\(@\\)\\([a-zA-Z_][a-zA-Z_0-9.]+\\)\\((.+)\\)?"
+         (1 'font-lock-preprocessor-face)
+         (2 'py-decorators-face))))
+     ))
+
+
+
+(eval-after-load 'python-mode
+  '(progn
+     ;; (setup-ropemacs)
+     (setup-virtualenv)
+     (font-lock-add-keywords 'python-mode `((,(rx symbol-start (or "import" "from") symbol-end) 0 font-lock-preprocessor-face)))
+     (font-lock-add-keywords
+      'python-mode
+      `(("^[ 	]*\\(@\\)\\([a-zA-Z_][a-zA-Z_0-9.]+\\)\\((.+)\\)?"
+         (1 'font-lock-preprocessor-face)
+         (2 'py-decorators-face))))
+     (set-face-attribute 'py-decorators-face nil :inherit font-lock-builtin-face)
+     (add-font-lock-numbers 'python-mode)
+     ))
 
 ;; (require 'auto-complete)
 ;; (defvar ac-ropemacs-last-candidates)
@@ -728,17 +819,6 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
 ;; (add-to-list 'ac-dictionary-directories "~/.emacs.d/ac-dict")
 ;; (ac-config-default)
 
-
-(eval-after-load 'pymacs
-  (setq pymacs-python-command "/Users/dcurtis/.virtualenvs/default/bin/python")
-  )
-
-(eval-after-load 'python
-  '(progn
-     ;; (setup-ropemacs)
-     (setup-virtualenv)
-     (define-key python-mode-map (kbd "C-h") 'python-indent-dedent-line-backspace)
-     ))
 
 (add-hook 'before-save-hook 'delete-trailing-whitespace nil nil)
 
@@ -788,78 +868,30 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
 
 
 
-;; visual
-
-;; color theming
-;; (autoload 'color-theme-initialize "color-theme")
-(require 'color-theme)
-(setq color-theme-is-global nil)
-
-;; (color-theme-initialize)
-(require 'zenburn)
-;; (color-theme-zenburn)
-;; (require 'color-theme-hober2)
-;; (color-theme-hober2)
-;; (require 'color-theme-twilight)
-;; (color-theme-twilight)
-(require 'color-theme-tango-2)
-
-;; (require 'color-theme-inkpot)
-;; (color-theme-inkpot)
-;; (set-face-attribute 'hl-line nil
-;;                  :inherit 'unspecified
-;;                  :background "gray8")
-;; (set-face-foreground 'hl-line nil)
-;; (set-face-background 'hl-line nil)
-;; (load-file "~/.emacs.d/themes/dz_ir_black/color-theme-irblack.el")
-;; (color-theme-irblack)
-;; (color-theme-solarized-dark)
-;; (color-theme-ir-black)
-;; (color-theme-vibrant-ink)
-;; (set-face-background 'default "black")
-;; (require 'color-theme-complexity)
-;; (color-theme-complexity)
-;; (load "~/.emacs.d/themes/merbivore/color-theme-merbivore.el")
-;; (color-theme-merbivore)
-
-(load "~/.emacs.d/themes/twilight/color-theme-twilight.el")
-(require 'color-theme-solarized)
-(require 'color-theme-ir-black)
-(load "~/.emacs.d/themes/vibrant-ink/color-theme-vibrant-ink.el")
-(load-file "~/.emacs.d/themes/railscasts/color-theme-railscasts.el")
-
-(defun color-theme-undo ()
-  (interactive)
-  ;; (color-theme-reset-faces)
-  (color-theme-snapshot))
 
 (make-face 'font-lock-number-face)
 (set-face-attribute 'font-lock-number-face nil :inherit font-lock-constant-face)
 (setq font-lock-number-face 'font-lock-number-face)
-(defvar font-lock-number "[0-9]+\\([eE][+-]?[0-9]*\\)?")
+(defvar font-lock-number "[0-9-.]+\\([eE][+-]?[0-9]*\\)?")
 (defvar font-lock-hexnumber "0[xX][0-9a-fA-F]+")
-(defun add-font-lock-numbers ()
-  (font-lock-add-keywords nil (list
-                               (list (concat "\\<\\(" font-lock-number "\\)\\>" )
-                                     0 font-lock-number-face)
-                               (list (concat "\\<\\(" font-lock-hexnumber "\\)\\>" )
-                                     0 font-lock-number-face)
-                               )))
+(defun add-font-lock-numbers (mode)
+  (font-lock-add-keywords mode `(
+                                 (,(concat "\\<\\(" font-lock-number "\\)\\>" ) 0 font-lock-number-face)
+                                 (,(concat "\\<\\(" font-lock-hexnumber "\\)\\>" ) 0 font-lock-number-face)
+                                 )))
 
-(add-hook 'python-mode-hook 'add-font-lock-numbers)
+(font-lock-add-keywords 'emacs-lisp-mode '(("(\\|)\\|'" . 'font-lock-exit-face)))
+(font-lock-add-keywords 'emacs-lisp-mode '(("'\\([0-9a-zA-Z-]*\\)" (1 'font-lock-variable-name-face))))
+;; (font-lock-add-keywords 'emacs-lisp-mode '(("add-to-list" . font-lock-keyword-face)))
+(add-font-lock-numbers 'emacs-lisp-mode)
 
-
-;; global hl mode doesn't look good with hober!
 (if (not (window-system))
     (menu-bar-mode 0)
   (require 'fringemark)
-  (set-face-font 'default "Menlo")
-  (set-face-attribute 'default nil :height 110)
   (setq mouse-wheel-scroll-amount '(0.0001))
   )
 
 
-(global-hl-line-mode 1)
 (show-paren-mode 1)
 
 ;; custom stuff
@@ -868,6 +900,8 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(custom-enabled-themes (quote (sunburst)))
+ '(custom-safe-themes (quote ("aa1610894e3435eabcb008a7b782fbd83d1a3082" "5600dc0bb4a2b72a613175da54edb4ad770105aa" "0174d99a8f1fdc506fa54403317072982656f127" default)))
  '(scroll-bar-mode nil)
  '(tool-bar-mode nil))
 
@@ -877,13 +911,13 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
        (setenv "PYTHONPATH" "/Users/dcurtis/Development/compepi:/Users/dcurtis/Development/networkx")))
 
 
-;; backup current color theme
-(fset 'color-theme-snapshot (color-theme-make-snapshot))
-
 (put 'narrow-to-region 'disabled nil)
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- )
+ '(default ((t (:height 130 :family "Inconsolata")))))
+
+
+
