@@ -109,3 +109,9 @@
 [submodule "elisp/misc-cmds"]
 	path = elisp/misc-cmds
 	url = https://github.com/emacsmirror/misc-cmds.git
+[submodule "elisp/header2"]
+	path = elisp/header2
+	url = https://github.com/emacsmirror/header2.git
+[submodule "elisp/flymake-cursor"]
+	path = elisp/flymake-cursor
+	url = https://github.com/emacsmirror/flymake-cursor.git

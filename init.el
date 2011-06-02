@@ -3,14 +3,18 @@
 ;; Simple setup for Python and other things.
 ;; Autocompletion is setup automatically.
 ;; To complete using Rope completion hit M-/
-
+;;
+;; Updated: <2011-06-02 16:15:23 (dcurtis)>
+;;
 ;; the following command should be run manually ever once and a while.
 ;; (byte-recompile-directory "~/.emacs.d/elisp/" 0 t)
 ;; (save-buffers-kill-emacs)
 
+
 ;; basic configuration
 ;; (if (fboundp 'menu-bar-mode) (menu-bar-mode -1))
 (message "milkmacs")
+
 
 (message "milkmacs: setting up path")
 (if (fboundp 'tool-bar-mode) (tool-bar-mode -1))
@@ -43,10 +47,8 @@
   ;; (add-to-list 'package-archives '("kieranhealy" . "http://kieranhealy.org/packages/") t)
   ;; (add-to-list 'package-archives '("josh" . "http://josh.github.com/elpa/") t)
 
-  (require 'dired)
   ;; required for cssh
   (package-initialize))
-
 
 (setq user-full-name "Donald Ephraim Curtis")
 (setq user-mail-address "dcurtis@milkbox.net")
@@ -106,6 +108,11 @@
       (remq 'process-kill-buffer-query-function
             kill-buffer-query-functions))
 
+;; auto time stamping
+(setq time-stamp-active t)
+(setq time-stamp-format "%04y-%02m-%02d %02H:%02M:%02S (%u)")
+(add-hook 'write-file-functions 'time-stamp)
+
 ;; backup settings
 (setq backup-by-copying t)
 (setq backup-directory-alist '(("." . "~/.emacs.d/backup")))
@@ -149,8 +156,10 @@
 (set-default 'indicate-empty-lines t)
 (defalias 'yes-or-no-p 'y-or-n-p)
 
-(delete-selection-mode 1)
+(setq shell-prompt-pattern "^[^a-zA-Z].*[#$%>] *")
+(setq tramp-default-method "rsync")
 
+(delete-selection-mode 1)
 (global-auto-revert-mode 1)
 
 (setq comint-prompt-read-only t)
@@ -182,6 +191,7 @@
 (global-set-key (kbd "C-x C-k") 'kill-region)
 (global-set-key (kbd "C-w") 'backward-kill-word)
 (global-set-key (kbd "C-z") 'other-window)
+(global-set-key (kbd "C-M-,") 'beginning-of-buffer-other-window)
 (global-set-key (kbd "M-`") 'other-frame)
 
 ;; hack alternative for M-x
@@ -444,6 +454,55 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
 ;; elisp
 (message "milkmacs: loading elisp packages")
 
+
+;; auto headering
+(require 'header2)
+(add-hook 'write-file-functions 'auto-update-file-header)
+(setq make-header-hook '(header-title header-blank header-author header-copyright header-creation-date header-modification-date header-description header-blank header-end-line))
+(setq make-header-hook '(
+                         ;;header-mode-line
+                              header-title
+                              header-blank
+                              header-file-name
+                              header-description
+                              ;;header-status
+                              header-author
+                              header-maintainer
+                              header-copyright
+                              header-creation-date
+                              ;;header-rcs-id
+                              header-version
+                              ;;header-sccs
+                              header-modification-date
+                              header-modification-author
+                              header-update-count
+                              header-url
+                              header-keywords
+                              header-compatibility
+                              header-blank
+                              header-lib-requires
+                              header-end-line
+                              header-commentary
+                              header-blank
+                              header-blank
+                              header-blank
+                              header-end-line
+                              header-history
+                              header-blank
+                              header-blank
+                              ;; header-rcs-log
+                              header-end-line
+                              header-free-software
+                              header-code
+                              header-eof
+))
+(setq header-date-format "%Y-%m-%d %H:%M:%S (%z)")
+(add-hook 'snippet-mode-hook (lambda ()
+                               (make-local-variable 'write-file-functions)
+                               (remove-hook 'write-file-functions 'auto-update-file-header t)
+                               ))
+
+
 ;; org-mode
 (setq org-log-done 'time)
 (setq org-startup-indented t)
@@ -588,12 +647,18 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
    (ido-completing-read "Select kill: " kill-ring)))
 
 ;; yasnippet -- really slow so don't load it less we're on the desktop
-(require 'yasnippet)
-(yas/initialize)
-(eval-after-load 'yasnippet
-  '(progn
-     (yas/load-directory "~/.emacs.d/elisp/yasnippet/snippets")
-     (yas/load-directory "~/.emacs.d/snippets")))
+(when (require 'yasnippet nil 'noerror)
+  (yas/initialize)
+  (setq yas/root-directory
+        '("~/.emacs.d/elisp/yasnippet/snippets"
+          "~/.emacs.d/snippets")) ;; my own snippets
+  (mapc 'yas/load-directory yas/root-directory)
+  (setq yas/wrap-around-region t)
+  (setq yas/prompt-functions
+        '(yas/x-prompt yas/ido-prompt))
+  (yas/global-mode 1) ;;  make it global
+  (add-to-list 'auto-mode-alist '("yas/.*" . snippet-mode)))
+
 
 ;; magit
 (autoload 'magit-status "magit" "MaGIT")
@@ -642,7 +707,7 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
 ;; (eval-after-load "vc" '(remove-hook 'find-file-hooks 'vc-find-file-hook))
 
 ;; cssh
-(require 'cssh)
+;; (require 'cssh)
 
 
 ;; erlang -- FIXME
@@ -689,10 +754,9 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
 
 (add-hook 'markdown-mode-hook '(lambda ()
                                  (auto-fill-mode 1)
+                                 (make-local-variable 'before-save-hook)
                                  (remove-hook 'before-save-hook 'delete-trailing-whitespace t)
                                  ))
-
-
 ;; python
 ;; (setq auto-mode-alist (cons '("\\.py$" . python-mode) auto-mode-alist))
 ;; (setq interpreter-mode-alist (cons '("python" . python-mode)
@@ -835,7 +899,7 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
      (add-to-list 'flymake-allowed-file-name-masks
                   '("\\.py\\'" flymake-pylint-init))))
 
-(load-file "~/.emacs.d/elisp/flymake-cursor.el")
+(require 'flymake-cursor)
 
 (defadvice flymake-mode (after post-command-stuff activate compile)
   "add keybindings"
@@ -868,7 +932,6 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
 
 
 
-
 (make-face 'font-lock-number-face)
 (set-face-attribute 'font-lock-number-face nil :inherit font-lock-constant-face)
 (setq font-lock-number-face 'font-lock-number-face)
@@ -888,6 +951,7 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
 (if (not (window-system))
     (menu-bar-mode 0)
   (require 'fringemark)
+  (fringe-mode '(1 . 0))
   (setq mouse-wheel-scroll-amount '(0.0001))
   )
 
@@ -900,8 +964,10 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(custom-enabled-themes (quote (sunburst)))
+ '(ansi-color-names-vector ["#2d3743" "#ff4242" "#74af68" "#dbdb95" "#34cae2" "#008b8b" "#00ede1" "#e1e1e0"])
+ '(custom-enabled-themes (quote (solarized-dark)))
  '(custom-safe-themes (quote ("aa1610894e3435eabcb008a7b782fbd83d1a3082" "5600dc0bb4a2b72a613175da54edb4ad770105aa" "0174d99a8f1fdc506fa54403317072982656f127" default)))
+ '(file-name-shadow-mode nil)
  '(scroll-bar-mode nil)
  '(tool-bar-mode nil))
 
@@ -912,6 +978,7 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
 
 
 (put 'narrow-to-region 'disabled nil)
+(put 'downcase-region 'disabled nil)
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -919,5 +986,9 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
  ;; If there is more than one, they won't work right.
  '(default ((t (:height 130 :family "Inconsolata")))))
 
+
+;; Local Variables:
+;; time-stamp-start: "Updated:[ 	]+\\\\?[\"<]+"
+;; End:
 
 
