@@ -31,39 +31,12 @@
 [submodule "elisp/yasnippet"]
 	path = elisp/yasnippet
 	url = https://github.com/emacsmirror/yasnippet.git
-[submodule "themes/brookstream"]
-	path = themes/brookstream
-	url = https://github.com/justinlilly/brookstream-emacs.git
-[submodule "themes/github"]
-	path = themes/github
-	url = https://github.com/dudleyf/color-theme-github.git
-[submodule "themes/vibrant-ink"]
-	path = themes/vibrant-ink
-	url = https://github.com/mig/color-theme-vibrant-ink.git
-[submodule "themes/tango-2"]
-	path = themes/tango-2
-	url = https://github.com/wfarr/color-theme-tango-2.git
-[submodule "themes/complexity"]
-	path = themes/complexity
-	url = https://github.com/tsally/color-theme-complexity.git
-[submodule "themes/merbivore"]
-	path = themes/merbivore
-	url = https://github.com/mig/color-theme-merbivore.git
-[submodule "themes/twilight"]
-	path = themes/twilight
-	url = https://github.com/crafterm/twilight-emacs.git
 [submodule "elisp/gist"]
 	path = elisp/gist
 	url = https://github.com/defunkt/gist.el.git
 [submodule "elisp/ess"]
 	path = elisp/ess
 	url = https://github.com/emacsmirror/ess
-[submodule "themes/dz_ir_black"]
-	path = themes/dz_ir_black
-	url = https://github.com/dz/ir_black_emacs.git
-[submodule "themes/solarized"]
-	path = themes/solarized
-	url = https://github.com/sellout/emacs-color-theme-solarized
 [submodule "elisp/python-mode"]
 	path = elisp/python-mode
 	url = https://github.com/emacsmirror/python-mode.git
@@ -76,15 +49,6 @@
 [submodule "elisp/full-ack"]
 	path = elisp/full-ack
 	url = https://github.com/nschum/full-ack
-[submodule "themes/ir-black"]
-	path = themes/ir-black
-	url = https://github.com/burke/color-theme-ir-black.git
-[submodule "themes/sunburst"]
-	path = themes/sunburst
-	url = https://github.com/wfarr/sunburst-theme.el.git
-[submodule "themes/railscasts"]
-	path = themes/railscasts
-	url = https://github.com/olegshaldybin/color-theme-railscasts.git
 [submodule "elisp/haskell-mode"]
 	path = elisp/haskell-mode
 	url = https://github.com/emacsmirror/haskell-mode.git
