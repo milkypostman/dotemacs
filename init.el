@@ -4,7 +4,7 @@
 ;; Autocompletion is setup automatically.
 ;; To complete using Rope completion hit M-/
 ;;
-;; Updated: <2011-06-03 21:20:07 (dcurtis)>
+;; Updated: <2011-06-03 22:39:59 (dcurtis)>
 ;;
 ;; the following command should be run manually ever once and a while.
 ;; (byte-recompile-directory "~/.emacs.d/elisp/" 0 t)
@@ -959,6 +959,8 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
 (show-paren-mode 1)
 
 (require 'color-theme)
+(setq color-theme-is-global nil)
+
 
 ;; custom stuff
 (custom-set-variables
