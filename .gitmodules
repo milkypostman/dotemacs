@@ -91,9 +91,6 @@
 [submodule "elisp/paredit"]
 	path = elisp/paredit
 	url = https://github.com/emacsmirror/paredit.git
-[submodule "themes/zenburn"]
-	path = themes/zenburn
-	url = https://github.com/bbatsov/zenburn-emacs.git
 [submodule "elisp/wrap-region"]
 	path = elisp/wrap-region
 	url = https://github.com/rejeep/wrap-region.git

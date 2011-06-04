@@ -4,7 +4,7 @@
 ;; Autocompletion is setup automatically.
 ;; To complete using Rope completion hit M-/
 ;;
-;; Updated: <2011-06-03 22:39:59 (dcurtis)>
+;; Updated: 2011-06-04 15:20:05 (dcurtis)
 ;;
 ;; the following command should be run manually ever once and a while.
 ;; (byte-recompile-directory "~/.emacs.d/elisp/" 0 t)
@@ -139,15 +139,16 @@
 (setq inhibit-splash-screen t)
 
 ;; try it as the default
-(setq mac-command-key-is-meta nil)
-;; (setq mac-command-modifier 'meta)
-;; (setq mac-option-modifier 'super)
-(setq mac-option-key-is-meta nil)
-(setq mac-command-key-is-meta t)
-(setq mac-command-modifier 'meta)
-(setq mac-option-modifier 'super)
-;; (setq mac-command-modifier 'super)
-;; (setq mac-option-modifier 'meta)
+;; (setq ns-command-key-is-meta nil)
+;; (setq ns-command-modifier 'meta)
+;; (setq ns-option-modifier 'super)
+;; (setq ns-option-key-is-meta nil)
+;; (setq ns-command-key-is-meta t)
+(setq ns-command-modifier 'meta)
+(setq ns-option-modifier 'super)
+;; (setq ns-command-modifier 'super)
+;; (setq ns-alternate-modifier 'super)
+;; (setq ns-option-modifier 'meta)
 
 (setq line-number-mode t)
 (setq column-number-mode t)
@@ -970,6 +971,7 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
  ;; If there is more than one, they won't work right.
  '(custom-safe-themes (quote ("aa1610894e3435eabcb008a7b782fbd83d1a3082" "5600dc0bb4a2b72a613175da54edb4ad770105aa" "0174d99a8f1fdc506fa54403317072982656f127" default)))
  '(file-name-shadow-mode nil)
+ '(ns-antialias-text nil)
  '(scroll-bar-mode nil)
  '(tool-bar-mode nil)
  '(url-handler-mode t))
@@ -987,11 +989,13 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:height 130 :family "Inconsolata")))))
+ '(default ((t (:height 100 :family "Monaco")))))
 
+
+(add-to-list 'default-frame-alist '(height . 71))
+(add-to-list 'default-frame-alist '(width . 158))
 
 ;; Local Variables:
-;; time-stamp-start: "Updated:[ 	]+\\\\?[\"<]+"
+;; time-stamp-start: "Updated: +"
+;; time-stamp-end: "$"
 ;; End:
-
-
