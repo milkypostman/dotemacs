@@ -4,7 +4,7 @@
 ;; Autocompletion is setup automatically.
 ;; To complete using Rope completion hit M-/
 ;;
-;; Updated: <2011-06-02 16:15:23 (dcurtis)>
+;; Updated: <2011-06-03 21:20:07 (dcurtis)>
 ;;
 ;; the following command should be run manually ever once and a while.
 ;; (byte-recompile-directory "~/.emacs.d/elisp/" 0 t)
@@ -958,18 +958,19 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
 
 (show-paren-mode 1)
 
+(require 'color-theme)
+
 ;; custom stuff
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(ansi-color-names-vector ["#2d3743" "#ff4242" "#74af68" "#dbdb95" "#34cae2" "#008b8b" "#00ede1" "#e1e1e0"])
- '(custom-enabled-themes (quote (solarized-dark)))
  '(custom-safe-themes (quote ("aa1610894e3435eabcb008a7b782fbd83d1a3082" "5600dc0bb4a2b72a613175da54edb4ad770105aa" "0174d99a8f1fdc506fa54403317072982656f127" default)))
  '(file-name-shadow-mode nil)
  '(scroll-bar-mode nil)
- '(tool-bar-mode nil))
+ '(tool-bar-mode nil)
+ '(url-handler-mode t))
 
 
 ;; System Specific Settings
