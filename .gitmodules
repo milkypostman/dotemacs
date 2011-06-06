@@ -76,3 +76,6 @@
 [submodule "elisp/flymake-cursor"]
 	path = elisp/flymake-cursor
 	url = https://github.com/emacsmirror/flymake-cursor.git
+[submodule "elisp/multi-term"]
+	path = elisp/multi-term
+	url = https://github.com/emacsmirror/multi-term.git

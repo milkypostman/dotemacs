@@ -4,7 +4,7 @@
 ;; Autocompletion is setup automatically.
 ;; To complete using Rope completion hit M-/
 ;;
-;; Updated: 2011-06-04 15:37:43 (dcurtis)
+;; Updated: 2011-06-05 18:41:19 (dcurtis)
 ;;
 ;; the following command should be run manually ever once and a while.
 ;; (byte-recompile-directory "~/.emacs.d/elisp/" 0 t)
@@ -268,6 +268,10 @@
 ;; defun
 (message "milkmacs: defuning functions")
 
+(defun align-to-equals (begin end)
+  "Align region to equal signs"
+   (interactive "r")
+   (align-regexp begin end "\\(\\s-*\\)=" 1 1 ))
 
 (defun unpop-to-mark-command ()
   "Unpop off mark ring into the buffer's actual mark.
