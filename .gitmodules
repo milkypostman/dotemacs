@@ -79,3 +79,6 @@
 [submodule "elisp/multi-term"]
 	path = elisp/multi-term
 	url = https://github.com/emacsmirror/multi-term.git
+[submodule "themes/solarized"]
+	path = themes/solarized
+	url = git@github.com:milkypostman/emacs-color-theme-solarized.git

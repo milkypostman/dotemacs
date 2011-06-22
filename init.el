@@ -4,12 +4,12 @@
 ;; Autocompletion is setup automatically.
 ;; To complete using Rope completion hit M-/
 ;;
-;; Updated: 2011-06-05 18:41:19 (dcurtis)
+;; Updated: 2011-06-22 12:54:51 (dcurtis)
 ;;
 ;; the following command should be run manually ever once and a while.
 ;; (byte-recompile-directory "~/.emacs.d/elisp/" 0 t)
+;; (byte-recompile-directory "~/.emacs.d/elisp/python" 0 t)
 ;; (save-buffers-kill-emacs)
-
 
 ;; basic configuration
 ;; (if (fboundp 'menu-bar-mode) (menu-bar-mode -1))
@@ -19,6 +19,14 @@
 (message "milkmacs: setting up path")
 (if (fboundp 'tool-bar-mode) (tool-bar-mode -1))
 (if (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
+
+
+;; aquamacs stuff
+(when (boundp 'aquamacs-version)
+  (tabbar-mode -1)
+  (one-buffer-one-frame-mode -1)
+  (setq special-display-regexps nil))
+
 
 ;; debug if we would like
 (setq debug-on-error t)
@@ -73,9 +81,11 @@
 
 (add-subdirs-load-path "~/.emacs.d/elisp/")
 (add-subdirs-load-path "~/.emacs.d/themes/")
-(add-subdirs-theme-path "~/.emacs.d/themes/")
-;; (add-to-list 'load-path "~/.emacs.d/elisp/slime/contrib/")
 
+(ignore-errors
+  (add-subdirs-theme-path "~/.emacs.d/themes/")
+  (setq custom-theme-directory "~/.emacs.d/themes/"))
+;; (add-to-list 'load-path "~/.emacs.d/elisp/slime/contrib/")
 
 ;; do we want VIM mode?
 ;; (require 'vimpulse)
@@ -89,6 +99,10 @@
 
 (message "milkmacs: setting settings")
 
+; save minibuffer history across sessions
+(setq savehist-file "~/.emacs.d/.savehist")
+(savehist-mode 1)
+
 ;; don't be poppin' new frames
 (setq ns-pop-up-frames nil)
 
@@ -99,6 +113,7 @@
 (setq delete-by-moving-to-trash t)
 
 (global-set-key (kbd "s-<return>") 'ns-toggle-fullscreen)
+(global-set-key (kbd "C-M-SPC") 'just-one-space)
 
 ;; don't confirm opening non-existant files/buffers
 (setq confirm-nonexistent-file-or-buffer nil)
@@ -107,6 +122,14 @@
 (setq kill-buffer-query-functions
       (remq 'process-kill-buffer-query-function
             kill-buffer-query-functions))
+
+; nicer naming of buffers with identical names
+(require 'uniquify)
+(setq uniquify-buffer-name-style 'reverse)
+(setq uniquify-separator " • ")
+(setq uniquify-after-kill-buffer-p t)
+(setq uniquify-ignore-buffers-re "^\\*")
+
 
 ;; auto time stamping
 (setq time-stamp-active t)
@@ -123,7 +146,7 @@
 
 (setq-default tab-width 4)
 (setq-default indent-tabs-mode nil)
-(setq default-abbrev-mode t)
+(setq default-abbrev-mode nil)
 
 (setq-default cursor-type 'bar)
 
@@ -139,16 +162,11 @@
 (setq inhibit-splash-screen t)
 
 ;; try it as the default
-;; (setq ns-command-key-is-meta nil)
-;; (setq ns-command-modifier 'meta)
-;; (setq ns-option-modifier 'super)
-;; (setq ns-option-key-is-meta nil)
-;; (setq ns-command-key-is-meta t)
+(setq ns-alternate-modifier 'super)
 (setq ns-command-modifier 'meta)
-(setq ns-option-modifier 'super)
-;; (setq ns-command-modifier 'super)
-;; (setq ns-alternate-modifier 'super)
-;; (setq ns-option-modifier 'meta)
+
+
+(setq whitespace-style '(trailing lines space-before-tab indentation space-after-tab))
 
 (setq line-number-mode t)
 (setq column-number-mode t)
@@ -183,7 +201,6 @@
              (delete-frame))))
 (global-set-key (kbd "C-x C-c") 'close-frame-or-client)
 (defalias 'wq 'save-buffers-kill-emacs)
-;; (global-unset-key (kbd "C-x C-c"))
 
 ;; autoindent
 (global-set-key (kbd "RET") 'newline-and-indent)
@@ -249,24 +266,59 @@
 
 (eval-after-load "term"
   '(progn
-    ;; allow M-` to switch windows in terminal raw mode.
-    (define-key term-raw-map (kbd "M-`") nil)
-    (define-key term-raw-map (kbd "C-z") nil)
-    ;; (define-key term-raw-map (kbd "C-c") 'mode-specific-command-prefix)
-    ;; (define-key term-raw-map (kbd "C-c C-c") 'term-send-raw)
-    (define-key term-raw-map (kbd "C-x") 'Control-X-prefix)))
+     (setq term-prompt-regexp "^[^#$%>\n]*[#$%>] *")
+
+     ;; allow M-` to switch windows in terminal raw mode.
+     (define-key term-raw-map (kbd "M-`") nil)
+     (define-key term-raw-map (kbd "C-z") nil)
+     ;; (add-hook 'term-setup-hook (lambda () (setq truncate-lines t)))
+     ;; (setq term-default-bg-color (frame-parameter nil 'background-color))
+     ;; (setq term-default-fg-color (frame-parameter nil 'foreground-color))
+     (setq term-default-bg-color nil)
+     (setq term-default-fg-color nil)
+     ;; (define-key term-raw-map (kbd "C-c") 'mode-specific-command-prefix)
+     ;; (define-key term-raw-map (kbd "C-c C-c") 'term-send-raw)
+     (define-key term-raw-map (kbd "C-x") 'Control-X-prefix)))
 
     ;; (define-key term-raw-map (kbd "C-x C-z") 'term-send-raw)))
 
+
+(autoload 'multi-term "multi-term" "multiple terms" t)
 
 
 (eval-after-load "dired"
   '(define-key dired-mode-map "F" 'dired-find-file-other-frame))
 
 
-
 ;; defun
 (message "milkmacs: defuning functions")
+
+(defun width-80 ()
+  (interactive)
+  (set-window-margins (selected-window) 0 0)
+  (let ((marginwidth (/ (- (window-width) 80) 2)))
+    (set-window-margins (selected-window) marginwidth marginwidth)
+    )
+  )
+
+(defun setup-local-iterm ()
+  "locally define C-c C-c to run the iterm-run-previous-command"
+  (interactive)
+  (local-set-key (kbd "C-c C-c") 'iterm-run-previous-command))
+
+(defun iterm-run-previous-command ()
+   "applescript to switch to iTerm and run the previously run command"
+   (interactive)
+   (save-buffer)
+   (call-process "osascript" nil nil nil "-e"
+                 "
+tell application \"iTerm\"
+activate
+tell application \"System Events\"
+keystroke \"p\" using {control down}
+keystroke return
+end tell
+end tell"))
 
 (defun align-to-equals (begin end)
   "Align region to equal signs"
@@ -440,7 +492,7 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
            (list (region-beginning) (region-end))
          (list (line-beginning-position) (line-beginning-position 2)))))
 
-(defun finder-cwd ()
+(defun finder ()
   "Open the current working directory in finder."
   (interactive)
   (shell-command (concat "open " default-directory))
@@ -459,59 +511,37 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
 ;; elisp
 (message "milkmacs: loading elisp packages")
 
+;; winring
+;; (require 'winring)
+;; (setq winring-keymap-prefix (kbd "C-\\"))
+;; (global-set-key (kbd "C-\\ c") 'winrigh-new-configuration)
+;; (global-set-key (kbd "C-\\ C-n") (kbd "C-\\ n"))
+;; (global-set-key (kbd "C-\\ n") 'winring-next-configuration)
+;; (global-set-key (kbd "C-\\ C-p") (kbd "C-\\ p"))
+;; (winring-initialize)
 
-;; auto headering
-(require 'header2)
-(add-hook 'write-file-functions 'auto-update-file-header)
-(setq make-header-hook '(header-title header-blank header-author header-copyright header-creation-date header-modification-date header-description header-blank header-end-line))
-(setq make-header-hook '(
-                         ;;header-mode-line
-                              header-title
-                              header-blank
-                              header-file-name
-                              header-description
-                              ;;header-status
-                              header-author
-                              header-maintainer
-                              header-copyright
-                              header-creation-date
-                              ;;header-rcs-id
-                              header-version
-                              ;;header-sccs
-                              header-modification-date
-                              header-modification-author
-                              header-update-count
-                              header-url
-                              header-keywords
-                              header-compatibility
-                              header-blank
-                              header-lib-requires
-                              header-end-line
-                              header-commentary
-                              header-blank
-                              header-blank
-                              header-blank
-                              header-end-line
-                              header-history
-                              header-blank
-                              header-blank
-                              ;; header-rcs-log
-                              header-end-line
-                              header-free-software
-                              header-code
-                              header-eof
-))
-(setq header-date-format "%Y-%m-%d %H:%M:%S (%z)")
-(add-hook 'snippet-mode-hook (lambda ()
-                               (make-local-variable 'write-file-functions)
-                               (remove-hook 'write-file-functions 'auto-update-file-header t)
-                               ))
+;; workgroups
+(require 'workgroups)
+(setq wg-prefix-key (kbd "C-\\"))
+(workgroups-mode 1)
+(global-set-key (kbd "C-\\ C-\\") 'wg-switch-to-previous-workgroup)
+;; (wg-load "~/.emacs.d/workgroups")
+
+; nicer naming of buffers with identical names
+(require 'uniquify)
+;; (setq uniquify-buffer-name-style 'reverse)
+;; (setq uniquify-separator " • ")
+;; (setq uniquify-after-kill-buffer-p t)
+;; (setq uniquify-ignore-buffers-re "^\\*")
+
+(require 'sentence-highlight-mode)
+
 
 
 ;; org-mode
 (setq org-log-done 'time)
 (setq org-startup-indented t)
-(setq org-archive-location "~/Dropbox/Notational/dox archive.org::* %s")
+(setq org-archive-location "~/Dropbox/Notational/zarchive.org::* %s")
 (global-set-key "\C-cc" 'org-capture)
 (global-set-key "\C-cl" 'org-store-link)
 (global-set-key "\C-ca" 'org-agenda)
@@ -543,11 +573,9 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
 (setq save-place-file "~/.emacs.d/places")
 
 (require 'midnight)
-
 (require 'misc)
 
-;; (add-to-list 'hippie-expand-try-functions-list 'yas/hippie-try-expand)
-
+;; move expand-line to the end
 (setq hippie-expand-try-functions-list (delq 'try-expand-line hippie-expand-try-functions-list))
 (add-to-list 'hippie-expand-try-functions-list 'try-expand-line t)
 
@@ -581,17 +609,18 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
                             (delq 'try-complete-lisp-symbol
                                   hippie-expand-try-functions-list))))))
 
-;; ido-mode
-;; (autoload 'ido-mode "ido")
+;; ido
 (require 'ido)
 
 ;; these must be set *before* enabling ido mode
 (setq ido-default-buffer-method 'selected-window)
 (setq ido-enable-flex-matching t)
+(setq ido-create-new-buffer 'always)
 (setq ido-save-directory-list-file "~/.emacs.d/ido.last")
 
 (ido-mode t)
 (ido-everywhere t)
+
 
 (add-hook 'ido-setup-hook
           (lambda ()
@@ -612,13 +641,18 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
 
 
 ;; http://www.emacswiki.org/emacs/idomenu
-
+(autoload 'idomenu "idomenu" nil t)
 
 ;; ido recent files
+
 (global-set-key (kbd "C-x f") 'ido-find-recentfile)
+(global-set-key (kbd "C-c n") '(lambda () (interactive) (ido-find-file-in-dir "~/Dropbox/Notational")))
 (global-set-key (kbd "M-.") 'ido-find-tag)
 (define-key ctl-x-4-map "f" 'ido-find-recentfile-other-window)
-(global-set-key "\C-c\C-t" 'idomenu)
+(global-set-key (kbd "C-x C-i") 'idomenu)
+(global-set-key (kbd "C-x C-d") 'ido-dired)
+
+
 (defun ido-find-recentfile ()
   "Find a recent file using ido."
   (interactive)
@@ -743,7 +777,7 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
 ;; (require 'ess-site)
 (add-to-list 'load-path "~/.emacs.d/elisp/ess/lisp/")
 (autoload 'R-mode "ess-site" "R mode")
-(autoload 'R "ess-site" "R inferior shell" t)
+(autoload 'R "ess-site" "R inferiors hell" t)
 (setq auto-mode-alist
       (cons '("\\.[rR]\\'"      . R-mode) auto-mode-alist))
 
@@ -815,34 +849,27 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
   )
 
 
-(eval-after-load 'python
-  '(progn
+(defun python-modes-init ()
+  "initialization for all python modes"
      (setup-virtualenv)
      (define-key python-mode-map (kbd "C-h") 'python-indent-dedent-line-backspace)
      (font-lock-add-keywords 'python-mode `((,(rx symbol-start (or "import" "from") symbol-end) 0 font-lock-preprocessor-face)))
+
+     (make-face 'font-lock-operator-face)
+     (set-face-attribute 'font-lock-operator-face nil :inherit font-lock-keyword-face)
+     (setq font-lock-operator-face 'font-lock-operator-face)
+     (font-lock-add-keywords 'python-mode `((,(rx symbol-start (or "in" "and" "or" "is" "not") symbol-end) 0 font-lock-operator-face)))
+
      (add-font-lock-numbers 'python-mode)
      (font-lock-add-keywords
       'python-mode
       `(("^[ 	]*\\(@\\)\\([a-zA-Z_][a-zA-Z_0-9.]+\\)\\((.+)\\)?"
          (1 'font-lock-preprocessor-face)
-         (2 'py-decorators-face))))
-     ))
+         (2 'font-lock-builtin-face))))
+)
 
-
-
-(eval-after-load 'python-mode
-  '(progn
-     ;; (setup-ropemacs)
-     (setup-virtualenv)
-     (font-lock-add-keywords 'python-mode `((,(rx symbol-start (or "import" "from") symbol-end) 0 font-lock-preprocessor-face)))
-     (font-lock-add-keywords
-      'python-mode
-      `(("^[ 	]*\\(@\\)\\([a-zA-Z_][a-zA-Z_0-9.]+\\)\\((.+)\\)?"
-         (1 'font-lock-preprocessor-face)
-         (2 'py-decorators-face))))
-     (set-face-attribute 'py-decorators-face nil :inherit font-lock-builtin-face)
-     (add-font-lock-numbers 'python-mode)
-     ))
+(eval-after-load 'python '(python-modes-init))
+(eval-after-load 'python-mode '(python-modes-init))
 
 ;; (require 'auto-complete)
 ;; (defvar ac-ropemacs-last-candidates)
@@ -965,6 +992,11 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
 
 (require 'color-theme)
 (setq color-theme-is-global nil)
+;; (require 'color-theme-ir-black)
+(load "~/.emacs.d/themes/color-theme-ir-black.el")
+(load "~/.emacs.d/themes/color-theme-dirac.el")
+(load "~/.emacs.d/themes/color-theme-mac-classic.el")
+;; (load "~/.emacs.d/themes/color-theme-gruber-darker.el")
 
 
 ;; custom stuff
@@ -973,12 +1005,21 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(custom-safe-themes (quote ("aa1610894e3435eabcb008a7b782fbd83d1a3082" "5600dc0bb4a2b72a613175da54edb4ad770105aa" "0174d99a8f1fdc506fa54403317072982656f127" default)))
+ '(background-color "#002b36")
+ '(background-mode dark)
+ '(cursor-color "#839496")
+ '(custom-enabled-themes nil)
+ '(custom-safe-themes (quote ("5f5644eaf825f7ef4a7f8137540821a3a2ca009e" "aa1610894e3435eabcb008a7b782fbd83d1a3082" "5600dc0bb4a2b72a613175da54edb4ad770105aa" "0174d99a8f1fdc506fa54403317072982656f127" default)))
+ '(delete-selection-mode t)
  '(file-name-shadow-mode nil)
+ '(foreground-color "#839496")
+ '(line-spacing 0.2)
  '(ns-antialias-text t)
  '(scroll-bar-mode nil)
  '(tool-bar-mode nil)
- '(url-handler-mode t))
+ '(url-handler-mode t)
+ '(wg-restore-position t)
+ '(yas/wrap-around-region t))
 
 
 ;; System Specific Settings
@@ -993,11 +1034,14 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:height 110 :family "Menlo")))))
+ '(default ((t (:height 140 :family "Anonymous_Pro"))))
+ '(sentence-face ((t (:inherit minibuffer-prompt))) t))
 
 
-(add-to-list 'default-frame-alist '(height . 71))
-(add-to-list 'default-frame-alist '(width . 158))
+
+
+;; (add-to-list 'default-frame-alist '(height . 71))
+;; (add-to-list 'default-frame-alist '(width . 158))
 
 ;; Local Variables:
 ;; time-stamp-start: "Updated: +"

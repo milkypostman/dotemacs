@@ -1,7 +1,23 @@
 ;;-*-coding: utf-8;-*-
 (define-abbrev-table 'Buffer-menu-mode-abbrev-table '())
 
+(define-abbrev-table 'Custom-mode-abbrev-table '())
+
 (define-abbrev-table 'apropos-mode-abbrev-table '())
+
+(define-abbrev-table 'awk-mode-abbrev-table
+  '(
+   ))
+
+(define-abbrev-table 'bookmark-bmenu-mode-abbrev-table '())
+
+(define-abbrev-table 'c++-mode-abbrev-table
+  '(
+   ))
+
+(define-abbrev-table 'c-mode-abbrev-table
+  '(
+   ))
 
 (define-abbrev-table 'calendar-mode-abbrev-table '())
 
@@ -15,6 +31,10 @@
 
 (define-abbrev-table 'cssh-mode-abbrev-table '())
 
+(define-abbrev-table 'custom-new-theme-mode-abbrev-table '())
+
+(define-abbrev-table 'custom-theme-choose-mode-abbrev-table '())
+
 (define-abbrev-table 'diary-fancy-display-mode-abbrev-table '())
 
 (define-abbrev-table 'diary-mode-abbrev-table '())
@@ -25,64 +45,43 @@
 
 (define-abbrev-table 'emacs-lisp-mode-abbrev-table '())
 
+(define-abbrev-table 'eshell-mode-abbrev-table '())
+
 (define-abbrev-table 'fundamental-mode-abbrev-table '())
 
 (define-abbrev-table 'global-abbrev-table
   '(
-    ("dbest" "Best,
-Donald" nil 1)
-    ("ddate" "" (lambda nil (insert (format-time-string "%Y-%m-%d" (current-time)))) 4)
-    ("demail" "donald-curtis@uiowa.edu" nil 0)
-    ("dlove" "Love,
-Donald" nil 0)
+    ("adiminstrator" "administrator" nil 1)
+    ("ddate" "" (lambda nil (insert (format-time-string "%Y-%m-%d" (current-time)))) 5)
     ("dstamp" "" (lambda nil (insert (format-time-string "%Y%m%d" (current-time)))) 0)
-    ("dtdate" "" (lambda nil (insert (format-time-string "%Y-%m-%d %H:%M" (current-time)))) 5)
-    ("dtdatetime" "" (lambda nil (insert (format-time-string "%Y-%m-%d_%H:%M" (current-time)))) 0)
-    ("dthanks" "Thanks,
-Donald" nil 0)
-    ("dtstamp" "" (lambda nil (insert (format-time-string "%Y%m%d%H%M" (current-time)))) 0)
+    ("dtdate" "" (lambda nil (insert (format-time-string "%Y-%m-%d %H:%M" (current-time)))) 6)
+    ("dtfstamp" "" (lambda nil (insert (format-time-string "%Y-%m-%d-%H%M" (current-time)))) 2)
+    ("dtstamp" "" (lambda nil (insert (format-time-string "%Y%m%d%H%M" (current-time)))) 2)
+    ("gauruntee" "guarantee" nil 1)
     ("gemail" "dcurtis@gmail.com" nil 0)
+    ("guaruntee" "guarantee" nil 2)
     ("hhome" "1105A E PL
 Kalona, IA 52247" nil 0)
-    ("lol" "haha" nil 0)
     ("memail" "dcurtis@milkbox.net" nil 0)
-    ("necissarily" "necessarily" nil 1)
-    ("sigce" "--
-Donald Ephraim Curtis
-donald-curtis@uiowa.edu
-
-CompEpi Group
-Department of Computer Science
-University of Iowa
-
-" nil 0)
-    ("sigd" "--
-Donald" nil 0)
-    ("sigg" "--
-Donald Ephraim Curtis
-dcurtis@gmail.com
-" nil 0)
-    ("sigi" "-Donald
-
------
-Donald Curtis, Jason Fries, Chris Hlady, Tina McCarty
-iScrub Development Team
-Computational Epidemiology Group
-University of Iowa" nil 1)
-    ("sigmb" "--
-Donald Ephraim Curtis
-dcurtis@milkbox.net" nil 0)
-    ("sigui" "--
-Donald Ephraim Curtis
-donald-curtis@uiowa.edu" nil 0)
-    ("tdate" "" (lambda nil (insert (format-time-string "%Y%m%d" (time-add (current-time) (seconds-to-time 86400))))) 2)
-    ("tstamp" "" (lambda nil (insert (format-time-string "%H%M" (current-time)))) 0)
+    ("necissarily" "necessarily" nil 3)
+    ("tdate" "" (lambda nil (insert (format-time-string "%Y-%m-%d" (time-add (current-time) (seconds-to-time 86400))))) 4)
+    ("tstamp" "" (lambda nil (insert (format-time-string "%H%M" (current-time)))) 1)
     ("ttime" "" (lambda nil (insert (format-time-string "%H:%M" (current-time)))) 0)
    ))
 
+(define-abbrev-table 'grep-mode-abbrev-table '())
+
 (define-abbrev-table 'haskell-mode-abbrev-table '())
 
+(define-abbrev-table 'idea '())
+
+(define-abbrev-table 'idl-mode-abbrev-table '())
+
 (define-abbrev-table 'inferior-python-mode-abbrev-table '())
+
+(define-abbrev-table 'java-mode-abbrev-table
+  '(
+   ))
 
 (define-abbrev-table 'lisp-mode-abbrev-table '())
 
@@ -98,6 +97,14 @@ donald-curtis@uiowa.edu" nil 0)
 
 (define-abbrev-table 'message-mode-abbrev-table '())
 
+(define-abbrev-table 'nxml-mode-abbrev-table '())
+
+(define-abbrev-table 'objc-mode-abbrev-table
+  '(
+   ))
+
+(define-abbrev-table 'occur-edit-mode-abbrev-table '())
+
 (define-abbrev-table 'occur-mode-abbrev-table '())
 
 (define-abbrev-table 'org-mode-abbrev-table '())
@@ -105,6 +112,10 @@ donald-curtis@uiowa.edu" nil 0)
 (define-abbrev-table 'outline-mode-abbrev-table '())
 
 (define-abbrev-table 'package-menu-mode-abbrev-table '())
+
+(define-abbrev-table 'pike-mode-abbrev-table
+  '(
+   ))
 
 (define-abbrev-table 'process-menu-mode-abbrev-table '())
 
@@ -116,6 +127,10 @@ donald-curtis@uiowa.edu" nil 0)
     ("def" "" python-skeleton-def 0)
     ("for" "" python-skeleton-for 0)
     ("if" "" python-skeleton-if 0)
+    ("pyimp" "import os
+import os.path
+import uihc
+import networkx as nx" nil 0)
     ("try" "" python-skeleton-try 0)
     ("while" "" python-skeleton-while 0)
    ))
@@ -150,7 +165,12 @@ donald-curtis@uiowa.edu" nil 0)
 
 (define-abbrev-table 'tabulated-list-mode-abbrev-table '())
 
-(define-abbrev-table 'text-mode-abbrev-table '())
+(define-abbrev-table 'text-mode-abbrev-table
+  '(
+    ("kkpsc" "\\textit{$k$-partial set cover}" nil 8)
+    ("kkpvc" "\\textit{$k$-partial vertex cover}" nil 27)
+    ("rrdp" "\\textit{restricted diffusion problem}" nil 8)
+   ))
 
 (define-abbrev-table 'vc-git-log-view-mode-abbrev-table '())
 
