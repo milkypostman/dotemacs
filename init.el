@@ -4,7 +4,7 @@
 ;; Autocompletion is setup automatically.
 ;; To complete using Rope completion hit M-/
 ;;
-;; Updated: 2011-06-22 12:54:51 (dcurtis)
+;; Updated: 2011-06-22 21:13:24 (dcurtis)
 ;;
 ;; the following command should be run manually ever once and a while.
 ;; (byte-recompile-directory "~/.emacs.d/elisp/" 0 t)
@@ -103,17 +103,17 @@
 (setq savehist-file "~/.emacs.d/.savehist")
 (savehist-mode 1)
 
+(show-paren-mode 1)
+(setq line-spacing 0.2)
+(delete-selection-mode t)
+(url-handler-mode t)
+
+
 ;; don't be poppin' new frames
 (setq ns-pop-up-frames nil)
 
 ;; use default Mac browser
 (setq browse-url-browser-function 'browse-url-default-macosx-browser)
-
-;; delete files by moving them to the OS X trash
-(setq delete-by-moving-to-trash t)
-
-(global-set-key (kbd "s-<return>") 'ns-toggle-fullscreen)
-(global-set-key (kbd "C-M-SPC") 'just-one-space)
 
 ;; don't confirm opening non-existant files/buffers
 (setq confirm-nonexistent-file-or-buffer nil)
@@ -165,7 +165,6 @@
 (setq ns-alternate-modifier 'super)
 (setq ns-command-modifier 'meta)
 
-
 (setq whitespace-style '(trailing lines space-before-tab indentation space-after-tab))
 
 (setq line-number-mode t)
@@ -178,7 +177,6 @@
 (setq shell-prompt-pattern "^[^a-zA-Z].*[#$%>] *")
 (setq tramp-default-method "rsync")
 
-(delete-selection-mode 1)
 (global-auto-revert-mode 1)
 
 (setq comint-prompt-read-only t)
@@ -189,6 +187,9 @@
 
 ;; keybindings
 (message "milkmacs: binding bindings")
+
+(global-set-key (kbd "s-<return>") 'ns-toggle-fullscreen)
+(global-set-key (kbd "C-M-SPC") 'just-one-space)
 
 ;; make <C-tab> be M-TAB
 (define-key function-key-map (kbd "<C-tab>") (kbd "M-TAB"))
@@ -523,6 +524,7 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
 ;; workgroups
 (require 'workgroups)
 (setq wg-prefix-key (kbd "C-\\"))
+(setq wg-restore-position t)
 (workgroups-mode 1)
 (global-set-key (kbd "C-\\ C-\\") 'wg-switch-to-previous-workgroup)
 ;; (wg-load "~/.emacs.d/workgroups")
@@ -687,15 +689,12 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
 
 ;; yasnippet -- really slow so don't load it less we're on the desktop
 (when (require 'yasnippet nil 'noerror)
-  (yas/initialize)
-  (setq yas/root-directory
-        '("~/.emacs.d/elisp/yasnippet/snippets"
-          "~/.emacs.d/snippets")) ;; my own snippets
-  (mapc 'yas/load-directory yas/root-directory)
   (setq yas/wrap-around-region t)
-  (setq yas/prompt-functions
-        '(yas/x-prompt yas/ido-prompt))
-  (yas/global-mode 1) ;;  make it global
+  (setq yas/prompt-functions '(yas/ido-prompt))
+  (setq yas/snippet-dirs
+        '("~/.emacs.d/elisp/yasnippet/snippets"
+          "~/.emacs.d/snippets"))
+  (yas/global-mode 1)
   (add-to-list 'auto-mode-alist '("yas/.*" . snippet-mode)))
 
 
@@ -987,8 +986,23 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
   (setq mouse-wheel-scroll-amount '(0.0001))
   )
 
+;; System Specific Settings
+(cond ((eq system-type 'darwin)
+       (setq delete-by-moving-to-trash t)
+       (setq trash-directory "~/.Trash/")
+       (setenv
+        "PYTHONPATH"
+        "/Users/dcurtis/Development/compepi:/Users/dcurtis/Development/networkx")))
 
-(show-paren-mode 1)
+;; custom stuff
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(custom-enabled-themes nil)
+ '(custom-safe-themes (quote ("5f5644eaf825f7ef4a7f8137540821a3a2ca009e" "aa1610894e3435eabcb008a7b782fbd83d1a3082" "5600dc0bb4a2b72a613175da54edb4ad770105aa" "0174d99a8f1fdc506fa54403317072982656f127" default)))
+ )
 
 (require 'color-theme)
 (setq color-theme-is-global nil)
@@ -999,33 +1013,6 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
 ;; (load "~/.emacs.d/themes/color-theme-gruber-darker.el")
 
 
-;; custom stuff
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(background-color "#002b36")
- '(background-mode dark)
- '(cursor-color "#839496")
- '(custom-enabled-themes nil)
- '(custom-safe-themes (quote ("5f5644eaf825f7ef4a7f8137540821a3a2ca009e" "aa1610894e3435eabcb008a7b782fbd83d1a3082" "5600dc0bb4a2b72a613175da54edb4ad770105aa" "0174d99a8f1fdc506fa54403317072982656f127" default)))
- '(delete-selection-mode t)
- '(file-name-shadow-mode nil)
- '(foreground-color "#839496")
- '(line-spacing 0.2)
- '(ns-antialias-text t)
- '(scroll-bar-mode nil)
- '(tool-bar-mode nil)
- '(url-handler-mode t)
- '(wg-restore-position t)
- '(yas/wrap-around-region t))
-
-
-;; System Specific Settings
-(cond ((eq system-type 'darwin)
-       (setenv "PYTHONPATH" "/Users/dcurtis/Development/compepi:/Users/dcurtis/Development/networkx")))
-
 
 (put 'narrow-to-region 'disabled nil)
 (put 'downcase-region 'disabled nil)
@@ -1035,7 +1022,8 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(default ((t (:height 140 :family "Anonymous_Pro"))))
- '(sentence-face ((t (:inherit minibuffer-prompt))) t))
+ '(sentence-face ((t (:inherit minibuffer-prompt))) t)
+ '(variable-pitch ((t (:foreground "gray40" :family "Helvetica Neue")))))
 
 
 
