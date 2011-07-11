@@ -4,7 +4,7 @@
 ;; Autocompletion is setup automatically.
 ;; To complete using Rope completion hit M-/
 ;;
-;; Updated: 2011-07-02 17:08:06 (dcurtis)
+;; Updated: 2011-07-11 14:00:10 (dcurtis)
 ;;
 ;; the following command should be run manually ever once and a while.
 ;; (byte-recompile-directory "~/.emacs.d/elisp/" 0 t)
