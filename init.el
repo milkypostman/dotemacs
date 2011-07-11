@@ -4,7 +4,7 @@
 ;; Autocompletion is setup automatically.
 ;; To complete using Rope completion hit M-/
 ;;
-;; Updated: 2011-06-22 21:13:24 (dcurtis)
+;; Updated: 2011-07-02 17:08:06 (dcurtis)
 ;;
 ;; the following command should be run manually ever once and a while.
 ;; (byte-recompile-directory "~/.emacs.d/elisp/" 0 t)
@@ -108,6 +108,8 @@
 (delete-selection-mode t)
 (url-handler-mode t)
 
+(setq scroll-conservatively 10000)
+(setq scroll-step 10000)
 
 ;; don't be poppin' new frames
 (setq ns-pop-up-frames nil)
@@ -143,6 +145,7 @@
 (setq kept-new-versions 6)
 (setq kept-old-versions 2)
 (setq version-control t)
+(setq sentence-end-double-space nil)
 
 (setq-default tab-width 4)
 (setq-default indent-tabs-mode nil)
@@ -321,6 +324,8 @@ keystroke return
 end tell
 end tell"))
 
+(global-set-key (kbd "C-c r") 'iterm-run-previous-command)
+
 (defun align-to-equals (begin end)
   "Align region to equal signs"
    (interactive "r")
@@ -439,28 +444,28 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
                   (get-char-property (point) 'face))))
     (if face (message "Face: %s" face) (message "No face at %d" pos))))
 
-(defun special-open-line (n)
-  (interactive "p")
-  (let ((before-indent
-         (buffer-substring-no-properties
-          (point) (save-excursion (skip-chars-backward "\t ") (point))))
-        (after-indent
-         (buffer-substring-no-properties
-          (point) (save-excursion (skip-chars-forward "\t ") (point)))))
-    (if (not (bolp))
-        (let ((in-the-gut (save-excursion (skip-chars-backward "\t ") (bolp))))
-          (save-excursion
-            (while (> n 0)
-              (newline)
-              (setq n (1- n)))
-            (cond ((not in-the-gut) (indent-according-to-mode))
-                  ((bolp) (insert before-indent))))
-          (if in-the-gut (insert after-indent)))
-      (save-excursion (open-line n))
-      (insert after-indent))
-    ))
+;; (defun special-open-line (n)
+;;   (interactive "p")
+;;   (let ((before-indent
+;;          (buffer-substring-no-properties
+;;           (point) (save-excursion (skip-chars-backward "\t ") (point))))
+;;         (after-indent
+;;          (buffer-substring-no-properties
+;;           (point) (save-excursion (skip-chars-forward "\t ") (point)))))
+;;     (if (not (bolp))
+;;         (let ((in-the-gut (save-excursion (skip-chars-backward "\t ") (bolp))))
+;;           (save-excursion
+;;             (while (> n 0)
+;;               (newline)
+;;               (setq n (1- n)))
+;;             (cond ((not in-the-gut) (indent-according-to-mode))
+;;                   ((bolp) (insert before-indent))))
+;;           (if in-the-gut (insert after-indent)))
+;;       (save-excursion (open-line n))
+;;       (insert after-indent))
+;;     ))
 
-(global-set-key (kbd "C-o") 'special-open-line)
+(global-set-key (kbd "C-o") 'open-line)
 
 
 ;; Behave like vi's o command
@@ -521,13 +526,27 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
 ;; (global-set-key (kbd "C-\\ C-p") (kbd "C-\\ p"))
 ;; (winring-initialize)
 
+
+;; textmate
+(autoload 'textmate-project-root "textmate")
+(autoload 'textmate-goto-file "textmate")
+(autoload 'peepopen-goto-file-gui "peepopen")
+(eval-after-load 'textmate
+  '(progn
+     (add-to-list '*textmate-project-roots* "setup.py")))
+
+
+;; (global-set-key (kbd "C-x t") 'textmate-goto-file)
+(global-set-key (kbd "C-x t") 'peepopen-goto-file-gui)
+
+
 ;; workgroups
 (require 'workgroups)
 (setq wg-prefix-key (kbd "C-\\"))
 (setq wg-restore-position t)
+(setq wg-morph-on nil)
 (workgroups-mode 1)
 (global-set-key (kbd "C-\\ C-\\") 'wg-switch-to-previous-workgroup)
-;; (wg-load "~/.emacs.d/workgroups")
 
 ; nicer naming of buffers with identical names
 (require 'uniquify)
@@ -538,6 +557,7 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
 
 (require 'sentence-highlight-mode)
 
+(require 'rainbow-delimiters)
 
 
 ;; org-mode
@@ -649,6 +669,7 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
 
 (global-set-key (kbd "C-x f") 'ido-find-recentfile)
 (global-set-key (kbd "C-c n") '(lambda () (interactive) (ido-find-file-in-dir "~/Dropbox/Notational")))
+(global-set-key (kbd "C-c u") '(lambda () (interactive) (ido-find-file-in-dir "~/src/compepi/uihc")))
 (global-set-key (kbd "M-.") 'ido-find-tag)
 (define-key ctl-x-4-map "f" 'ido-find-recentfile-other-window)
 (global-set-key (kbd "C-x C-i") 'idomenu)
@@ -711,17 +732,22 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
 (eval-after-load 'latex
   '(progn
      (add-hook 'LaTeX-mode-hook 'TeX-source-correlate-mode)
+     (add-hook 'LaTeX-mode-hook 'variable-pitch-mode)
+     (add-hook 'LaTeX-mode-hook 'sentence-highlight-mode)
+     (add-hook 'LaTeX-mode-hook 'TeX-fold-mode)
+
      (setq TeX-source-correlate-method 'synctex)
-
-
      (setq TeX-auto-save t)
      (setq TeX-parse-self t)
      (setq TeX-save-query nil)
+     (setq TeX-item-indent 0)
+     (setq TeX-newline-function 'reindent-then-newline-and-indent)
      (setq-default TeX-PDF-mode t)
      ;; (setq-default TeX-master nil)
      ;; (setq LaTeX-command "latex")
      (setq TeX-view-program-list '(("Skim" "/Applications/Skim.app/Contents/SharedSupport/displayline %n %o %b")))
      (setq TeX-view-program-selection '((output-pdf "Skim")))
+
      (add-hook 'LaTeX-mode-hook 'auto-fill-mode)
      (add-hook 'LaTeX-mode-hook 'flyspell-mode)
      (add-hook 'LaTeX-mode-hook 'LaTeX-math-mode)
@@ -1000,9 +1026,9 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(custom-enabled-themes nil)
+ '(ansi-color-names-vector ["#242424" "#e5786d" "#95e454" "#cae682" "#8ac6f2" "#333366" "#ccaa8f" "#f6f3e8"])
  '(custom-safe-themes (quote ("5f5644eaf825f7ef4a7f8137540821a3a2ca009e" "aa1610894e3435eabcb008a7b782fbd83d1a3082" "5600dc0bb4a2b72a613175da54edb4ad770105aa" "0174d99a8f1fdc506fa54403317072982656f127" default)))
- )
+ '(foreground-color "#657b83"))
 
 (require 'color-theme)
 (setq color-theme-is-global nil)
@@ -1021,10 +1047,11 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:height 140 :family "Anonymous_Pro"))))
- '(sentence-face ((t (:inherit minibuffer-prompt))) t)
- '(variable-pitch ((t (:foreground "gray40" :family "Helvetica Neue")))))
+ '(default ((t (:height 130 :family "Anonymous_Pro"))))
+ '(sentence-face ((t (:foreground "white"))) t)
+ '(variable-pitch ((t (:foreground "gray60" :family "Helvetica Neue")))))
 
+(wg-load "~/.emacs.d/workspaces")
 
 
 
@@ -1035,3 +1062,4 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
 ;; time-stamp-start: "Updated: +"
 ;; time-stamp-end: "$"
 ;; End:
+(put 'upcase-region 'disabled nil)

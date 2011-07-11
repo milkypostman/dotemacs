@@ -82,3 +82,9 @@
 [submodule "themes/solarized"]
 	path = themes/solarized
 	url = git@github.com:milkypostman/emacs-color-theme-solarized.git
+[submodule "elisp/rainbow-delimiters"]
+	path = elisp/rainbow-delimiters
+	url = https://github.com/emacsmirror/rainbow-delimiters.git
+[submodule "elisp/textmate"]
+	path = elisp/textmate
+	url = https://github.com/defunkt/textmate.el.git

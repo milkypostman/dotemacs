@@ -5,19 +5,15 @@
 
 (define-abbrev-table 'apropos-mode-abbrev-table '())
 
-(define-abbrev-table 'awk-mode-abbrev-table
-  '(
-   ))
+(define-abbrev-table 'awk-mode-abbrev-table '())
+
+(define-abbrev-table 'bibtex-mode-abbrev-table '())
 
 (define-abbrev-table 'bookmark-bmenu-mode-abbrev-table '())
 
-(define-abbrev-table 'c++-mode-abbrev-table
-  '(
-   ))
+(define-abbrev-table 'c++-mode-abbrev-table '())
 
-(define-abbrev-table 'c-mode-abbrev-table
-  '(
-   ))
+(define-abbrev-table 'c-mode-abbrev-table '())
 
 (define-abbrev-table 'calendar-mode-abbrev-table '())
 
@@ -51,19 +47,25 @@
 
 (define-abbrev-table 'global-abbrev-table
   '(
-    ("adiminstrator" "administrator" nil 1)
+    ("adiminstrator" "administrator" nil 2)
+    ("barabasi" "barab\\'{a}si" nil 9)
+    ("behaviour" "behavior" nil 4)
     ("ddate" "" (lambda nil (insert (format-time-string "%Y-%m-%d" (current-time)))) 5)
+    ("densly" "densely" nil 6)
     ("dstamp" "" (lambda nil (insert (format-time-string "%Y%m%d" (current-time)))) 0)
     ("dtdate" "" (lambda nil (insert (format-time-string "%Y-%m-%d %H:%M" (current-time)))) 6)
     ("dtfstamp" "" (lambda nil (insert (format-time-string "%Y-%m-%d-%H%M" (current-time)))) 2)
     ("dtstamp" "" (lambda nil (insert (format-time-string "%Y%m%d%H%M" (current-time)))) 2)
+    ("erdos" "Erd\\\"{o}s" nil 14)
+    ("existance" "existence" nil 1)
     ("gauruntee" "guarantee" nil 1)
     ("gemail" "dcurtis@gmail.com" nil 0)
-    ("guaruntee" "guarantee" nil 2)
+    ("guaruntee" "guarantee" nil 3)
     ("hhome" "1105A E PL
 Kalona, IA 52247" nil 0)
     ("memail" "dcurtis@milkbox.net" nil 0)
     ("necissarily" "necessarily" nil 3)
+    ("renyi" "R\\'{e}nyi" nil 12)
     ("tdate" "" (lambda nil (insert (format-time-string "%Y-%m-%d" (time-add (current-time) (seconds-to-time 86400))))) 4)
     ("tstamp" "" (lambda nil (insert (format-time-string "%H%M" (current-time)))) 1)
     ("ttime" "" (lambda nil (insert (format-time-string "%H:%M" (current-time)))) 0)
@@ -77,11 +79,11 @@ Kalona, IA 52247" nil 0)
 
 (define-abbrev-table 'idl-mode-abbrev-table '())
 
+(define-abbrev-table 'inferior-emacs-lisp-mode-abbrev-table '())
+
 (define-abbrev-table 'inferior-python-mode-abbrev-table '())
 
-(define-abbrev-table 'java-mode-abbrev-table
-  '(
-   ))
+(define-abbrev-table 'java-mode-abbrev-table '())
 
 (define-abbrev-table 'lisp-mode-abbrev-table '())
 
@@ -99,9 +101,7 @@ Kalona, IA 52247" nil 0)
 
 (define-abbrev-table 'nxml-mode-abbrev-table '())
 
-(define-abbrev-table 'objc-mode-abbrev-table
-  '(
-   ))
+(define-abbrev-table 'objc-mode-abbrev-table '())
 
 (define-abbrev-table 'occur-edit-mode-abbrev-table '())
 
@@ -113,9 +113,7 @@ Kalona, IA 52247" nil 0)
 
 (define-abbrev-table 'package-menu-mode-abbrev-table '())
 
-(define-abbrev-table 'pike-mode-abbrev-table
-  '(
-   ))
+(define-abbrev-table 'pike-mode-abbrev-table '())
 
 (define-abbrev-table 'process-menu-mode-abbrev-table '())
 
@@ -134,6 +132,16 @@ import networkx as nx" nil 0)
     ("try" "" python-skeleton-try 0)
     ("while" "" python-skeleton-while 0)
    ))
+
+(define-abbrev-table 'reftex-index-mode-abbrev-table '())
+
+(define-abbrev-table 'reftex-index-phrases-mode-abbrev-table '())
+
+(define-abbrev-table 'reftex-select-bib-mode-abbrev-table '())
+
+(define-abbrev-table 'reftex-select-label-mode-abbrev-table '())
+
+(define-abbrev-table 'reftex-toc-mode-abbrev-table '())
 
 (define-abbrev-table 'ruby-mode-abbrev-table '())
 
@@ -167,8 +175,12 @@ import networkx as nx" nil 0)
 
 (define-abbrev-table 'text-mode-abbrev-table
   '(
+    ("GBVC" "\\textbf{GreedyBVC}" nil 3)
+    ("\\.\\.\\." "\\dots" nil 0)
     ("kkpsc" "\\textit{$k$-partial set cover}" nil 8)
     ("kkpvc" "\\textit{$k$-partial vertex cover}" nil 27)
+    ("node" "vertex" nil 18)
+    ("nodes" "vertices" nil 41)
     ("rrdp" "\\textit{restricted diffusion problem}" nil 8)
    ))
 
