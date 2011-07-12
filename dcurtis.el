@@ -1,3 +1,9 @@
+;;
+;; dcurtis.el - personal configuration for emacs-starter-kit
+;;
+;; Updated: 2011-07-11 21:48:43 (dcurtis)
+
+
 ;; (load "~/.emacs.d/elpa/ess-5.13/lisp/ess-site")
 
 (require 'uniquify)
@@ -297,13 +303,6 @@ end tell"))
   '(progn
      (add-to-list 'reftex-section-prefixes '(1 . "chap:"))))
 
-(eval-after-load 'starter-kit
-  '(progn
-     (message "hello buddy")
-     (global-set-key (kbd "C-h") 'backward-delete-char-untabify)
-     (global-set-key (kbd "C-c h") 'help-command)
-     (global-set-key (kbd "C-x C-m") 'execute-extended-command)
-     ))
 
 
 (add-hook 'ido-setup-hook
@@ -337,3 +336,8 @@ end tell"))
 (font-lock-add-keywords 'emacs-lisp-mode '(("'\\([0-9a-zA-Z-]*\\)" (1 'font-lock-variable-name-face))))
 ;; (font-lock-add-keywords 'emacs-lisp-mode '(("add-to-list" . font-lock-keyword-face)))
 (add-font-lock-numbers 'emacs-lisp-mode)
+
+;; Local Variables:
+;; time-stamp-start: "Updated: +"
+;; time-stamp-end: "$"
+;; End:
