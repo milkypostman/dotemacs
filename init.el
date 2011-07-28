@@ -2,7 +2,7 @@
 ;;
 ;; based on emacs-starter-kit
 ;; 
-;; Updated: 2011-07-15 20:27:28 (dcurtis)
+;; Updated: 2011-07-27 17:23:27 (dcurtis)
 ;;
 ;; 
 
@@ -23,6 +23,7 @@
 (require 'markdown-mode)
 
 (push "/usr/local/bin" exec-path)
+(push "/usr/texbin" exec-path)
 (setenv "PATH"
         (mapconcat 'identity
                    (delete-dups
@@ -320,13 +321,13 @@ end tell"))
      (add-hook 'LaTeX-mode-hook 'LaTeX-math-mode)
      (add-hook 'LaTeX-mode-hook 'turn-on-reftex)
      (setq reftex-plug-into-AUCTeX t)
-     (define-key TeX-mode-map (kbd "C-c C-m") 'TeX-command-master)
-     (define-key TeX-mode-map (kbd "C-c C-c")
-       (lambda ()
-         (interactive)
-         (TeX-save-document (TeX-master-file))
-         (TeX-command "LaTeX" 'TeX-master-file)
-         ))
+     ;; (define-key TeX-mode-map (kbd "C-c C-m") 'TeX-command-master)
+     ;; (define-key TeX-mode-map (kbd "C-c C-c")
+     ;;   (lambda ()
+     ;;     (interactive)
+     ;;     (TeX-save-document (TeX-master-file))
+     ;;     (TeX-command "LaTeX" 'TeX-master-file)
+     ;;     ))
      ))
 
 (eval-after-load 'reftex
@@ -373,7 +374,10 @@ end tell"))
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- )
+ '(ns-pop-up-frames nil)
+ '(split-height-threshold 100))
+
+
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
