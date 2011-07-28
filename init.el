@@ -2,7 +2,7 @@
 ;;
 ;; based on emacs-starter-kit
 ;; 
-;; Updated: 2011-07-27 17:23:27 (dcurtis)
+;; Updated: 2011-07-28 10:22:18 (dcurtis)
 ;;
 ;; 
 
@@ -274,8 +274,8 @@ end tell"))
 ;; python
 (defun python-modes-init ()
   "initialization for all python modes"
-  (setup-virtualenv)
-  (define-key python-mode-map (kbd "C-h") 'python-indent-dedent-line-backspace)
+  ;; (setup-virtualenv)
+  ;; (define-key python-mode-map (kbd "C-h") 'python-indent-dedent-line-backspace)
   (font-lock-add-keywords 'python-mode `((,(rx symbol-start (or "import" "from") symbol-end) 0 font-lock-preprocessor-face)))
 
   (make-face 'font-lock-operator-face)
@@ -291,8 +291,8 @@ end tell"))
       (2 'font-lock-builtin-face))))
   )
 
-(eval-after-load 'python '(python-modes-init))
-(eval-after-load 'python-mode '(python-modes-init))
+;; (eval-after-load 'python '(python-modes-init))
+;; (eval-after-load 'python-mode '(python-modes-init))
 
 
 
