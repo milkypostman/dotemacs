@@ -2,16 +2,18 @@
 ;;
 ;; based on emacs-starter-kit
 ;; 
-;; Updated: 2011-07-28 10:22:18 (dcurtis)
+;; Updated: 2011-08-12 12:43:41 (dcurtis)
 ;;
 ;; 
 
 
+
+
 (require 'package)
 (add-to-list 'package-archives
-			 '("marmalade" . "http://marmalade-repo.org/packages/") t)
+             '("marmalade" . "http://marmalade-repo.org/packages/") t)
 (add-to-list 'package-archives
-                         '("khealy" . "http://kieranhealy.org/packages/") t)
+             '("khealy" . "http://kieranhealy.org/packages/") t)
 (package-initialize)
 
 (add-to-list 'load-path "~/.emacs.d/elisp/")
@@ -20,7 +22,8 @@
 ;; (load "~/.emacs.d/elpa/ess-5.13/lisp/ess-site")
 (require 'uniquify)
 (require 'midnight)
-(require 'markdown-mode)
+(require 'misc)
+
 
 (push "/usr/local/bin" exec-path)
 (push "/usr/texbin" exec-path)
@@ -41,7 +44,7 @@
 
 (server-start)
 
-(setq-default cursor-type 'box)
+(setq-default cursor-type '(bar . 1))
 
 (setq user-full-name "Donald Ephraim Curtis")
 (setq user-mail-address "dcurtis@milkbox.net")
@@ -100,6 +103,7 @@
 (global-set-key (kbd "s-<return>") 'ns-toggle-fullscreen)
 (global-set-key (kbd "C-M-SPC") 'just-one-space)
 
+(global-set-key (kbd "M-z") 'zap-up-to-char)
 (global-unset-key (kbd "C-z"))
 (global-set-key (kbd "C-x C-k") 'kill-region)
 (global-set-key (kbd "C-w") 'backward-kill-word)
@@ -159,6 +163,11 @@
          (list (line-beginning-position) (line-beginning-position 2)))))
 
 
+(defadvice kill-line (after kill-line-cleanup-whitespace activate compile)
+  "cleanup whitespace on kill-line"
+  (if (not (bolp))
+      (delete-region (point) (progn (skip-chars-forward " \t") (point)))))
+
 
 (defun ido-find-recentfile-other-window ()
   "Find a recent file using ido."
@@ -198,8 +207,18 @@
 (defun finder ()
   "Open the current working directory in finder."
   (interactive)
-  (shell-command (concat "open " default-directory))
+  (shell-command (concat "open " (shell-quote-argument default-directory)))
   )
+
+
+(defun marked ()
+  "Open the current working directory in finder."
+  (interactive)
+  (if (buffer-file-name)
+      (shell-command (concat "open -a Marked " (shell-quote-argument buffer-file-name))))
+  )
+
+
 
 (defun make-executable ()
   "Make the current file loaded in the buffer executable"
@@ -276,6 +295,13 @@ end tell"))
   "initialization for all python modes"
   ;; (setup-virtualenv)
   ;; (define-key python-mode-map (kbd "C-h") 'python-indent-dedent-line-backspace)
+  (push "~/.virtualenvs/default/bin" exec-path)
+  (setenv "PATH"
+          (concat
+           "~/.virtualenvs/default/bin" ":"
+           (getenv "PATH")
+           ))
+
   (font-lock-add-keywords 'python-mode `((,(rx symbol-start (or "import" "from") symbol-end) 0 font-lock-preprocessor-face)))
 
   (make-face 'font-lock-operator-face)
@@ -292,8 +318,7 @@ end tell"))
   )
 
 ;; (eval-after-load 'python '(python-modes-init))
-;; (eval-after-load 'python-mode '(python-modes-init))
-
+(eval-after-load 'python-mode '(python-modes-init))
 
 
 ;; auctex
@@ -350,6 +375,13 @@ end tell"))
 (add-hook 'write-file-functions 'time-stamp)
 
 
+(add-hook 'c-mode-common-hook
+          (lambda()
+            (local-set-key (kbd "C-c o") 'ff-find-other-file)
+            (local-set-key (kbd "C-c C-m") 'compile)
+            ))
+
+
 
 ;; faces
 (make-face 'font-lock-number-face)
@@ -369,12 +401,41 @@ end tell"))
 (add-font-lock-numbers 'emacs-lisp-mode)
 
 
+;; ;; scrolling hack
+;; (defun smooth-scroll (increment)
+;;   ;; (scroll-up increment) (sit-for 0.05)
+;;   ;; (scroll-up increment) (sit-for 0.02)
+;;   ;; (scroll-up increment) (sit-for 0.02)
+;;   ;; (scroll-up increment) (sit-for 0.05)
+;;   ;; (scroll-up increment) (sit-for 0.06)
+;;   (scroll-up increment))
+
+;; (global-set-key [(wheel-down)] '(lambda () (interactive) (smooth-scroll 1)))
+;; (global-set-key [(wheel-up)] '(lambda () (interactive) (smooth-scroll -1)))
+
+
+(cond ((eq system-type 'darwin)
+       (setq delete-by-moving-to-trash t)
+       (setq trash-directory "~/.Trash/")
+       (setenv
+        "PYTHONPATH"
+        "/Users/dcurtis/src/compepi:/Users/dcurtis/src/networkx")))
+
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(line-spacing 0)
+ '(mode-line-in-non-selected-windows t)
+ '(mode-line-inverse-video t)
+ '(mouse-wheel-scroll-amount (quote (0.01)))
  '(ns-pop-up-frames nil)
+ '(scroll-conservatively 5)
+ '(scroll-margin 5)
+ '(set-mark-command-repeat-pop t)
+ '(size-indication-mode nil)
  '(split-height-threshold 100))
 
 
@@ -383,9 +444,16 @@ end tell"))
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:height 130 :family "Anonymous_Pro"))))
+ '(default ((t (:inherit nil :stipple nil :background "black" :foreground "white" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 120 :width normal :foundry "apple" :family "Consolas_for_BBEdit"))))
  '(hl-sentence-face ((t (:background "red"))) t)
+ '(minibuffer-prompt ((t (:family "Helvetica Neue"))))
+ '(mode-line ((t (:box nil :height 0.9))))
+ '(mode-line-inactive ((t (:inherit mode-line :background "grey30" :foreground "grey80" :box nil :weight light))))
  '(variable-pitch ((t (:family "Helvetica Neue")))))
+
+(load-file "~/.emacs.d/themes/color-theme-arjen.el")
+(color-theme-arjen)
+
 
 
 ;; Local Variables:
