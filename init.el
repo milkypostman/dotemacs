@@ -2,7 +2,7 @@
 ;;
 ;; based on emacs-starter-kit
 ;; 
-;; Updated: 2011-08-12 12:43:41 (dcurtis)
+;; Updated: 2011-08-15 11:30:23 (dcurtis)
 ;;
 ;; 
 
@@ -326,7 +326,7 @@ end tell"))
   '(progn
      (add-hook 'LaTeX-mode-hook 'TeX-source-correlate-mode)
      (add-hook 'LaTeX-mode-hook 'variable-pitch-mode)
-     (add-hook 'LaTeX-mode-hook 'sentence-highlight-mode)
+     (add-hook 'LaTeX-mode-hook 'hl-sentence-mode)
      (add-hook 'LaTeX-mode-hook 'TeX-fold-mode)
 
      (setq TeX-source-correlate-method 'synctex)
@@ -341,12 +341,22 @@ end tell"))
      (setq TeX-view-program-list '(("Skim" "/Applications/Skim.app/Contents/SharedSupport/displayline %n %o %b")))
      (setq TeX-view-program-selection '((output-pdf "Skim")))
 
+     (defun TeX-compile ()
+       "Start a viewer without confirmation.
+The viewer is started either on region or master file,
+depending on the last command issued."
+       (interactive)
+       (TeX-save-document (TeX-master-file))
+       (TeX-command "LaTeX" 'TeX-active-master 0)
+       )
+
      (add-hook 'LaTeX-mode-hook 'auto-fill-mode)
      (add-hook 'LaTeX-mode-hook 'flyspell-mode)
      (add-hook 'LaTeX-mode-hook 'LaTeX-math-mode)
      (add-hook 'LaTeX-mode-hook 'turn-on-reftex)
      (setq reftex-plug-into-AUCTeX t)
-     ;; (define-key TeX-mode-map (kbd "C-c C-m") 'TeX-command-master)
+     (define-key TeX-mode-map (kbd "C-c C-m") 'TeX-command-master)
+     (define-key TeX-mode-map (kbd "C-c C-c") 'TeX-compile)
      ;; (define-key TeX-mode-map (kbd "C-c C-c")
      ;;   (lambda ()
      ;;     (interactive)
@@ -395,7 +405,7 @@ end tell"))
                                  (,(concat "\\<\\(" font-lock-hexnumber "\\)\\>" ) 0 font-lock-number-face)
                                  )))
 
-(font-lock-add-keywords 'emacs-lisp-mode '(("(\\|)\\|'" . 'font-lock-exit-face)))
+;; (font-lock-add-keywords 'emacs-lisp-mode '(("(\\|)\\|'" . 'font-lock-exit-face)))
 (font-lock-add-keywords 'emacs-lisp-mode '(("'\\([0-9a-zA-Z-]*\\)" (1 'font-lock-variable-name-face))))
 ;; (font-lock-add-keywords 'emacs-lisp-mode '(("add-to-list" . font-lock-keyword-face)))
 (add-font-lock-numbers 'emacs-lisp-mode)
@@ -445,11 +455,11 @@ end tell"))
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(default ((t (:inherit nil :stipple nil :background "black" :foreground "white" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 120 :width normal :foundry "apple" :family "Consolas_for_BBEdit"))))
- '(hl-sentence-face ((t (:background "red"))) t)
+ '(hl-sentence-face ((t (:foreground "white"))) t)
  '(minibuffer-prompt ((t (:family "Helvetica Neue"))))
  '(mode-line ((t (:box nil :height 0.9))))
  '(mode-line-inactive ((t (:inherit mode-line :background "grey30" :foreground "grey80" :box nil :weight light))))
- '(variable-pitch ((t (:family "Helvetica Neue")))))
+ '(variable-pitch ((t (:foreground "gray80" :family "Helvetica Neue")))))
 
 (load-file "~/.emacs.d/themes/color-theme-arjen.el")
 (color-theme-arjen)
