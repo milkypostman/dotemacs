@@ -2,7 +2,7 @@
 ;;
 ;; based on emacs-starter-kit
 ;; 
-;; Updated: 2011-08-15 11:30:23 (dcurtis)
+;; Updated: 2011-08-24 16:46:16 (dcurtis)
 ;;
 ;; 
 
@@ -248,7 +248,7 @@
   (save-buffer)
   (call-process "osascript" nil nil nil "-e"
                 "
-tell application \"iTerm\"
+tell application \"Terminal\"
 activate
 tell application \"System Events\"
 keystroke \"p\" using {control down}
@@ -400,10 +400,10 @@ depending on the last command issued."
 (defvar font-lock-number "[0-9-.]+\\([eE][+-]?[0-9]*\\)?")
 (defvar font-lock-hexnumber "0[xX][0-9a-fA-F]+")
 (defun add-font-lock-numbers (mode)
-  (font-lock-add-keywords mode `(
-                                 (,(concat "\\<\\(" font-lock-number "\\)\\>" ) 0 font-lock-number-face)
-                                 (,(concat "\\<\\(" font-lock-hexnumber "\\)\\>" ) 0 font-lock-number-face)
-                                 )))
+  (font-lock-add-keywords mode
+                          `((,(concat "\\<\\(" font-lock-number "\\)\\>" ) 0 font-lock-number-face)
+                            (,(concat "\\<\\(" font-lock-hexnumber "\\)\\>" ) 0 font-lock-number-face)
+                            )))
 
 ;; (font-lock-add-keywords 'emacs-lisp-mode '(("(\\|)\\|'" . 'font-lock-exit-face)))
 (font-lock-add-keywords 'emacs-lisp-mode '(("'\\([0-9a-zA-Z-]*\\)" (1 'font-lock-variable-name-face))))
