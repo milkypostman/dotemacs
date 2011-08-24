@@ -2,7 +2,7 @@
 ;;
 ;; based on emacs-starter-kit
 ;; 
-;; Updated: 2011-08-24 16:46:16 (dcurtis)
+;; Updated: 2011-08-24 17:07:53 (dcurtis)
 ;;
 ;; 
 
@@ -14,6 +14,8 @@
              '("marmalade" . "http://marmalade-repo.org/packages/") t)
 (add-to-list 'package-archives
              '("khealy" . "http://kieranhealy.org/packages/") t)
+(add-to-list 'package-archives
+             '("elpa-git" . "http://milkbox.net/elpa-git/") t)
 (package-initialize)
 
 (add-to-list 'load-path "~/.emacs.d/elisp/")

@@ -606,6 +606,14 @@ untar into a directory named DIR; otherwise, signal an error."
       (let ((load-path (cons pkg-dir load-path)))
 	(byte-recompile-directory pkg-dir 0 t)))))
 
+(defun package-unpack-git (name version)
+  (let* ((dirname (concat (symbol-name name) "-" version))
+	 (pkg-dir (expand-file-name dirname package-user-dir)))
+    (let* ((default-directory (file-name-as-directory package-user-dir)))
+      (package-generate-autoloads (symbol-name name) pkg-dir)
+      (let ((load-path (cons pkg-dir load-path)))
+	(byte-recompile-directory pkg-dir 0 t)))))
+
 (defun package--write-file-no-coding (file-name)
   (let ((buffer-file-coding-system 'no-conversion))
     (write-region (point-min) (point-max) file-name)))
@@ -690,6 +698,13 @@ It will move point to somewhere in the headers."
 	     (buffer-substring-no-properties (point) (progn
 						       (end-of-line)
 						       (point)))))))
+
+(defun package-download-git (name version desc requires url)
+  (let ((location (package-archive-base name)))
+    
+    )
+  )
+
 
 (defun package-download-single (name version desc requires)
   "Download and install a single-file package."
