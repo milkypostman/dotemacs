@@ -4,7 +4,7 @@
 ;; Autocompletion is setup automatically.
 ;; To complete using Rope completion hit M-/
 ;;
-;; Updated: 2011-08-12 11:17:10 (dcurtis)
+;; Updated: 2011-08-26 13:16:28 (dcurtis)
 ;;
 ;; the following command should be run manually ever once and a while.
 ;; (byte-recompile-directory "~/.emacs.d/elisp/" 0 t)
@@ -1005,12 +1005,12 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
 ;; (font-lock-add-keywords 'emacs-lisp-mode '(("add-to-list" . font-lock-keyword-face)))
 (add-font-lock-numbers 'emacs-lisp-mode)
 
-(if (not (window-system))
-    (menu-bar-mode 0)
-  (require 'fringemark)
-  (fringe-mode '(1 . 0))
-  (setq mouse-wheel-scroll-amount '(0.0001))
-  )
+;; (if (not (window-system))
+;;     (menu-bar-mode 0)
+;;   (require 'fringemark)
+;;   (fringe-mode '(1 . 0))
+;;   (setq mouse-wheel-scroll-amount '(0.0001))
+;;   )
 
 ;; System Specific Settings
 (cond ((eq system-type 'darwin)

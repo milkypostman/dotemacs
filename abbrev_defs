@@ -51,6 +51,7 @@
     ("barabasi" "barab\\'{a}si" nil 9)
     ("behaviour" "behavior" nil 4)
     ("ddate" "" (lambda nil (insert (format-time-string "%Y-%m-%d" (current-time)))) 5)
+    ("ddue" "" (lambda nil (insert (format-time-string "%A, %B %d, 11:59pm" (current-time)))) 1)
     ("densly" "densely" nil 6)
     ("dstamp" "" (lambda nil (insert (format-time-string "%Y%m%d" (current-time)))) 0)
     ("dtdate" "" (lambda nil (insert (format-time-string "%Y-%m-%d %H:%M" (current-time)))) 6)
@@ -75,6 +76,8 @@ Kalona, IA 52247" nil 0)
 
 (define-abbrev-table 'haskell-mode-abbrev-table '())
 
+(define-abbrev-table 'html-mode-abbrev-table '())
+
 (define-abbrev-table 'idea '())
 
 (define-abbrev-table 'idl-mode-abbrev-table '())
@@ -84,6 +87,8 @@ Kalona, IA 52247" nil 0)
 (define-abbrev-table 'inferior-python-mode-abbrev-table '())
 
 (define-abbrev-table 'java-mode-abbrev-table '())
+
+(define-abbrev-table 'lisp-interaction-mode-abbrev-table '())
 
 (define-abbrev-table 'lisp-mode-abbrev-table '())
 
@@ -148,6 +153,8 @@ import networkx as nx" nil 0)
 (define-abbrev-table 'scala-mode-inf-abbrev-table '())
 
 (define-abbrev-table 'select-tags-table-mode-abbrev-table '())
+
+(define-abbrev-table 'sgml-mode-abbrev-table '())
 
 (define-abbrev-table 'sh-mode-abbrev-table '())
 

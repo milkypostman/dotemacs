@@ -2,14 +2,12 @@
 ;;
 ;; based on emacs-starter-kit
 ;; 
-;; Updated: 2011-08-24 17:07:53 (dcurtis)
+;; Updated: 2011-08-26 13:29:56 (dcurtis)
 ;;
 ;; 
 
-
-
-
 (require 'package)
+(setq package-user-dir "~/.emacs.d/elpa/")
 (add-to-list 'package-archives
              '("marmalade" . "http://marmalade-repo.org/packages/") t)
 (add-to-list 'package-archives
@@ -50,9 +48,6 @@
 
 (setq user-full-name "Donald Ephraim Curtis")
 (setq user-mail-address "dcurtis@milkbox.net")
-
-(setq ns-alternate-modifier 'super)
-(setq ns-command-modifier 'meta)
 
 (setq visible-bell t)
 (setq ring-bell-function 'ignore)
@@ -169,6 +164,34 @@
   "cleanup whitespace on kill-line"
   (if (not (bolp))
       (delete-region (point) (progn (skip-chars-forward " \t") (point)))))
+
+
+(defun delete-this-buffer-and-file ()
+  "Deletes current buffer and file it is visiting."
+  (interactive)
+  (let ((filename (buffer-file-name)))
+    (if (not (and filename (file-exists-p filename)))
+        (error "Buffer '%s' is not visiting a file!" name)
+      (delete-file filename)
+      (kill-this-buffer))))
+
+
+(defun rename-this-buffer-and-file ()
+  "Renames current buffer and file it is visiting."
+  (interactive)
+  (let ((name (buffer-name))
+        (filename (buffer-file-name)))
+    (if (not (and filename (file-exists-p filename)))
+        (error "Buffer '%s' is not visiting a file!" name)
+      (let ((new-name (read-file-name "New name: " filename)))
+        (cond ((get-buffer new-name)
+               (error "A buffer named '%s' already exists!" new-name))
+              (t
+               (rename-file filename new-name 1)
+               (rename-buffer new-name)
+               (set-visited-file-name new-name)
+               (set-buffer-modified-p nil)
+               (message "File '%s' successfully renamed to '%s'" name (file-name-nondirectory new-name))))))))
 
 
 (defun ido-find-recentfile-other-window ()
@@ -290,6 +313,11 @@ end tell"))
   (end-of-line)
   (newline-and-indent))
 
+
+(setq auto-mode-alist
+      (cons '("\\.text" . markdown-mode) auto-mode-alist))
+(setq auto-mode-alist
+      (cons '("\\.md" . markdown-mode) auto-mode-alist))
 
 
 ;; python
@@ -413,17 +441,6 @@ depending on the last command issued."
 (add-font-lock-numbers 'emacs-lisp-mode)
 
 
-;; ;; scrolling hack
-;; (defun smooth-scroll (increment)
-;;   ;; (scroll-up increment) (sit-for 0.05)
-;;   ;; (scroll-up increment) (sit-for 0.02)
-;;   ;; (scroll-up increment) (sit-for 0.02)
-;;   ;; (scroll-up increment) (sit-for 0.05)
-;;   ;; (scroll-up increment) (sit-for 0.06)
-;;   (scroll-up increment))
-
-;; (global-set-key [(wheel-down)] '(lambda () (interactive) (smooth-scroll 1)))
-;; (global-set-key [(wheel-up)] '(lambda () (interactive) (smooth-scroll -1)))
 
 
 (cond ((eq system-type 'darwin)
@@ -433,39 +450,13 @@ depending on the last command issued."
         "PYTHONPATH"
         "/Users/dcurtis/src/compepi:/Users/dcurtis/src/networkx")))
 
+(message "done with all but custom")
 
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(line-spacing 0)
- '(mode-line-in-non-selected-windows t)
- '(mode-line-inverse-video t)
- '(mouse-wheel-scroll-amount (quote (0.01)))
- '(ns-pop-up-frames nil)
- '(scroll-conservatively 5)
- '(scroll-margin 5)
- '(set-mark-command-repeat-pop t)
- '(size-indication-mode nil)
- '(split-height-threshold 100))
-
-
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(default ((t (:inherit nil :stipple nil :background "black" :foreground "white" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 120 :width normal :foundry "apple" :family "Consolas_for_BBEdit"))))
- '(hl-sentence-face ((t (:foreground "white"))) t)
- '(minibuffer-prompt ((t (:family "Helvetica Neue"))))
- '(mode-line ((t (:box nil :height 0.9))))
- '(mode-line-inactive ((t (:inherit mode-line :background "grey30" :foreground "grey80" :box nil :weight light))))
- '(variable-pitch ((t (:foreground "gray80" :family "Helvetica Neue")))))
+(setq custom-file "~/.emacs.d/custom.el")
+(load custom-file)
 
 (load-file "~/.emacs.d/themes/color-theme-arjen.el")
 (color-theme-arjen)
-
 
 
 ;; Local Variables:
