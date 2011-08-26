@@ -2,7 +2,7 @@
 ;;
 ;; based on emacs-starter-kit
 ;; 
-;; Updated: 2011-08-26 13:29:56 (dcurtis)
+;; Updated: 2011-08-26 15:13:21 (dcurtis)
 ;;
 ;; 
 
@@ -35,14 +35,14 @@
                    ":"))
 
 
-
 (setq auto-save-file-name-transforms '((".*" "~/.emacs.d/autosave/" t)))
 (setq delete-auto-save-files nil)
 
 (setq savehist-file "~/.emacs.d/.savehist")
 (savehist-mode)
 
-(server-start)
+(ignore-errors
+  '(server-start))
 
 (setq-default cursor-type '(bar . 1))
 
@@ -51,6 +51,8 @@
 
 (setq visible-bell t)
 (setq ring-bell-function 'ignore)
+
+(setq redisplay-dont-pause t)
 
 ;; uniquify
 (setq uniquify-buffer-name-style 'reverse)
@@ -242,7 +244,6 @@
   (if (buffer-file-name)
       (shell-command (concat "open -a Marked " (shell-quote-argument buffer-file-name))))
   )
-
 
 
 (defun make-executable ()
@@ -452,7 +453,9 @@ depending on the last command issued."
 
 (message "done with all but custom")
 
-(setq custom-file "~/.emacs.d/custom.el")
+(if (boundp 'aquamacs-version)
+    (setq custom-file "~/.emacs.d/aqustom.el")
+  (setq custom-file "~/.emacs.d/custom.el"))
 (load custom-file)
 
 (load-file "~/.emacs.d/themes/color-theme-arjen.el")
