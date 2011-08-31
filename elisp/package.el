@@ -414,6 +414,10 @@ updates `package-alist' and `package-obsolete-alist'."
   "Extract doc string from a package description vector."
   (aref desc 2))
 
+(defsubst package-desc-repo (desc)
+  "Extract repository from a package description vector."
+  (aref desc 4))
+
 (defsubst package-desc-kind (desc)
   "Extract the kind of download from an archive package description vector."
   (aref desc 3))
@@ -606,14 +610,6 @@ untar into a directory named DIR; otherwise, signal an error."
       (let ((load-path (cons pkg-dir load-path)))
 	(byte-recompile-directory pkg-dir 0 t)))))
 
-(defun package-unpack-git (name version)
-  (let* ((dirname (concat (symbol-name name) "-" version))
-	 (pkg-dir (expand-file-name dirname package-user-dir)))
-    (let* ((default-directory (file-name-as-directory package-user-dir)))
-      (package-generate-autoloads (symbol-name name) pkg-dir)
-      (let ((load-path (cons pkg-dir load-path)))
-	(byte-recompile-directory pkg-dir 0 t)))))
-
 (defun package--write-file-no-coding (file-name)
   (let ((buffer-file-coding-system 'no-conversion))
     (write-region (point-min) (point-max) file-name)))
@@ -699,19 +695,49 @@ It will move point to somewhere in the headers."
 						       (end-of-line)
 						       (point)))))))
 
-(defun package-download-git (name version desc requires url)
-  (let ((location (package-archive-base name)))
-    
-    )
-  )
-
-
 (defun package-download-single (name version desc requires)
   "Download and install a single-file package."
   (let ((location (package-archive-base name))
 	(file (concat (symbol-name name) "-" version ".el")))
     (package--with-work-buffer location file
       (package-unpack-single (symbol-name name) version desc requires))))
+
+(defun package-download-git (name version desc requires repo)
+  "Download and install a git package."
+  
+  (let* ((file-name (symbol-name name))
+         (dirname (concat file-name "-" version))
+         (pkg-dir (expand-file-name dirname package-user-dir)))
+    (message file-name)
+    ;; (message name)
+    (message pkg-dir)
+    (process-file "git" nil "*package git process*" nil "clone" repo pkg-dir)
+    (let ((print-level nil)
+          (print-length nil)
+          (pkg-file (expand-file-name (concat file-name "-pkg.el") pkg-dir)))
+      (write-region
+       (concat
+        (prin1-to-string
+         (list 'define-package
+               file-name
+               version
+               desc
+               (list 'quote
+                     ;; Turn version lists into string form.
+                     (mapcar
+                      (lambda (elt)
+                        (list (car elt)
+                              (package-version-join (cadr elt))))
+                      requires))))
+        "\n")
+       nil
+       pkg-file
+       nil nil nil 'excl))
+    (package-generate-autoloads file-name pkg-dir)
+    (let ((load-path (cons pkg-dir load-path)))
+      (byte-recompile-directory pkg-dir 0 t))
+    
+    ))
 
 (defun package-download-tar (name version)
   "Download and install a tar package."
@@ -860,6 +886,10 @@ using `package-compute-transaction'."
       (cond
        ((eq kind 'tar)
 	(package-download-tar elt v-string))
+       ((eq kind 'git)
+        (package-download-git elt v-string (package-desc-doc desc)
+                              (package-desc-reqs desc)
+                              (package-desc-repo desc)))
        ((eq kind 'single)
 	(package-download-single elt v-string
 				 (package-desc-doc desc)

@@ -2,7 +2,7 @@
 ;;
 ;; based on emacs-starter-kit
 ;; 
-;; Updated: 2011-08-26 15:13:21 (dcurtis)
+;; Updated: 2011-08-31 17:17:37 (dcurtis)
 ;;
 ;; 
 
@@ -17,6 +17,9 @@
 (package-initialize)
 
 (add-to-list 'load-path "~/.emacs.d/elisp/")
+
+;; debug if we would like
+(setq debug-on-error t)
 
 
 ;; (load "~/.emacs.d/elpa/ess-5.13/lisp/ess-site")
@@ -42,7 +45,7 @@
 (savehist-mode)
 
 (ignore-errors
-  '(server-start))
+  (server-start))
 
 (setq-default cursor-type '(bar . 1))
 
@@ -88,7 +91,6 @@
 (setq time-stamp-format "%04y-%02m-%02d %02H:%02M:%02S (%u)")
 
 
-
 (defalias 'wq 'save-buffers-kill-emacs)
 (defalias 'qrr 'query-replace-regexp)
 (defalias 'qr 'query-replace)
@@ -101,6 +103,7 @@
 
 (global-set-key (kbd "s-<return>") 'ns-toggle-fullscreen)
 (global-set-key (kbd "C-M-SPC") 'just-one-space)
+(global-set-key (kbd "A-h") 'ns-do-hide-emacs)
 
 (global-set-key (kbd "M-z") 'zap-up-to-char)
 (global-unset-key (kbd "C-z"))
@@ -143,7 +146,7 @@
 
 (global-set-key (kbd "C-x g") 'magit-status)
 
-(global-set-key (kbd "C-h") 'backward-delete-char-untabify)
+(global-set-key (kbd "C-h") (kbd "<backspace>"))
 (global-set-key (kbd "C-c h") 'help-command)
 (global-set-key (kbd "C-x C-m") 'execute-extended-command)
 
@@ -351,6 +354,23 @@ end tell"))
 ;; (eval-after-load 'python '(python-modes-init))
 (eval-after-load 'python-mode '(python-modes-init))
 
+;; markdown
+(defun markdown-pandoc ()
+  "process file with pandoc and save it accordingly"
+  (interactive)
+  (let ((out-buffer-name (concat (file-name-sans-extension (buffer-name)) ".html")))
+    (shell-command-on-region
+     (point-min) (point-max)
+     "~/.cabal/bin/pandoc -H ~/Dropbox/Markdown/antique.css" markdown-output-buffer-name)
+    (save-current-buffer
+      (set-buffer markdown-output-buffer-name)
+      (write-file out-buffer-name)
+      (kill-buffer (buffer-name)))))
+
+(eval-after-load 'markdown-mode
+  '(progn
+     (define-key markdown-mode-map (kbd "C-c m") 'markdown-pandoc)))
+
 
 ;; auctex
 (eval-after-load 'latex
@@ -440,7 +460,6 @@ depending on the last command issued."
 (font-lock-add-keywords 'emacs-lisp-mode '(("'\\([0-9a-zA-Z-]*\\)" (1 'font-lock-variable-name-face))))
 ;; (font-lock-add-keywords 'emacs-lisp-mode '(("add-to-list" . font-lock-keyword-face)))
 (add-font-lock-numbers 'emacs-lisp-mode)
-
 
 
 

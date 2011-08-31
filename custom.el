@@ -32,7 +32,6 @@
  ;; If there is more than one, they won't work right.
  '(default ((t (:inherit nil :stipple nil :background "black" :foreground "white" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 120 :width normal :foundry "apple" :family "Consolas_for_BBEdit"))))
  '(hl-sentence-face ((t (:foreground "white"))) t)
- '(minibuffer-prompt ((t (:family "Lucida Grande"))))
  '(mode-line ((t (:box nil :height 0.9))))
  '(mode-line-inactive ((t (:inherit mode-line :background "grey30" :foreground "grey80" :box nil :weight light))))
  '(variable-pitch ((t (:foreground "gray80" :family "Lucida Grande")))))
