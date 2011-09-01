@@ -2,7 +2,7 @@
 ;;
 ;; based on emacs-starter-kit
 ;; 
-;; Updated: 2011-08-31 17:17:37 (dcurtis)
+;; Updated: 2011-09-01 16:36:11 (dcurtis)
 ;;
 ;; 
 
@@ -109,6 +109,7 @@
 (global-unset-key (kbd "C-z"))
 (global-set-key (kbd "C-x C-k") 'kill-region)
 (global-set-key (kbd "C-w") 'backward-kill-word)
+(global-set-key (kbd "C-M-h") 'mark-defun)
 (global-set-key (kbd "C-M-,") 'beginning-of-buffer-other-window)
 (global-set-key (kbd "M-`") 'other-frame)
 
@@ -354,6 +355,20 @@ end tell"))
 ;; (eval-after-load 'python '(python-modes-init))
 (eval-after-load 'python-mode '(python-modes-init))
 
+;; yas/snippets
+(eval-after-load 'yasnippet
+  '(progn
+     (yas/load-directory "~/.emacs.d/elpa/yasnippet-2305843009213693951/snippets/")
+     (yas/load-directory "~/.emacs.d/snippets/")
+     ))
+
+(defun mp-turn-on-yasnippet ()
+  (interactive)
+  (yas/minor-mode t))
+
+(add-hook 'c-mode-common-hook 'mp-turn-on-yasnippet)
+(add-hook 'python-mode-hook 'mp-turn-on-yasnippet)
+
 ;; markdown
 (defun markdown-pandoc ()
   "process file with pandoc and save it accordingly"
@@ -421,27 +436,35 @@ depending on the last command issued."
      (add-to-list 'reftex-section-prefixes '(1 . "chap:"))))
 
 
+(defun mp-ido-hook ()
+  (setq ido-mode-map ido-completion-map)
+  (define-key ido-mode-map "\C-h" 'ido-delete-backward-updir)
+  (define-key ido-mode-map "\C-w" 'ido-delete-backward-word-updir)
+  (define-key ido-mode-map "\C-n" 'ido-next-match)
+  (define-key ido-mode-map "\C-p" 'ido-prev-match)
+  (define-key ido-completion-map [tab] 'ido-complete)
+;;  (ido-everywhere)
+  )
 
-(add-hook 'ido-setup-hook
-          (lambda ()
-            (setq ido-mode-map ido-completion-map)
-            (define-key ido-mode-map "\C-h" 'ido-delete-backward-updir)
-            (define-key ido-mode-map "\C-w" 'ido-delete-backward-word-updir)
-            (define-key ido-mode-map "\C-n" 'ido-next-match)
-            (define-key ido-mode-map "\C-p" 'ido-prev-match)
-            (define-key ido-completion-map [tab] 'ido-complete)
-            (ido-everywhere)
-            ))
+(add-hook 'ido-setup-hook 'mp-ido-hook)
 
 (add-hook 'write-file-functions 'time-stamp)
 
+(defun mp-compile ()
+  (interactive)
+  (save-buffer)
+  (compile "make -k"))
 
-(add-hook 'c-mode-common-hook
-          (lambda()
-            (local-set-key (kbd "C-c o") 'ff-find-other-file)
-            (local-set-key (kbd "C-c C-m") 'compile)
-            ))
+(defun mp-add-c-mode-bindings ()
+  (local-set-key (kbd "C-c o") 'ff-find-other-file)
+  (local-set-key (kbd "C-c C-m") 'mp-compile))
 
+(add-hook 'c-mode-common-hook 'mp-add-c-mode-bindings)
+
+;; paredit
+(add-hook 'prog-mode-hook 'esk-paredit-nonlisp)
+(remove-hook 'prog-mode-hook 'esk-turn-on-hl-line-mode)
+(add-hook 'emacs-lisp-mode-hook 'esk-turn-on-paredit)
 
 
 ;; faces
