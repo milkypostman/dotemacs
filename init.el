@@ -2,7 +2,7 @@
 ;;
 ;; based on emacs-starter-kit
 ;; 
-;; Updated: 2011-09-01 16:36:11 (dcurtis)
+;; Updated: 2011-09-09 12:37:05 (dcurtis)
 ;;
 ;; 
 
@@ -104,6 +104,7 @@
 (global-set-key (kbd "s-<return>") 'ns-toggle-fullscreen)
 (global-set-key (kbd "C-M-SPC") 'just-one-space)
 (global-set-key (kbd "A-h") 'ns-do-hide-emacs)
+(global-set-key (kbd "A-M-h") 'ns-do-hide-others)
 
 (global-set-key (kbd "M-z") 'zap-up-to-char)
 (global-unset-key (kbd "C-z"))
