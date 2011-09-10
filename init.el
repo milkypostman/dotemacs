@@ -2,7 +2,7 @@
 ;;
 ;; based on emacs-starter-kit
 ;; 
-;; Updated: 2011-09-09 23:00:26 (dcurtis)
+;; Updated: 2011-09-09 23:01:34 (dcurtis)
 ;;
 ;; 
 
@@ -68,24 +68,6 @@
 (setq ispell-list-command "list")
 (setq ispell-extra-args '("--sug-mode=ultra"))
 
-;; org-mode
-(setq org-log-done 'time)
-(setq org-startup-indented t)
-(setq org-archive-location "~/Dropbox/Notational/zarchive.org::* %s")
-(setq org-completion-use-ido t)
-(setq org-directory "~/Dropbox/Notational")
-(setq org-capture-templates
-      '(("t" "Todo" entry (file+headline "~/Dropbox/Notational/dox inbox.org" "Incoming")
-         "* TODO %?\n  %i\n  %a")))
-(setq org-agenda-files (list "~/Dropbox/Notational"))
-(setq org-refile-targets (quote ((nil :maxlevel . 2)
-                                 (org-agenda-files :maxlevel . 2))))
-(setq org-refile-use-outline-path (quote file))
-;; Set to the name of the file where new notes will be stored
-(setq org-mobile-inbox-for-pull "~/Dropbox/Notational/dox inbox.org")
-;; Set to <your Dropbox root directory>/MobileOrg.
-(setq org-mobile-directory "~/Dropbox/MobileOrg")
-
 ;; auto time stamping
 (setq time-stamp-active t)
 (setq time-stamp-format "%04y-%02m-%02d %02H:%02M:%02S (%u)")
@@ -104,6 +86,7 @@
 (global-set-key (kbd "s-<return>") 'ns-toggle-fullscreen)
 (global-set-key (kbd "C-M-SPC") 'just-one-space)
 (global-set-key (kbd "A-h") 'ns-do-hide-emacs)
+(global-set-key (kbd "A-M-h") 'ns-do-hide-others)
 
 (global-set-key (kbd "M-z") 'zap-up-to-char)
 (global-unset-key (kbd "C-z"))
@@ -139,11 +122,6 @@
 (global-set-key (kbd "C-c u") '(lambda () (interactive) (ido-find-file-in-dir "~/src/compepi/uihc")))
 (global-set-key (kbd "C-x C-d") 'ido-dired)
 
-;; org-mode
-(global-set-key "\C-cc" 'org-capture)
-(global-set-key "\C-cl" 'org-store-link)
-(global-set-key "\C-ca" 'org-agenda)
-(global-set-key "\C-cb" 'org-iswitchb)
 
 (global-set-key (kbd "C-x g") 'magit-status)
 
