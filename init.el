@@ -2,7 +2,7 @@
 ;;
 ;; based on emacs-starter-kit
 ;; 
-;; Updated: 2011-09-01 16:36:11 (dcurtis)
+;; Updated: 2011-09-09 23:00:26 (dcurtis)
 ;;
 ;; 
 
@@ -311,6 +311,7 @@ end tell"))
                   (get-char-property (point) 'face))))
     (if face (message "Face: %s" face) (message "No face at %d" pos))))
 
+
 (defun open-next-line (arg)
   "Move to the next line and then opens a line.
     See also `newline-and-indent'."
@@ -323,6 +324,13 @@ end tell"))
       (cons '("\\.text" . markdown-mode) auto-mode-alist))
 (setq auto-mode-alist
       (cons '("\\.md" . markdown-mode) auto-mode-alist))
+
+
+(defun kmacro-edit-lossage ()
+  "Edit most recent 300 keystrokes as a keyboard macro."
+  (interactive)
+  (kmacro-push-ring)
+  (edit-kbd-macro 'view-lossage))
 
 
 ;; python
