@@ -702,41 +702,68 @@ It will move point to somewhere in the headers."
     (package--with-work-buffer location file
       (package-unpack-single (symbol-name name) version desc requires))))
 
+(defun package-update-git-package (name version)
+  "Update a single git package"
+  (message (concat "updateing package" name) )
+  (with-temp-buffer
+    (cd )
+    (process-file "git" nil (current-buffer) nil "")
+    )
+  )
+
+(defun package-update-git ()
+  "Update all git packages"
+  (interactive)
+  (dolist (elt package-alist)
+    (let* ((file-name (symbol-name (car elt)))
+           (version (package-version-join (package-desc-vers (cdr elt))))
+           (pkg-dir (expand-file-name (concat file-name "-" version) package-user-dir))
+           (pkg-git-dir (expand-file-name ".git" pkg-dir)))
+      ;;(message pkg-git-dir)
+      (if (file-exists-p pkg-git-dir)
+          (with-current-buffer (get-buffer-create "*pkg.el-git-process")
+            (cd pkg-dir)
+            (process-file "git" nil (current-buffer) nil "pull")
+            (package-generate-autoloads file-name pkg-dir)
+            (let ((load-path (cons pkg-dir load-path)))
+              (byte-recompile-directory pkg-dir 0 t))
+            ))
+      )))
+
 (defun package-download-git (name version desc requires repo)
   "Download and install a git package."
-  
   (let* ((file-name (symbol-name name))
          (dirname (concat file-name "-" version))
-         (pkg-dir (expand-file-name dirname package-user-dir)))
-    (message file-name)
-    ;; (message name)
-    (message pkg-dir)
-    (process-file "git" nil "*package git process*" nil "clone" repo pkg-dir)
-    (let ((print-level nil)
-          (print-length nil)
-          (pkg-file (expand-file-name (concat file-name "-pkg.el") pkg-dir)))
-      (write-region
-       (concat
-        (prin1-to-string
-         (list 'define-package
-               file-name
-               version
-               desc
-               (list 'quote
-                     ;; Turn version lists into string form.
-                     (mapcar
-                      (lambda (elt)
-                        (list (car elt)
-                              (package-version-join (cadr elt))))
-                      requires))))
-        "\n")
-       nil
-       pkg-file
-       nil nil nil 'excl))
+         (pkg-dir (expand-file-name dirname package-user-dir))
+         (pkg-file (expand-file-name (concat file-name "-pkg.el") pkg-dir)))
+    (process-file "git" nil (get-buffer-create "*package.el-git-process") nil "clone" repo pkg-dir)
+    (unless (file-exists-p pkg-file)
+      (let ((print-level nil)
+            (print-length nil))
+        
+        (write-region
+         (concat
+          (prin1-to-string
+           (list 'define-package
+                 file-name
+                 version
+                 desc
+                 (list 'quote
+                       ;; Turn version lists into string form.
+                       (mapcar
+                        (lambda (elt)
+                          (list (car elt)
+                                (package-version-join (cadr elt))))
+                        requires))
+                 ))
+          "\n")
+         nil
+         pkg-file
+         nil nil nil 'excl)))
+
     (package-generate-autoloads file-name pkg-dir)
     (let ((load-path (cons pkg-dir load-path)))
       (byte-recompile-directory pkg-dir 0 t))
-    
     ))
 
 (defun package-download-tar (name version)
