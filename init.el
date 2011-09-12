@@ -2,7 +2,7 @@
 ;;
 ;; based on emacs-starter-kit
 ;; 
-;; Updated: 2011-09-09 23:01:34 (dcurtis)
+;; Updated: 2011-09-12 01:17:24 (dcurtis)
 ;;
 ;; 
 
@@ -22,7 +22,6 @@
 (setq debug-on-error t)
 
 
-;; (load "~/.emacs.d/elpa/ess-5.13/lisp/ess-site")
 (require 'uniquify)
 (require 'midnight)
 (require 'misc)
@@ -41,7 +40,6 @@
 (setq auto-save-file-name-transforms '((".*" "~/.emacs.d/autosave/" t)))
 (setq delete-auto-save-files nil)
 
-(setq savehist-file "~/.emacs.d/.savehist")
 (savehist-mode)
 
 (ignore-errors
@@ -431,7 +429,6 @@ depending on the last command issued."
   (define-key ido-completion-map [tab] 'ido-complete)
 ;;  (ido-everywhere)
   )
-
 (add-hook 'ido-setup-hook 'mp-ido-hook)
 
 (add-hook 'write-file-functions 'time-stamp)
@@ -448,7 +445,7 @@ depending on the last command issued."
 (add-hook 'c-mode-common-hook 'mp-add-c-mode-bindings)
 
 ;; paredit
-(add-hook 'prog-mode-hook 'esk-paredit-nonlisp)
+;; (add-hook 'prog-mode-hook 'esk-paredit-nonlisp)
 (remove-hook 'prog-mode-hook 'esk-turn-on-hl-line-mode)
 (add-hook 'emacs-lisp-mode-hook 'esk-turn-on-paredit)
 
