@@ -414,10 +414,6 @@ updates `package-alist' and `package-obsolete-alist'."
   "Extract doc string from a package description vector."
   (aref desc 2))
 
-(defsubst package-desc-repo (desc)
-  "Extract repository from a package description vector."
-  (aref desc 4))
-
 (defsubst package-desc-kind (desc)
   "Extract the kind of download from an archive package description vector."
   (aref desc 3))
@@ -712,64 +708,13 @@ It will move point to somewhere in the headers."
            (available-version (and available-pkg
                                    (package-desc-vers (cdr available-pkg))))
            (current-version (package-desc-vers (cdr elt)))
-           (pkg-dir (expand-file-name
-                     (concat file-name "-"
-                             (package-version-join current-version))
-                     package-user-dir))
-           (pkg-git-dir (expand-file-name ".git" pkg-dir))
            )
-      (cond ((and available-version
-                  (version-list-< current-version available-version))
-             (message "Updating to: %s-%s" file-name
-                      (package-version-join available-version))
-             (package-install name)
-             (package-delete file-name (package-version-join current-version)))
-            ;; if we have a git package
-            ((file-exists-p pkg-git-dir)
-             (with-current-buffer (get-buffer-create "*pkg.el-git-process")
-               (cd pkg-dir)
-               (process-file "git" nil (current-buffer) nil "pull")
-               (package-generate-autoloads file-name pkg-dir)
-               (let ((load-path (cons pkg-dir load-path)))
-                 (byte-recompile-directory pkg-dir 0 t))))))))
-
-(defun package-download-git (name version desc requires repo)
-  "Download and install a git package."
-  (let* ((file-name (symbol-name name))ss
-         (dirname (concat file-name "-" version))
-         (pkg-dir (expand-file-name dirname package-user-dir))
-         (pkg-file (expand-file-name (concat file-name "-pkg.el") pkg-dir)))
-    (process-file
-     "git" nil
-     (get-buffer-create "*package.el-git-process") nil
-     "clone" repo pkg-dir)
-    (unless (file-exists-p pkg-file)
-      ;; should be put in its own function
-      ;; stolen from package-install-single
-      (let ((print-level nil)
-            (print-length nil))
-        (write-region
-         (concat
-          (prin1-to-string
-           (list 'define-package
-                 file-name
-                 version
-                 desc
-                 (list 'quote
-                       ;; Turn version lists into string form.
-                       (mapcar
-                        (lambda (elt)
-                          (list (car elt)
-                                (package-version-join (cadr elt))))
-                        requires))
-                 ))
-          "\n")
-         nil
-         pkg-file
-         nil nil nil 'excl)))
-    (package-generate-autoloads file-name pkg-dir)
-    (let ((load-path (cons pkg-dir load-path)))
-      (byte-recompile-directory pkg-dir 0 t))))
+      (when (and available-version
+                 (version-list-< current-version available-version))
+        (message "Updating to: %s-%s" file-name
+                 (package-version-join available-version))
+        (package-install name)
+        (package-delete file-name (package-version-join current-version))))))
 
 
 (defun package-download-tar (name version)
@@ -919,10 +864,6 @@ using `package-compute-transaction'."
       (cond
        ((eq kind 'tar)
 	(package-download-tar elt v-string))
-       ((eq kind 'git)
-        (package-download-git elt v-string (package-desc-doc desc)
-                              (package-desc-reqs desc)
-                              (package-desc-repo desc)))
        ((eq kind 'single)
 	(package-download-single elt v-string
 				 (package-desc-doc desc)

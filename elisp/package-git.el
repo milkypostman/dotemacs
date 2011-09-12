@@ -29,7 +29,7 @@
 ;;  2 Apr 2007 - now using ChangeLog file
 ;; 15 Mar 2007 - updated documentation
 ;; 14 Mar 2007 - Changed how obsolete packages are handled
-;; 13 Mar 2007 - Wrote package-install-from-buffer
+
 ;; 12 Mar 2007 - Wrote package-menu mode
 
 ;;; Commentary:
@@ -702,36 +702,37 @@ It will move point to somewhere in the headers."
     (package--with-work-buffer location file
       (package-unpack-single (symbol-name name) version desc requires))))
 
-(defun package-update-all ()
-  "Update all packages"
+(defun package-update-git-package (name version)
+  "Update a single git package"
+  (message (concat "updateing package" name) )
+  (with-temp-buffer
+    (cd )
+    (process-file "git" nil (current-buffer) nil "")
+    )
+  )
+
+(defun package-update ()
+  "Update all git packages"
   (interactive)
   (dolist (elt package-alist)
     (let* ((name (car elt))
            (file-name (symbol-name name))
            (available-pkg (assq name package-archive-contents))
-           (available-version (and available-pkg
-                                   (package-desc-vers (cdr available-pkg))))
            (current-version (package-desc-vers (cdr elt)))
-           (pkg-dir (expand-file-name
-                     (concat file-name "-"
-                             (package-version-join current-version))
-                     package-user-dir))
+           (pkg-dir (expand-file-name (concat file-name "-" (package-version-join current-version)) package-user-dir))
            (pkg-git-dir (expand-file-name ".git" pkg-dir))
            )
-      (cond ((and available-version
-                  (version-list-< current-version available-version))
-             (message "Updating to: %s-%s" file-name
-                      (package-version-join available-version))
-             (package-install name)
-             (package-delete file-name (package-version-join current-version)))
-            ;; if we have a git package
-            ((file-exists-p pkg-git-dir)
-             (with-current-buffer (get-buffer-create "*pkg.el-git-process")
-               (cd pkg-dir)
-               (process-file "git" nil (current-buffer) nil "pull")
-               (package-generate-autoloads file-name pkg-dir)
-               (let ((load-path (cons pkg-dir load-path)))
-                 (byte-recompile-directory pkg-dir 0 t))))))))
+      (message pkg-git-dir)
+      (cond
+       ;; see if we can update
+       ((and available-pkg (version-list-< current-version (package-desc-vers (cdr available-pkg))))
+        (message "Update to: " file-name "-" (package-version-join (package-desc-vers (cdr available-pkg))))
+        (package-install name)
+        (package-delete file-name (package-version-join current-version) ))
+
+
+       )
+      )))
 
 (defun package-download-git (name version desc requires repo)
   "Download and install a git package."
@@ -739,15 +740,11 @@ It will move point to somewhere in the headers."
          (dirname (concat file-name "-" version))
          (pkg-dir (expand-file-name dirname package-user-dir))
          (pkg-file (expand-file-name (concat file-name "-pkg.el") pkg-dir)))
-    (process-file
-     "git" nil
-     (get-buffer-create "*package.el-git-process") nil
-     "clone" repo pkg-dir)
+    (process-file "git" nil (get-buffer-create "*package.el-git-process") nil "clone" repo pkg-dir)
     (unless (file-exists-p pkg-file)
-      ;; should be put in its own function
-      ;; stolen from package-install-single
       (let ((print-level nil)
             (print-length nil))
+        
         (write-region
          (concat
           (prin1-to-string
@@ -767,10 +764,11 @@ It will move point to somewhere in the headers."
          nil
          pkg-file
          nil nil nil 'excl)))
+
     (package-generate-autoloads file-name pkg-dir)
     (let ((load-path (cons pkg-dir load-path)))
-      (byte-recompile-directory pkg-dir 0 t))))
-
+      (byte-recompile-directory pkg-dir 0 t))
+    ))
 
 (defun package-download-tar (name version)
   "Download and install a tar package."
@@ -930,26 +928,18 @@ using `package-compute-transaction'."
        (t
 	(error "Unknown package kind: %s" (symbol-name kind)))))))
 
-(defvar package--initialized nil)
-
 ;;;###autoload
 (defun package-install (name)
   "Install the package named NAME.
-NAME should be the name of one of the available packages in an
-archive in `package-archives'.  Interactively, prompt for NAME."
+Interactively, prompt for the package name.
+The package is found on one of the archives in `package-archives'."
   (interactive
-   (progn
-     ;; Initialize the package system to get the list of package
-     ;; symbols for completion.
-     (unless package--initialized
-       (package-initialize t))
-     (list (intern (completing-read
-		    "Install package: "
-		    (mapcar (lambda (elt)
-			      (cons (symbol-name (car elt))
-				    nil))
-			    package-archive-contents)
-		    nil t)))))
+   (list (intern (completing-read "Install package: "
+				  (mapcar (lambda (elt)
+					    (cons (symbol-name (car elt))
+						  nil))
+					  package-archive-contents)
+				  nil t))))
   (let ((pkg-desc (assq name package-archive-contents)))
     (unless pkg-desc
       (error "Package `%s' is not available for installation"
@@ -1161,6 +1151,8 @@ makes them available for download."
       (error (message "Failed to download `%s' archive."
 		      (car archive)))))
   (package-read-all-archive-contents))
+
+(defvar package--initialized nil)
 
 ;;;###autoload
 (defun package-initialize (&optional no-activate)
