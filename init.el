@@ -2,7 +2,7 @@
 ;;
 ;; based on emacs-starter-kit
 ;; 
-;; Updated: 2011-09-13 06:15:57 (dcurtis)
+;; Updated: 2011-09-13 06:22:20 (dcurtis)
 ;;
 ;; 
 
