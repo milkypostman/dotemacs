@@ -2,7 +2,7 @@
 ;;
 ;; based on emacs-starter-kit
 ;; 
-;; Updated: 2011-09-12 01:17:24 (dcurtis)
+;; Updated: 2011-09-13 06:15:57 (dcurtis)
 ;;
 ;; 
 
@@ -39,8 +39,11 @@
 
 (setq auto-save-file-name-transforms '((".*" "~/.emacs.d/autosave/" t)))
 (setq delete-auto-save-files nil)
+(setq inhibit-startup-echo-area-message "dcurtis")
 
-(savehist-mode)
+(auto-revert-mode t)
+(savehist-mode t)
+(recentf-mode t)
 
 (ignore-errors
   (server-start))
@@ -419,6 +422,9 @@ depending on the last command issued."
   '(progn
      (add-to-list 'reftex-section-prefixes '(1 . "chap:"))))
 
+(add-hook 'ibuffer-mode-hook 
+	  '(lambda ()
+	     (ibuffer-auto-mode 1)))
 
 (defun mp-ido-hook ()
   (setq ido-mode-map ido-completion-map)
@@ -491,3 +497,4 @@ depending on the last command issued."
 ;; time-stamp-start: "Updated: +"
 ;; time-stamp-end: "$"
 ;; End:
+(put 'narrow-to-region 'disabled nil)
