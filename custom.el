@@ -11,6 +11,8 @@
  '(c-hanging-braces-alist (quote ((brace-list-open) (brace-entry-open) (substatement-open after) (block-close . c-snug-do-while) (arglist-cont-nonempty))))
  '(c-offsets-alist (quote ((substatement-open . 0) (substatement-label . 0))))
  '(default-frame-alist (quote ((tool-bar-lines . 1) (menu-bar-lines . 1) (cursor-type . box) (internal-border-width . 0) (left-fringe . 1) (right-fringe) (fringe) (background-color . "black") (background-mode . dark) (border-color . "black") (cursor-color . "yellow") (foreground-color . "White") (mouse-color . "sienna1"))))
+ '(deft-directory "/Users/dcurtis/Dropbox/Notational")
+ '(deft-text-mode (quote markdown-mode))
  '(ibuffer-expert t)
  '(ibuffer-show-empty-filter-groups nil)
  '(line-spacing 0)
