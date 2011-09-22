@@ -11,6 +11,8 @@
  '(c-hanging-braces-alist (quote ((brace-list-open) (brace-entry-open) (substatement-open after) (block-close . c-snug-do-while) (arglist-cont-nonempty))))
  '(c-offsets-alist (quote ((substatement-open . 0) (substatement-label . 0))))
  '(default-frame-alist (quote ((tool-bar-lines . 1) (menu-bar-lines . 1) (cursor-type . box) (internal-border-width . 0) (left-fringe . 1) (right-fringe) (fringe) (background-color . "black") (background-mode . dark) (border-color . "black") (cursor-color . "yellow") (foreground-color . "White") (mouse-color . "sienna1"))))
+ '(deft-directory "/Users/dcurtis/Dropbox/Notational/")
+ '(deft-text-mode (quote markdown-mode))
  '(line-spacing 0)
  '(mode-line-in-non-selected-windows t)
  '(mode-line-inverse-video t)
@@ -26,7 +28,8 @@
  '(set-mark-command-repeat-pop t)
  '(split-height-threshold 100)
  '(tool-bar-mode nil)
- '(visual-line-mode nil t))
+ '(visual-line-mode nil t)
+ '(yas/prompt-functions (quote (yas/dropdown-prompt yas/ido-prompt yas/completing-prompt yas/x-prompt yas/no-prompt))))
 
 
 (custom-set-faces

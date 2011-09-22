@@ -2,9 +2,10 @@
 ;;
 ;; based on emacs-starter-kit
 ;; 
-;; Updated: 2011-09-12 11:38:03 (dcurtis)
+;; Updated: 2011-09-20 13:55:00 (dcurtis)
 ;;
 ;; 
+
 
 (require 'package)
 (setq package-user-dir "~/.emacs.d/elpa/")
@@ -16,10 +17,10 @@
              '("elpa-git" . "http://milkbox.net/elpa-git/") t)
 (package-initialize)
 
-(add-to-list 'load-path "~/.emacs.d/elisp/")
-
 ;; debug if we would like
 (setq debug-on-error t)
+
+(add-to-list 'load-path "~/.emacs.d/elisp/")
 
 
 (require 'uniquify)
@@ -116,10 +117,9 @@
 (global-set-key (kbd "C-c r") 'iterm-run-previous-command)
 
 (define-key ctl-x-4-map "f" 'ido-find-recentfile-other-window)
-(global-set-key (kbd "C-c n") '(lambda () (interactive) (ido-find-file-in-dir "~/Dropbox/Notational")))
-(global-set-key (kbd "C-c u") '(lambda () (interactive) (ido-find-file-in-dir "~/src/compepi/uihc")))
 (global-set-key (kbd "C-x C-d") 'ido-dired)
 
+(global-set-key (kbd "C-c d") 'deft)
 
 (global-set-key (kbd "C-x g") 'magit-status)
 
@@ -219,11 +219,10 @@
 
 
 (defun marked ()
-  "Open the current working directory in finder."
+  "Open the current file in Marked."
   (interactive)
-  (if (buffer-file-name)
-      (shell-command (concat "open -a Marked " (shell-quote-argument buffer-file-name))))
-  )
+  (when (buffer-file-name)
+    (shell-command (concat "open -a Marked " (shell-quote-argument buffer-file-name)))))
 
 
 (defun make-executable ()
