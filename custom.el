@@ -6,11 +6,13 @@
  '(aquamacs-additional-fontsets nil t)
  '(aquamacs-customization-version-id 300 t)
  '(aquamacs-tool-bar-user-customization nil t)
+ '(blink-cursor-mode nil)
  '(c-basic-offset 2)
  '(c-default-style (quote ((java-mode . "java") (awk-mode . "awk") (other . "user"))))
  '(c-hanging-braces-alist (quote ((brace-list-open) (brace-entry-open) (substatement-open after) (block-close . c-snug-do-while) (arglist-cont-nonempty))))
  '(c-offsets-alist (quote ((substatement-open . 0) (substatement-label . 0))))
- '(default-frame-alist (quote ((tool-bar-lines . 1) (menu-bar-lines . 1) (cursor-type . box) (internal-border-width . 0) (left-fringe . 1) (right-fringe) (fringe) (background-color . "black") (background-mode . dark) (border-color . "black") (cursor-color . "yellow") (foreground-color . "White") (mouse-color . "sienna1"))))
+ '(custom-enabled-themes nil)
+ '(default-frame-alist (quote ((menu-bar-lines . 1) (tool-bar-lines . 0) (cursor-type . box) (internal-border-width . 0) (left-fringe . 1) (right-fringe) (fringe) (vertical-scroll-bars) (font . "Inconsolata-13"))))
  '(deft-directory "/Users/dcurtis/Dropbox/Notational")
  '(deft-text-mode (quote markdown-mode))
  '(ibuffer-expert t)
@@ -28,6 +30,7 @@
  '(scroll-conservatively 5)
  '(scroll-margin 5)
  '(set-mark-command-repeat-pop t)
+ '(show-paren-mode t)
  '(split-height-threshold 100)
  '(tool-bar-mode nil)
  '(visual-line-mode nil t)
@@ -39,9 +42,6 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:inherit nil :stipple nil :background "black" :foreground "white" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 120 :width normal :foundry "apple" :family "Consolas_for_BBEdit"))))
  '(hl-sentence-face ((t (:foreground "white"))) t)
- '(mode-line ((t (:box nil :height 0.9))))
- '(mode-line-inactive ((t (:inherit mode-line :background "grey30" :foreground "grey80" :box nil :weight light))))
  '(variable-pitch ((t (:foreground "gray80" :family "Lucida Grande")))))
 
