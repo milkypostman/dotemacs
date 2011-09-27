@@ -2,7 +2,7 @@
 ;;
 ;; based on emacs-starter-kit
 ;; 
-;; Updated: 2011-09-20 13:55:00 (dcurtis)
+;; Updated: 2011-09-27 15:43:53 (dcurtis)
 ;;
 ;; 
 
@@ -488,8 +488,6 @@ depending on the last command issued."
   (setq custom-file "~/.emacs.d/custom.el"))
 (load custom-file)
 
-(load-file "~/.emacs.d/themes/color-theme-arjen.el")
-(color-theme-arjen)
 
 
 ;; Local Variables:
