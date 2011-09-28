@@ -2,7 +2,7 @@
 ;;
 ;; based on emacs-starter-kit
 ;; 
-;; Updated: 2011-09-23 11:05:46 (dcurtis)
+;; Updated: 2011-09-27 17:01:58 (dcurtis)
 ;;
 ;; 
 
@@ -369,9 +369,24 @@ end tell"))
       (write-file out-buffer-name)
       (kill-buffer (buffer-name)))))
 
+(defun shell-command-on-region-to-string (start end command)
+  (with-output-to-string
+    (shell-command-on-region start end command standard-output)))
+
+;; markdown
+(defun markdown-mmd-copy ()
+  "process file with multimarkdown and save it accordingly"
+  (interactive)
+  (kill-new (shell-command-on-region-to-string
+             (point-min) (point-max)
+             "/usr/local/bin/multimarkdown"))
+  )
+
+
 (eval-after-load 'markdown-mode
   '(progn
-     (define-key markdown-mode-map (kbd "C-c m") 'markdown-pandoc)))
+     (define-key markdown-mode-map (kbd "C-c m") 'markdown-pandoc)
+     (define-key markdown-mode-map (kbd "C-c c") 'markdown-mmd-copy)))
 
 
 ;; auctex
@@ -489,8 +504,6 @@ depending on the last command issued."
   (setq custom-file "~/.emacs.d/custom.el"))
 (load custom-file)
 
-(load-file "~/.emacs.d/themes/color-theme-arjen.el")
-(color-theme-arjen)
 
 
 ;; Local Variables:
