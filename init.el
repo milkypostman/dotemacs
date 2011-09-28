@@ -2,7 +2,7 @@
 ;;
 ;; based on emacs-starter-kit
 ;; 
-;; Updated: 2011-09-20 13:55:00 (dcurtis)
+;; Updated: 2011-09-23 11:05:46 (dcurtis)
 ;;
 ;; 
 
@@ -13,8 +13,8 @@
              '("marmalade" . "http://marmalade-repo.org/packages/") t)
 (add-to-list 'package-archives
              '("khealy" . "http://kieranhealy.org/packages/") t)
-(add-to-list 'package-archives
-             '("elpa-git" . "http://milkbox.net/elpa-git/") t)
+;; (add-to-list 'package-archives
+;;              '("elpa-git" . "http://milkbox.net/elpa-git/") t)
 (package-initialize)
 
 ;; debug if we would like
@@ -122,6 +122,7 @@
 (define-key ctl-x-4-map "f" 'ido-find-recentfile-other-window)
 (global-set-key (kbd "C-x C-d") 'ido-dired)
 
+;; (global-set-key (kbd "C-x f") 'ido-find-recentfile)
 (global-set-key (kbd "C-c d") 'deft)
 
 (global-set-key (kbd "C-x g") 'magit-status)
@@ -298,10 +299,10 @@ end tell"))
   (newline-and-indent))
 
 
-(setq auto-mode-alist
-      (cons '("\\.text" . markdown-mode) auto-mode-alist))
-(setq auto-mode-alist
-      (cons '("\\.md" . markdown-mode) auto-mode-alist))
+;; (setq auto-mode-alist
+;;       (cons '("\\.text" . markdown-mode) auto-mode-alist))
+;; (setq auto-mode-alist
+;;       (cons '("\\.md" . markdown-mode) auto-mode-alist))
 
 
 (defun kmacro-edit-lossage ()
@@ -452,7 +453,7 @@ depending on the last command issued."
 ;; paredit
 ;; (add-hook 'prog-mode-hook 'esk-paredit-nonlisp)
 (remove-hook 'prog-mode-hook 'esk-turn-on-hl-line-mode)
-(add-hook 'emacs-lisp-mode-hook 'esk-turn-on-paredit)
+;; (add-hook 'emacs-lisp-mode-hook 'esk-turn-on-paredit)
 
 
 ;; faces
