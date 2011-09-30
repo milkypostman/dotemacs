@@ -1,0 +1,6 @@
+#!/bin/bash
+
+# (load-file "~/.emacs.d/elisp/package-build.el")
+# (package-build-archive
+
+emacs --batch -l package-build.el -u dcurtis --eval "(package-build-archive \"$1\")"

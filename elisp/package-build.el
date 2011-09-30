@@ -118,7 +118,7 @@
       (concat base-dir ".tar")
       package-build-archive-dir)
      "--exclude=.svn"
-     "--exclude=.git"
+     "--exclude=.git*"
      base-dir)))
 
 
