@@ -2,7 +2,7 @@
 ;;
 ;; based on emacs-starter-kit
 ;; 
-;; Updated: 2011-09-27 17:01:58 (dcurtis)
+;; Updated: 2011-09-30 16:16:44 (dcurtis)
 ;;
 ;; 
 
@@ -82,7 +82,9 @@
 (define-key isearch-mode-map "\C-h" 'isearch-delete-char)
 
 ;; make <C-tab> be M-TAB
-(define-key function-key-map (kbd "<C-tab>") (kbd "M-TAB"))
+;; (define-key function-key-map (kbd "<C-tab>") (kbd "M-TAB"))
+(define-key key-translation-map (kbd "<C-tab>") (kbd "M-TAB"))
+;; (global-set-key (kbd "<C-tab>") (kbd "M-TAB"))
 
 
 (global-set-key (kbd "s-<return>") 'ns-toggle-fullscreen)
@@ -127,10 +129,10 @@
 
 (global-set-key (kbd "C-x g") 'magit-status)
 
-(global-set-key (kbd "C-h") (kbd "<backspace>"))
+
+(define-key key-translation-map (kbd "C-h") (kbd "DEL"))
 (global-set-key (kbd "C-c h") 'help-command)
 (global-set-key (kbd "C-x C-m") 'execute-extended-command)
-
 
 
 (put 'kill-ring-save 'interactive-form
@@ -345,7 +347,7 @@ end tell"))
 ;; yas/snippets
 (eval-after-load 'yasnippet
   '(progn
-     (yas/load-directory "~/.emacs.d/elpa/yasnippet-2305843009213693951/snippets/")
+     (yas/load-directory (format "%ssnippets/" (file-name-directory (locate-library "yasnippet"))))
      (yas/load-directory "~/.emacs.d/snippets/")
      ))
 
@@ -437,6 +439,9 @@ depending on the last command issued."
   '(progn
      (add-to-list 'reftex-section-prefixes '(1 . "chap:"))))
 
+;; (setq ibuffer-saved-filter-groups
+;;      (
+
 (add-hook 'ibuffer-mode-hook 
 	  '(lambda ()
 	     (ibuffer-auto-mode 1)))
@@ -466,9 +471,9 @@ depending on the last command issued."
 (add-hook 'c-mode-common-hook 'mp-add-c-mode-bindings)
 
 ;; paredit
-;; (add-hook 'prog-mode-hook 'esk-paredit-nonlisp)
-(remove-hook 'prog-mode-hook 'esk-turn-on-hl-line-mode)
-;; (add-hook 'emacs-lisp-mode-hook 'esk-turn-on-paredit)
+(add-hook 'prog-mode-hook 'yas/minor-mode)
+;; (remove-hook 'prog-mode-hook 'esk-turn-on-hl-line-mode)
+(add-hook 'emacs-lisp-mode-hook 'esk-turn-on-paredit)
 
 
 ;; faces
