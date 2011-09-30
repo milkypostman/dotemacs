@@ -8,3 +8,7 @@
 /auto-save-list
 /.savehist
 /history
+/elisp/hl-sentence/
+/elisp/working
+/elisp/epkgs
+/elisp/archives

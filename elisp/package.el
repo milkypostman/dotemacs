@@ -735,7 +735,7 @@ It will move point to somewhere in the headers."
 
 (defun package-download-git (name version desc requires repo)
   "Download and install a git package."
-  (let* ((file-name (symbol-name name))ss
+  (let* ((file-name (symbol-name name))
          (dirname (concat file-name "-" version))
          (pkg-dir (expand-file-name dirname package-user-dir))
          (pkg-file (expand-file-name (concat file-name "-pkg.el") pkg-dir)))
