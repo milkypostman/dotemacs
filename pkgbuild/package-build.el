@@ -45,11 +45,14 @@
 
 (require 'package)
 
-(defvar package-build-working-dir "~/.emacs.d/elisp/working/"
+(defvar package-build-working-dir (expand-file-name "working/")
   "Directory in which to keep checkouts.")
 
-(defvar package-build-archive-dir "~/.emacs.d/elisp/archives/"
+(defvar package-build-archive-dir (expand-file-name "archives/")
   "Directory in which to keep compiled archives.")
+
+
+
 
 (defun package-build-checkout-svn (repo dir) 
   "checkout an svn package"
@@ -97,7 +100,7 @@
 (defun package-build-get-config (file-name)
   "get the configuration information for the given file-name"
   (save-window-excursion
-    (let ((config-file (format "~/.emacs.d/elisp/epkgs/%s/.config" file-name)))
+    (let ((config-file (format "epkgs/%s/.config" file-name)))
       (cond
        ((file-exists-p config-file)
         (find-file config-file)
@@ -150,10 +153,10 @@
         (package-build-read-archive-contents)
         (cond
          ((eq repo-type 'svn)
-          (message "SVN TYPE")
+          (message "Subversion")
           (package-build-checkout-svn repo dir))
          ((eq repo-type 'git)
-          (message "GIT TYPE")
+          (message "Git")
           (package-build-checkout-git repo dir)))
 
         (when (file-exists-p dir)

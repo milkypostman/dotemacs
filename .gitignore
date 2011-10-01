@@ -9,6 +9,6 @@
 /.savehist
 /history
 /elisp/hl-sentence/
-/elisp/working
-/elisp/epkgs
-/elisp/archives
+/pkgbuild/working
+/pkgbuild/epkgs
+/pkgbuild/archives
