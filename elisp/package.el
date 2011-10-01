@@ -750,7 +750,7 @@ It will move point to somewhere in the headers."
             (print-length nil))
         (write-region
          (concat
-          (prin1-to-string
+          (pp-to-string
            (list 'define-package
                  file-name
                  version

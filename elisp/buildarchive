@@ -3,4 +3,8 @@
 # (load-file "~/.emacs.d/elisp/package-build.el")
 # (package-build-archive
 
-emacs --batch -l package-build.el -u dcurtis --eval "(package-build-archive \"$1\")"
+for pkg in $@; do
+    echo "Building package: $pkg"
+    emacs --batch -l package-build.el -u dcurtis --eval "(package-build-archive \"$pkg\")"
+done
+

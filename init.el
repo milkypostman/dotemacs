@@ -2,7 +2,7 @@
 ;;
 ;; based on emacs-starter-kit
 ;; 
-;; Updated: 2011-09-30 16:16:44 (dcurtis)
+;; Updated: 2011-09-30 23:44:11 (dcurtis)
 ;;
 ;; 
 
@@ -13,8 +13,8 @@
              '("marmalade" . "http://marmalade-repo.org/packages/") t)
 (add-to-list 'package-archives
              '("khealy" . "http://kieranhealy.org/packages/") t)
-;; (add-to-list 'package-archives
-;;              '("elpa-git" . "http://milkbox.net/elpa-git/") t)
+(add-to-list 'package-archives
+             '("elpa-git" . "http://milkbox.net/elpa-git/") t)
 (package-initialize)
 
 ;; debug if we would like
@@ -132,7 +132,8 @@
 
 (define-key key-translation-map (kbd "C-h") (kbd "DEL"))
 (global-set-key (kbd "C-c h") 'help-command)
-(global-set-key (kbd "C-x C-m") 'execute-extended-command)
+
+(define-key key-translation-map (kbd "C-x C-m") (kbd "M-x"))
 
 
 (put 'kill-ring-save 'interactive-form
@@ -351,6 +352,10 @@ end tell"))
      (yas/load-directory "~/.emacs.d/snippets/")
      ))
 
+
+(when (boundp 'yas/minor-mode)
+  (add-hook 'prog-mode-hook 'yas/minor-mode))
+
 (defun mp-turn-on-yasnippet ()
   (interactive)
   (yas/minor-mode t))
@@ -471,7 +476,6 @@ depending on the last command issued."
 (add-hook 'c-mode-common-hook 'mp-add-c-mode-bindings)
 
 ;; paredit
-(add-hook 'prog-mode-hook 'yas/minor-mode)
 ;; (remove-hook 'prog-mode-hook 'esk-turn-on-hl-line-mode)
 (add-hook 'emacs-lisp-mode-hook 'esk-turn-on-paredit)
 
