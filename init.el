@@ -2,7 +2,7 @@
 ;;
 ;; based on emacs-starter-kit
 ;;
-;; Updated: 2011-10-02 17:16:50 (dcurtis)
+;; Updated: 2011-10-02 17:28:33 (dcurtis)
 ;;
 ;;
 
@@ -332,34 +332,33 @@ end tell"))
   ;; (setup-virtualenv)
   ;; (define-key python-mode-map (kbd "C-h")
   ;; 'python-indent-dedent-line-backspace
-  )
-(push "~/.virtualenvs/default/bin" exec-path)
-(setenv "PATH"
-        (concat
-         "~/.virtualenvs/default/bin" ":"
-         (getenv "PATH")
-         ))
+  
+  (push "~/.virtualenvs/default/bin" exec-path)
+  (setenv "PATH"
+          (concat
+           "~/.virtualenvs/default/bin" ":"
+           (getenv "PATH")
+           ))
 
-(font-lock-add-keywords 'python-mode
-                        `((,(rx symbol-start (or "import" "from")
-                                symbol-end) 0 font-lock-preprocessor-face)))
+  (font-lock-add-keywords 'python-mode
+                          `((,(rx symbol-start (or "import" "from")
+                                  symbol-end) 0 font-lock-preprocessor-face)))
 
-(make-face 'font-lock-operator-face)
-(set-face-attribute
- 'font-lock-operator-face nil :inherit font-lock-keyword-face)
-(setq font-lock-operator-face 'font-lock-operator-face)
-(font-lock-add-keywords
- 'python-mode
- `((,(rx symbol-start (or "in" "and" "or" "is" "not") symbol-end)
-    0 font-lock-operator-face)))
+  (make-face 'font-lock-operator-face)
+  (set-face-attribute
+   'font-lock-operator-face nil :inherit font-lock-keyword-face)
+  (setq font-lock-operator-face 'font-lock-operator-face)
+  (font-lock-add-keywords
+   'python-mode
+   `((,(rx symbol-start (or "in" "and" "or" "is" "not") symbol-end)
+      0 font-lock-operator-face)))
 
-(add-font-lock-numbers 'python-mode)
-(font-lock-add-keywords
- 'python-mode
- `(("^[       ]*\\(@\\)\\([a-zA-Z_][a-zA-Z_0-9.]+\\)\\((.+)\\)?"
-    (1 'font-lock-preprocessor-face)
-    (2 'font-lock-builtin-face))))
-)
+  (add-font-lock-numbers 'python-mode)
+  (font-lock-add-keywords
+   'python-mode
+   `(("^[       ]*\\(@\\)\\([a-zA-Z_][a-zA-Z_0-9.]+\\)\\((.+)\\)?"
+      (1 'font-lock-preprocessor-face)
+      (2 'font-lock-builtin-face)))))
 
 ;; (eval-after-load 'python '(python-modes-init))
 (eval-after-load 'python-mode '(python-modes-init))
