@@ -52,13 +52,24 @@
   "Directory in which to keep compiled archives.")
 
 
-(defun package-build-checkout-darcs (repo dir) 
+(defun package-build-checkout-darcs (repo dir)
   "checkout an svn package"
-  (process-file
-   "svn" nil
-   (get-buffer-create "*package-build-checkout*") nil "checkout" (concat repo "/trunk") dir))
+  (let ((work-buffer (get-buffer-create "*package-build-checkout*")))
+    (cond
+     ((file-exists-p dir)
+      (message "checkout directory exists, updating...")
+      (let ((default-directory dir))
+        (process-file
+         "darcs" nil
+         work-buffer nil "pull")))
+     (t
+      (message "cloning repository")
+      (process-file
+       "darcs" nil
+       work-buffer
+       nil "get" repo dir)))))
 
-(defun package-build-checkout-svn (repo dir) 
+(defun package-build-checkout-svn (repo dir)
   "checkout an svn repo"
   (let ((work-buffer (get-buffer-create "*package-build-checkout*")))
     (cond
@@ -72,9 +83,10 @@
       (message "cloning repository")
       (process-file
        "svn" nil
-       (get-buffer-create "*package-build-checkout*") nil "checkout" (concat repo "/trunk") dir)))))
+       work-buffer
+       nil "checkout" (concat repo "/trunk") dir)))))
 
-(defun package-build-checkout-git (repo dir) 
+(defun package-build-checkout-git (repo dir)
   "checkout an git repo"
   (let ((work-buffer (get-buffer-create "*package-build-checkout*")))
     (cond
@@ -88,7 +100,8 @@
       (message "cloning repository")
       (process-file
        "git" nil
-       (get-buffer-create "*package-build-checkout*") nil "clone" repo dir)))))
+       work-buffer
+       nil "clone" repo dir)))))
 
 (defun package-build-pkg-file (pkg-file file-name version homepage)
   "build the pkg file"
@@ -138,15 +151,11 @@
         (let ((contents (read (current-buffer))))
           (setq package-build-alist (cdr contents)))))))
 
-
 (defun package-build-create-tar (file-name version)
   "create a tar for the file-name with version"
   (let ((default-directory package-build-working-dir)
-        (local-dir (expand-file-name file-name package-build-working-dir))
-        (pkg-dir
-         (expand-file-name (concat file-name "-" version)
-                           package-build-working-dir)))
-    (copy-directory local-dir pkg-dir)
+        (pkg-base-dir (concat file-name "-" version)))
+    (copy-directory file-name pkg-base-dir)
     (process-file
      "tar" nil
      (get-buffer-create "*package-build-checkout*")
@@ -155,8 +164,9 @@
       (concat file-name "-" version ".tar") package-build-archive-dir)
      "--exclude=.svn"
      "--exclude=.git*"
-     pkg-dir)
-    (delete-directory pkg-dir t nil)))
+     "--exclude=_darcs"
+     pkg-base-dir)
+    (delete-directory pkg-base-dir t nil)))
 
 
 (defun package-build-archive (file-name)
@@ -178,7 +188,10 @@
           (package-build-checkout-svn repo local-dir))
          ((eq repo-type 'git)
           (message "Git")
-          (package-build-checkout-git repo local-dir)))
+          (package-build-checkout-git repo local-dir))
+         ((eq repo-type 'darcs)
+          (message "Darcs")
+          (package-build-checkout-darcs repo local-dir)))
 
         (when (file-exists-p local-dir)
           (unless (file-exists-p pkg-file)
