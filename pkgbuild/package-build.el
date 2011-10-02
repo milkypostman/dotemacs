@@ -52,9 +52,7 @@
   "Directory in which to keep compiled archives.")
 
 
-
-
-(defun package-build-checkout-svn (repo dir) 
+(defun package-build-checkout-darcs (repo dir) 
   "checkout an svn package"
   (process-file
    "svn" nil
@@ -62,15 +60,35 @@
 
 (defun package-build-checkout-svn (repo dir) 
   "checkout an svn repo"
-  (process-file
-   "svn" nil
-   (get-buffer-create "*package-build-checkout*") nil "checkout" (concat repo "/trunk") dir))
+  (let ((work-buffer (get-buffer-create "*package-build-checkout*")))
+    (cond
+     ((file-exists-p dir)
+      (message "checkout directory exists, updating...")
+      (let ((default-directory dir))
+        (process-file
+         "svn" nil
+         work-buffer nil "up")))
+     (t
+      (message "cloning repository")
+      (process-file
+       "svn" nil
+       (get-buffer-create "*package-build-checkout*") nil "checkout" (concat repo "/trunk") dir)))))
 
 (defun package-build-checkout-git (repo dir) 
   "checkout an git repo"
-  (process-file
-   "git" nil
-   (get-buffer-create "*package-build-checkout*") nil "clone" repo dir))
+  (let ((work-buffer (get-buffer-create "*package-build-checkout*")))
+    (cond
+     ((file-exists-p dir)
+      (message "checkout directory exists, updating...")
+      (let ((default-directory dir))
+        (process-file
+         "git" nil
+         work-buffer nil "pull")))
+     (t
+      (message "cloning repository")
+      (process-file
+       "git" nil
+       (get-buffer-create "*package-build-checkout*") nil "clone" repo dir)))))
 
 (defun package-build-pkg-file (pkg-file file-name version homepage)
   "build the pkg file"
@@ -112,7 +130,8 @@
 (defvar package-build-alist '())
 
 (defun package-build-read-archive-contents ()
-  (let ((archive-file (expand-file-name "archive-contents" package-build-archive-dir)))
+  (let ((archive-file
+         (expand-file-name "archive-contents" package-build-archive-dir)))
     (when (file-exists-p archive-file)
       (with-temp-buffer
         (insert-file-contents-literally archive-file)
@@ -123,17 +142,21 @@
 (defun package-build-create-tar (file-name version)
   "create a tar for the file-name with version"
   (let ((default-directory package-build-working-dir)
-        (base-dir (concat file-name "-" version)))
+        (local-dir (expand-file-name file-name package-build-working-dir))
+        (pkg-dir
+         (expand-file-name (concat file-name "-" version)
+                           package-build-working-dir)))
+    (copy-directory local-dir pkg-dir)
     (process-file
      "tar" nil
      (get-buffer-create "*package-build-checkout*")
      nil "-cvf"
      (expand-file-name
-      (concat base-dir ".tar")
-      package-build-archive-dir)
+      (concat file-name "-" version ".tar") package-build-archive-dir)
      "--exclude=.svn"
      "--exclude=.git*"
-     base-dir)))
+     pkg-dir)
+    (delete-directory pkg-dir t nil)))
 
 
 (defun package-build-archive (file-name)
@@ -142,10 +165,8 @@
   (let* ((desc (package-build-get-config file-name))
          (name (intern file-name))
          (version (format-time-string "%Y%m%d" (current-time)))
-         (base-dir (concat file-name "-" version))
-         (dir (expand-file-name base-dir package-build-working-dir))
-         (pkg-file (expand-file-name (concat file-name "-pkg.el") dir)))
-    (message base-dir)
+         (local-dir (expand-file-name file-name package-build-working-dir))
+         (pkg-file (expand-file-name (concat file-name "-pkg.el") local-dir)))
     (when desc
       (let* ((repo-type (plist-get desc :fetcher))
              (repo (plist-get desc :url))
@@ -154,12 +175,12 @@
         (cond
          ((eq repo-type 'svn)
           (message "Subversion")
-          (package-build-checkout-svn repo dir))
+          (package-build-checkout-svn repo local-dir))
          ((eq repo-type 'git)
           (message "Git")
-          (package-build-checkout-git repo dir)))
+          (package-build-checkout-git repo local-dir)))
 
-        (when (file-exists-p dir)
+        (when (file-exists-p local-dir)
           (unless (file-exists-p pkg-file)
             (package-build-pkg-file pkg-file file-name version homepage))
           (package-build-create-tar file-name version)
