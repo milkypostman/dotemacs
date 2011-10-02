@@ -1,10 +1,10 @@
 ;; Milkmacs
 ;;
 ;; based on emacs-starter-kit
-;; 
-;; Updated: 2011-09-30 23:44:11 (dcurtis)
 ;;
-;; 
+;; Updated: 2011-10-02 17:16:50 (dcurtis)
+;;
+;;
 
 
 (require 'package)
@@ -180,7 +180,8 @@
                (rename-buffer new-name)
                (set-visited-file-name new-name)
                (set-buffer-modified-p nil)
-               (message "File '%s' successfully renamed to '%s'" name (file-name-nondirectory new-name))))))))
+               (message "File '%s' successfully renamed to '%s'"
+                        name (file-name-nondirectory new-name))))))))
 
 
 (defun ido-find-recentfile-other-window ()
@@ -200,20 +201,24 @@
 
 (defun comment-dwim-line (&optional arg)
   "Replacement for the comment-dwim command.
-        If no region is selected and current line is not blank and we are not at the end of the line,
-        then comment current line.
-        Replaces default behaviour of comment-dwim, when it inserts comment at the end of the line."
+   If no region is selected and current line is not blank and we
+   are not at the end of the line, then comment current line.
+   Replaces default behaviour of comment-dwim, when it inserts
+   comment at the end of the line."
   (interactive "*P")
   (comment-normalize-vars)
   (if (not (region-active-p))
-      (comment-or-uncomment-region (line-beginning-position) (line-end-position))
+      (comment-or-uncomment-region
+       (line-beginning-position) (line-end-position))
     (comment-dwim arg)))
 
 (defun open-previous-line (arg)
   "Open a new line before the current one.
      See also `newline-and-indent'."
   (interactive "p")
-  (if (eolp) (save-excursion (delete-region (point) (progn (skip-chars-backward " \t") (point)))))
+  (if (eolp) (save-excursion
+               (delete-region (point)
+                              (progn (skip-chars-backward " \t") (point)))))
   (beginning-of-line)
   (open-line arg)
   (indent-according-to-mode))
@@ -229,7 +234,8 @@
   "Open the current file in Marked."
   (interactive)
   (when (buffer-file-name)
-    (shell-command (concat "open -a Marked " (shell-quote-argument buffer-file-name)))))
+    (shell-command (concat "open -a Marked "
+                           (shell-quote-argument buffer-file-name)))))
 
 
 (defun make-executable ()
@@ -238,7 +244,8 @@
   (if (buffer-file-name)
       (shell-command
        (mapconcat 'identity
-                  (list "chmod" "u+x" (shell-quote-argument (buffer-file-name))) " "))
+                  (list "chmod" "u+x"
+                        (shell-quote-argument (buffer-file-name))) " "))
     (message "Buffer has no filename.")))
 
 (defun width-80 ()
@@ -280,9 +287,11 @@ end tell"))
     (let* ((start (point)) (end (point)))
       (forward-word 2)
       (setq end (point))
-      (insert (number-to-string
-               (/ (round
-                   (* (string-to-number (buffer-substring-no-properties start end)) 1000.0))  1000.0)))
+      (insert
+       (number-to-string
+        (/ (round
+            (* (string-to-number
+                (buffer-substring-no-properties start end)) 1000.0))  1000.0)))
       (delete-region start end)
       )))
 
@@ -304,8 +313,10 @@ end tell"))
 
 ;; (setq auto-mode-alist
 ;;       (cons '("\\.text" . markdown-mode) auto-mode-alist))
-;; (setq auto-mode-alist
-;;       (cons '("\\.md" . markdown-mode) auto-mode-alist))
+(setq auto-mode-alist
+      (cons '("\\.md" . markdown-mode) auto-mode-alist))
+(setq auto-mode-alist
+      (cons '("\\.md" . markdown-mode) auto-mode-alist))
 
 
 (defun kmacro-edit-lossage ()
@@ -319,28 +330,36 @@ end tell"))
 (defun python-modes-init ()
   "initialization for all python modes"
   ;; (setup-virtualenv)
-  ;; (define-key python-mode-map (kbd "C-h") 'python-indent-dedent-line-backspace)
-  (push "~/.virtualenvs/default/bin" exec-path)
-  (setenv "PATH"
-          (concat
-           "~/.virtualenvs/default/bin" ":"
-           (getenv "PATH")
-           ))
-
-  (font-lock-add-keywords 'python-mode `((,(rx symbol-start (or "import" "from") symbol-end) 0 font-lock-preprocessor-face)))
-
-  (make-face 'font-lock-operator-face)
-  (set-face-attribute 'font-lock-operator-face nil :inherit font-lock-keyword-face)
-  (setq font-lock-operator-face 'font-lock-operator-face)
-  (font-lock-add-keywords 'python-mode `((,(rx symbol-start (or "in" "and" "or" "is" "not") symbol-end) 0 font-lock-operator-face)))
-
-  (add-font-lock-numbers 'python-mode)
-  (font-lock-add-keywords
-   'python-mode
-   `(("^[       ]*\\(@\\)\\([a-zA-Z_][a-zA-Z_0-9.]+\\)\\((.+)\\)?"
-      (1 'font-lock-preprocessor-face)
-      (2 'font-lock-builtin-face))))
+  ;; (define-key python-mode-map (kbd "C-h")
+  ;; 'python-indent-dedent-line-backspace
   )
+(push "~/.virtualenvs/default/bin" exec-path)
+(setenv "PATH"
+        (concat
+         "~/.virtualenvs/default/bin" ":"
+         (getenv "PATH")
+         ))
+
+(font-lock-add-keywords 'python-mode
+                        `((,(rx symbol-start (or "import" "from")
+                                symbol-end) 0 font-lock-preprocessor-face)))
+
+(make-face 'font-lock-operator-face)
+(set-face-attribute
+ 'font-lock-operator-face nil :inherit font-lock-keyword-face)
+(setq font-lock-operator-face 'font-lock-operator-face)
+(font-lock-add-keywords
+ 'python-mode
+ `((,(rx symbol-start (or "in" "and" "or" "is" "not") symbol-end)
+    0 font-lock-operator-face)))
+
+(add-font-lock-numbers 'python-mode)
+(font-lock-add-keywords
+ 'python-mode
+ `(("^[       ]*\\(@\\)\\([a-zA-Z_][a-zA-Z_0-9.]+\\)\\((.+)\\)?"
+    (1 'font-lock-preprocessor-face)
+    (2 'font-lock-builtin-face))))
+)
 
 ;; (eval-after-load 'python '(python-modes-init))
 (eval-after-load 'python-mode '(python-modes-init))
@@ -348,7 +367,8 @@ end tell"))
 ;; yas/snippets
 (eval-after-load 'yasnippet
   '(progn
-     (yas/load-directory (format "%ssnippets/" (file-name-directory (locate-library "yasnippet"))))
+     (yas/load-directory
+      (format "%ssnippets/" (file-name-directory (locate-library "yasnippet"))))
      (yas/load-directory "~/.emacs.d/snippets/")
      ))
 
@@ -367,10 +387,12 @@ end tell"))
 (defun markdown-pandoc ()
   "process file with pandoc and save it accordingly"
   (interactive)
-  (let ((out-buffer-name (concat (file-name-sans-extension (buffer-name)) ".html")))
+  (let ((out-buffer-name
+         (concat (file-name-sans-extension (buffer-name)) ".html")))
     (shell-command-on-region
      (point-min) (point-max)
-     "~/.cabal/bin/pandoc -H ~/Dropbox/Markdown/antique.css" markdown-output-buffer-name)
+     "~/.cabal/bin/pandoc -H ~/Dropbox/Markdown/antique.css"
+     markdown-output-buffer-name)
     (save-current-buffer
       (set-buffer markdown-output-buffer-name)
       (write-file out-buffer-name)
@@ -413,7 +435,9 @@ end tell"))
      (setq-default TeX-PDF-mode t)
      ;; (setq-default TeX-master nil)
      ;; (setq LaTeX-command "latex")
-     (setq TeX-view-program-list '(("Skim" "/Applications/Skim.app/Contents/SharedSupport/displayline %n %o %b")))
+     (setq TeX-view-program-list
+           '(("Skim"
+              "/Applications/Skim.app/Contents/SharedSupport/displayline %n %o %b")))
      (setq TeX-view-program-selection '((output-pdf "Skim")))
 
      (defun TeX-compile ()
@@ -447,7 +471,7 @@ depending on the last command issued."
 ;; (setq ibuffer-saved-filter-groups
 ;;      (
 
-(add-hook 'ibuffer-mode-hook 
+(add-hook 'ibuffer-mode-hook
 	  '(lambda ()
 	     (ibuffer-auto-mode 1)))
 
@@ -458,7 +482,7 @@ depending on the last command issued."
   (define-key ido-mode-map "\C-n" 'ido-next-match)
   (define-key ido-mode-map "\C-p" 'ido-prev-match)
   (define-key ido-completion-map [tab] 'ido-complete)
-;;  (ido-everywhere)
+  ;;  (ido-everywhere)
   )
 (add-hook 'ido-setup-hook 'mp-ido-hook)
 
@@ -487,14 +511,20 @@ depending on the last command issued."
 (defvar font-lock-number "[0-9-.]+\\([eE][+-]?[0-9]*\\)?")
 (defvar font-lock-hexnumber "0[xX][0-9a-fA-F]+")
 (defun add-font-lock-numbers (mode)
-  (font-lock-add-keywords mode
-                          `((,(concat "\\<\\(" font-lock-number "\\)\\>" ) 0 font-lock-number-face)
-                            (,(concat "\\<\\(" font-lock-hexnumber "\\)\\>" ) 0 font-lock-number-face)
-                            )))
+  (font-lock-add-keywords
+   mode
+   `((,(concat "\\<\\(" font-lock-number "\\)\\>" ) 0 font-lock-number-face)
+     (,(concat "\\<\\(" font-lock-hexnumber "\\)\\>" ) 0 font-lock-number-face)
+     )))
 
-;; (font-lock-add-keywords 'emacs-lisp-mode '(("(\\|)\\|'" . 'font-lock-exit-face)))
-(font-lock-add-keywords 'emacs-lisp-mode '(("'\\([0-9a-zA-Z-]*\\)" (1 'font-lock-variable-name-face))))
-;; (font-lock-add-keywords 'emacs-lisp-mode '(("add-to-list" . font-lock-keyword-face)))
+;; (font-lock-add-keywords 'emacs-lisp-mode
+;; '(("(\\|)\\|'" . 'font-lock-exit-face)))
+;; (font-lock-add-keywords 'emacs-lisp-mode
+;; '(("add-to-list" . font-lock-keyword-face)))
+
+(font-lock-add-keywords
+ 'emacs-lisp-mode
+ '(("'\\([0-9a-zA-Z-]*\\)" (1 'font-lock-variable-name-face))))
 (add-font-lock-numbers 'emacs-lisp-mode)
 
 
