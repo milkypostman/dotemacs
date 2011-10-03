@@ -88,19 +88,21 @@
 
 (defun package-build-checkout-git (repo dir)
   "checkout an git repo"
-  (let ((work-buffer (get-buffer-create "*package-build-checkout*")))
+  (with-current-buffer (get-buffer-create "*package-build-checkout*")
+    (goto-char (point-max))
     (cond
      ((file-exists-p dir)
       (message "checkout directory exists, updating...")
       (let ((default-directory dir))
         (process-file
          "git" nil
-         work-buffer nil "pull")))
+         (current-buffer) nil "pull"))
+      )
      (t
       (message "cloning repository")
       (process-file
        "git" nil
-       work-buffer
+       (current-buffer)
        nil "clone" repo dir)))))
 
 (defun package-build-pkg-file (pkg-file file-name version homepage)
@@ -130,15 +132,16 @@
 
 (defun package-build-get-config (file-name)
   "get the configuration information for the given file-name"
-  (save-window-excursion
-    (let ((config-file (format "epkgs/%s/.config" file-name)))
-      (cond
-       ((file-exists-p config-file)
-        (find-file config-file)
+  (let ((config-file (format "epkgs/%s/.config" file-name)))
+    (cond
+     ((file-exists-p config-file)
+      (with-temp-buffer
+        (insert-file-contents-literally config-file)
+        (goto-char (point-min))
         (car
          (read-from-string
-          (buffer-substring-no-properties (point-min) (point-max)))))
-       (t nil)))))
+          (buffer-substring-no-properties (point-min) (point-max))))))
+     (t nil))))
 
 (defvar package-build-alist '())
 
@@ -148,6 +151,7 @@
     (when (file-exists-p archive-file)
       (with-temp-buffer
         (insert-file-contents-literally archive-file)
+        (goto-char (point-min))
         (let ((contents (read (current-buffer))))
           (setq package-build-alist (cdr contents)))))))
 
@@ -199,8 +203,7 @@
           (package-build-create-tar file-name version)
           )
         (package-build-add-to-archive-contents name version homepage 'tar)
-        (package-build-dump-archive-contents)
-        ))))
+        (package-build-dump-archive-contents)))))
 
 (defun package-build-dump-archive-contents ()
   "dump the archive contents back to the file"
