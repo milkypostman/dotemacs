@@ -11,7 +11,7 @@
  '(c-default-style (quote ((java-mode . "java") (awk-mode . "awk") (other . "user"))))
  '(c-hanging-braces-alist (quote ((brace-list-open) (brace-entry-open) (substatement-open after) (block-close . c-snug-do-while) (arglist-cont-nonempty))))
  '(c-offsets-alist (quote ((substatement-open . 0) (substatement-label . 0))))
- '(custom-enabled-themes (quote (tango-dark)))
+ '(custom-enabled-themes (quote (misterioso)))
  '(default-frame-alist (quote ((menu-bar-lines . 1) (cursor-type . box) (internal-border-width . 0) (left-fringe . 1) (right-fringe) (fringe) (font . "Inconsolata-13"))))
  '(deft-directory "/Users/dcurtis/Dropbox/Elements")
  '(deft-text-mode (quote markdown-mode))

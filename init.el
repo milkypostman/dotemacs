@@ -2,7 +2,7 @@
 ;;
 ;; based on emacs-starter-kit
 ;;
-;; Updated: 2011-10-02 17:28:33 (dcurtis)
+;; Updated: 2011-10-02 23:40:52 (dcurtis)
 ;;
 ;;
 
@@ -95,7 +95,6 @@
 (global-set-key (kbd "M-z") 'zap-up-to-char)
 (global-unset-key (kbd "C-z"))
 (global-set-key (kbd "C-x C-k") 'kill-region)
-(global-set-key (kbd "C-w") 'backward-kill-word)
 (global-set-key (kbd "C-M-h") 'mark-defun)
 (global-set-key (kbd "C-M-,") 'beginning-of-buffer-other-window)
 (global-set-key (kbd "M-`") 'other-frame)
@@ -129,8 +128,14 @@
 
 (global-set-key (kbd "C-x g") 'magit-status)
 
+;; (global-set-key (kbd "C-w") 'backward-kill-word)
+;; (global-set-key (kbd "C-h") 'backward-kill-word)
 
-(define-key key-translation-map (kbd "C-h") (kbd "DEL"))
+(global-set-key (kbd "C-w") (kbd "M-<backspace>"))
+(global-set-key (kbd "C-h") (kbd "<backspace>"))
+
+;; (define-key key-translation-map (kbd "C-h") (kbd "DEL"))
+;; (define-key key-translation-map (kbd "C-w") (kbd "M-DEL"))
 (global-set-key (kbd "C-c h") 'help-command)
 
 (define-key key-translation-map (kbd "C-x C-m") (kbd "M-x"))
@@ -332,7 +337,7 @@ end tell"))
   ;; (setup-virtualenv)
   ;; (define-key python-mode-map (kbd "C-h")
   ;; 'python-indent-dedent-line-backspace
-  
+
   (push "~/.virtualenvs/default/bin" exec-path)
   (setenv "PATH"
           (concat
@@ -397,6 +402,37 @@ end tell"))
       (write-file out-buffer-name)
       (kill-buffer (buffer-name)))))
 
+
+(defun markdown-cleanup-list-numbers-level (&optional pfx)
+  "Update the numbering for pfx (as a string of spaces).
+
+Assume that the previously found match was for a numbered item in a list."
+  (let ((m pfx)
+        (idx 0)
+        (success t))
+    (while (and success
+                (not (string-prefix-p "#" (match-string-no-properties 1)))
+                (not (string< (setq m (match-string-no-properties 2)) pfx)))
+      (cond
+       ((string< pfx m)
+        (setq success (markdown-cleanup-list-numbers-level m)))
+       (success
+        (replace-match
+         (concat pfx (number-to-string  (setq idx (1+ idx))) ". "))
+        (setq success
+              (re-search-forward
+               (concat "\\(^#+\\|\\(^\\|^[\s-]*\\)[0-9]+\. \\)") nil t)))))
+    success))
+
+(defun markdown-cleanup-list-numbers ()
+  "update the numbering of first-level markdown indexes"
+  (interactive)
+  (save-excursion
+    (beginning-of-buffer)
+    (while (re-search-forward (concat "\\(\\(^[\s-]*\\)[0-9]+\. \\)") nil t)
+      (markdown-cleanup-list-numbers-level (match-string-no-properties 2)))))
+
+    
 (defun shell-command-on-region-to-string (start end command)
   (with-output-to-string
     (shell-command-on-region start end command standard-output)))
@@ -407,8 +443,7 @@ end tell"))
   (interactive)
   (kill-new (shell-command-on-region-to-string
              (point-min) (point-max)
-             "/usr/local/bin/multimarkdown"))
-  )
+             "/usr/local/bin/multimarkdown")))
 
 
 (eval-after-load 'markdown-mode
@@ -500,6 +535,9 @@ depending on the last command issued."
 
 ;; paredit
 ;; (remove-hook 'prog-mode-hook 'esk-turn-on-hl-line-mode)
+;; (eval-after-load 'paredit
+;;   '(progn
+;;          (define-key paredit-mode-map (kbd "C-w") 'paredit-backward-kill-word)))
 (add-hook 'emacs-lisp-mode-hook 'esk-turn-on-paredit)
 
 
