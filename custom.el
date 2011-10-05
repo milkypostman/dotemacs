@@ -3,6 +3,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(ansi-color-names-vector ["#242424" "#e5786d" "#95e454" "#cae682" "#8ac6f2" "#333366" "#ccaa8f" "#f6f3e8"])
  '(aquamacs-additional-fontsets nil t)
  '(aquamacs-customization-version-id 300 t)
  '(aquamacs-tool-bar-user-customization nil t)
@@ -11,7 +12,7 @@
  '(c-default-style (quote ((java-mode . "java") (awk-mode . "awk") (other . "user"))))
  '(c-hanging-braces-alist (quote ((brace-list-open) (brace-entry-open) (substatement-open after) (block-close . c-snug-do-while) (arglist-cont-nonempty))))
  '(c-offsets-alist (quote ((substatement-open . 0) (substatement-label . 0))))
- '(custom-enabled-themes (quote (misterioso)))
+ '(custom-enabled-themes (quote (manoj-dark)))
  '(default-frame-alist (quote ((menu-bar-lines . 1) (cursor-type . box) (internal-border-width . 0) (left-fringe . 1) (right-fringe) (fringe) (font . "Inconsolata-13"))))
  '(deft-directory "/Users/dcurtis/Dropbox/Elements")
  '(deft-text-mode (quote markdown-mode))

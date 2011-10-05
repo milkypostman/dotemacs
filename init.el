@@ -2,7 +2,7 @@
 ;;
 ;; based on emacs-starter-kit
 ;;
-;; Updated: 2011-10-02 23:40:52 (dcurtis)
+;; Updated: 2011-10-05 00:43:05 (dcurtis)
 ;;
 ;;
 
@@ -10,9 +10,9 @@
 (require 'package)
 (setq package-user-dir "~/.emacs.d/elpa/")
 (add-to-list 'package-archives
-             '("marmalade" . "http://marmalade-repo.org/packages/") t)
-(add-to-list 'package-archives
              '("khealy" . "http://kieranhealy.org/packages/") t)
+(add-to-list 'package-archives
+             '("marmalade" . "http://marmalade-repo.org/packages/") t)
 (add-to-list 'package-archives
              '("elpa-git" . "http://milkbox.net/elpa-git/") t)
 (package-initialize)
@@ -29,11 +29,12 @@
 
 
 (push "/usr/local/bin" exec-path)
+(push "~/.cabal/bin" exec-path)
 (push "/usr/texbin" exec-path)
 (setenv "PATH"
         (mapconcat 'identity
                    (delete-dups
-                    (append (list "/usr/local/bin" "~/bin" "/usr/texbin")
+                    (append (list "/usr/local/bin" "~/bin" "/usr/texbin" "~/.cabal/bin")
                             (split-string (getenv "PATH") ":")))
                    ":"))
 
@@ -516,7 +517,7 @@ depending on the last command issued."
   (define-key ido-mode-map "\C-n" 'ido-next-match)
   (define-key ido-mode-map "\C-p" 'ido-prev-match)
   (define-key ido-completion-map [tab] 'ido-complete)
-  ;;  (ido-everywhere)
+  (ido-everywhere)
   )
 (add-hook 'ido-setup-hook 'mp-ido-hook)
 
@@ -538,7 +539,9 @@ depending on the last command issued."
 ;; (eval-after-load 'paredit
 ;;   '(progn
 ;;          (define-key paredit-mode-map (kbd "C-w") 'paredit-backward-kill-word)))
-(add-hook 'emacs-lisp-mode-hook 'esk-turn-on-paredit)
+(eval-after-load 'starter-kit
+  '(progn
+     (add-hook 'emacs-lisp-mode-hook 'esk-turn-on-paredit)))
 
 
 ;; faces
