@@ -2,7 +2,7 @@
 ;;
 ;; based on emacs-starter-kit
 ;;
-;; Updated: 2011-10-05 00:43:05 (dcurtis)
+;; Updated: 2011-10-05 01:08:42 (dcurtis)
 ;;
 ;;
 
@@ -14,7 +14,7 @@
 (add-to-list 'package-archives
              '("marmalade" . "http://marmalade-repo.org/packages/") t)
 (add-to-list 'package-archives
-             '("elpa-git" . "http://milkbox.net/elpa-git/") t)
+             '("melpa" . "http://milkbox.net/melpa/") t)
 (package-initialize)
 
 ;; debug if we would like
