@@ -2,7 +2,7 @@
 ;;
 ;; based on emacs-starter-kit
 ;;
-;; Updated: 2011-10-12 15:33:48 (dcurtis)
+;; Updated: 2011-10-12 16:14:45 (dcurtis)
 ;;
 ;;
 
@@ -457,9 +457,7 @@ Assume that the previously found match was for a numbered item in a list."
 activate
 tell application \"System Events\" to keystroke \"a\" using {command down}
 tell application \"System Events\" to keystroke \"v\" using {command down}
-end tell
-delay 0.1
-tell application \"Emacs\" to activate"))
+end tell"))
 
 
 (eval-after-load 'markdown-mode
