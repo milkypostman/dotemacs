@@ -2,7 +2,7 @@
 ;;
 ;; based on emacs-starter-kit
 ;;
-;; Updated: 2011-10-05 01:08:42 (dcurtis)
+;; Updated: 2011-10-10 15:06:20 (dcurtis)
 ;;
 ;;
 
@@ -138,6 +138,8 @@
 ;; (define-key key-translation-map (kbd "C-h") (kbd "DEL"))
 ;; (define-key key-translation-map (kbd "C-w") (kbd "M-DEL"))
 (global-set-key (kbd "C-c h") 'help-command)
+;; (global-set-key (kbd "C-c x") (kbd "M-x"))
+;; (define-key key-translation-map (kbd "C-c x") (kbd "M-x"))
 
 (define-key key-translation-map (kbd "C-x C-m") (kbd "M-x"))
 

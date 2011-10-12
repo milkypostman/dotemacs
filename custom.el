@@ -13,12 +13,14 @@
  '(c-hanging-braces-alist (quote ((brace-list-open) (brace-entry-open) (substatement-open after) (block-close . c-snug-do-while) (arglist-cont-nonempty))))
  '(c-offsets-alist (quote ((substatement-open . 0) (substatement-label . 0))))
  '(custom-enabled-themes (quote (manoj-dark)))
- '(default-frame-alist (quote ((menu-bar-lines . 1) (cursor-type . box) (internal-border-width . 0) (left-fringe . 1) (right-fringe) (fringe) (font . "Inconsolata-13"))))
+ '(default-frame-alist (quote ((font . "Inconsolata-13") (vertical-scroll-bars))))
  '(deft-directory "/Users/dcurtis/Dropbox/Elements")
  '(deft-text-mode (quote markdown-mode))
+ '(fringe-mode (quote (4 . 4)) nil (fringe))
  '(ibuffer-expert t)
  '(ibuffer-show-empty-filter-groups nil)
  '(line-spacing 0)
+ '(menu-bar-mode t)
  '(mode-line-in-non-selected-windows t)
  '(mode-line-inverse-video t)
  '(mouse-wheel-scroll-amount (quote (0.01)))
@@ -30,6 +32,7 @@
  '(scroll-bar-mode nil)
  '(scroll-conservatively 5)
  '(scroll-margin 5)
+ '(sentence-end-double-space nil)
  '(set-mark-command-repeat-pop t)
  '(show-paren-mode t)
  '(split-height-threshold 100)
@@ -44,5 +47,5 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(hl-sentence-face ((t (:foreground "white"))) t)
- '(variable-pitch ((t (:foreground "gray80" :family "Lucida Grande")))))
+ '(variable-pitch ((t (:foreground "gray80" :height 170 :family "Cochin")))))
 
