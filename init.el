@@ -2,7 +2,7 @@
 ;;
 ;; based on emacs-starter-kit
 ;;
-;; Updated: 2011-10-11 21:58:14 (dcurtis)
+;; Updated: 2011-10-12 16:14:45 (dcurtis)
 ;;
 ;;
 
@@ -448,11 +448,23 @@ Assume that the previously found match was for a numbered item in a list."
              (point-min) (point-max)
              "/usr/local/bin/multimarkdown")))
 
+(defun markdown-mmd-copy-paste-safari ()
+  "process file with multimarkdown, copy it to the clipboard, and
+  paste in safari's selected textarea"
+  (interactive)
+  (markdown-mmd-copy)
+  (do-applescript "tell application \"Safari\"
+activate
+tell application \"System Events\" to keystroke \"a\" using {command down}
+tell application \"System Events\" to keystroke \"v\" using {command down}
+end tell"))
+
 
 (eval-after-load 'markdown-mode
   '(progn
      (define-key markdown-mode-map (kbd "C-c m") 'markdown-pandoc)
-     (define-key markdown-mode-map (kbd "C-c c") 'markdown-mmd-copy)))
+     (define-key markdown-mode-map (kbd "C-c c") 'markdown-mmd-copy)
+     (define-key markdown-mode-map (kbd "C-c s") 'markdown-mmd-copy-paste-safari)))
 
 
 ;; auctex
@@ -541,9 +553,8 @@ depending on the last command issued."
 ;; (eval-after-load 'paredit
 ;;   '(progn
 ;;          (define-key paredit-mode-map (kbd "C-w") 'paredit-backward-kill-word)))
-(eval-after-load 'starter-kit
-  '(progn
-     (add-hook 'emacs-lisp-mode-hook 'esk-turn-on-paredit)))
+(add-hook 'emacs-lisp-mode-hook 'esk-turn-on-paredit)
+
 
 
 ;; faces
