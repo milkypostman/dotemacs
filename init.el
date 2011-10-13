@@ -2,7 +2,7 @@
 ;;
 ;; based on emacs-starter-kit
 ;;
-;; Updated: 2011-10-10 15:06:20 (dcurtis)
+;; Updated: 2011-10-11 21:58:14 (dcurtis)
 ;;
 ;;
 
@@ -559,16 +559,16 @@ depending on the last command issued."
      (,(concat "\\<\\(" font-lock-hexnumber "\\)\\>" ) 0 font-lock-number-face)
      )))
 
+
 ;; (font-lock-add-keywords 'emacs-lisp-mode
 ;; '(("(\\|)\\|'" . 'font-lock-exit-face)))
 ;; (font-lock-add-keywords 'emacs-lisp-mode
 ;; '(("add-to-list" . font-lock-keyword-face)))
 
-(font-lock-add-keywords
- 'emacs-lisp-mode
- '(("'\\([0-9a-zA-Z-]*\\)" (1 'font-lock-variable-name-face))))
+;; (font-lock-add-keywords
+;;  'emacs-lisp-mode
+;;  '(("'\\([0-9a-zA-Z-]*\\)" (1 'font-lock-variable-name-face))))
 (add-font-lock-numbers 'emacs-lisp-mode)
-
 
 
 (cond ((eq system-type 'darwin)
