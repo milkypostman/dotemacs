@@ -2,10 +2,9 @@
 ;;
 ;; based on emacs-starter-kit
 ;;
-;; Updated: 2011-10-12 16:14:45 (dcurtis)
-;;
 ;;
 
+(require 'cl)
 
 (require 'package)
 (setq package-user-dir "~/.emacs.d/elpa/")
@@ -437,8 +436,9 @@ Assume that the previously found match was for a numbered item in a list."
 
     
 (defun shell-command-on-region-to-string (start end command)
-  (with-output-to-string
-    (shell-command-on-region start end command standard-output)))
+  (save-window-excursion
+    (with-output-to-string
+      (shell-command-on-region start end command standard-output))))
 
 ;; markdown
 (defun markdown-mmd-copy ()
@@ -446,7 +446,7 @@ Assume that the previously found match was for a numbered item in a list."
   (interactive)
   (kill-new (shell-command-on-region-to-string
              (point-min) (point-max)
-             "/usr/local/bin/multimarkdown")))
+             "/Users/dcurtis/.cabal/bin/pandoc")))
 
 (defun markdown-mmd-copy-paste-safari ()
   "process file with multimarkdown, copy it to the clipboard, and
@@ -553,7 +553,7 @@ depending on the last command issued."
 ;; (eval-after-load 'paredit
 ;;   '(progn
 ;;          (define-key paredit-mode-map (kbd "C-w") 'paredit-backward-kill-word)))
-(add-hook 'emacs-lisp-mode-hook 'esk-turn-on-paredit)
+;; (add-hook 'emacs-lisp-mode-hook 'esk-turn-on-paredit)
 
 
 
@@ -580,6 +580,8 @@ depending on the last command issued."
 ;;  'emacs-lisp-mode
 ;;  '(("'\\([0-9a-zA-Z-]*\\)" (1 'font-lock-variable-name-face))))
 (add-font-lock-numbers 'emacs-lisp-mode)
+(add-font-lock-numbers 'c-mode)
+(add-font-lock-numbers 'c++-mode)
 
 
 (cond ((eq system-type 'darwin)
