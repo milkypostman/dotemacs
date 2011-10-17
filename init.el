@@ -161,7 +161,6 @@
   (if (not (bolp))
       (delete-region (point) (progn (skip-chars-forward " \t") (point)))))
 
-
 (defun delete-this-buffer-and-file ()
   "Deletes current buffer and file it is visiting."
   (interactive)
@@ -388,6 +387,11 @@ end tell"))
 
 (add-hook 'c-mode-common-hook 'mp-turn-on-yasnippet)
 (add-hook 'python-mode-hook 'mp-turn-on-yasnippet)
+
+;; haskell
+(add-hook 'haskell-mode-hook 'turn-on-haskell-doc-mode)
+(add-hook 'haskell-mode-hook 'turn-on-haskell-indentation)
+
 
 ;; markdown
 (defun markdown-pandoc ()

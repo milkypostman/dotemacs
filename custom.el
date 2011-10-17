@@ -18,6 +18,7 @@
  '(default-frame-alist (quote ((font . "Inconsolata-14"))))
  '(deft-directory "/Users/dcurtis/Dropbox/Elements")
  '(deft-text-mode (quote markdown-mode))
+ '(deft-use-filename-as-title t)
  '(fringe-mode (quote (4 . 4)) nil (fringe))
  '(ibuffer-expert t)
  '(ibuffer-show-empty-filter-groups nil)

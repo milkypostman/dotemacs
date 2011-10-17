@@ -45,19 +45,22 @@
 
 (define-abbrev-table 'fundamental-mode-abbrev-table '())
 
+(define-abbrev-table 'gfm-mode-abbrev-table '())
+
 (define-abbrev-table 'global-abbrev-table
   '(
+    (",,dd" "" (lambda nil (insert (format-time-string "%Y-%m-%d" (current-time)))) 5)
+    (",,ds" "" (lambda nil (insert (format-time-string "%Y%m%d" (current-time)))) 0)
+    (",,dtf" "" (lambda nil (insert (format-time-string "%Y-%m-%d-%H%M" (current-time)))) 2)
+    (",,dts" "" (lambda nil (insert (format-time-string "%Y%m%d%H%M" (current-time)))) 2)
     ("adiminstrator" "administrator" nil 2)
-    ("barabasi" "barab\\'{a}si" nil 9)
     ("behaviour" "behavior" nil 4)
     ("ddate" "" (lambda nil (insert (format-time-string "%Y-%m-%d" (current-time)))) 5)
     ("ddue" "" (lambda nil (insert (format-time-string "%A, %B %d, 11:59pm" (current-time)))) 1)
     ("densly" "densely" nil 6)
     ("dstamp" "" (lambda nil (insert (format-time-string "%Y%m%d" (current-time)))) 0)
     ("dtdate" "" (lambda nil (insert (format-time-string "%Y-%m-%d %H:%M" (current-time)))) 6)
-    ("dtfstamp" "" (lambda nil (insert (format-time-string "%Y-%m-%d-%H%M" (current-time)))) 2)
     ("dtstamp" "" (lambda nil (insert (format-time-string "%Y%m%d%H%M" (current-time)))) 2)
-    ("erdos" "Erd\\\"{o}s" nil 14)
     ("existance" "existence" nil 1)
     ("gauruntee" "guarantee" nil 1)
     ("gemail" "dcurtis@gmail.com" nil 0)
@@ -66,7 +69,6 @@
 Kalona, IA 52247" nil 0)
     ("memail" "dcurtis@milkbox.net" nil 0)
     ("necissarily" "necessarily" nil 3)
-    ("renyi" "R\\'{e}nyi" nil 12)
     ("tdate" "" (lambda nil (insert (format-time-string "%Y-%m-%d" (time-add (current-time) (seconds-to-time 86400))))) 4)
     ("tstamp" "" (lambda nil (insert (format-time-string "%H%M" (current-time)))) 1)
     ("ttime" "" (lambda nil (insert (format-time-string "%H:%M" (current-time)))) 0)
@@ -75,6 +77,8 @@ Kalona, IA 52247" nil 0)
 (define-abbrev-table 'grep-mode-abbrev-table '())
 
 (define-abbrev-table 'haskell-mode-abbrev-table '())
+
+(define-abbrev-table 'help-mode-abbrev-table '())
 
 (define-abbrev-table 'html-mode-abbrev-table '())
 
@@ -184,10 +188,13 @@ import networkx as nx" nil 0)
   '(
     ("GBVC" "\\textbf{GreedyBVC}" nil 3)
     ("\\.\\.\\." "\\dots" nil 0)
+    ("barabasi" "barab\\'{a}si" nil 9)
+    ("erdos" "Erd\\\"{o}s" nil 14)
     ("kkpsc" "\\textit{$k$-partial set cover}" nil 8)
     ("kkpvc" "\\textit{$k$-partial vertex cover}" nil 27)
     ("node" "vertex" nil 18)
     ("nodes" "vertices" nil 41)
+    ("renyi" "R\\'{e}nyi" nil 12)
     ("rrdp" "\\textit{restricted diffusion problem}" nil 8)
    ))
 
