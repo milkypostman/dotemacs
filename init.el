@@ -319,10 +319,11 @@ end tell"))
 
 ;; (setq auto-mode-alist
 ;;       (cons '("\\.text" . markdown-mode) auto-mode-alist))
+
 (setq auto-mode-alist
-      (cons '("\\.md" . markdown-mode) auto-mode-alist))
+      (cons '("\\.te?xt\\'" . markdown-mode) auto-mode-alist))
 (setq auto-mode-alist
-      (cons '("\\.md" . markdown-mode) auto-mode-alist))
+      (cons '("\\.mm?d\\'" . markdown-mode) auto-mode-alist))
 
 
 (defun kmacro-edit-lossage ()
