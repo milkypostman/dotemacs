@@ -298,8 +298,7 @@ end tell"))
         (/ (round
             (* (string-to-number
                 (buffer-substring-no-properties start end)) 1000.0))  1000.0)))
-      (delete-region start end)
-      )))
+      (delete-region start end))))
 
 
 (defun what-face (pos)
@@ -378,16 +377,10 @@ end tell"))
      (yas/load-directory "~/.emacs.d/snippets/")
      ))
 
+(eval-after-load 'yasnippet-autoloads
+  '(progn
+     (add-hook 'prog-mode-hook 'yas/minor-mode)))
 
-(when (boundp 'yas/minor-mode)
-  (add-hook 'prog-mode-hook 'yas/minor-mode))
-
-(defun mp-turn-on-yasnippet ()
-  (interactive)
-  (yas/minor-mode t))
-
-(add-hook 'c-mode-common-hook 'mp-turn-on-yasnippet)
-(add-hook 'python-mode-hook 'mp-turn-on-yasnippet)
 
 ;; haskell
 (add-hook 'haskell-mode-hook 'turn-on-haskell-doc-mode)
@@ -446,18 +439,61 @@ Assume that the previously found match was for a numbered item in a list."
       (shell-command-on-region start end command standard-output))))
 
 ;; markdown
-(defun markdown-mmd-copy ()
+(eval-after-load 'markdown-mode
+  '(progn
+     (defun markdown (&optional output-buffer-name no-header)
+       "Run `markdown' on current buffer and insert output in buffer BUFFER-OUTPUT."
+       (interactive)
+       (let ((title (buffer-name))
+             (begin-region)
+             (end-region))
+         (if (and (boundp 'transient-mark-mode) transient-mark-mode mark-active)
+             (setq begin-region (region-beginning)
+                   end-region (region-end))
+           (setq begin-region (point-min)
+                 end-region (point-max)))
+
+         (unless output-buffer-name
+           (setq output-buffer-name markdown-output-buffer-name))
+         
+         (unless (boundp 'no-header)
+           (setq no-header nil))
+
+         (if markdown-command-needs-filename
+             ;; Handle case when `markdown-command' does not read from stdin
+             (if (not buffer-file-name)
+                 (error "Must be visiting a file")
+               (shell-command (concat markdown-command " " buffer-file-name)
+                              output-buffer-name))
+           ;; Pass region to `markdown-command' via stdin
+           (shell-command-on-region begin-region end-region markdown-command
+                                    output-buffer-name))
+
+         ;; Add header and footer and switch to html-mode.
+         (save-current-buffer
+           (set-buffer output-buffer-name)
+           (goto-char (point-min))
+           (unless (or no-header (markdown-output-standalone-p))
+             (markdown-add-xhtml-header-and-footer title))
+           (html-mode))
+
+         ;; Ensure buffer gets raised, even with short command output
+         (switch-to-buffer-other-window output-buffer-name)))))
+
+
+(defun markdown-copy ()
   "process file with multimarkdown and save it accordingly"
   (interactive)
-  (kill-new (shell-command-on-region-to-string
-             (point-min) (point-max)
-             "/Users/dcurtis/.cabal/bin/pandoc")))
+  (save-window-excursion
+    (markdown markdown-output-buffer-name t)
+    (kill-ring-save (point-min) (point-max))))
 
-(defun markdown-mmd-copy-paste-safari ()
+
+(defun markdown-copy-paste-safari ()
   "process file with multimarkdown, copy it to the clipboard, and
   paste in safari's selected textarea"
   (interactive)
-  (markdown-mmd-copy)
+  (markdown-copy)
   (do-applescript "tell application \"Safari\"
 activate
 tell application \"System Events\" to keystroke \"a\" using {command down}
@@ -468,8 +504,8 @@ end tell"))
 (eval-after-load 'markdown-mode
   '(progn
      (define-key markdown-mode-map (kbd "C-c m") 'markdown-pandoc)
-     (define-key markdown-mode-map (kbd "C-c c") 'markdown-mmd-copy)
-     (define-key markdown-mode-map (kbd "C-c s") 'markdown-mmd-copy-paste-safari)))
+     (define-key markdown-mode-map (kbd "C-c c") 'markdown-copy)
+     (define-key markdown-mode-map (kbd "C-c s") 'markdown-copy-paste-safari)))
 
 
 ;; auctex
@@ -522,12 +558,24 @@ depending on the last command issued."
   '(progn
      (add-to-list 'reftex-section-prefixes '(1 . "chap:"))))
 
-;; (setq ibuffer-saved-filter-groups
-;;      (
+(setq ibuffer-saved-filter-groups
+      '(("default"
+         ("115" (filename . "115"))
+         ("325" (filename . "325"))
+         ("705" (filename . "705"))
+         ("notes" (filename . "Elements"))
+         ("magit" (name . "\*magit"))
+         ("help" (or (name . "\*Help\*")
+		     (name . "\*Apropos\*")
+		     (name . "\*info\*")))
+         ("econfig" (or (filename . ".emacs.d")
+                        (filename . "init.el"))))))
 
-(add-hook 'ibuffer-mode-hook
-	  '(lambda ()
-	     (ibuffer-auto-mode 1)))
+(defun mp-ibuffer-hook ()
+  (ibuffer-auto-mode 1)
+  (ibuffer-switch-to-saved-filter-groups "default"))
+
+(add-hook 'ibuffer-mode-hook 'mp-ibuffer-hook)
 
 (defun mp-ido-hook ()
   (setq ido-mode-map ido-completion-map)
@@ -555,11 +603,9 @@ depending on the last command issued."
 
 ;; paredit
 ;; (remove-hook 'prog-mode-hook 'esk-turn-on-hl-line-mode)
-;; (eval-after-load 'paredit
-;;   '(progn
-;;          (define-key paredit-mode-map (kbd "C-w") 'paredit-backward-kill-word)))
-;; (add-hook 'emacs-lisp-mode-hook 'esk-turn-on-paredit)
-
+(eval-after-load 'starter-kit-autoloads
+  '(progn
+     (add-hook 'emacs-lisp-mode-hook 'esk-turn-on-paredit)))
 
 
 ;; faces
