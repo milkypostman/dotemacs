@@ -49,7 +49,7 @@
 (ignore-errors
   (server-start))
 
-;; (setq-default cursor-type '(bar . 1))
+(setq-default cursor-type '(bar . 2))
 
 (setq user-full-name "Donald Ephraim Curtis")
 (setq user-mail-address "dcurtis@milkbox.net")
