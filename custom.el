@@ -15,7 +15,7 @@
  '(custom-enabled-themes (quote (ir_black)))
  '(custom-safe-themes (quote ("0d9954cf3c9d0802c50d22ed907991a909cff9c4" default)))
  '(custom-theme-directory "~/.emacs.d/themes/")
- '(default-frame-alist (quote ((font . "Inconsolata-14"))))
+ '(default-frame-alist (quote ((font . "Inconsolata-13"))))
  '(deft-directory "/Users/dcurtis/Dropbox/Elements")
  '(deft-text-mode (quote markdown-mode))
  '(deft-use-filename-as-title t)
