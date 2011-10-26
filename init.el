@@ -2,7 +2,7 @@
 ;;
 ;; based on emacs-starter-kit
 ;;
-;;
+
 
 (require 'cl)
 
@@ -189,6 +189,15 @@
                (message "File '%s' successfully renamed to '%s'"
                         name (file-name-nondirectory new-name))))))))
 
+;; (defun mp-ido-edit-input ()
+;;   "Edit absolute file name entered so far with ido; terminate by RET.
+;; If cursor is not at the end of the user input, move to end of input."
+;;   (interactive)
+;;   (if (not (eobp))
+;;       (end-of-line)
+;;     (setq ido-text-init ido-text)
+;;     (setq ido-exit 'edit)
+;;     (exit-minibuffer)))
 
 (defun ido-find-recentfile-other-window ()
   "Find a recent file using ido."
@@ -197,6 +206,21 @@
   (let ((file (ido-completing-read "Recent file: " recentf-list nil t)))
     (when file
       (find-file-other-window file))))
+
+(defun mp-ido-hook ()
+  (setq ido-mode-map ido-completion-map)
+  (define-key ido-mode-map (kbd "C-h") 'ido-delete-backward-updir)
+  (define-key ido-mode-map (kbd "C-w") 'ido-delete-backward-word-updir)
+  (define-key ido-mode-map (kbd "C-n") 'ido-next-match)
+  (define-key ido-mode-map (kbd "C-n") 'ido-next-match)
+  (define-key ido-mode-map (kbd "C-p") 'ido-prev-match)
+  ;; (define-key ido-mode-map (kbd "C-e") 'mp-ido-edit-input)
+  (define-key ido-completion-map [tab] 'ido-complete)
+  (ido-everywhere)
+  )
+
+(add-hook 'ido-setup-hook 'mp-ido-hook)
+
 
 ;; don't quit so easy
 (defun close-frame-or-client (&optional args)
@@ -577,17 +601,6 @@ depending on the last command issued."
 
 (add-hook 'ibuffer-mode-hook 'mp-ibuffer-hook)
 
-(defun mp-ido-hook ()
-  (setq ido-mode-map ido-completion-map)
-  (define-key ido-mode-map "\C-h" 'ido-delete-backward-updir)
-  (define-key ido-mode-map "\C-w" 'ido-delete-backward-word-updir)
-  (define-key ido-mode-map "\C-n" 'ido-next-match)
-  (define-key ido-mode-map "\C-p" 'ido-prev-match)
-  (define-key ido-completion-map [tab] 'ido-complete)
-  (ido-everywhere)
-  )
-(add-hook 'ido-setup-hook 'mp-ido-hook)
-
 (add-hook 'write-file-functions 'time-stamp)
 
 (defun mp-compile ()
@@ -655,4 +668,5 @@ depending on the last command issued."
 ;; time-stamp-start: "Updated: +"
 ;; time-stamp-end: "$"
 ;; End:
+
 (put 'narrow-to-region 'disabled nil)
