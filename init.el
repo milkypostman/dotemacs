@@ -273,9 +273,7 @@
   (interactive)
   (if (buffer-file-name)
       (shell-command
-       (mapconcat 'identity
-                  (list "chmod" "u+x"
-                        (shell-quote-argument (buffer-file-name))) " "))
+       (combine-and-quote-strings `("chmod" "u+x" ,buffer-file-name)))
     (message "Buffer has no filename.")))
 
 (defun width-80 ()
@@ -413,19 +411,6 @@ end tell"))
 
 
 ;; markdown
-(defun markdown-pandoc ()
-  "process file with pandoc and save it accordingly"
-  (interactive)
-  (let ((out-buffer-name
-         (concat (file-name-sans-extension (buffer-name)) ".html")))
-    (shell-command-on-region
-     (point-min) (point-max)
-     "~/.cabal/bin/pandoc -H ~/Dropbox/Markdown/antique.css"
-     markdown-output-buffer-name)
-    (save-current-buffer
-      (set-buffer markdown-output-buffer-name)
-      (write-file out-buffer-name)
-      (kill-buffer (buffer-name)))))
 
 
 (defun markdown-cleanup-list-numbers-level (&optional pfx)
@@ -457,68 +442,34 @@ Assume that the previously found match was for a numbered item in a list."
     (while (re-search-forward (concat "\\(\\(^[\s-]*\\)[0-9]+\. \\)") nil t)
       (markdown-cleanup-list-numbers-level (match-string-no-properties 2)))))
 
-    
 (defun shell-command-on-region-to-string (start end command)
   (save-window-excursion
     (with-output-to-string
       (shell-command-on-region start end command standard-output))))
 
-;; markdown
-(eval-after-load 'markdown-mode
-  '(progn
-     (defun markdown (&optional output-buffer-name no-header)
-       "Run `markdown' on current buffer and insert output in buffer BUFFER-OUTPUT."
-       (interactive)
-       (let ((title (buffer-name))
-             (begin-region)
-             (end-region))
-         (if (and (boundp 'transient-mark-mode) transient-mark-mode mark-active)
-             (setq begin-region (region-beginning)
-                   end-region (region-end))
-           (setq begin-region (point-min)
-                 end-region (point-max)))
-
-         (unless output-buffer-name
-           (setq output-buffer-name markdown-output-buffer-name))
-         
-         (unless (boundp 'no-header)
-           (setq no-header nil))
-
-         (if markdown-command-needs-filename
-             ;; Handle case when `markdown-command' does not read from stdin
-             (if (not buffer-file-name)
-                 (error "Must be visiting a file")
-               (shell-command (concat markdown-command " " buffer-file-name)
-                              output-buffer-name))
-           ;; Pass region to `markdown-command' via stdin
-           (shell-command-on-region begin-region end-region markdown-command
-                                    output-buffer-name))
-
-         ;; Add header and footer and switch to html-mode.
-         (save-current-buffer
-           (set-buffer output-buffer-name)
-           (goto-char (point-min))
-           (unless (or no-header (markdown-output-standalone-p))
-             (markdown-add-xhtml-header-and-footer title))
-           (html-mode))
-
-         ;; Ensure buffer gets raised, even with short command output
-         (switch-to-buffer-other-window output-buffer-name)))))
-
-
-(defun markdown-copy ()
+(defun markdown-copy-html ()
   "process file with multimarkdown and save it accordingly"
   (interactive)
   (save-window-excursion
-    (markdown markdown-output-buffer-name t)
+    (flet ((markdown-output-standalone-p () t))
+      (markdown))
     (kill-ring-save (point-min) (point-max))))
 
+(defun markdown-copy-rtf ()
+  "render and copy as RTF"
+  (interactive)
+  (save-window-excursion
+    (flet ((markdown-output-standalone-p () t))
+      (let ((markdown-command (concat markdown-command " -s -t rtf")))
+        (message (prin1-to-string (markdown-output-standalone-p)))
+        (markdown)
+        (shell-command-on-region (point-min) (point-max) "pbcopy")))))
 
 (defun markdown-copy-paste-safari ()
   "process file with multimarkdown, copy it to the clipboard, and
   paste in safari's selected textarea"
   (interactive)
-  (markdown-copy)
+  (markdown-copy-html)
   (do-applescript "tell application \"Safari\"
 activate
 tell application \"System Events\" to keystroke \"a\" using {command down}
@@ -529,7 +480,8 @@ end tell"))
 (eval-after-load 'markdown-mode
   '(progn
      (define-key markdown-mode-map (kbd "C-c m") 'markdown-pandoc)
-     (define-key markdown-mode-map (kbd "C-c c") 'markdown-copy)
+     (define-key markdown-mode-map (kbd "C-c r") 'markdown-copy-rtf)
+     (define-key markdown-mode-map (kbd "C-c c") 'markdown-copy-html)
      (define-key markdown-mode-map (kbd "C-c s") 'markdown-copy-paste-safari)))
 
 
@@ -601,6 +553,7 @@ depending on the last command issued."
   (ibuffer-switch-to-saved-filter-groups "default"))
 
 (add-hook 'ibuffer-mode-hook 'mp-ibuffer-hook)
+
 
 (add-hook 'write-file-functions 'time-stamp)
 
