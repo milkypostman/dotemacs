@@ -479,11 +479,9 @@ end tell"))
 
 (eval-after-load 'markdown-mode
   '(progn
-     (define-key markdown-mode-map (kbd "C-c m") 'markdown-pandoc)
      (define-key markdown-mode-map (kbd "C-c r") 'markdown-copy-rtf)
      (define-key markdown-mode-map (kbd "C-c c") 'markdown-copy-html)
      (define-key markdown-mode-map (kbd "C-c s") 'markdown-copy-paste-safari)))
-
 
 ;; auctex
 (eval-after-load 'latex
