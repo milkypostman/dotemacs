@@ -299,8 +299,7 @@
   "applescript to switch to iTerm and run the previously run command"
   (interactive)
   (save-buffer)
-  (call-process "osascript" nil nil nil "-e"
-                "
+  (do-applescript "
 tell application \"Terminal\"
 activate
 tell application \"System Events\"
