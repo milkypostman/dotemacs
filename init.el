@@ -394,6 +394,7 @@ end tell"))
 ;; yas/snippets
 (eval-after-load 'yasnippet
   '(progn
+     (require 'dropdown-list)
      (yas/load-directory
       (format "%ssnippets/" (file-name-directory (locate-library "yasnippet"))))
      (yas/load-directory "~/.emacs.d/snippets/")
