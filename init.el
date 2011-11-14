@@ -140,6 +140,10 @@
 ;; (global-set-key (kbd "C-c x") (kbd "M-x"))
 ;; (define-key key-translation-map (kbd "C-c x") (kbd "M-x"))
 
+(global-set-key (kbd "C-c +") 'increment-number-at-point)
+(global-set-key (kbd "C-c -") 'decrement-number-at-point)
+q
+
 (define-key key-translation-map (kbd "C-x C-m") (kbd "M-x"))
 
 
@@ -155,11 +159,24 @@
            (list (region-beginning) (region-end))
          (list (line-beginning-position) (line-beginning-position 2)))))
 
-
 (defadvice kill-line (after kill-line-cleanup-whitespace activate compile)
   "cleanup whitespace on kill-line"
   (if (not (bolp))
       (delete-region (point) (progn (skip-chars-forward " \t") (point)))))
+
+(defun increment-number-at-point ()
+  (interactive)
+  (skip-chars-backward "0123456789")
+  (or (looking-at "[0123456789]+")
+      (error "No number at point"))
+  (replace-match (number-to-string (1+ (string-to-number (match-string 0))))))
+
+(defun decrement-number-at-point ()
+  (interactive)
+  (skip-chars-backward "0123456789")
+  (or (looking-at "[0123456789]+")
+      (error "No number at point"))
+  (replace-match (number-to-string (1- (string-to-number (match-string 0))))))
 
 (defun delete-this-buffer-and-file ()
   "Deletes current buffer and file it is visiting."
@@ -538,6 +555,9 @@ depending on the last command issued."
          ("115" (filename . "115"))
          ("325" (filename . "325"))
          ("705" (filename . "705"))
+         ("dirs" (or
+                  (mode . dired-mode)
+                  (mode . wdired-mode)))
          ("notes" (filename . "Elements"))
          ("magit" (name . "\*magit"))
          ("help" (or (name . "\*Help\*")
