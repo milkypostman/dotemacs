@@ -224,11 +224,7 @@
 
 
 (add-hook 'ibuffer-mode-hook 'mp-ibuffer-hook)
-
-
 (add-hook 'write-file-functions 'time-stamp)
-
-
 
 (add-hook 'c-mode-common-hook 'mp-add-c-mode-bindings)
 

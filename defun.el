@@ -29,15 +29,6 @@
                         name (file-name-nondirectory new-name))))))))
 
 
-(defun ido-find-recentfile-other-window ()
-  "Find a recent file using ido."
-  (interactive)
-  (recentf-mode 1)
-  (let ((file (ido-completing-read "Recent file: " recentf-list nil t)))
-    (when file
-      (find-file-other-window file))))
-
-
 (defun mp-ido-hook ()
   (setq ido-mode-map ido-completion-map)
   (define-key ido-mode-map (kbd "C-h") 'ido-delete-backward-updir)
@@ -308,12 +299,10 @@ depending on the last command issued."
   (ibuffer-auto-mode 1)
   (ibuffer-switch-to-saved-filter-groups "default"))
 
-
 (defun mp-compile ()
   (interactive)
   (save-buffer)
   (compile "make -k"))
-
 
 (defun mp-add-c-mode-bindings ()
   (local-set-key (kbd "C-c o") 'ff-find-other-file)
