@@ -3,7 +3,10 @@
 ;; based on emacs-starter-kit
 ;;
 
+(require 'cl)
+
 ;; load my functions
+(add-to-list 'load-path "~/.emacs.d/")
 (require 'defun)
 
 
@@ -20,7 +23,6 @@
 ;; debug if we would like
 (setq debug-on-error t)
 
-(add-to-list 'load-path "~/.emacs.d/")
 (add-to-list 'load-path "~/.emacs.d/elisp/")
 
 (require 'uniquify)
@@ -112,17 +114,17 @@
 (define-key key-translation-map (kbd "C-x C-m") (kbd "M-x"))
 
 
-(put 'kill-ring-save 'interactive-form
-     '(interactive
-       (if (use-region-p)
-           (list (region-beginning) (region-end))
-         (list (line-beginning-position) (line-beginning-position 2)))))
+;; (put 'kill-ring-save 'interactive-form
+;;      '(interactive
+;;        (if (use-region-p)
+;;            (list (region-beginning) (region-end))
+;;          (list (line-beginning-position) (line-beginning-position 2)))))
 
-(put 'kill-region 'interactive-form
-     '(interactive
-       (if (use-region-p)
-           (list (region-beginning) (region-end))
-         (list (line-beginning-position) (line-beginning-position 2)))))
+;; (put 'kill-region 'interactive-form
+;;      '(interactive
+;;        (if (use-region-p)
+;;            (list (region-beginning) (region-end))
+;;          (list (line-beginning-position) (line-beginning-position 2)))))
 
 (defadvice kill-line (after kill-line-cleanup-whitespace activate compile)
   "cleanup whitespace on kill-line"
@@ -165,8 +167,12 @@
 (eval-after-load 'markdown-mode
   '(progn
      (define-key markdown-mode-map (kbd "C-c r") 'markdown-copy-rtf)
+     (define-key markdown-mode-map (kbd "C-c v") 'marked)
      (define-key markdown-mode-map (kbd "C-c c") 'markdown-copy-html)
      (define-key markdown-mode-map (kbd "C-c s") 'markdown-copy-paste-safari)))
+
+
+
 
 ;; auctex
 (eval-after-load 'latex
