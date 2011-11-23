@@ -42,6 +42,12 @@
                (message "File '%s' successfully renamed to '%s'"
                         name (file-name-nondirectory new-name))))))))
 
+(defun command-line-diff (switch)
+  (let ((file1 (pop command-line-args-left))
+        (file2 (pop command-line-args-left)))
+    (ediff file1 file2)))
+
+
 
 (defun mp-ido-hook ()
   (setq ido-mode-map ido-completion-map)

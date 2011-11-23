@@ -153,6 +153,8 @@
      (yas/load-directory "~/.emacs.d/snippets/")
      ))
 
+(add-to-list 'command-switch-alist '("-diff" . command-line-diff))
+
 (eval-after-load 'yasnippet-autoloads
   '(progn
      (add-hook 'markdown-mode-hook 'yas/minor-mode)
