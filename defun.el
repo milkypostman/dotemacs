@@ -254,7 +254,7 @@ Assume that the previously found match was for a numbered item in a list."
          (concat pfx (number-to-string  (setq idx (1+ idx))) ". "))
         (setq success
               (re-search-forward
-               (concat "\\(^#+\\|\\(^\\|^[\s-]*\\)[0-9]+\. \\)") nil t)))))
+               (concat "\\(^#+\\|\\(^\\|^[\s-]*\\)[0-9]+\\. \\)") nil t)))))
     success))
 
 
@@ -263,7 +263,7 @@ Assume that the previously found match was for a numbered item in a list."
   (interactive)
   (save-excursion
     (beginning-of-buffer)
-    (while (re-search-forward (concat "\\(\\(^[\s-]*\\)[0-9]+\. \\)") nil t)
+    (while (re-search-forward (concat "\\(\\(^[\s-]*\\)[0-9]+\\. \\)") nil t)
       (markdown-cleanup-list-numbers-level (match-string-no-properties 2)))))
 
 
