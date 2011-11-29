@@ -240,6 +240,9 @@
 
 (add-hook 'c-mode-common-hook 'mp-add-c-mode-bindings)
 
+(add-hook 'before-save-hook 'whitespace-cleanup)
+(add-hook 'prog-mode-hook 'esk-turn-on-whitespace)
+
 ;; paredit
 ;; (remove-hook 'prog-mode-hook 'esk-turn-on-hl-line-mode)
 (eval-after-load 'starter-kit-autoloads
