@@ -96,7 +96,7 @@
 
 (global-set-key (kbd "C-c r") 'iterm-run-previous-command)
 
-(define-key ctl-x-4-map "f" 'ido-find-recentfile-other-window)
+(define-key ctl-x-4-map "f" 'ido-find-file-other-window)
 (global-set-key (kbd "C-x C-d") 'ido-dired)
 
 (global-set-key (kbd "C-c d") 'deft)
