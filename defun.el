@@ -286,11 +286,16 @@ Assume that the previously found match was for a numbered item in a list."
   paste in safari's selected textarea"
   (interactive)
   (markdown-copy-html)
-  (do-applescript "tell application \"Safari\"
+  (do-applescript "
+set f to \"~/.emacs.d/osx_edit_md_prevapp\"
+set prevapp to do shell script \"touch \" & f & \"; cat \" & f
+if prevapp is not \"\" then
+tell application prevapp
 activate
 tell application \"System Events\" to keystroke \"a\" using {command down}
 tell application \"System Events\" to keystroke \"v\" using {command down}
-end tell"))
+end tell
+end if"))
 
 
      (defun TeX-compile ()
