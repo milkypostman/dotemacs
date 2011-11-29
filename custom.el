@@ -26,7 +26,7 @@
  '(enable-recursive-minibuffers t)
  '(foreground-color "#657b83")
  '(fringe-mode (quote (4 . 4)) nil (fringe))
- '(global-auto-revert-mode t)
+ '(global-auto-revert-mode nil)
  '(ibuffer-expert t)
  '(ibuffer-show-empty-filter-groups nil)
  '(inhibit-startup-echo-area-message "dcurtis")
