@@ -49,18 +49,6 @@
 
 
 
-(defun mp-ido-hook ()
-  (setq ido-mode-map ido-completion-map)
-  (define-key ido-mode-map (kbd "C-h") 'ido-delete-backward-updir)
-  (define-key ido-mode-map (kbd "C-w") 'ido-delete-backward-word-updir)
-  (define-key ido-mode-map (kbd "C-n") 'ido-next-match)
-  (define-key ido-mode-map (kbd "C-n") 'ido-next-match)
-  (define-key ido-mode-map (kbd "C-p") 'ido-prev-match)
-  ;; (define-key ido-mode-map (kbd "C-e") 'mp-ido-edit-input)
-  (define-key ido-completion-map [tab] 'ido-complete)
-  (ido-everywhere)
-  )
-
 
 (defun close-frame-or-client (&optional args)
   (interactive "P")
@@ -328,15 +316,28 @@ depending on the last command issued."
   (local-set-key (kbd "C-c o") 'ff-find-other-file)
   (local-set-key (kbd "C-c C-m") 'mp-compile))
 
-;; (defun mp-ido-edit-input ()
-;;   "Edit absolute file name entered so far with ido; terminate by RET.
-;; If cursor is not at the end of the user input, move to end of input."
-;;   (interactive)
-;;   (if (not (eobp))
-;;       (end-of-line)
-;;     (setq ido-text-init ido-text)
-;;     (setq ido-exit 'edit)
-;;     (exit-minibuffer)))
+
+(defun mp-ido-hook ()
+  (setq ido-mode-map ido-completion-map)
+  (define-key ido-mode-map (kbd "C-h") 'ido-delete-backward-updir)
+  (define-key ido-mode-map (kbd "C-w") 'ido-delete-backward-word-updir)
+  (define-key ido-mode-map (kbd "C-n") 'ido-next-match)
+  (define-key ido-mode-map (kbd "C-n") 'ido-next-match)
+  (define-key ido-mode-map (kbd "C-p") 'ido-prev-match)
+  (define-key ido-mode-map (kbd "C-e") 'mp-ido-edit-input)
+  (define-key ido-completion-map [tab] 'ido-complete)
+  (ido-everywhere)
+  )
+
+(defun mp-ido-edit-input ()
+  "Edit absolute file name entered so far with ido; terminate by RET.
+If cursor is not at the end of the user input, move to end of input."
+  (interactive)
+  (if (not (eobp))
+      (end-of-line)
+    (setq ido-text-init ido-text)
+    (setq ido-exit 'edit)
+    (exit-minibuffer)))
 
 (provide 'defun)
 
