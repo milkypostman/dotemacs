@@ -96,7 +96,7 @@
 
 (global-set-key (kbd "C-c r") 'iterm-run-previous-command)
 
-(define-key ctl-x-4-map "f" 'ido-find-recentfile-other-window)
+(define-key ctl-x-4-map "f" 'ido-find-file-other-window)
 (global-set-key (kbd "C-x C-d") 'ido-dired)
 
 (global-set-key (kbd "C-c d") 'deft)
@@ -168,6 +168,7 @@
 
 (eval-after-load 'markdown-mode
   '(progn
+     (define-key markdown-mode-map (kbd "<backtab>") 'markdown-shifttab)
      (define-key markdown-mode-map (kbd "C-c r") 'markdown-copy-rtf)
      (define-key markdown-mode-map (kbd "C-c v") 'marked)
      (define-key markdown-mode-map (kbd "C-c c") 'markdown-copy-html)
