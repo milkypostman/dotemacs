@@ -168,6 +168,7 @@
 
 (eval-after-load 'markdown-mode
   '(progn
+     (define-key markdown-mode-map (kbd "<backtab>") 'markdown-shifttab)
      (define-key markdown-mode-map (kbd "C-c r") 'markdown-copy-rtf)
      (define-key markdown-mode-map (kbd "C-c v") 'marked)
      (define-key markdown-mode-map (kbd "C-c c") 'markdown-copy-html)
