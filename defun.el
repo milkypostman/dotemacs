@@ -101,7 +101,7 @@
   "Open the current file in Marked."
   (interactive)
   (when (buffer-file-name)
-    (save-file)
+    (save-buffer)
     (shell-command (concat "open -a Marked "
                            (shell-quote-argument buffer-file-name)))))
 
