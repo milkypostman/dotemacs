@@ -49,18 +49,6 @@
 
 
 
-(defun mp-ido-hook ()
-  (setq ido-mode-map ido-completion-map)
-  (define-key ido-mode-map (kbd "C-h") 'ido-delete-backward-updir)
-  (define-key ido-mode-map (kbd "C-w") 'ido-delete-backward-word-updir)
-  (define-key ido-mode-map (kbd "C-n") 'ido-next-match)
-  (define-key ido-mode-map (kbd "C-n") 'ido-next-match)
-  (define-key ido-mode-map (kbd "C-p") 'ido-prev-match)
-  ;; (define-key ido-mode-map (kbd "C-e") 'mp-ido-edit-input)
-  (define-key ido-completion-map [tab] 'ido-complete)
-  (ido-everywhere)
-  )
-
 
 (defun close-frame-or-client (&optional args)
   (interactive "P")
@@ -113,6 +101,7 @@
   "Open the current file in Marked."
   (interactive)
   (when (buffer-file-name)
+    (save-file)
     (shell-command (concat "open -a Marked "
                            (shell-quote-argument buffer-file-name)))))
 
@@ -257,7 +246,6 @@ Assume that the previously found match was for a numbered item in a list."
                (concat "\\(^#+\\|\\(^\\|^[\s-]*\\)[0-9]+\\. \\)") nil t)))))
     success))
 
-
 (defun markdown-cleanup-list-numbers ()
   "update the numbering of first-level markdown indexes"
   (interactive)
@@ -266,6 +254,15 @@ Assume that the previously found match was for a numbered item in a list."
     (while (re-search-forward (concat "\\(\\(^[\s-]*\\)[0-9]+\\. \\)") nil t)
       (markdown-cleanup-list-numbers-level (match-string-no-properties 2)))))
 
+(defun markdown-latex ()
+  "LaTeX the markdown to PDF"
+  (interactive)
+  (if (buffer-file-name)
+      (save-window-excursion
+        (save-buffer)
+        (shell-command
+         (combine-and-quote-strings `("pandocquiz" ,buffer-file-name))))
+    (message "Buffer has no filename.")))
 
 (defun shell-command-on-region-to-string (start end command)
   (save-window-excursion
@@ -298,11 +295,16 @@ Assume that the previously found match was for a numbered item in a list."
   paste in safari's selected textarea"
   (interactive)
   (markdown-copy-html)
-  (do-applescript "tell application \"Safari\"
+  (do-applescript "
+set f to \"~/.emacs.d/osx_edit_md_prevapp\"
+set prevapp to do shell script \"touch \" & f & \"; cat \" & f
+if prevapp is not \"\" then
+tell application prevapp
 activate
 tell application \"System Events\" to keystroke \"a\" using {command down}
 tell application \"System Events\" to keystroke \"v\" using {command down}
-end tell"))
+end tell
+end if"))
 
 
      (defun TeX-compile ()
@@ -328,15 +330,66 @@ depending on the last command issued."
   (local-set-key (kbd "C-c o") 'ff-find-other-file)
   (local-set-key (kbd "C-c C-m") 'mp-compile))
 
-;; (defun mp-ido-edit-input ()
-;;   "Edit absolute file name entered so far with ido; terminate by RET.
-;; If cursor is not at the end of the user input, move to end of input."
-;;   (interactive)
-;;   (if (not (eobp))
-;;       (end-of-line)
-;;     (setq ido-text-init ido-text)
-;;     (setq ido-exit 'edit)
-;;     (exit-minibuffer)))
+
+(defun mp-ido-hook ()
+  (setq ido-mode-map ido-completion-map)
+  (define-key ido-mode-map (kbd "C-h") 'ido-delete-backward-updir)
+  (define-key ido-mode-map (kbd "C-w") 'ido-delete-backward-word-updir)
+  (define-key ido-mode-map (kbd "C-n") 'ido-next-match)
+  (define-key ido-mode-map (kbd "C-n") 'ido-next-match)
+  (define-key ido-mode-map (kbd "C-p") 'ido-prev-match)
+  (define-key ido-mode-map (kbd "C-e") 'mp-ido-edit-input)
+  (define-key ido-completion-map [tab] 'ido-complete)
+  (ido-everywhere)
+  )
+
+(defun mp-ido-edit-input ()
+  "Edit absolute file name entered so far with ido; terminate by RET.
+If cursor is not at the end of the user input, move to end of input."
+  (interactive)
+  (if (not (eobp))
+      (end-of-line)
+    (setq ido-text-init ido-text)
+    (setq ido-exit 'edit)
+    (exit-minibuffer)))
+
+(defun orgtbl-to-pandoc (table params)
+  ""
+    (let* ((splicep (plist-get params :splice))
+	 (html-table-tag org-export-html-table-tag)
+	 html)
+    ;; Just call the formatter we already have
+    ;; We need to make text lines for it, so put the fields back together.
+      (setq html (mapconcat 'identity
+                  (mapcar
+                   (lambda (x)
+                     (if (eq x 'hline)
+                         "|----+----|"
+                       (concat "| " (mapconcat 'identity x " ") " |")))
+                   table)
+                  "\n")
+            )
+    html)
+    ;; (let* ((alignment (mapconcat (lambda (x) (if x "r" "l"))
+    ;;     		       org-table-last-alignment ""))
+    ;;      (params2
+    ;;       (list
+    ;;        :tstart (concat "\\begin{tabular}{" alignment "}")
+    ;;        :tend "\\end{tabular}"
+    ;;        :lstart "" :lend " \\\\" :sep " & "
+    ;;        :efmt "%s\\,(%s)" :hline "\\hline")))
+    ;; (message "%s" table)
+    ;; (setq html (org-format-org-table-html
+    ;;     	(mapcar
+    ;;     	 (lambda (x)
+    ;;     	   (if (eq x 'hline)
+    ;;     	       "|----+----|"
+    ;;     	     (concat "| " (mapconcat 'org-html-expand x " | ") " |")))
+    ;;     	 table)
+    ;;     	splicep))
+
+    ;; (orgtbl-to-generic table (org-combine-plists params2 params))
+    )
 
 (provide 'defun)
 

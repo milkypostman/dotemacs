@@ -170,6 +170,7 @@
   '(progn
      (define-key markdown-mode-map (kbd "<backtab>") 'markdown-shifttab)
      (define-key markdown-mode-map (kbd "C-c r") 'markdown-copy-rtf)
+     (define-key markdown-mode-map (kbd "C-c l") 'markdown-latex)
      (define-key markdown-mode-map (kbd "C-c v") 'marked)
      (define-key markdown-mode-map (kbd "C-c c") 'markdown-copy-html)
      (define-key markdown-mode-map (kbd "C-c s") 'markdown-copy-paste-safari)))
@@ -240,6 +241,9 @@
 (add-hook 'write-file-functions 'time-stamp)
 
 (add-hook 'c-mode-common-hook 'mp-add-c-mode-bindings)
+
+(add-hook 'before-save-hook 'whitespace-cleanup)
+(add-hook 'prog-mode-hook 'esk-turn-on-whitespace)
 
 ;; paredit
 ;; (remove-hook 'prog-mode-hook 'esk-turn-on-hl-line-mode)
