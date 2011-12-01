@@ -307,14 +307,13 @@ end tell
 end if"))
 
 
-     (defun TeX-compile ()
-       "Start a viewer without confirmation.
+(defun TeX-compile ()
+  "Start a viewer without confirmation.
 The viewer is started either on region or master file,
 depending on the last command issued."
-       (interactive)
-       (TeX-save-document (TeX-master-file))
-       (TeX-command "LaTeX" 'TeX-active-master 0)
-       )
+  (interactive)
+  (TeX-save-document (TeX-master-file))
+  (TeX-command "LaTeX" 'TeX-active-master 0))
 
 
 (defun mp-ibuffer-hook ()
@@ -353,43 +352,43 @@ If cursor is not at the end of the user input, move to end of input."
     (setq ido-exit 'edit)
     (exit-minibuffer)))
 
+(defun orgtbl-to-pandoc-cell (val colwidth align)
+  "DOCSTRING"
+  (setq colwidth (1+ colwidth))
+  (if align
+      (concat (make-string (- colwidth (length val)) ? ) val)
+    (concat val (make-string (- colwidth (length val)) ? ))))
+
+
 (defun orgtbl-to-pandoc (table params)
   ""
-    (let* ((splicep (plist-get params :splice))
+  (let* ((splicep (plist-get params :splice))
 	 (html-table-tag org-export-html-table-tag)
 	 html)
     ;; Just call the formatter we already have
     ;; We need to make text lines for it, so put the fields back together.
-      (setq html (mapconcat 'identity
-                  (mapcar
-                   (lambda (x)
-                     (if (eq x 'hline)
-                         "|----+----|"
-                       (concat "| " (mapconcat 'identity x " ") " |")))
-                   table)
-                  "\n")
-            )
-    html)
-    ;; (let* ((alignment (mapconcat (lambda (x) (if x "r" "l"))
-    ;;     		       org-table-last-alignment ""))
-    ;;      (params2
-    ;;       (list
-    ;;        :tstart (concat "\\begin{tabular}{" alignment "}")
-    ;;        :tend "\\end{tabular}"
-    ;;        :lstart "" :lend " \\\\" :sep " & "
-    ;;        :efmt "%s\\,(%s)" :hline "\\hline")))
-    ;; (message "%s" table)
-    ;; (setq html (org-format-org-table-html
-    ;;     	(mapcar
-    ;;     	 (lambda (x)
-    ;;     	   (if (eq x 'hline)
-    ;;     	       "|----+----|"
-    ;;     	     (concat "| " (mapconcat 'org-html-expand x " | ") " |")))
-    ;;     	 table)
-    ;;     	splicep))
-
-    ;; (orgtbl-to-generic table (org-combine-plists params2 params))
-    )
+    (concat "\n"
+            (mapconcat
+             'identity
+             (mapcar
+              (lambda (x)
+                (if (eq x 'hline)
+                    (mapconcat
+                     'identity
+                     (mapcar
+                      (lambda (colwidth)
+                        (make-string (1+ colwidth) ?-))
+                      org-table-last-column-widths) " ")
+                  (mapconcat
+                   'identity
+                   (mapcar*
+                    'orgtbl-to-pandoc-cell
+                    x
+                    org-table-last-column-widths
+                    org-table-last-alignment) " ")))
+              table)
+             "\n")
+            "\n")))
 
 (provide 'defun)
 
