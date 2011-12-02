@@ -44,6 +44,7 @@
  '(ns-tool-bar-display-mode (quote both) t)
  '(ns-tool-bar-size-mode (quote regular) t)
  '(recentf-mode t)
+ '(safe-local-variable-values (quote ((markdown-paste-app . "Super Special Deluxe:Applications:Utilities:AppleScript Editor.app:") (markdown-paste-app quote Super) (markdown-paste-app . *) (markdown-paste-app . TextEdit) (markdown-paste-app . Textmate) (whitespace-line-column . 80) (lexical-binding . t) (markdown-paste-app . "TextEdit") (markdown-paste-app . "Textmate"))))
  '(savehist-mode t)
  '(scroll-bar-mode nil)
  '(scroll-conservatively 5)

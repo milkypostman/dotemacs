@@ -289,22 +289,22 @@ Assume that the previously found match was for a numbered item in a list."
         (markdown)
         (shell-command-on-region (point-min) (point-max) "pbcopy")))))
 
+(defvar markdown-paste-app nil "application to paste to")
+(make-variable-buffer-local 'markdown-paste-app)
+;; (add-to-list 'safe-local-variable-values '(markdown-paste-app . Textmate))
+;; (add-to-list 'safe-local-variable-values '(markdown-paste-app . TextEdit))
 
-(defun markdown-copy-paste-safari ()
+(defun markdown-copy-paste ()
   "process file with multimarkdown, copy it to the clipboard, and
   paste in safari's selected textarea"
   (interactive)
   (markdown-copy-html)
-  (do-applescript "
-set f to \"~/.emacs.d/osx_edit_md_prevapp\"
-set prevapp to do shell script \"touch \" & f & \"; cat \" & f
-if prevapp is not \"\" then
-tell application prevapp
+  (do-applescript (concat "
+tell application \""  markdown-paste-app "\"
 activate
 tell application \"System Events\" to keystroke \"a\" using {command down}
 tell application \"System Events\" to keystroke \"v\" using {command down}
-end tell
-end if"))
+end tell")))
 
 
 (defun TeX-compile ()

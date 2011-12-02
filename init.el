@@ -173,7 +173,7 @@
      (define-key markdown-mode-map (kbd "C-c l") 'markdown-latex)
      (define-key markdown-mode-map (kbd "C-c v") 'marked)
      (define-key markdown-mode-map (kbd "C-c c") 'markdown-copy-html)
-     (define-key markdown-mode-map (kbd "C-c s") 'markdown-copy-paste-safari)))
+     (define-key markdown-mode-map (kbd "C-c s") 'markdown-copy-paste)))
 
 
 
