@@ -34,6 +34,7 @@
  '(ispell-program-name "aspell")
  '(line-spacing 0)
  '(markdown-command "pandoc")
+ '(markdown-latex-command "pandoc -s --mathjax -t latex")
  '(menu-bar-mode t)
  '(mode-line-in-non-selected-windows t)
  '(mode-line-inverse-video t)
