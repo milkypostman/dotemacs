@@ -246,6 +246,7 @@ Assume that the previously found match was for a numbered item in a list."
                (concat "\\(^#+\\|\\(^\\|^[\s-]*\\)[0-9]+\\. \\)") nil t)))))
     success))
 
+
 (defun markdown-cleanup-list-numbers ()
   "update the numbering of first-level markdown indexes"
   (interactive)
@@ -253,6 +254,7 @@ Assume that the previously found match was for a numbered item in a list."
     (beginning-of-buffer)
     (while (re-search-forward (concat "\\(\\(^[\s-]*\\)[0-9]+\\. \\)") nil t)
       (markdown-cleanup-list-numbers-level (match-string-no-properties 2)))))
+
 
 (defun markdown-latex ()
   "LaTeX the markdown to PDF"
@@ -263,6 +265,7 @@ Assume that the previously found match was for a numbered item in a list."
         (shell-command
          (combine-and-quote-strings `("pandocquiz" ,buffer-file-name))))
     (message "Buffer has no filename.")))
+
 
 (defun shell-command-on-region-to-string (start end command)
   (save-window-excursion
@@ -276,7 +279,8 @@ Assume that the previously found match was for a numbered item in a list."
   (save-window-excursion
     (flet ((markdown-output-standalone-p () t))
       (markdown))
-    (kill-ring-save (point-min) (point-max))))
+    (with-current-buffer markdown-output-buffer-name
+      (kill-ring-save (point-min) (point-max)))))
 
 
 (defun markdown-copy-rtf ()
@@ -287,24 +291,37 @@ Assume that the previously found match was for a numbered item in a list."
       (let ((markdown-command (concat markdown-command " -s -t rtf")))
         (message (prin1-to-string (markdown-output-standalone-p)))
         (markdown)
-        (shell-command-on-region (point-min) (point-max) "pbcopy")))))
+        (with-current-buffer markdown-output-buffer-name
+          (shell-command-on-region (point-min) (point-max) "pbcopy"))))))
 
-(defvar markdown-paste-app nil "application to paste to")
-(make-variable-buffer-local 'markdown-paste-app)
-;; (add-to-list 'safe-local-variable-values '(markdown-paste-app . Textmate))
-;; (add-to-list 'safe-local-variable-values '(markdown-paste-app . TextEdit))
 
 (defun markdown-copy-paste ()
   "process file with multimarkdown, copy it to the clipboard, and
   paste in safari's selected textarea"
   (interactive)
   (markdown-copy-html)
-  (do-applescript (concat "
-tell application \""  markdown-paste-app "\"
-activate
+  (do-applescript
+   (concat
+    (let ((metafn (concat (buffer-file-name) ".meta")))
+      (cond
+       ((and (buffer-file-name) (file-exists-p metafn))
+        (save-buffer)
+        (with-temp-buffer
+          (insert-file-contents-literally metafn)
+          (beginning-of-buffer)
+          (do-applescript
+           (concat
+            "tell application \""
+            (buffer-substring-no-properties (point-at-bol) (point-at-eol))
+            "\" to activate"))))
+       (t
+        "
+tell application \"System Events\" to keystroke tab using {command down}
+delay 0.2"
+        )))
+    "
 tell application \"System Events\" to keystroke \"a\" using {command down}
-tell application \"System Events\" to keystroke \"v\" using {command down}
-end tell")))
+tell application \"System Events\" to keystroke \"v\" using {command down}")))
 
 
 (defun TeX-compile ()
