@@ -29,6 +29,7 @@
  '(global-auto-revert-mode nil)
  '(ibuffer-expert t)
  '(ibuffer-show-empty-filter-groups nil)
+ '(ido-use-filename-at-point nil)
  '(inhibit-startup-echo-area-message "dcurtis")
  '(ispell-extra-args (quote ("--sug-mode=ultra")))
  '(ispell-program-name "aspell")
