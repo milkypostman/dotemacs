@@ -25,8 +25,6 @@
 ;; debug if we would like
 (setq debug-on-error t)
 
-(add-to-list 'load-path "~/.emacs.d/elisp/")
-
 (require 'uniquify)
 (require 'midnight)
 (require 'misc)
