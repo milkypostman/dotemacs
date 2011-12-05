@@ -50,6 +50,7 @@
  '(scroll-bar-mode nil)
  '(scroll-conservatively 5)
  '(scroll-margin 5)
+ '(send-mail-function (quote mailclient-send-it))
  '(sentence-end-double-space nil)
  '(set-mark-command-repeat-pop t)
  '(show-paren-mode t)
