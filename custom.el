@@ -72,5 +72,5 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(hl-sentence-face ((t (:foreground "white"))) t)
- '(variable-pitch ((t (:foreground "gray80" :height 140 :family "Cochin")))))
+ '(variable-pitch ((t (:foreground "gray60" :height 140 :family "Cochin")))))
 

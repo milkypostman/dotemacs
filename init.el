@@ -176,8 +176,6 @@
      (define-key markdown-mode-map (kbd "C-c s") 'markdown-copy-paste-html)))
 
 
-
-
 ;; auctex
 (eval-after-load 'latex
   '(progn
