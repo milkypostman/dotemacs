@@ -178,8 +178,6 @@
      (define-key markdown-mode-map (kbd "C-c =") 'markdown-cleanup-list-numbers)))
 
 
-
-
 ;; auctex
 (eval-after-load 'latex
   '(progn
