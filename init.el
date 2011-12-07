@@ -173,7 +173,9 @@
      (define-key markdown-mode-map (kbd "C-c l") 'markdown-export-latex)
      (define-key markdown-mode-map (kbd "C-c v") 'marked)
      (define-key markdown-mode-map (kbd "C-c c") 'markdown-copy-html)
-     (define-key markdown-mode-map (kbd "C-c s") 'markdown-copy-paste-html)))
+     (define-key markdown-mode-map (kbd "C-c p") 'markdown-export-pdf)
+     (define-key markdown-mode-map (kbd "C-c s") 'markdown-copy-paste-html)
+     (define-key markdown-mode-map (kbd "C-c =") 'markdown-cleanup-list-numbers)))
 
 
 
@@ -298,7 +300,6 @@
     (setq custom-file "~/.emacs.d/aqustom.el")
   (setq custom-file "~/.emacs.d/custom.el"))
 (load custom-file)
-
 
 
 ;; Local Variables:
