@@ -18,7 +18,7 @@
  '(custom-enabled-themes (quote (tango-dark)))
  '(custom-safe-themes (quote ("e9704e8b957e4151cd570c5f25ec81c297aa2b6a" "5600dc0bb4a2b72a613175da54edb4ad770105aa" "0174d99a8f1fdc506fa54403317072982656f127" "0d9954cf3c9d0802c50d22ed907991a909cff9c4" default)))
  '(custom-theme-directory "~/.emacs.d/themes/")
- '(default-frame-alist (quote ((font . "Ubuntu Mono-14") (left-fringe . 4) (right-fringe . 4))))
+ '(default-frame-alist (quote ((font . "Inconsolata-g-11") (vertical-scroll-bars) (left-fringe . 4) (right-fringe . 4))))
  '(deft-directory "/Users/dcurtis/Dropbox/Elements")
  '(deft-text-mode (quote markdown-mode))
  '(deft-use-filename-as-title t)
