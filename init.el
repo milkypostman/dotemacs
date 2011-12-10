@@ -35,7 +35,10 @@
 (setenv "PATH"
         (mapconcat 'identity
                    (delete-dups
-                    (append (list "/usr/local/bin" "~/bin" "/usr/texbin" "~/.cabal/bin")
+                    (append (list "/usr/local/bin"
+                                  "~/bin"
+                                  "/usr/texbin"
+                                  "~/.cabal/bin")
                             (split-string (getenv "PATH") ":")))
                    ":"))
 
