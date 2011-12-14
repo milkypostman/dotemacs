@@ -23,7 +23,7 @@
 (package-initialize)
 
 ;; debug if we would like
-(setq debug-on-error t)
+;; (setq debug-on-error t)
 
 (require 'uniquify)
 (require 'midnight)
