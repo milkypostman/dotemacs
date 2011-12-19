@@ -310,4 +310,12 @@
 ;; time-stamp-end: "$"
 ;; End:
 
+
 (put 'narrow-to-region 'disabled nil)
+
+
+;; specify a fallback font : MENLO
+(set-fontset-font "fontset-default" 'unicode "Menlo")
+
+
+
