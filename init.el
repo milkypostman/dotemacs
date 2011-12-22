@@ -16,12 +16,11 @@
 	     '("khealy" . "http://kieranhealy.org/packages/") t)
 (add-to-list 'package-archives
 	     '("marmalade" . "http://marmalade-repo.org/packages/") t)
-(add-to-list 'package-archives
-	     '("melpa" . "http://localhost:31337/packages/") t)
 ;; (add-to-list 'package-archives
-;;	     '("melpa" . "http://melpa.milkbox.net/packages/") t)
-;; temporary hack until I can get hosting fixed.
-;; (setq url-http-attempt-keepalives nil)
+;; 	     '("melpa" . "http://localhost:31337/packages/") t)
+(add-to-list 'package-archives
+	     '("melpa" . "http://melpa.milkbox.net/packages/") t)
+(setq url-http-attempt-keepalives nil) ;; temporary hack until I can get hosting fixed.
 (package-initialize)
 
 ;; debug if we would like
@@ -31,16 +30,17 @@
 (require 'midnight)
 (require 'misc)
 
-(push "/usr/local/bin" exec-path)
-(push "~/.cabal/bin" exec-path)
-(push "/usr/texbin" exec-path)
+(push "/usr/local/bin/" exec-path)
+(push "~/.cabal/bin/" exec-path)
+(push "/usr/texbin/" exec-path)
+(push "~/bin/" exec-path)
 (setenv "PATH"
 	(mapconcat 'identity
 		   (delete-dups
 		    (append (list "/usr/local/bin"
-				  "~/bin"
 				  "/usr/texbin"
-				  "~/.cabal/bin")
+				  (concat (getenv "HOME") "/bin")
+                                  (concat (getenv "HOME") "/.cabal/bin"))
 			    (split-string (getenv "PATH") ":")))
 		   ":"))
 
