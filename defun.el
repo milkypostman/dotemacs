@@ -23,7 +23,6 @@
       (delete-file filename)
       (kill-this-buffer))))
 
-
 (defun rename-this-buffer-and-file ()
   "Renames current buffer and file it is visiting."
   (interactive)
@@ -269,6 +268,10 @@ If cursor is not at the end of the user input, move to end of input."
     (setq ido-text-init ido-text)
     (setq ido-exit 'edit)
     (exit-minibuffer)))
+
+(defun mp-buffer-enable-whitespace-cleanup ()
+  "enable whitespace-cleanup in the current buffer"
+  (add-hook 'before-save-hook 'whitespace-cleanup nil t))
 
 (defun orgtbl-to-pandoc-cell (val colwidth align)
   "DOCSTRING"

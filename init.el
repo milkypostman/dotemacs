@@ -247,8 +247,6 @@
 
 (add-hook 'c-mode-common-hook 'mp-add-c-mode-bindings)
 
-(add-hook 'before-save-hook 'whitespace-cleanup)
-
 ;; paredit
 ;; (remove-hook 'prog-mode-hook 'esk-turn-on-hl-line-mode)
 (eval-after-load 'starter-kit-autoloads
@@ -256,6 +254,7 @@
      (add-hook 'prog-mode-hook 'esk-turn-on-whitespace)
      (add-hook 'emacs-lisp-mode-hook 'esk-turn-on-paredit)))
 
+(add-hook 'prog-mode-hook 'mp-buffer-enable-whitespace-cleanup)
 
 (eval-after-load 'find-file-in-project
   '(progn
