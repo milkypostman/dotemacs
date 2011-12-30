@@ -49,6 +49,8 @@
 
 
 
+
+
 (defun close-frame-or-client (&optional args)
   (interactive "P")
   (if (> (length (frame-list)) 1)
@@ -310,6 +312,21 @@ If cursor is not at the end of the user input, move to end of input."
               table)
              "\n")
             "\n")))
+
+(defvar mp-wikipedia-url "http://en.wikipedia.org/wiki/%s" "Wikipedia URL")
+
+(defun mp-wikicase (str)
+  "change string to wikipedia case"
+  (mapconcat 'capitalize (split-string str) "_"))
+
+(defun mp-markdown-wikipedia-link ()
+  "DOCSTRING"
+  (interactive)
+  (save-excursion
+    (back-to-indentation)
+    (re-search-forward "\\[\\(.+\\)\\]:" (point-at-eol))
+    (end-of-line)
+    (insert (format mp-wikipedia-url (mp-wikicase (match-string 1))))))
 
 (provide 'defun)
 
