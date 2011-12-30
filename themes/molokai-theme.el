@@ -1,0 +1,24 @@
+(deftheme molokai
+  "Created 2011-12-30.")
+
+(custom-theme-set-faces
+ 'molokai
+ '(cursor ((t (:background "#f8f8f0"))))
+ '(font-lock-builtin-face ((t (:foreground "#ae81ff"))))
+ '(font-lock-function-name-face ((t (:foreground "#a6e22e"))))
+ '(font-lock-type-face ((t (:foreground "#66d9ef"))))
+ '(font-lock-warning-face ((t (:inherit error))))
+ '(error ((t (:background "#1e0010" :foreground "#960050"))))
+ '(font-lock-keyword-face ((t (:foreground "#kf92672"))))
+ '(font-lock-constant-face ((t (:foreground "#fd971f"))))
+ '(font-lock-string-face ((t (:foreground "#e6db74"))))
+ '(font-lock-comment-delimiter-face ((t (:inherit font-lock-comment-face))))
+ '(font-lock-comment-face ((t (:foreground "#465457"))))
+ '(show-paren-match ((t (:background "#fd971f" :foreground "#000000"))))
+ '(esk-paren-face ((t (:foreground "grey50"))))
+ '(whitespace-tab ((t (:background "#272822"))))
+ '(mode-line ((t (:background "#455354" :foreground "#f8f8f2" :box nil))))
+ '(default ((t (:background "#1b1d1e" :foreground "#f8f8f2"))))
+ '(mode-line-inactive ((t (:inherit mode-line :background "#808080" :foreground "#080808")))))
+
+(provide-theme 'molokai)
