@@ -18,10 +18,10 @@
  '(esk-paren-face ((t (:foreground "grey50"))))
  '(whitespace-tab ((t (:background "#272822"))))
  '(mode-line ((t (:background "#808080" :foreground "#000000" :box nil))))
- '(mode-line-inactive ((t (:box nil :foreground "#75715e" :background "#080808" :inherit mode-line))))
+ '(mode-line-inactive ((t (:inherit (mode-line) :background "#080808" :foreground "#75715e" :box nil))))
  '(hl-line ((t (:inherit highlight))))
  '(highlight ((t (:background "#49483e"))))
- '(region ((t (:inherit highlight))))
- '(default ((t (:background "#1b1d1e" :foreground "#f8f8f2")))))
+ '(default ((t (:background "#1b1d1e" :foreground "#f8f8f2"))))
+ '(region ((t (:inherit (highlight) :background "#49483e")))))
 
 (provide-theme 'molokai)
