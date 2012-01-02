@@ -1,3 +1,4 @@
+/tramp
 /elpa
 /eshell
 /places
@@ -12,3 +13,4 @@
 /pkgbuild/epkgs
 /pkgbuild/archives
 /.smex-items
+/elisp

@@ -23,7 +23,6 @@
       (delete-file filename)
       (kill-this-buffer))))
 
-
 (defun rename-this-buffer-and-file ()
   "Renames current buffer and file it is visiting."
   (interactive)
@@ -46,6 +45,8 @@
   (let ((file1 (pop command-line-args-left))
         (file2 (pop command-line-args-left)))
     (ediff file1 file2)))
+
+
 
 
 
@@ -270,6 +271,10 @@ If cursor is not at the end of the user input, move to end of input."
     (setq ido-exit 'edit)
     (exit-minibuffer)))
 
+(defun mp-buffer-enable-whitespace-cleanup ()
+  "enable whitespace-cleanup in the current buffer"
+  (add-hook 'before-save-hook 'whitespace-cleanup nil t))
+
 (defun orgtbl-to-pandoc-cell (val colwidth align)
   "DOCSTRING"
   (setq colwidth (1+ colwidth))
@@ -307,6 +312,21 @@ If cursor is not at the end of the user input, move to end of input."
               table)
              "\n")
             "\n")))
+
+(defvar mp-wikipedia-url "http://en.wikipedia.org/wiki/%s" "Wikipedia URL")
+
+(defun mp-wikicase (str)
+  "change string to wikipedia case"
+  (mapconcat 'capitalize (split-string str) "_"))
+
+(defun mp-markdown-wikipedia-link ()
+  "DOCSTRING"
+  (interactive)
+  (save-excursion
+    (back-to-indentation)
+    (re-search-forward "\\[\\(.+\\)\\]:" (point-at-eol))
+    (end-of-line)
+    (insert (format mp-wikipedia-url (mp-wikicase (match-string 1))))))
 
 (provide 'defun)
 
