@@ -257,7 +257,7 @@ depending on the last command issued."
   (define-key ido-mode-map (kbd "C-p") 'ido-prev-match)
   (define-key ido-mode-map (kbd "C-e") 'mp-ido-edit-input)
   (define-key ido-completion-map [tab] 'ido-complete)
-  (ido-everywhere)
+  (ido-everywhere 1)
   )
 
 (defun mp-ido-edit-input ()
