@@ -230,6 +230,8 @@
 	 ("115" (filename . "115"))
 	 ("325" (filename . "325"))
 	 ("705" (filename . "705"))
+	 ("345" (filename . "345"))
+	 ("455" (filename . "455"))
 	 ("dirs" (or
 		  (mode . dired-mode)
 		  (mode . wdired-mode)))
