@@ -10,6 +10,9 @@
 (require 'defun)
 
 
+;; emacs23 --
+;; http://repo.or.cz/w/emacs.git/blob_plain/1a0a666f941c99882093d7bd08ced15033bc3f0c:/lisp/emacs-lisp/package.el
+
 (require 'package)
 (setq package-user-dir "~/.emacs.d/elpa/")
 (add-to-list 'package-archives
