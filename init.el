@@ -119,6 +119,8 @@
 (global-set-key (kbd "C-c +") 'increment-number-at-point)
 (global-set-key (kbd "C-c -") 'decrement-number-at-point)
 
+(global-set-key (kbd "C-c w") 'mp-copy-paste)
+
 (define-key key-translation-map (kbd "C-x C-m") (kbd "M-x"))
 
 

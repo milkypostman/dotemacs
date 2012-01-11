@@ -46,8 +46,49 @@
         (file2 (pop command-line-args-left)))
     (ediff file1 file2)))
 
+(defun mp-paste-previous-osx-app ()
+  "paste the current buffer into the previous OS X application.
+either the one specified in the '.meta' file or the previously
+used app."
+  (interactive)
+  (do-applescript
+   (concat
+    (let ((metafn (concat (buffer-file-name) ".meta")))
+      (cond
+       ((and (buffer-file-name) (file-exists-p metafn))
+        (save-buffer)
+        (with-temp-buffer
+          (insert-file-contents-literally metafn)
+          (goto-char (point-min))
+          (do-applescript
+           (concat
+            "tell application \""
+            (buffer-substring-no-properties (point-at-bol) (point-at-eol))
+            "\" to activate"))))
+       (t
+        "
+tell application \"System Events\" to keystroke tab using {command down}
+delay 0.2"
+        )))
+    "
+tell application \"System Events\" to keystroke \"a\" using {command down}
+tell application \"System Events\" to keystroke \"v\" using {command down}")))
 
 
+(defun mp-copy-paste ()
+  "copy the buffer and paste it into the previous buffer or that
+  determined by the '.meta' file"
+  (interactive)
+  (save-excursion
+    (let ((begin-region)
+          (end-region))
+      (if (and (boundp 'transient-mark-mode) transient-mark-mode mark-active)
+          (setq begin-region (region-beginning)
+                end-region (region-end))
+        (setq begin-region (point-min)
+              end-region (point-max)))
+      (kill-ring-save begin-region end-region))
+    (mp-paste-previous-osx-app)))
 
 
 
