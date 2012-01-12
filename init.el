@@ -174,6 +174,7 @@
 ;; haskell
 (add-hook 'haskell-mode-hook 'turn-on-haskell-doc-mode)
 (add-hook 'haskell-mode-hook 'turn-on-haskell-indentation)
+(add-hook 'markdown-mode-hook 'mp-turn-on-abbrev-mode)
 
 
 (eval-after-load 'markdown-mode

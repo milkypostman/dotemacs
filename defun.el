@@ -275,6 +275,10 @@ depending on the last command issued."
   (TeX-save-document (TeX-master-file))
   (TeX-command "LaTeX" 'TeX-active-master 0))
 
+(defun mp-turn-on-abbrev-mode ()
+  "turn on abbrev-mode"
+  (abbrev-mode 1))
+
 
 (defun mp-ibuffer-hook ()
   (ibuffer-auto-mode 1)
