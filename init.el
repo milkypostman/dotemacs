@@ -19,8 +19,6 @@
 	     '("khealy" . "http://kieranhealy.org/packages/") t)
 (add-to-list 'package-archives
 	     '("marmalade" . "http://marmalade-repo.org/packages/") t)
-;; (add-to-list 'package-archives
-;; 	     '("melpa" . "http://localhost:31337/packages/") t)
 (add-to-list 'package-archives
 	     '("melpa" . "http://melpa.milkbox.net/packages/") t)
 (setq url-http-attempt-keepalives nil) ;; temporary hack until I can get hosting fixed.
