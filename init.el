@@ -16,11 +16,11 @@
 (require 'package)
 (setq package-user-dir "~/.emacs.d/elpa/")
 (add-to-list 'package-archives
-	     '("khealy" . "http://kieranhealy.org/packages/") t)
+             '("khealy" . "http://kieranhealy.org/packages/") t)
 (add-to-list 'package-archives
-	     '("marmalade" . "http://marmalade-repo.org/packages/") t)
+             '("marmalade" . "http://marmalade-repo.org/packages/") t)
 (add-to-list 'package-archives
-	     '("melpa" . "http://melpa.milkbox.net/packages/") t)
+             '("melpa" . "http://melpa.milkbox.net/packages/") t)
 (setq url-http-attempt-keepalives nil) ;; temporary hack until I can get hosting fixed.
 (package-initialize)
 
@@ -36,14 +36,14 @@
 (push "/usr/texbin/" exec-path)
 (push "~/bin/" exec-path)
 (setenv "PATH"
-	(mapconcat 'identity
-		   (delete-dups
-		    (append (list "/usr/local/bin"
-				  "/usr/texbin"
-				  (concat (getenv "HOME") "/bin")
+        (mapconcat 'identity
+                   (delete-dups
+                    (append (list "/usr/local/bin"
+                                  "/usr/texbin"
+                                  (concat (getenv "HOME") "/bin")
                                   (concat (getenv "HOME") "/.cabal/bin"))
-			    (split-string (getenv "PATH") ":")))
-		   ":"))
+                            (split-string (getenv "PATH") ":")))
+                   ":"))
 
 (ignore-errors
   (server-start))
@@ -205,8 +205,8 @@
      ;; (setq-default TeX-master nil)
      ;; (setq LaTeX-command "latex")
      (setq TeX-view-program-list
-	   '(("Skim"
-	      "/Applications/Skim.app/Contents/SharedSupport/displayline %n %o %b")))
+           '(("Skim"
+              "/Applications/Skim.app/Contents/SharedSupport/displayline %n %o %b")))
      (setq TeX-view-program-selection '((output-pdf "Skim")))
 
 
@@ -231,21 +231,21 @@
 
 (setq ibuffer-saved-filter-groups
       '(("default"
-	 ("115" (filename . "115"))
-	 ("325" (filename . "325"))
-	 ("705" (filename . "705"))
-	 ("345" (filename . "345"))
-	 ("455" (filename . "455"))
-	 ("dirs" (or
-		  (mode . dired-mode)
-		  (mode . wdired-mode)))
-	 ("notes" (filename . "Elements"))
-	 ("magit" (name . "\*magit"))
-	 ("help" (or (name . "\*Help\*")
-		     (name . "\*Apropos\*")
-		     (name . "\*info\*")))
-	 ("econfig" (or (filename . ".emacs.d")
-			(filename . "init.el"))))))
+         ("115" (filename . "115"))
+         ("325" (filename . "325"))
+         ("705" (filename . "705"))
+         ("345" (filename . "345"))
+         ("455" (filename . "455"))
+         ("dirs" (or
+                  (mode . dired-mode)
+                  (mode . wdired-mode)))
+         ("notes" (filename . "Elements"))
+         ("magit" (name . "\*magit"))
+         ("help" (or (name . "\*Help\*")
+                     (name . "\*Apropos\*")
+                     (name . "\*info\*")))
+         ("econfig" (or (filename . ".emacs.d")
+                        (filename . "init.el"))))))
 
 
 (add-hook 'ibuffer-mode-hook 'mp-ibuffer-hook)
@@ -299,8 +299,8 @@
        (setq delete-by-moving-to-trash t)
        (setq trash-directory "~/.Trash/")
        (setenv
-	"PYTHONPATH"
-	"/Users/dcurtis/src/compepi:/Users/dcurtis/src/networkx")))
+        "PYTHONPATH"
+        "/Users/dcurtis/src/compepi:/Users/dcurtis/src/networkx")))
 
 (message "done with all but custom")
 
