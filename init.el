@@ -31,19 +31,24 @@
 (require 'midnight)
 (require 'misc)
 
-(push "/usr/local/bin/" exec-path)
+(push "~/.virtualenv/bin/" exec-path)
 (push "~/.cabal/bin/" exec-path)
-(push "/usr/texbin/" exec-path)
 (push "~/bin/" exec-path)
-(setenv "PATH"
-        (mapconcat 'identity
-                   (delete-dups
-                    (append (list "/usr/local/bin"
-                                  "/usr/texbin"
+(push "/usr/local/bin/" exec-path)
+(push "/usr/texbin/" exec-path)
+(setenv "PATH" (mapconcat 'identity
+                          (delete-dups
+                           (append
+                            (list (concat (getenv "HOME") "/.virtualenv/bin")
+                                  (concat (getenv "HOME") "/.cabal/bin")
                                   (concat (getenv "HOME") "/bin")
-                                  (concat (getenv "HOME") "/.cabal/bin"))
+                                  "/usr/local/bin"
+                                  "/usr/texbin")
                             (split-string (getenv "PATH") ":")))
-                   ":"))
+                          ":"))
+
+
+
 
 (ignore-errors
   (server-start))
