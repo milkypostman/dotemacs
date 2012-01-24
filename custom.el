@@ -34,7 +34,7 @@
  '(ispell-extra-args (quote ("--sug-mode=ultra")))
  '(ispell-program-name "aspell")
  '(line-spacing 1)
- '(markdown-command "pandoc")
+ '(markdown-command "pandoc -S")
  '(markdown-latex-command "pandoc  --template=${HOME}/Dropbox/Coe/pandocwide.tex -s --mathjax -t latex")
  '(menu-bar-mode t)
  '(mode-line-in-non-selected-windows t)
