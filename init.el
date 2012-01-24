@@ -15,11 +15,11 @@
 
 (require 'package)
 (setq package-user-dir "~/.emacs.d/elpa/")
-(add-to-list 'package-archives
-             '("khealy" . "http://kieranhealy.org/packages/") t)
-(add-to-list 'package-archives '("tromey" . "http://tromey.com/elpa/") t)
 ;; (add-to-list 'package-archives
-;;           '("marmalade" . "http://marmalade-repo.org/packages/") t)
+;;              '("khealy" . "http://kieranhealy.org/packages/") t)
+;; (add-to-list 'package-archives '("tromey" . "http://tromey.com/elpa/") t)
+;; (add-to-list 'package-archives
+;;              '("marmalade" . "http://marmalade-repo.org/packages/") t)
 (add-to-list 'package-archives
              '("melpa" . "http://melpa.milkbox.net/packages/") t)
 (setq url-http-attempt-keepalives nil) ;; temporary hack until I can get hosting fixed.
