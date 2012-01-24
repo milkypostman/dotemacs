@@ -331,8 +331,8 @@ If cursor is not at the end of the user input, move to end of input."
 (defun orgtbl-to-pandoc (table params)
   ""
   (let* ((splicep (plist-get params :splice))
-	 (html-table-tag org-export-html-table-tag)
-	 html)
+         (html-table-tag org-export-html-table-tag)
+         html)
     ;; Just call the formatter we already have
     ;; We need to make text lines for it, so put the fields back together.
     (concat "\n"
@@ -373,5 +373,5 @@ If cursor is not at the end of the user input, move to end of input."
     (end-of-line)
     (insert (format mp-wikipedia-url (mp-wikicase (match-string 1))))))
 
-(provide 'defun)
 
+(provide 'defun)
