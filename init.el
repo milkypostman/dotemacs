@@ -140,6 +140,21 @@
 ;;            (list (region-beginning) (region-end))
 ;;          (list (line-beginning-position) (line-beginning-position 2)))))
 
+(defadvice package-compute-transaction (before
+                                        package-compute-transaction-reverse (package-list requirements)
+                                        activate compile)
+  "reverse the requirements"
+  (setq requirements (reverse requirements))
+  (print requirements))
+
+(defadvice package-download-tar (after package-download-tar-initialize activate compile)
+  "initialize the package after compilation"
+  (package-initialize))
+
+(defadvice package-download-single (after package-download-single-initialize activate compile)
+  "initialize the package after compilation"
+  (package-initialize))
+
 (defadvice kill-line (after kill-line-cleanup-whitespace activate compile)
   "cleanup whitespace on kill-line"
   (if (not (bolp))
