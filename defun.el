@@ -373,5 +373,23 @@ If cursor is not at the end of the user input, move to end of input."
     (end-of-line)
     (insert (format mp-wikipedia-url (mp-wikicase (match-string 1))))))
 
+(defun package-update-all ()
+  "Update all packages"
+  (interactive)
+  (dolist (elt package-alist)
+    (let* ((name (car elt))
+           (file-name (symbol-name name))
+           (available-pkg (assq name package-archive-contents))
+           (available-version (and available-pkg
+                                   (package-desc-vers (cdr available-pkg))))
+           (current-version (package-desc-vers (cdr elt)))
+           )
+      (when (and available-version
+                 (version-list-< current-version available-version))
+        (message "Updating to: %s-%s" file-name
+                 (package-version-join available-version))
+        (package-install name)
+        (package-delete file-name (package-version-join current-version))))))
+
 
 (provide 'defun)
