@@ -15,3 +15,4 @@
 /pkgbuild/archives
 /.smex-items
 /elisp
+/local.el
