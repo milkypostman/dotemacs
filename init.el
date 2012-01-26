@@ -115,8 +115,8 @@
 
 (global-set-key (kbd "C-x g") 'magit-status)
 
-(global-set-key (kbd "C-w") (kbd "M-<backspace>"))
-(global-set-key (kbd "C-h") (kbd "<backspace>"))
+(global-set-key (kbd "C-w") (kbd "M-<DEL>"))
+(global-set-key (kbd "C-h") (kbd "<DEL>"))
 
 (global-set-key (kbd "C-c h") 'help-command)
 
