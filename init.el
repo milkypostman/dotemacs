@@ -140,18 +140,21 @@
 ;;            (list (region-beginning) (region-end))
 ;;          (list (line-beginning-position) (line-beginning-position 2)))))
 
-(defadvice package-compute-transaction (before
-                                        package-compute-transaction-reverse (package-list requirements)
-                                        activate compile)
+(defadvice package-compute-transaction
+  (before
+   package-compute-transaction-reverse (package-list requirements)
+   activate compile)
   "reverse the requirements"
   (setq requirements (reverse requirements))
   (print requirements))
 
-(defadvice package-download-tar (after package-download-tar-initialize activate compile)
+(defadvice package-download-tar
+  (after package-download-tar-initialize activate compile)
   "initialize the package after compilation"
   (package-initialize))
 
-(defadvice package-download-single (after package-download-single-initialize activate compile)
+(defadvice package-download-single
+  (after package-download-single-initialize activate compile)
   "initialize the package after compilation"
   (package-initialize))
 
@@ -325,23 +328,23 @@
 
 (message "done with all but custom")
 
+(when (file-exists-p "~/.emacs.d/local.el")
+    (load-file "~/.emacs.d/local.el"))
+
 (if (boundp 'aquamacs-version)
     (setq custom-file "~/.emacs.d/aqustom.el")
   (setq custom-file "~/.emacs.d/custom.el"))
 (load custom-file)
 
 
-;; Local Variables:
-;; time-stamp-start: "Updated: +"
-;; time-stamp-end: "$"
-;; End:
-
-
 (put 'narrow-to-region 'disabled nil)
-
 
 ;; specify a fallback font : MENLO
 (set-fontset-font "fontset-default" 'unicode "Menlo")
 
 
+;; Local Variables:
+;; time-stamp-start: "Updated: +"
+;; time-stamp-end: "$"
+;; End:
 
