@@ -329,7 +329,7 @@
 (message "done with all but custom")
 
 (when (file-exists-p "~/.emacs.d/local.el")
-    (load-file "~/.emacs.d/local.el"))
+  (load-file "~/.emacs.d/local.el"))
 
 (if (boundp 'aquamacs-version)
     (setq custom-file "~/.emacs.d/aqustom.el")
@@ -347,4 +347,3 @@
 ;; time-stamp-start: "Updated: +"
 ;; time-stamp-end: "$"
 ;; End:
-
