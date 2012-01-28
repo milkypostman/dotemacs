@@ -182,6 +182,9 @@
 (add-hook 'haskell-mode-hook 'turn-on-haskell-indentation)
 (add-hook 'markdown-mode-hook 'mp-turn-on-abbrev-mode)
 
+(eval-after-load 'rainbow-delimiters-autoloads
+  '(progn
+     (add-hook 'prog-mode-hook 'rainbow-delimiters-mode-enable)))
 
 (eval-after-load 'markdown-mode
   '(progn
