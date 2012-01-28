@@ -125,6 +125,8 @@
 
 (global-set-key (kbd "C-c w") 'mp-copy-paste)
 
+(global-set-key (kbd "C-@") 'er/expand-region)
+
 (define-key key-translation-map (kbd "C-x C-m") (kbd "M-x"))
 
 
