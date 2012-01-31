@@ -36,7 +36,7 @@
  '(line-spacing 1)
  '(markdown-command "pandoc -S")
  '(markdown-latex-command "pandoc  --template=${HOME}/Dropbox/Coe/pandocwide.tex -s --mathjax -t latex")
- '(menu-bar-mode t)
+ '(menu-bar-mode nil)
  '(mode-line-in-non-selected-windows t)
  '(mode-line-inverse-video t)
  '(mouse-wheel-scroll-amount (quote (0.01)))
