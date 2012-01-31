@@ -70,6 +70,8 @@
 
 (define-key isearch-mode-map "\C-h" 'isearch-delete-char)
 
+
+
 ;; make <C-tab> be M-TAB
 ;; (define-key function-key-map (kbd "<C-tab>") (kbd "M-TAB"))
 ;; (global-set-key (kbd "<C-tab>") (kbd "M-TAB"))
@@ -117,6 +119,8 @@
 
 (global-set-key (kbd "C-w") (kbd "M-<DEL>"))
 (global-set-key (kbd "C-h") (kbd "<DEL>"))
+
+;; (global-set-key (kbd "C-h") 'help-command)
 
 (global-set-key (kbd "C-c h") 'help-command)
 
@@ -329,6 +333,13 @@
 ;; specify a fallback font : MENLO
 (set-fontset-font "fontset-default" 'unicode "Menlo")
 
+
+(if (< emacs-major-version 24)
+    (mapc (lambda (h) (mapc (lambda (f) (add-hook h f)) prog-mode-hook))
+         '(c++-mode-hook c-mode-hook)))
+
+(if window-system
+    (menu-bar-mode t))
 
 ;; Local Variables:
 ;; time-stamp-start: "Updated: +"

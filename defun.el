@@ -135,9 +135,7 @@ tell application \"System Events\" to keystroke \"v\" using {command down}")))
 (defun finder ()
   "Open the current working directory in finder."
   (interactive)
-  (shell-command (concat "open " (shell-quote-argument default-directory)))
-  )
-
+  (shell-command (concat "open " (shell-quote-argument default-directory)))) 
 
 (defun marked ()
   "Open the current file in Marked."
@@ -161,9 +159,7 @@ tell application \"System Events\" to keystroke \"v\" using {command down}")))
   (interactive)
   (set-window-margins (selected-window) 0 0)
   (let ((marginwidth (/ (- (window-width) 80) 2)))
-    (set-window-margins (selected-window) marginwidth marginwidth)
-    )
-  )
+    (set-window-margins (selected-window) marginwidth marginwidth)))
 
 
 (defun setup-local-iterm ()
@@ -303,8 +299,7 @@ depending on the last command issued."
   (define-key ido-mode-map (kbd "C-p") 'ido-prev-match)
   (define-key ido-mode-map (kbd "C-e") 'mp-ido-edit-input)
   (define-key ido-completion-map [tab] 'ido-complete)
-  (ido-everywhere 1)
-  )
+  (ido-everywhere 1))
 
 (defun mp-ido-edit-input ()
   "Edit absolute file name entered so far with ido; terminate by RET.
@@ -319,6 +314,7 @@ If cursor is not at the end of the user input, move to end of input."
 (defun mp-buffer-enable-whitespace-cleanup ()
   "enable whitespace-cleanup in the current buffer"
   (add-hook 'before-save-hook 'whitespace-cleanup nil t))
+
 
 (defun orgtbl-to-pandoc-cell (val colwidth align)
   "DOCSTRING"
@@ -358,11 +354,14 @@ If cursor is not at the end of the user input, move to end of input."
              "\n")
             "\n")))
 
+
 (defvar mp-wikipedia-url "http://en.wikipedia.org/wiki/%s" "Wikipedia URL")
+
 
 (defun mp-wikicase (str)
   "change string to wikipedia case"
   (mapconcat 'capitalize (split-string str) "_"))
+
 
 (defun mp-markdown-wikipedia-link ()
   "DOCSTRING"
@@ -372,6 +371,7 @@ If cursor is not at the end of the user input, move to end of input."
     (re-search-forward "\\[\\(.+\\)\\]:" (point-at-eol))
     (end-of-line)
     (insert (format mp-wikipedia-url (mp-wikicase (match-string 1))))))
+
 
 (defun package-update-all ()
   "Update all packages"
