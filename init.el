@@ -338,6 +338,8 @@
     (mapc (lambda (h) (mapc (lambda (f) (add-hook h f)) prog-mode-hook))
          '(c++-mode-hook c-mode-hook)))
 
+(if window-system
+    (menu-bar-mode t))
 
 ;; Local Variables:
 ;; time-stamp-start: "Updated: +"
