@@ -334,6 +334,11 @@
 (set-fontset-font "fontset-default" 'unicode "Menlo")
 
 
+(if (< emacs-major-version 24)
+    (mapc (lambda (h) (mapc (lambda (f) (add-hook h f)) prog-mode-hook))
+         '(c++-mode-hook c-mode-hook)))
+
+
 ;; Local Variables:
 ;; time-stamp-start: "Updated: +"
 ;; time-stamp-end: "$"
