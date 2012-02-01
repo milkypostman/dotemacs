@@ -178,6 +178,7 @@
 (eval-after-load 'yasnippet-autoloads
   '(progn
      (add-hook 'markdown-mode-hook 'yas/minor-mode)
+     (add-hook 'markdown-mode-hook 'longlines-mode)
      (add-hook 'prog-mode-hook 'yas/minor-mode)))
 
 
@@ -225,7 +226,7 @@
      (setq TeX-view-program-selection '((output-pdf "Skim")))
 
 
-     (add-hook 'LaTeX-mode-hook 'auto-fill-mode)
+     (add-hook 'LaTeX-mode-hook 'longlines-mode)
      (add-hook 'LaTeX-mode-hook 'flyspell-mode)
      (add-hook 'LaTeX-mode-hook 'LaTeX-math-mode)
      (add-hook 'LaTeX-mode-hook 'turn-on-reftex)
