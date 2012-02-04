@@ -54,6 +54,7 @@
  '(set-mark-command-repeat-pop t)
  '(show-paren-mode t)
  '(split-height-threshold 100)
+ '(split-width-threshold 150)
  '(time-stamp-format "%04y-%02m-%02d %02H:%02M:%02S (%u)")
  '(tool-bar-mode nil)
  '(uniquify-buffer-name-style (quote reverse) nil (uniquify))
