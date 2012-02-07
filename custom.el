@@ -14,6 +14,7 @@
  '(cua-mode nil nil (cua-base))
  '(cursor-color "#657b83")
  '(custom-enabled-themes (quote (molokai)))
+ '(custom-safe-themes (quote ("420598fadad958835a18d110fe8e079be1cf2f6a8fddbe08ab685183efeae9e5" default)))
  '(custom-theme-directory "~/.emacs.d/themes/")
  '(default-frame-alist (quote ((font . "Inconsolata-13"))))
  '(deft-directory "/Users/dcurtis/Dropbox/Elements")
