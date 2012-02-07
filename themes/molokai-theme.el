@@ -1,5 +1,5 @@
 (deftheme molokai
-  "Created 2011-12-30.")
+  "Created 2012-02-06.")
 
 (custom-theme-set-faces
  'molokai
@@ -9,7 +9,7 @@
  '(font-lock-type-face ((t (:foreground "#66d9ef"))))
  '(font-lock-warning-face ((t (:inherit error))))
  '(error ((t (:background "#1e0010" :foreground "#960050"))))
- '(font-lock-keyword-face ((t (:foreground "#kf92672"))))
+ '(font-lock-keyword-face ((t (:foreground "#f92672"))))
  '(font-lock-constant-face ((t (:foreground "#fd971f"))))
  '(font-lock-string-face ((t (:foreground "#e6db74"))))
  '(font-lock-comment-delimiter-face ((t (:inherit font-lock-comment-face))))
@@ -19,9 +19,14 @@
  '(whitespace-tab ((t (:background "#272822"))))
  '(mode-line ((t (:background "#808080" :foreground "#000000" :box nil))))
  '(mode-line-inactive ((t (:inherit (mode-line) :background "#080808" :foreground "#75715e" :box nil))))
- '(hl-line ((t (:inherit highlight))))
- '(highlight ((t (:background "#49483e"))))
+ '(highlight ((t (:background "#403d3d" :inverse-video t))))
+ '(region ((t (:inherit highlight :background "#49483e" :inverse-video nil))))
+ '(markdown-link-face ((t (:foreground "#808080" :underline t))))
+ '(markdown-list-face ((t (:inherit font-lock-keyword-face))))
+ '(markdown-header-face ((t (:foreground "#ef5939" :weight bold))))
+ '(markdown-url-face ((t (:inherit font-lock-builtin-face))))
+ '(markdown-header-delimiter-face ((t (:foreground "#8f8f8f" :weight bold))))
  '(default ((t (:background "#1b1d1e" :foreground "#f8f8f2"))))
- '(region ((t (:inherit (highlight) :background "#49483e")))))
+ '(hl-line ((t (:background "#293739" :inverse-video nil)))))
 
 (provide-theme 'molokai)
