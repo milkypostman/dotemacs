@@ -135,7 +135,7 @@ tell application \"System Events\" to keystroke \"v\" using {command down}")))
 (defun finder ()
   "Open the current working directory in finder."
   (interactive)
-  (shell-command (concat "open " (shell-quote-argument default-directory)))) 
+  (shell-command (concat "open " (shell-quote-argument default-directory))))
 
 (defun marked ()
   "Open the current file in Marked."
@@ -300,6 +300,11 @@ depending on the last command issued."
   (define-key ido-mode-map (kbd "C-e") 'mp-ido-edit-input)
   (define-key ido-completion-map [tab] 'ido-complete)
   (ido-everywhere 1))
+
+(defun mp-font-lock-restart ()
+  (interactive)
+  (setq font-lock-mode-major-mode nil)
+  (font-lock-fontify-buffer))
 
 (defun mp-ido-edit-input ()
   "Edit absolute file name entered so far with ido; terminate by RET.
