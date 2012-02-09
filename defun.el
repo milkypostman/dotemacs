@@ -306,6 +306,41 @@ depending on the last command issued."
   (setq font-lock-mode-major-mode nil)
   (font-lock-fontify-buffer))
 
+(defun mp-c-snug-if (syntax pos)
+  "Dynamically calculate brace hanginess for do-while statements.
+Using this function, `while' clauses that end a `do-while' block will
+remain on the same line as the brace that closes that block.
+
+See `c-hanging-braces-alist' for how to utilize this function as an
+ACTION associated with `block-close' syntax."
+  (save-excursion
+    (let (langelem)
+      (if (and (eq syntax 'substatement-open)
+	       (setq langelem (assq 'substatement-open c-syntactic-context))
+	       (progn (goto-char (c-langelem-pos langelem))
+		      (if (eq (char-after) ?{)
+			  (c-safe (c-forward-sexp -1)))
+		      (looking-at "\\<if\\>[^_]")))
+	  '(after)
+	'(before after)))))
+
+(defun mp-swap-windows ()
+ "If you have 2 windows, it swaps them."
+ (interactive)
+ (cond ((not (= (count-windows) 2))
+        (message "You need exactly 2 windows to do this."))
+       (t
+        (let* ((w1 (first (window-list)))
+               (w2 (second (window-list)))
+               (b1 (window-buffer w1))
+               (b2 (window-buffer w2))
+               (s1 (window-start w1))
+               (s2 (window-start w2)))
+          (set-window-buffer w1 b2)
+          (set-window-buffer w2 b1)
+          (set-window-start w1 s2)
+          (set-window-start w2 s1)))))
+
 (defun mp-ido-edit-input ()
   "Edit absolute file name entered so far with ido; terminate by RET.
 If cursor is not at the end of the user input, move to end of input."
