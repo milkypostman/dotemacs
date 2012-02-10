@@ -331,16 +331,16 @@
 
 (put 'narrow-to-region 'disabled nil)
 
-;; specify a fallback font : MENLO
-(set-fontset-font "fontset-default" 'unicode "Menlo")
-
 
 (if (< emacs-major-version 24)
     (mapc (lambda (h) (mapc (lambda (f) (add-hook h f)) prog-mode-hook))
-         '(c++-mode-hook c-mode-hook)))
+          '(c++-mode-hook c-mode-hook)))
 
-(if window-system
-    (menu-bar-mode t))
+(when window-system
+  (menu-bar-mode t)
+  ;; specify a fallback font : MENLO
+  (set-fontset-font "fontset-default" 'unicode "Menlo"))
+
 
 
 ;; ;; Make a non-standard key binding.  We can put this in
