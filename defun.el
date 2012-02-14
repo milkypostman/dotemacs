@@ -291,15 +291,14 @@ depending on the last command issued."
 
 
 (defun mp-ido-hook ()
-  (setq ido-mode-map ido-completion-map)
-  (define-key ido-mode-map (kbd "C-h") 'ido-delete-backward-updir)
-  (define-key ido-mode-map (kbd "C-w") 'ido-delete-backward-word-updir)
-  (define-key ido-mode-map (kbd "C-n") 'ido-next-match)
-  (define-key ido-mode-map (kbd "C-n") 'ido-next-match)
-  (define-key ido-mode-map (kbd "C-p") 'ido-prev-match)
-  (define-key ido-mode-map (kbd "C-e") 'mp-ido-edit-input)
+  (define-key ido-completion-map (kbd "C-h") 'ido-delete-backward-updir)
+  (define-key ido-completion-map (kbd "C-w") 'ido-delete-backward-word-updir)
+  (define-key ido-completion-map (kbd "C-n") 'ido-next-match)
+  (define-key ido-completion-map (kbd "C-n") 'ido-next-match)
+  (define-key ido-completion-map (kbd "C-p") 'ido-prev-match)
+  (define-key ido-completion-map (kbd "C-e") 'mp-ido-edit-input)
   (define-key ido-completion-map [tab] 'ido-complete)
-  (ido-everywhere 1))
+  (ido-ubiquitous-disable-in evil-ex))
 
 (defun mp-font-lock-restart ()
   (interactive)
