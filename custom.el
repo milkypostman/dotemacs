@@ -8,7 +8,7 @@
  '(background-color "#fdf6e3")
  '(background-mode light)
  '(blink-cursor-mode nil)
- '(c-cleanup-list (quote (brace-else-brace defun-close-semi list-close-comma scope-operator comment-close-slash)))
+ '(c-cleanup-list (quote (defun-close-semi list-close-comma scope-operator compact-empty-funcall comment-close-slash)))
  '(c-default-style (quote ((c-mode . "cc-mode") (c++-mode . "cc-mode") (java-mode . "java") (awk-mode . "awk") (other . "gnu"))))
  '(c-offsets-alist (quote ((substatement-open . 0))))
  '(cua-enable-cua-keys nil)
