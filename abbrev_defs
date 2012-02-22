@@ -5,21 +5,15 @@
 
 (define-abbrev-table 'apropos-mode-abbrev-table '())
 
-(define-abbrev-table 'awk-mode-abbrev-table
-  '(
-   ))
+(define-abbrev-table 'awk-mode-abbrev-table '())
 
 (define-abbrev-table 'bibtex-mode-abbrev-table '())
 
 (define-abbrev-table 'bookmark-bmenu-mode-abbrev-table '())
 
-(define-abbrev-table 'c++-mode-abbrev-table
-  '(
-   ))
+(define-abbrev-table 'c++-mode-abbrev-table '())
 
-(define-abbrev-table 'c-mode-abbrev-table
-  '(
-   ))
+(define-abbrev-table 'c-mode-abbrev-table '())
 
 (define-abbrev-table 'calendar-mode-abbrev-table '())
 
@@ -166,9 +160,7 @@ Iowa City, IA 52245" nil 0)
 
 (define-abbrev-table 'inferior-python-mode-abbrev-table '())
 
-(define-abbrev-table 'java-mode-abbrev-table
-  '(
-   ))
+(define-abbrev-table 'java-mode-abbrev-table '())
 
 (define-abbrev-table 'latex-mode-abbrev-table '())
 
@@ -179,6 +171,8 @@ Iowa City, IA 52245" nil 0)
 (define-abbrev-table 'literate-haskell-mode-abbrev-table '())
 
 (define-abbrev-table 'log-edit-mode-abbrev-table '())
+
+(define-abbrev-table 'magit-branch-manager-mode-abbrev-table '())
 
 (define-abbrev-table 'magit-commit-mode-abbrev-table '())
 
@@ -204,9 +198,7 @@ Iowa City, IA 52245" nil 0)
 
 (define-abbrev-table 'nxml-mode-abbrev-table '())
 
-(define-abbrev-table 'objc-mode-abbrev-table
-  '(
-   ))
+(define-abbrev-table 'objc-mode-abbrev-table '())
 
 (define-abbrev-table 'occur-edit-mode-abbrev-table '())
 
@@ -218,9 +210,7 @@ Iowa City, IA 52245" nil 0)
 
 (define-abbrev-table 'package-menu-mode-abbrev-table '())
 
-(define-abbrev-table 'pike-mode-abbrev-table
-  '(
-   ))
+(define-abbrev-table 'pike-mode-abbrev-table '())
 
 (define-abbrev-table 'plain-tex-mode-abbrev-table '())
 
@@ -306,6 +296,7 @@ import networkx as nx" nil 0)
     ("nodes" "vertices" nil 41)
     ("renyi" "R\\'{e}nyi" nil 12)
     ("rrdp" "\\textit{restricted diffusion problem}" nil 8)
+    ("trm" "\\textrm" nil 6)
    ))
 
 (define-abbrev-table 'vc-git-log-view-mode-abbrev-table '())
