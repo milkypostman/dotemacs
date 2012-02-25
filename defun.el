@@ -289,6 +289,9 @@ depending on the last command issued."
   (local-set-key (kbd "C-c o") 'ff-find-other-file)
   (local-set-key (kbd "C-c C-m") 'mp-compile))
 
+(defun mp-run-prog-mode-hook ()
+  (run-hooks 'prog-mode-hook))
+
 
 (defun mp-ido-hook ()
   (define-key ido-completion-map (kbd "C-h") 'ido-delete-backward-updir)

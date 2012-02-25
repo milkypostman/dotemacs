@@ -278,6 +278,11 @@
 
 (add-hook 'prog-mode-hook 'mp-buffer-enable-whitespace-cleanup)
 
+(eval-after-load 'ruby-mode
+  '(progn
+     (add-hook 'ruby-mode-hook 'mp-run-prog-mode-hook)))
+
+
 (eval-after-load 'find-file-in-project
   '(progn
      (add-to-list 'ffip-patterns "*.c")
