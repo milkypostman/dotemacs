@@ -289,6 +289,9 @@ depending on the last command issued."
   (local-set-key (kbd "C-c o") 'ff-find-other-file)
   (local-set-key (kbd "C-c C-m") 'mp-compile))
 
+(defun mp-run-prog-mode-hook ()
+  (run-hooks 'prog-mode-hook))
+
 
 (defun mp-ido-hook ()
   (define-key ido-completion-map (kbd "C-h") 'ido-delete-backward-updir)
@@ -356,7 +359,7 @@ If cursor is not at the end of the user input, move to end of input."
 
 
 (defun orgtbl-to-pandoc-cell (val colwidth align)
-  "DOCSTRING"
+  "convert an org-mode table cell to pandoc"
   (setq colwidth (1+ colwidth))
   (if align
       (concat (make-string (- colwidth (length val)) ? ) val)
@@ -364,7 +367,7 @@ If cursor is not at the end of the user input, move to end of input."
 
 
 (defun orgtbl-to-pandoc (table params)
-  ""
+  "convert and org-mode table to a pandoc table"
   (let* ((splicep (plist-get params :splice))
          (html-table-tag org-export-html-table-tag)
          html)
