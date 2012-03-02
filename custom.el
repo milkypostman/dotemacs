@@ -17,7 +17,7 @@
  '(custom-enabled-themes (quote (molokai)))
  '(custom-safe-themes (quote ("420598fadad958835a18d110fe8e079be1cf2f6a8fddbe08ab685183efeae9e5" default)))
  '(custom-theme-directory "~/.emacs.d/themes/")
- '(default-frame-alist (quote ((font . "Inconsolata-13"))))
+ '(default-frame-alist (quote ((font . "Menlo-11") (vertical-scroll-bars) (left-fringe . 4) (right-fringe . 4))))
  '(deft-directory "/Users/dcurtis/Dropbox/Elements")
  '(deft-text-mode (quote markdown-mode))
  '(deft-use-filename-as-title t)
