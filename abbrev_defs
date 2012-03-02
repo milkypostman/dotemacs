@@ -5,15 +5,21 @@
 
 (define-abbrev-table 'apropos-mode-abbrev-table '())
 
-(define-abbrev-table 'awk-mode-abbrev-table '())
+(define-abbrev-table 'awk-mode-abbrev-table
+  '(
+   ))
 
 (define-abbrev-table 'bibtex-mode-abbrev-table '())
 
 (define-abbrev-table 'bookmark-bmenu-mode-abbrev-table '())
 
-(define-abbrev-table 'c++-mode-abbrev-table '())
+(define-abbrev-table 'c++-mode-abbrev-table
+  '(
+   ))
 
-(define-abbrev-table 'c-mode-abbrev-table '())
+(define-abbrev-table 'c-mode-abbrev-table
+  '(
+   ))
 
 (define-abbrev-table 'calendar-mode-abbrev-table '())
 
@@ -87,12 +93,12 @@
     ("2dtdate" "" (lambda nil (insert (format-time-string "%Y-%m-%d %H:%M" (time-add (current-time) (seconds-to-time (* 2 86400)))))) 4)
     ("2dtstamp" "" (lambda nil (insert (format-time-string "%Y%m%d%H%M" (time-add (current-time) (seconds-to-time (* 2 86400)))))) 4)
     ("3ddate" "" (lambda nil (insert (format-time-string "%Y-%m-%d" (time-add (current-time) (seconds-to-time (* 3 86400)))))) 5)
-    ("3dfull" "" (lambda nil (insert (format-time-string "%A, %B %d, %Y" (time-add (current-time) (seconds-to-time (* 3 86400)))))) 4)
+    ("3dfull" "" (lambda nil (insert (format-time-string "%A, %B %d, %Y" (time-add (current-time) (seconds-to-time (* 3 86400)))))) 5)
     ("3dstamp" "" (lambda nil (insert (format-time-string "%Y%m%d" (time-add (current-time) (seconds-to-time (* 3 86400)))))) 4)
     ("3dtdate" "" (lambda nil (insert (format-time-string "%Y-%m-%d %H:%M" (time-add (current-time) (seconds-to-time (* 3 86400)))))) 4)
     ("3dtstamp" "" (lambda nil (insert (format-time-string "%Y%m%d%H%M" (time-add (current-time) (seconds-to-time (* 3 86400)))))) 4)
     ("4ddate" "" (lambda nil (insert (format-time-string "%Y-%m-%d" (time-add (current-time) (seconds-to-time (* 4 86400)))))) 4)
-    ("4dfull" "" (lambda nil (insert (format-time-string "%A, %B %d, %Y" (time-add (current-time) (seconds-to-time (* 4 86400)))))) 4)
+    ("4dfull" "" (lambda nil (insert (format-time-string "%A, %B %d, %Y" (time-add (current-time) (seconds-to-time (* 4 86400)))))) 5)
     ("4dstamp" "" (lambda nil (insert (format-time-string "%Y%m%d" (time-add (current-time) (seconds-to-time (* 4 86400)))))) 4)
     ("4dtdate" "" (lambda nil (insert (format-time-string "%Y-%m-%d %H:%M" (time-add (current-time) (seconds-to-time (* 4 86400)))))) 4)
     ("4dtstamp" "" (lambda nil (insert (format-time-string "%Y%m%d%H%M" (time-add (current-time) (seconds-to-time (* 4 86400)))))) 4)
@@ -126,7 +132,7 @@
     ("ddate" "" (lambda nil (insert (format-time-string "%Y-%m-%d" (current-time)))) 6)
     ("ddue" "" (lambda nil (insert (format-time-string "%A, %B %d, 11:59pm" (current-time)))) 1)
     ("densly" "densely" nil 6)
-    ("dfull" "" (lambda nil (insert (format-time-string "%A, %B %d,%Y" (current-time)))) 2)
+    ("dfull" "" (lambda nil (insert (format-time-string "%A, %B %d,%Y" (current-time)))) 3)
     ("dstamp" "" (lambda nil (insert (format-time-string "%Y%m%d" (current-time)))) 0)
     ("dtdate" "" (lambda nil (insert (format-time-string "%Y-%m-%d %H:%M" (current-time)))) 6)
     ("dtfn" "" (lambda nil (insert (format-time-string "%Y-%m-%d-%H%M" (current-time)))) 2)
@@ -160,7 +166,9 @@ Iowa City, IA 52245" nil 0)
 
 (define-abbrev-table 'inferior-python-mode-abbrev-table '())
 
-(define-abbrev-table 'java-mode-abbrev-table '())
+(define-abbrev-table 'java-mode-abbrev-table
+  '(
+   ))
 
 (define-abbrev-table 'latex-mode-abbrev-table '())
 
@@ -198,7 +206,9 @@ Iowa City, IA 52245" nil 0)
 
 (define-abbrev-table 'nxml-mode-abbrev-table '())
 
-(define-abbrev-table 'objc-mode-abbrev-table '())
+(define-abbrev-table 'objc-mode-abbrev-table
+  '(
+   ))
 
 (define-abbrev-table 'occur-edit-mode-abbrev-table '())
 
@@ -210,7 +220,9 @@ Iowa City, IA 52245" nil 0)
 
 (define-abbrev-table 'package-menu-mode-abbrev-table '())
 
-(define-abbrev-table 'pike-mode-abbrev-table '())
+(define-abbrev-table 'pike-mode-abbrev-table
+  '(
+   ))
 
 (define-abbrev-table 'plain-tex-mode-abbrev-table '())
 
@@ -292,8 +304,6 @@ import networkx as nx" nil 0)
     ("erdos" "Erd\\\"{o}s" nil 14)
     ("kkpsc" "\\textit{$k$-partial set cover}" nil 8)
     ("kkpvc" "\\textit{$k$-partial vertex cover}" nil 27)
-    ("node" "vertex" nil 18)
-    ("nodes" "vertices" nil 41)
     ("renyi" "R\\'{e}nyi" nil 12)
     ("rrdp" "\\textit{restricted diffusion problem}" nil 8)
     ("trm" "\\textrm" nil 6)
