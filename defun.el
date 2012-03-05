@@ -189,7 +189,7 @@ end tell"))
 
 
 
-(defun mpround ()
+(defun round ()
   "round the current floating-point"
   (interactive)
   (save-excursion
@@ -202,7 +202,6 @@ end tell"))
             (* (string-to-number
                 (buffer-substring-no-properties start end)) 1000.0))  1000.0)))
       (delete-region start end))))
-
 
 
 
@@ -228,6 +227,14 @@ end tell"))
   (kmacro-push-ring)
   (edit-kbd-macro 'view-lossage))
 
+
+(defun TeX-compile ()
+  "Start a viewer without confirmation.
+The viewer is started either on region or master file,
+depending on the last command issued."
+  (interactive)
+  (TeX-save-document (TeX-master-file))
+  (TeX-command "LaTeX" 'TeX-active-master 0))
 
 (defun python-modes-init ()
   "initialization for all python modes"
@@ -260,16 +267,9 @@ end tell"))
    'python-mode
    `(("^[       ]*\\(@\\)\\([a-zA-Z_][a-zA-Z_0-9.]+\\)\\((.+)\\)?"
       (1 'font-lock-preprocessor-face)
-      (2 'font-lock-builtin-face)))))
-
-
-(defun TeX-compile ()
-  "Start a viewer without confirmation.
-The viewer is started either on region or master file,
-depending on the last command issued."
-  (interactive)
-  (TeX-save-document (TeX-master-file))
-  (TeX-command "LaTeX" 'TeX-active-master 0))
+      (2 'font-lock-builtin-face))))
+  (local-set-key "M-n" 'flymake-goto-next-error)
+  (local-set-key "M-p" 'flymake-goto-prev-error))
 
 (defun mp-turn-on-abbrev-mode ()
   "turn on abbrev-mode"
@@ -357,6 +357,17 @@ If cursor is not at the end of the user input, move to end of input."
   "enable whitespace-cleanup in the current buffer"
   (add-hook 'before-save-hook 'whitespace-cleanup nil t))
 
+;; (defun flymake-create-temp-in-system-tempdir (filename prefix)
+;;   (make-temp-file (or prefix "flymake")))
+
+(defun mp-flymake-pyflakes-init (&optional trigger-type)
+  ;; Make sure it's not a remote buffer or flymake would not work
+  (let* ((temp-file (flymake-init-create-temp-buffer-copy
+                     'flymake-create-temp-with-folder-structure))
+         (local-file (file-relative-name
+                      temp-file
+                      (file-name-directory buffer-file-name))))
+    (list "/Users/dcurtis/.virtualenv/bin/pyflakes" (list temp-file))))
 
 (defun orgtbl-to-pandoc-cell (val colwidth align)
   "convert an org-mode table cell to pandoc"
