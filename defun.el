@@ -189,7 +189,7 @@ end tell"))
 
 
 
-(defun round ()
+(defun mpround ()
   "round the current floating-point"
   (interactive)
   (save-excursion
