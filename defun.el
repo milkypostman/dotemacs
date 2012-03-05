@@ -268,8 +268,8 @@ depending on the last command issued."
    `(("^[       ]*\\(@\\)\\([a-zA-Z_][a-zA-Z_0-9.]+\\)\\((.+)\\)?"
       (1 'font-lock-preprocessor-face)
       (2 'font-lock-builtin-face))))
-  (local-set-key "M-n" 'flymake-goto-next-error)
-  (local-set-key "M-p" 'flymake-goto-prev-error))
+  (local-set-key (kbd "M-n") 'flymake-goto-next-error)
+  (local-set-key (kbd "M-p") 'flymake-goto-prev-error))
 
 (defun mp-turn-on-abbrev-mode ()
   "turn on abbrev-mode"
