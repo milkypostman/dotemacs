@@ -67,6 +67,8 @@
 (defalias 'wq 'save-buffers-kill-emacs)
 (defalias 'qrr 'query-replace-regexp)
 (defalias 'qr 'query-replace)
+(defalias 'eshell/ff 'find-file)
+(defalias 'eshell/ffow 'find-file-other-window)
 
 (define-key isearch-mode-map "\C-h" 'isearch-delete-char)
 
