@@ -4,10 +4,10 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(ansi-color-names-vector ["#242424" "#e5786d" "#95e454" "#cae682" "#8ac6f2" "#333366" "#ccaa8f" "#f6f3e8"])
- '(auto-save-file-name-transforms (quote ((".*" "~/.emacs.d/autosave/" t))))
  '(aquamacs-additional-fontsets nil t)
  '(aquamacs-customization-version-id 300 t)
  '(aquamacs-tool-bar-user-customization nil t)
+ '(auto-save-file-name-transforms (quote ((".*" "~/.emacs.d/autosave/" t))))
  '(blink-cursor-mode nil)
  '(c-cleanup-list (quote (defun-close-semi list-close-comma scope-operator compact-empty-funcall comment-close-slash)))
  '(c-default-style (quote ((c-mode . "cc-mode") (c++-mode . "cc-mode") (java-mode . "java") (awk-mode . "awk") (other . "gnu"))))
@@ -58,8 +58,8 @@
  '(show-paren-mode t)
  '(split-height-threshold 100)
  '(split-width-threshold 150)
- '(time-stamp-format "%04y-%02m-%02d %02H:%02M:%02S (%u)")
  '(tabbar-mode nil nil (tabbar))
+ '(time-stamp-format "%04y-%02m-%02d %02H:%02M:%02S (%u)")
  '(tool-bar-mode nil)
  '(uniquify-buffer-name-style (quote reverse) nil (uniquify))
  '(uniquify-ignore-buffers-re "^\\*")
@@ -77,6 +77,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(echo-area ((t (:stipple nil :strike-through nil :underline nil :slant normal :weight normal :width normal :family "Inconsolata"))))
  '(hl-sentence-face ((t (:foreground "white"))) t)
  '(variable-pitch ((t (:foreground "gray80" :height 170 :family "Cochin")))))
 
