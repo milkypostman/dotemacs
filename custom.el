@@ -12,7 +12,7 @@
  '(c-offsets-alist (quote ((substatement-open . 0))))
  '(cua-enable-cua-keys nil)
  '(cua-mode nil nil (cua-base))
- '(custom-enabled-themes (quote (darkclean)))
+ '(custom-enabled-themes (quote (wheatgrass)))
  '(custom-safe-themes (quote ("98522c31200ec2ee2c84ae3dddac94e69730650096c3f4f751be4beece0f6781" "9e0fc3846fc416a0ca22cda143fb057581e48cbae9cf2007dd499e3786f26662" "420598fadad958835a18d110fe8e079be1cf2f6a8fddbe08ab685183efeae9e5" default)))
  '(custom-theme-directory "~/.emacs.d/themes/")
  '(default-frame-alist (quote ((font . "Inconsolata-13"))))
