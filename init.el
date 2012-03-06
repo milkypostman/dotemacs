@@ -67,6 +67,8 @@
 (defalias 'wq 'save-buffers-kill-emacs)
 (defalias 'qrr 'query-replace-regexp)
 (defalias 'qr 'query-replace)
+(defalias 'eshell/ff 'find-file)
+(defalias 'eshell/ffow 'find-file-other-window)
 
 (define-key isearch-mode-map "\C-h" 'isearch-delete-char)
 
@@ -288,6 +290,12 @@
      (add-to-list 'ffip-patterns "*.c")
      (add-to-list 'ffip-patterns "*.h")))
 
+(eval-after-load 'flymake
+  '(progn
+     (add-to-list 'flymake-allowed-file-name-masks
+                  '("\\.py\\'" mp-flymake-pyflakes-init))))
+
+
 ;; faces
 (make-face 'font-lock-number-face)
 (set-face-attribute 'font-lock-number-face nil :inherit font-lock-constant-face)
@@ -343,8 +351,15 @@
 
 (when window-system
   (menu-bar-mode t)
-  ;; specify a fallback font : MENLO
-  (set-fontset-font "fontset-default" 'unicode "Menlo"))
+  ;; specify a unicode font : MENLO (forced normal)
+  (set-fontset-font "fontset-default" 'unicode "-apple-Menlo-medium-normal-normal-*-11-*-*-*-m-0-iso10646-1")
+
+  ;;(set-fontset-font "fontset-default" 'unicode "DejaVu Sans Mono")
+  ;;(set-fontset-font "fontset-default" 'unicode "-apple-DejaVu_Sans_Mono-medium-normal-normal-*-11-*-*-*-m-0-iso10646-1")
+  ;;(set-fontset-font "fontset-default" 'unicode '("Menlo" . "unicode-bmp"))
+
+  ;;(set-fontset-font "fontset-default" 'unicode "Arial Unicode MS-12")
+  )
 
 
 
