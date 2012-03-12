@@ -192,7 +192,6 @@
 
 (eval-after-load 'mmm-mode-autoloads
   '(progn
-     (message "mmm-auto loading")
      (require 'mmm-auto)
      (setq mmm-global-mode 'maybe)
      (mmm-add-mode-ext-class 'html-mode "\\.php\\'" 'html-php)))
