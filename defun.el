@@ -145,13 +145,12 @@ tell application \"System Events\" to keystroke \"v\" using {command down}")))
     (shell-command (concat "open -a Marked "
                            (shell-quote-argument buffer-file-name)))))
 
-
 (defun make-executable ()
   "Make the current file loaded in the buffer executable"
   (interactive)
   (if (buffer-file-name)
-      (shell-command
-       (combine-and-quote-strings `("chmod" "u+x" ,buffer-file-name)))
+    (start-file-process "Make Executable" nil "/bin/bash" "-c"
+                   (concat "chmod u+x " (file-name-nondirectory buffer-file-name)))
     (message "Buffer has no filename.")))
 
 
