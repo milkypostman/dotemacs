@@ -61,6 +61,7 @@
  '(split-width-threshold 150)
  '(time-stamp-format "%04y-%02m-%02d %02H:%02M:%02S (%u)")
  '(tool-bar-mode nil)
+ '(tramp-remote-path (quote (tramp-default-remote-path tramp-own-remote-path "/bin" "/usr/bin" "/usr/sbin" "/usr/local/bin" "/local/bin" "/local/freeware/bin" "/local/gnu/bin" "/usr/freeware/bin" "/usr/pkg/bin" "/usr/contrib/bin")))
  '(uniquify-buffer-name-style (quote reverse) nil (uniquify))
  '(uniquify-ignore-buffers-re "^\\*")
  '(uniquify-separator " • ")
