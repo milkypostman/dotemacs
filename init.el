@@ -291,6 +291,9 @@
   '(progn
      (add-hook 'ruby-mode-hook 'mp-run-prog-mode-hook)))
 
+(eval-after-load 'rvm-autoloads
+  '(progn
+     (add-hook 'ruby-mode-hook 'rvm-use-default)))
 
 (eval-after-load 'find-file-in-project
   '(progn
