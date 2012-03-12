@@ -32,22 +32,27 @@
 (require 'midnight)
 (require 'misc)
 
-(push "~/.virtualenv/bin/" exec-path)
-(push "~/.cabal/bin/" exec-path)
-(push "~/bin/" exec-path)
-(push "/usr/local/bin/" exec-path)
-(push "/usr/texbin/" exec-path)
-(setenv "PATH" (mapconcat 'identity
-                          (delete-dups
-                           (append
-                            (list (concat (getenv "HOME") "/.virtualenv/bin")
-                                  (concat (getenv "HOME") "/.cabal/bin")
-                                  (concat (getenv "HOME") "/bin")
-                                  "/usr/local/bin"
-                                  "/usr/texbin")
-                            (split-string (getenv "PATH") ":")))
-                          ":"))
 
+(setq mp-extra-paths
+      '("~/.virtualenv/bin/"
+       "~/.cabal/bin/"
+       "~/bin/"
+       "/usr/local/bin/"
+       "/usr/texbin/"))
+
+(setenv "PATH"
+        (mapconcat
+         'identity
+         (delete-dups
+          (append
+           (mapcar (lambda (path)
+                     (if (string-match "^~" path)
+                         (replace-match (getenv "HOME") nil nil path)
+                       path)) mp-extra-paths)
+           (split-string (getenv "PATH") ":")))
+         ":"))
+
+(mapc (lambda (path) (push path exec-path)) mp-extra-paths)
 
 
 
