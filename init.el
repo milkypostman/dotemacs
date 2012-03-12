@@ -162,6 +162,7 @@
 (setq auto-mode-alist
       (cons '("\\.mm?d\\'" . markdown-mode) auto-mode-alist))
 
+(add-to-list 'auto-mode-alist '("\\.php$" . html-mode))
 
 ;; (eval-after-load 'python '(python-modes-init))
 (eval-after-load 'python-mode '(python-modes-init))
@@ -188,6 +189,13 @@
 (add-hook 'haskell-mode-hook 'turn-on-haskell-doc-mode)
 (add-hook 'haskell-mode-hook 'turn-on-haskell-indentation)
 (add-hook 'markdown-mode-hook 'mp-turn-on-abbrev-mode)
+
+(eval-after-load 'mmm-mode-autoloads
+  '(progn
+     (message "mmm-auto loading")
+     (require 'mmm-auto)
+     (setq mmm-global-mode 'maybe)
+     (mmm-add-mode-ext-class 'html-mode "\\.php\\'" 'html-php)))
 
 (eval-after-load 'rainbow-delimiters-autoloads
   '(progn
