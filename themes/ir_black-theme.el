@@ -1,5 +1,5 @@
 (deftheme ir_black
-  "Created 2011-10-16.")
+  "The last emacs24 theme you'll ever need.")
 
 (custom-theme-set-faces
  'ir_black

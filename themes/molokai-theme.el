@@ -1,5 +1,5 @@
 (deftheme molokai
-  "Created 2012-02-06.")
+  "emacs24 port of the molokai theme for vim")
 
 (custom-theme-set-faces
  'molokai
@@ -22,11 +22,9 @@
  '(highlight ((t (:background "#403d3d" :inverse-video t))))
  '(region ((t (:inherit highlight :background "#49483e" :inverse-video nil))))
  '(markdown-link-face ((t (:foreground "#808080" :underline t))))
- '(markdown-list-face ((t (:inherit font-lock-keyword-face))))
  '(markdown-header-face ((t (:foreground "#ef5939" :weight bold))))
  '(markdown-url-face ((t (:inherit font-lock-builtin-face))))
- '(markdown-header-delimiter-face ((t (:foreground "#8f8f8f" :weight bold))))
- '(default ((t (:background "#1b1d1e" :foreground "#f8f8f2"))))
- '(hl-line ((t (:background "#293739" :inverse-video nil)))))
+ '(hl-line ((t (:background "#293739" :inverse-video nil))))
+ '(default ((t (:background "#1b1d1e" :foreground "#f8f8f2")))))
 
 (provide-theme 'molokai)
