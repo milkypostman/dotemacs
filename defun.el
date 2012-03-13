@@ -235,6 +235,21 @@ depending on the last command issued."
   (TeX-save-document (TeX-master-file))
   (TeX-command "LaTeX" 'TeX-active-master 0))
 
+;; faces
+(make-face 'font-lock-number-face)
+(set-face-attribute 'font-lock-number-face nil :inherit font-lock-constant-face)
+(setq font-lock-number-face 'font-lock-number-face)
+(defvar font-lock-number "[0-9-.]+\\([eE][+-]?[0-9]*\\)?")
+(defvar font-lock-hexnumber "0[xX][0-9a-fA-F]+")
+(defun add-font-lock-numbers (mode)
+  (font-lock-add-keywords
+   mode
+   `((,(concat "\\<\\(" font-lock-number "\\)\\>" ) 0 font-lock-number-face)
+     (,(concat "\\<\\(" font-lock-hexnumber "\\)\\>" ) 0 font-lock-number-face)
+     )))
+
+
+
 (defun python-modes-init ()
   "initialization for all python modes"
   ;; (setup-virtualenv)

@@ -21,7 +21,7 @@
 ;; (add-to-list 'package-archives
 ;;              '("marmalade" . "http://marmalade-repo.org/packages/") t)
 (add-to-list 'package-archives
-             '("melpa" . "http://melpa.milkbox.net/packages/") t)
+             '("melpa" . "http://melpa.milkbox.net/test/packages/") t)
 (setq url-http-attempt-keepalives nil) ;; temporary hack until I can get hosting fixed.
 (package-initialize)
 
@@ -311,31 +311,18 @@
                   '("\\.py\\'" mp-flymake-pyflakes-init))))
 
 
-;; faces
-(make-face 'font-lock-number-face)
-(set-face-attribute 'font-lock-number-face nil :inherit font-lock-constant-face)
-(setq font-lock-number-face 'font-lock-number-face)
-(defvar font-lock-number "[0-9-.]+\\([eE][+-]?[0-9]*\\)?")
-(defvar font-lock-hexnumber "0[xX][0-9a-fA-F]+")
-(defun add-font-lock-numbers (mode)
-  (font-lock-add-keywords
-   mode
-   `((,(concat "\\<\\(" font-lock-number "\\)\\>" ) 0 font-lock-number-face)
-     (,(concat "\\<\\(" font-lock-hexnumber "\\)\\>" ) 0 font-lock-number-face)
-     )))
-
-
 ;; (font-lock-add-keywords 'emacs-lisp-mode
 ;; '(("(\\|)\\|'" . 'font-lock-exit-face)))
 ;; (font-lock-add-keywords 'emacs-lisp-mode
 ;; '(("add-to-list" . font-lock-keyword-face)))
 
-;; (font-lock-add-keywords
-;;  'emacs-lisp-mode
-;;  '(("'\\([0-9a-zA-Z-]*\\)" (1 'font-lock-variable-name-face))))
-(add-font-lock-numbers 'emacs-lisp-mode)
+(font-lock-add-keywords
+ 'emacs-lisp-mode
+ '(("'\\([0-9a-zA-Z-]*\\)" (1 'font-lock-variable-name-face))))
 (add-font-lock-numbers 'c-mode)
 (add-font-lock-numbers 'c++-mode)
+(add-font-lock-numbers 'html-mode)
+(add-font-lock-numbers 'emacs-lisp-mode)
 
 
 ;; Darwin Specific
