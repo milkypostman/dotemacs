@@ -16,4 +16,4 @@
 /.smex-items
 /elisp
 /local.el
-*~
+/package.el

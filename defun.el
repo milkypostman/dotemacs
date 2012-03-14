@@ -145,13 +145,12 @@ tell application \"System Events\" to keystroke \"v\" using {command down}")))
     (shell-command (concat "open -a Marked "
                            (shell-quote-argument buffer-file-name)))))
 
-
 (defun make-executable ()
   "Make the current file loaded in the buffer executable"
   (interactive)
   (if (buffer-file-name)
-      (shell-command
-       (combine-and-quote-strings `("chmod" "u+x" ,buffer-file-name)))
+    (start-file-process "Make Executable" nil "/bin/bash" "-c"
+                   (concat "chmod u+x " (file-name-nondirectory buffer-file-name)))
     (message "Buffer has no filename.")))
 
 
@@ -207,7 +206,6 @@ end tell"))
 
 
 
-
 (defun what-face (pos)
   (interactive "d")
   (let ((face (or (get-char-property (point) 'read-face-name)
@@ -227,6 +225,29 @@ end tell"))
   (interactive)
   (kmacro-push-ring)
   (edit-kbd-macro 'view-lossage))
+
+
+(defun TeX-compile ()
+  "Start a viewer without confirmation.
+The viewer is started either on region or master file,
+depending on the last command issued."
+  (interactive)
+  (TeX-save-document (TeX-master-file))
+  (TeX-command "LaTeX" 'TeX-active-master 0))
+
+;; faces
+(make-face 'font-lock-number-face)
+(set-face-attribute 'font-lock-number-face nil :inherit font-lock-constant-face)
+(setq font-lock-number-face 'font-lock-number-face)
+(defvar font-lock-number "[0-9-.]+\\([eE][+-]?[0-9]*\\)?")
+(defvar font-lock-hexnumber "0[xX][0-9a-fA-F]+")
+(defun add-font-lock-numbers (mode)
+  (font-lock-add-keywords
+   mode
+   `((,(concat "\\<\\(" font-lock-number "\\)\\>" ) 0 font-lock-number-face)
+     (,(concat "\\<\\(" font-lock-hexnumber "\\)\\>" ) 0 font-lock-number-face)
+     )))
+
 
 
 (defun python-modes-init ()
@@ -260,16 +281,9 @@ end tell"))
    'python-mode
    `(("^[       ]*\\(@\\)\\([a-zA-Z_][a-zA-Z_0-9.]+\\)\\((.+)\\)?"
       (1 'font-lock-preprocessor-face)
-      (2 'font-lock-builtin-face)))))
-
-
-(defun TeX-compile ()
-  "Start a viewer without confirmation.
-The viewer is started either on region or master file,
-depending on the last command issued."
-  (interactive)
-  (TeX-save-document (TeX-master-file))
-  (TeX-command "LaTeX" 'TeX-active-master 0))
+      (2 'font-lock-builtin-face))))
+  (local-set-key (kbd "M-n") 'flymake-goto-next-error)
+  (local-set-key (kbd "M-p") 'flymake-goto-prev-error))
 
 (defun mp-turn-on-abbrev-mode ()
   "turn on abbrev-mode"
@@ -289,22 +303,59 @@ depending on the last command issued."
   (local-set-key (kbd "C-c o") 'ff-find-other-file)
   (local-set-key (kbd "C-c C-m") 'mp-compile))
 
+(defun mp-run-prog-mode-hook ()
+  (run-hooks 'prog-mode-hook))
+
 
 (defun mp-ido-hook ()
-  (setq ido-mode-map ido-completion-map)
-  (define-key ido-mode-map (kbd "C-h") 'ido-delete-backward-updir)
-  (define-key ido-mode-map (kbd "C-w") 'ido-delete-backward-word-updir)
-  (define-key ido-mode-map (kbd "C-n") 'ido-next-match)
-  (define-key ido-mode-map (kbd "C-n") 'ido-next-match)
-  (define-key ido-mode-map (kbd "C-p") 'ido-prev-match)
-  (define-key ido-mode-map (kbd "C-e") 'mp-ido-edit-input)
+  (define-key ido-completion-map (kbd "C-h") 'ido-delete-backward-updir)
+  (define-key ido-completion-map (kbd "C-w") 'ido-delete-backward-word-updir)
+  (define-key ido-completion-map (kbd "C-n") 'ido-next-match)
+  (define-key ido-completion-map (kbd "C-n") 'ido-next-match)
+  (define-key ido-completion-map (kbd "C-p") 'ido-prev-match)
+  (define-key ido-completion-map (kbd "C-e") 'mp-ido-edit-input)
   (define-key ido-completion-map [tab] 'ido-complete)
-  (ido-everywhere 1))
+  (ido-ubiquitous-disable-in evil-ex))
 
 (defun mp-font-lock-restart ()
   (interactive)
   (setq font-lock-mode-major-mode nil)
   (font-lock-fontify-buffer))
+
+(defun mp-c-snug-if (syntax pos)
+  "Dynamically calculate brace hanginess for do-while statements.
+Using this function, `while' clauses that end a `do-while' block will
+remain on the same line as the brace that closes that block.
+
+See `c-hanging-braces-alist' for how to utilize this function as an
+ACTION associated with `block-close' syntax."
+  (save-excursion
+    (let (langelem)
+      (if (and (eq syntax 'substatement-open)
+	       (setq langelem (assq 'substatement-open c-syntactic-context))
+	       (progn (goto-char (c-langelem-pos langelem))
+		      (if (eq (char-after) ?{)
+			  (c-safe (c-forward-sexp -1)))
+		      (looking-at "\\<if\\>[^_]")))
+	  '(after)
+	'(before after)))))
+
+(defun mp-swap-windows ()
+ "If you have 2 windows, it swaps them."
+ (interactive)
+ (cond ((not (= (count-windows) 2))
+        (message "You need exactly 2 windows to do this."))
+       (t
+        (let* ((w1 (first (window-list)))
+               (w2 (second (window-list)))
+               (b1 (window-buffer w1))
+               (b2 (window-buffer w2))
+               (s1 (window-start w1))
+               (s2 (window-start w2)))
+          (set-window-buffer w1 b2)
+          (set-window-buffer w2 b1)
+          (set-window-start w1 s2)
+          (set-window-start w2 s1)))))
 
 (defun mp-ido-edit-input ()
   "Edit absolute file name entered so far with ido; terminate by RET.
@@ -320,9 +371,20 @@ If cursor is not at the end of the user input, move to end of input."
   "enable whitespace-cleanup in the current buffer"
   (add-hook 'before-save-hook 'whitespace-cleanup nil t))
 
+;; (defun flymake-create-temp-in-system-tempdir (filename prefix)
+;;   (make-temp-file (or prefix "flymake")))
+
+(defun mp-flymake-pyflakes-init (&optional trigger-type)
+  ;; Make sure it's not a remote buffer or flymake would not work
+  (let* ((temp-file (flymake-init-create-temp-buffer-copy
+                     'flymake-create-temp-with-folder-structure))
+         (local-file (file-relative-name
+                      temp-file
+                      (file-name-directory buffer-file-name))))
+    (list "/Users/dcurtis/.virtualenv/bin/pyflakes" (list temp-file))))
 
 (defun orgtbl-to-pandoc-cell (val colwidth align)
-  "DOCSTRING"
+  "convert an org-mode table cell to pandoc"
   (setq colwidth (1+ colwidth))
   (if align
       (concat (make-string (- colwidth (length val)) ? ) val)
@@ -330,7 +392,7 @@ If cursor is not at the end of the user input, move to end of input."
 
 
 (defun orgtbl-to-pandoc (table params)
-  ""
+  "convert and org-mode table to a pandoc table"
   (let* ((splicep (plist-get params :splice))
          (html-table-tag org-export-html-table-tag)
          html)

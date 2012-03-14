@@ -21,7 +21,7 @@
 ;; (add-to-list 'package-archives
 ;;              '("marmalade" . "http://marmalade-repo.org/packages/") t)
 (add-to-list 'package-archives
-             '("melpa" . "http://melpa.milkbox.net/packages/") t)
+             '("melpa" . "http://melpa.milkbox.net/test/packages/") t)
 (setq url-http-attempt-keepalives nil) ;; temporary hack until I can get hosting fixed.
 (package-initialize)
 
@@ -32,22 +32,27 @@
 (require 'midnight)
 (require 'misc)
 
-(push "~/.virtualenv/bin/" exec-path)
-(push "~/.cabal/bin/" exec-path)
-(push "~/bin/" exec-path)
-(push "/usr/local/bin/" exec-path)
-(push "/usr/texbin/" exec-path)
-(setenv "PATH" (mapconcat 'identity
-                          (delete-dups
-                           (append
-                            (list (concat (getenv "HOME") "/.virtualenv/bin")
-                                  (concat (getenv "HOME") "/.cabal/bin")
-                                  (concat (getenv "HOME") "/bin")
-                                  "/usr/local/bin"
-                                  "/usr/texbin")
-                            (split-string (getenv "PATH") ":")))
-                          ":"))
 
+(setq mp-extra-paths
+      '("~/.virtualenv/bin/"
+       "~/.cabal/bin/"
+       "~/bin/"
+       "/usr/local/bin/"
+       "/usr/texbin/"))
+
+(setenv "PATH"
+        (mapconcat
+         'identity
+         (delete-dups
+          (append
+           (mapcar (lambda (path)
+                     (if (string-match "^~" path)
+                         (replace-match (getenv "HOME") nil nil path)
+                       path)) mp-extra-paths)
+           (split-string (getenv "PATH") ":")))
+         ":"))
+
+(mapc (lambda (path) (push path exec-path)) mp-extra-paths)
 
 
 
@@ -67,6 +72,8 @@
 (defalias 'wq 'save-buffers-kill-emacs)
 (defalias 'qrr 'query-replace-regexp)
 (defalias 'qr 'query-replace)
+(defalias 'eshell/ff 'find-file)
+(defalias 'eshell/ffow 'find-file-other-window)
 
 (define-key isearch-mode-map "\C-h" 'isearch-delete-char)
 
@@ -160,6 +167,7 @@
 (setq auto-mode-alist
       (cons '("\\.mm?d\\'" . markdown-mode) auto-mode-alist))
 
+(add-to-list 'auto-mode-alist '("\\.php$" . html-mode))
 
 ;; (eval-after-load 'python '(python-modes-init))
 (eval-after-load 'python-mode '(python-modes-init))
@@ -186,6 +194,12 @@
 (add-hook 'haskell-mode-hook 'turn-on-haskell-doc-mode)
 (add-hook 'haskell-mode-hook 'turn-on-haskell-indentation)
 (add-hook 'markdown-mode-hook 'mp-turn-on-abbrev-mode)
+
+(eval-after-load 'mmm-mode-autoloads
+  '(progn
+     (require 'mmm-auto)
+     (setq mmm-global-mode 'maybe)
+     (mmm-add-mode-ext-class 'html-mode "\\.php\\'" 'html-php)))
 
 (eval-after-load 'rainbow-delimiters-autoloads
   '(progn
@@ -278,23 +292,23 @@
 
 (add-hook 'prog-mode-hook 'mp-buffer-enable-whitespace-cleanup)
 
+(eval-after-load 'ruby-mode
+  '(progn
+     (add-hook 'ruby-mode-hook 'mp-run-prog-mode-hook)))
+
+(eval-after-load 'rvm-autoloads
+  '(progn
+     (add-hook 'ruby-mode-hook 'rvm-use-default)))
+
 (eval-after-load 'find-file-in-project
   '(progn
      (add-to-list 'ffip-patterns "*.c")
      (add-to-list 'ffip-patterns "*.h")))
 
-;; faces
-(make-face 'font-lock-number-face)
-(set-face-attribute 'font-lock-number-face nil :inherit font-lock-constant-face)
-(setq font-lock-number-face 'font-lock-number-face)
-(defvar font-lock-number "[0-9-.]+\\([eE][+-]?[0-9]*\\)?")
-(defvar font-lock-hexnumber "0[xX][0-9a-fA-F]+")
-(defun add-font-lock-numbers (mode)
-  (font-lock-add-keywords
-   mode
-   `((,(concat "\\<\\(" font-lock-number "\\)\\>" ) 0 font-lock-number-face)
-     (,(concat "\\<\\(" font-lock-hexnumber "\\)\\>" ) 0 font-lock-number-face)
-     )))
+(eval-after-load 'flymake
+  '(progn
+     (add-to-list 'flymake-allowed-file-name-masks
+                  '("\\.py\\'" mp-flymake-pyflakes-init))))
 
 
 ;; (font-lock-add-keywords 'emacs-lisp-mode
@@ -302,12 +316,13 @@
 ;; (font-lock-add-keywords 'emacs-lisp-mode
 ;; '(("add-to-list" . font-lock-keyword-face)))
 
-;; (font-lock-add-keywords
-;;  'emacs-lisp-mode
-;;  '(("'\\([0-9a-zA-Z-]*\\)" (1 'font-lock-variable-name-face))))
-(add-font-lock-numbers 'emacs-lisp-mode)
+(font-lock-add-keywords
+ 'emacs-lisp-mode
+ '(("'\\([0-9a-zA-Z-]*\\)" (1 'font-lock-variable-name-face))))
 (add-font-lock-numbers 'c-mode)
 (add-font-lock-numbers 'c++-mode)
+(add-font-lock-numbers 'html-mode)
+(add-font-lock-numbers 'emacs-lisp-mode)
 
 
 ;; Darwin Specific
@@ -331,16 +346,23 @@
 
 (put 'narrow-to-region 'disabled nil)
 
-;; specify a fallback font : MENLO
-(set-fontset-font "fontset-default" 'unicode "Menlo")
-
 
 (if (< emacs-major-version 24)
     (mapc (lambda (h) (mapc (lambda (f) (add-hook h f)) prog-mode-hook))
-         '(c++-mode-hook c-mode-hook)))
+          '(c++-mode-hook c-mode-hook)))
 
-(if window-system
-    (menu-bar-mode t))
+(when window-system
+  (menu-bar-mode t)
+  ;; specify a unicode font : MENLO (forced normal)
+  (set-fontset-font "fontset-default" 'unicode "-apple-Menlo-medium-normal-normal-*-11-*-*-*-m-0-iso10646-1")
+
+  ;;(set-fontset-font "fontset-default" 'unicode "DejaVu Sans Mono")
+  ;;(set-fontset-font "fontset-default" 'unicode "-apple-DejaVu_Sans_Mono-medium-normal-normal-*-11-*-*-*-m-0-iso10646-1")
+  ;;(set-fontset-font "fontset-default" 'unicode '("Menlo" . "unicode-bmp"))
+
+  ;;(set-fontset-font "fontset-default" 'unicode "Arial Unicode MS-12")
+  )
+
 
 
 ;; ;; Make a non-standard key binding.  We can put this in
