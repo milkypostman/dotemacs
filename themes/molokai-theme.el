@@ -11,7 +11,7 @@
  '(error ((t (:background "#1e0010" :foreground "#960050"))))
  '(font-lock-keyword-face ((t (:foreground "#f92672"))))
  '(font-lock-delimiter-face ((t (:foreground "#8f8f8f"))))
- '(font-lock-constant-face ((t (:foreground "#fd971f"))))
+ '(font-lock-constant-face ((t (:foreground "#ae81ff"))))
  '(font-lock-string-face ((t (:foreground "#e6db74"))))
  '(font-lock-comment-delimiter-face ((t (:inherit font-lock-comment-face))))
  '(font-lock-comment-face ((t (:foreground "#465457"))))
