@@ -21,7 +21,7 @@
 ;; (add-to-list 'package-archives
 ;;              '("marmalade" . "http://marmalade-repo.org/packages/") t)
 (add-to-list 'package-archives
-             '("melpa" . "http://melpa.milkbox.net/test/packages/") t)
+             '("melpa" . "http://melpa.milkbox.net/packages/") t)
 (setq url-http-attempt-keepalives nil) ;; temporary hack until I can get hosting fixed.
 (package-initialize)
 
