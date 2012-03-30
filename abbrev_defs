@@ -13,6 +13,10 @@
 
 (define-abbrev-table 'bookmark-bmenu-mode-abbrev-table '())
 
+(define-abbrev-table 'browse-kill-ring-edit-mode-abbrev-table '())
+
+(define-abbrev-table 'browse-kill-ring-mode-abbrev-table '())
+
 (define-abbrev-table 'c++-mode-abbrev-table
   '(
    ))
@@ -30,6 +34,20 @@
 (define-abbrev-table 'comint-mode-abbrev-table '())
 
 (define-abbrev-table 'completion-list-mode-abbrev-table '())
+
+(define-abbrev-table 'conf-colon-mode-abbrev-table '())
+
+(define-abbrev-table 'conf-javaprop-mode-abbrev-table '())
+
+(define-abbrev-table 'conf-ppd-mode-abbrev-table '())
+
+(define-abbrev-table 'conf-space-mode-abbrev-table '())
+
+(define-abbrev-table 'conf-unix-mode-abbrev-table '())
+
+(define-abbrev-table 'conf-windows-mode-abbrev-table '())
+
+(define-abbrev-table 'conf-xdefaults-mode-abbrev-table '())
 
 (define-abbrev-table 'cssh-mode-abbrev-table '())
 
@@ -88,7 +106,7 @@
     ("1dtdate" "" (lambda nil (insert (format-time-string "%Y-%m-%d %H:%M" (time-add (current-time) (seconds-to-time (* 1 86400)))))) 4)
     ("1dtstamp" "" (lambda nil (insert (format-time-string "%Y%m%d%H%M" (time-add (current-time) (seconds-to-time (* 1 86400)))))) 4)
     ("2ddate" "" (lambda nil (insert (format-time-string "%Y-%m-%d" (time-add (current-time) (seconds-to-time (* 2 86400)))))) 4)
-    ("2dfull" "" (lambda nil (insert (format-time-string "%A, %B %d, %Y" (time-add (current-time) (seconds-to-time (* 2 86400)))))) 5)
+    ("2dfull" "" (lambda nil (insert (format-time-string "%A, %B %d, %Y" (time-add (current-time) (seconds-to-time (* 2 86400)))))) 6)
     ("2dstamp" "" (lambda nil (insert (format-time-string "%Y%m%d" (time-add (current-time) (seconds-to-time (* 2 86400)))))) 4)
     ("2dtdate" "" (lambda nil (insert (format-time-string "%Y-%m-%d %H:%M" (time-add (current-time) (seconds-to-time (* 2 86400)))))) 4)
     ("2dtstamp" "" (lambda nil (insert (format-time-string "%Y%m%d%H%M" (time-add (current-time) (seconds-to-time (* 2 86400)))))) 4)
@@ -103,7 +121,7 @@
     ("4dtdate" "" (lambda nil (insert (format-time-string "%Y-%m-%d %H:%M" (time-add (current-time) (seconds-to-time (* 4 86400)))))) 4)
     ("4dtstamp" "" (lambda nil (insert (format-time-string "%Y%m%d%H%M" (time-add (current-time) (seconds-to-time (* 4 86400)))))) 4)
     ("5ddate" "" (lambda nil (insert (format-time-string "%Y-%m-%d" (time-add (current-time) (seconds-to-time (* 5 86400)))))) 4)
-    ("5dfull" "" (lambda nil (insert (format-time-string "%A, %B %d, %Y" (time-add (current-time) (seconds-to-time (* 5 86400)))))) 4)
+    ("5dfull" "" (lambda nil (insert (format-time-string "%A, %B %d, %Y" (time-add (current-time) (seconds-to-time (* 5 86400)))))) 5)
     ("5dstamp" "" (lambda nil (insert (format-time-string "%Y%m%d" (time-add (current-time) (seconds-to-time (* 5 86400)))))) 4)
     ("5dtdate" "" (lambda nil (insert (format-time-string "%Y-%m-%d %H:%M" (time-add (current-time) (seconds-to-time (* 5 86400)))))) 4)
     ("5dtstamp" "" (lambda nil (insert (format-time-string "%Y%m%d%H%M" (time-add (current-time) (seconds-to-time (* 5 86400)))))) 4)
@@ -113,7 +131,7 @@
     ("6dtdate" "" (lambda nil (insert (format-time-string "%Y-%m-%d %H:%M" (time-add (current-time) (seconds-to-time (* 6 86400)))))) 4)
     ("6dtstamp" "" (lambda nil (insert (format-time-string "%Y%m%d%H%M" (time-add (current-time) (seconds-to-time (* 6 86400)))))) 4)
     ("7ddate" "" (lambda nil (insert (format-time-string "%Y-%m-%d" (time-add (current-time) (seconds-to-time (* 7 86400)))))) 5)
-    ("7dfull" "" (lambda nil (insert (format-time-string "%A, %B %d, %Y" (time-add (current-time) (seconds-to-time (* 7 86400)))))) 5)
+    ("7dfull" "" (lambda nil (insert (format-time-string "%A, %B %d, %Y" (time-add (current-time) (seconds-to-time (* 7 86400)))))) 7)
     ("7dstamp" "" (lambda nil (insert (format-time-string "%Y%m%d" (time-add (current-time) (seconds-to-time (* 7 86400)))))) 4)
     ("7dtdate" "" (lambda nil (insert (format-time-string "%Y-%m-%d %H:%M" (time-add (current-time) (seconds-to-time (* 7 86400)))))) 4)
     ("7dtstamp" "" (lambda nil (insert (format-time-string "%Y%m%d%H%M" (time-add (current-time) (seconds-to-time (* 7 86400)))))) 4)
@@ -123,7 +141,7 @@
     ("8dtdate" "" (lambda nil (insert (format-time-string "%Y-%m-%d %H:%M" (time-add (current-time) (seconds-to-time (* 8 86400)))))) 4)
     ("8dtstamp" "" (lambda nil (insert (format-time-string "%Y%m%d%H%M" (time-add (current-time) (seconds-to-time (* 8 86400)))))) 4)
     ("9ddate" "" (lambda nil (insert (format-time-string "%Y-%m-%d" (time-add (current-time) (seconds-to-time (* 9 86400)))))) 4)
-    ("9dfull" "" (lambda nil (insert (format-time-string "%A, %B %d, %Y" (time-add (current-time) (seconds-to-time (* 9 86400)))))) 4)
+    ("9dfull" "" (lambda nil (insert (format-time-string "%A, %B %d, %Y" (time-add (current-time) (seconds-to-time (* 9 86400)))))) 5)
     ("9dstamp" "" (lambda nil (insert (format-time-string "%Y%m%d" (time-add (current-time) (seconds-to-time (* 9 86400)))))) 4)
     ("9dtdate" "" (lambda nil (insert (format-time-string "%Y-%m-%d %H:%M" (time-add (current-time) (seconds-to-time (* 9 86400)))))) 4)
     ("9dtstamp" "" (lambda nil (insert (format-time-string "%Y%m%d%H%M" (time-add (current-time) (seconds-to-time (* 9 86400)))))) 4)
@@ -169,6 +187,8 @@ Iowa City, IA 52245" nil 0)
 (define-abbrev-table 'java-mode-abbrev-table
   '(
    ))
+
+(define-abbrev-table 'jython-mode-abbrev-table '())
 
 (define-abbrev-table 'latex-mode-abbrev-table '())
 
@@ -219,6 +239,8 @@ Iowa City, IA 52245" nil 0)
 (define-abbrev-table 'outline-mode-abbrev-table '())
 
 (define-abbrev-table 'package-menu-mode-abbrev-table '())
+
+(define-abbrev-table 'php-mode-abbrev-table '())
 
 (define-abbrev-table 'pike-mode-abbrev-table
   '(

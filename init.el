@@ -18,8 +18,8 @@
 ;; (add-to-list 'package-archives
 ;;              '("khealy" . "http://kieranhealy.org/packages/") t)
 ;; (add-to-list 'package-archives '("tromey" . "http://tromey.com/elpa/") t)
-;; (add-to-list 'package-archives
-;;              '("marmalade" . "http://marmalade-repo.org/packages/") t)
+(add-to-list 'package-archives
+             '("marmalade" . "http://marmalade-repo.org/packages/") t)
 (add-to-list 'package-archives
              '("melpa" . "http://melpa.milkbox.net/packages/") t)
 (setq url-http-attempt-keepalives nil) ;; temporary hack until I can get hosting fixed.
@@ -167,7 +167,6 @@
 (setq auto-mode-alist
       (cons '("\\.mm?d\\'" . markdown-mode) auto-mode-alist))
 
-(add-to-list 'auto-mode-alist '("\\.php$" . html-mode))
 
 ;; (eval-after-load 'python '(python-modes-init))
 (eval-after-load 'python-mode '(python-modes-init))
@@ -194,11 +193,18 @@
 (add-hook 'haskell-mode-hook 'turn-on-haskell-indentation)
 (add-hook 'markdown-mode-hook 'mp-turn-on-abbrev-mode)
 
+(setq auto-mode-alist
+      (cons '("\\.php[345]?\\'\\|\\.phtml\\." . php-mode) auto-mode-alist))
+
 (eval-after-load 'mmm-mode-autoloads
   '(progn
      (require 'mmm-auto)
      (setq mmm-global-mode 'maybe)
-     (mmm-add-mode-ext-class 'html-mode "\\.php\\'" 'html-php)))
+     (setq mmm-submode-decoration-level 2)
+     (setq nxml-slash-auto-complete-flag t)
+     (mmm-add-mode-ext-class 'nxml-mode "\\.php\\'" 'html-php)
+     (mmm-add-mode-ext-class 'html-mode "\\.php\\'" 'html-php)
+     ))
 
 (eval-after-load 'rainbow-delimiters-autoloads
   '(progn
