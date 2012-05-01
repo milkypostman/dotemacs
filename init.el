@@ -34,6 +34,8 @@
 (require 'midnight)
 (require 'misc)
 
+(require 'checkdoc)
+
 
 (setq mp-extra-paths
       '("~/.virtualenv/bin/"
@@ -129,8 +131,6 @@
 (global-set-key (kbd "C-w") (kbd "M-<DEL>"))
 (global-set-key (kbd "C-h") (kbd "<DEL>"))
 
-;; (global-set-key (kbd "C-h") 'help-command)
-
 (global-set-key (kbd "C-c h") 'help-command)
 
 (global-set-key (kbd "C-c +") 'increment-number-at-point)
@@ -143,27 +143,17 @@
 (define-key key-translation-map (kbd "C-x C-m") (kbd "M-x"))
 
 
-;; (put 'kill-ring-save 'interactive-form
-;;      '(interactive
-;;        (if (use-region-p)
-;;            (list (region-beginning) (region-end))
-;;          (list (line-beginning-position) (line-beginning-position 2)))))
-
-;; (put 'kill-region 'interactive-form
-;;      '(interactive
-;;        (if (use-region-p)
-;;            (list (region-beginning) (region-end))
-;;          (list (line-beginning-position) (line-beginning-position 2)))))
-
 (defadvice kill-line (after kill-line-cleanup-whitespace activate compile)
   "cleanup whitespace on kill-line"
   (if (not (bolp))
       (delete-region (point) (progn (skip-chars-forward " \t") (point)))))
 
+
+(add-hook 'emacs-lisp-mode-hook 'checkdoc-minor-mode)
 (add-hook 'ido-setup-hook 'mp-ido-hook)
 
-;; (setq auto-mode-alist
-;;       (cons '("\\.text" . markdown-mode) auto-mode-alist))
+
+;;; Markdown
 (setq auto-mode-alist
       (cons '("\\.te?xt\\'" . markdown-mode) auto-mode-alist))
 (setq auto-mode-alist
