@@ -38,7 +38,7 @@
  '(ispell-program-name "aspell")
  '(line-spacing 1)
  '(markdown-command "pandoc -S")
- '(markdown-latex-command "pandoc --template=$HOME/Coe/pandocnarrow.tex -s -t latex -Vfontsize:10pt")
+ '(markdown-latex-command "pandoc --template=$HOME/Coe/templates/pandocnarrow.tex -s -t latex -Vfontsize:10pt")
  '(menu-bar-mode nil)
  '(mode-line-in-non-selected-windows t)
  '(mode-line-inverse-video t)
