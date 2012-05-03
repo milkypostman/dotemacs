@@ -138,8 +138,6 @@
 
 (global-set-key (kbd "C-c w") 'mp-copy-paste)
 
-;(global-set-key (kbd "C-@") 'er/expand-region)
-
 (define-key key-translation-map (kbd "C-x C-m") (kbd "M-x"))
 
 
@@ -179,6 +177,9 @@
      (add-hook 'markdown-mode-hook 'yas/minor-mode)
      (add-hook 'prog-mode-hook 'yas/minor-mode)))
 
+(eval-after-load 'expand-region
+  '(progn 'er/expand-region
+          (global-set-key (kbd "C-@") 'er/expand-region)))
 
 ;; haskell
 (add-hook 'haskell-mode-hook 'turn-on-haskell-doc-mode)
