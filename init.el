@@ -9,7 +9,6 @@
 (add-to-list 'load-path "~/.emacs.d/")
 (require 'defun)
 
-
 ;; emacs23 --
 ;; http://repo.or.cz/w/emacs.git/blob_plain/1a0a666f941c99882093d7bd08ced15033bc3f0c:/lisp/emacs-lisp/package.el
 
@@ -205,6 +204,7 @@
 
 (eval-after-load 'markdown-mode
   '(progn
+     (remove-hook 'text-mode-hook 'turn-on-auto-fill)
      (define-key markdown-mode-map (kbd "<backtab>") 'markdown-shifttab)
      (define-key markdown-mode-map (kbd "C-c r") 'markdown-copy-rtf)
      (define-key markdown-mode-map (kbd "C-c l") 'markdown-export-latex)
