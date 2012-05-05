@@ -15,7 +15,7 @@
  '(cua-enable-cua-keys nil)
  '(cua-mode nil nil (cua-base))
  '(custom-enabled-themes (quote (sanityinc-tomorrow-bright)))
- '(custom-safe-themes (quote ("69546801bd9c98eeb7246a3d39497abeced1d11e" "39327baac0e924fc06c561986ed6fff862df8e1d" "9e0fc3846fc416a0ca22cda143fb057581e48cbae9cf2007dd499e3786f26662" "0174d99a8f1fdc506fa54403317072982656f127" "5600dc0bb4a2b72a613175da54edb4ad770105aa" "0d9954cf3c9d0802c50d22ed907991a909cff9c4" default)))
+ '(custom-safe-themes (quote ("ab549d155dfc3929faa1ec32d7968565c6823a91" "69546801bd9c98eeb7246a3d39497abeced1d11e" "39327baac0e924fc06c561986ed6fff862df8e1d" "9e0fc3846fc416a0ca22cda143fb057581e48cbae9cf2007dd499e3786f26662" "0174d99a8f1fdc506fa54403317072982656f127" "5600dc0bb4a2b72a613175da54edb4ad770105aa" "0d9954cf3c9d0802c50d22ed907991a909cff9c4" default)))
  '(custom-theme-directory "~/.emacs.d/themes/")
  '(default-frame-alist (quote ((font . "Menlo-11"))))
  '(deft-directory "/Users/dcurtis/Dropbox/Elements")
