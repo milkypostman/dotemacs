@@ -285,8 +285,8 @@
 ;; (remove-hook 'prog-mode-hook 'esk-turn-on-hl-line-mode)
 (eval-after-load 'starter-kit-autoloads
   '(progn
-     (add-hook 'prog-mode-hook 'esk-turn-on-whitespace)
-     (add-hook 'emacs-lisp-mode-hook 'esk-turn-on-paredit)))
+     (add-hook 'prog-mode-hook 'whitespace-mode)
+     (add-hook 'emacs-lisp-mode-hook 'paredit-mode)))
 
 (add-hook 'prog-mode-hook 'mp-buffer-enable-whitespace-cleanup)
 
