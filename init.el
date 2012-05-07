@@ -214,6 +214,15 @@
      (define-key markdown-mode-map (kbd "C-c s") 'markdown-copy-paste-html)
      (define-key markdown-mode-map (kbd "C-c =") 'markdown-cleanup-list-numbers)))
 
+;; pony-mode
+
+(eval-after-load 'pony-mode
+  '(progn
+     (setq pony-snippet-dir
+           (expand-file-name
+            "snippets/"
+            (file-name-directory (locate-library "pony-mode"))))))
+
 
 ;; auctex
 (eval-after-load 'latex
