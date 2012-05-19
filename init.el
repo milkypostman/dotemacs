@@ -215,7 +215,6 @@
      (define-key markdown-mode-map (kbd "C-c =") 'markdown-cleanup-list-numbers)))
 
 ;; pony-mode
-
 (eval-after-load 'pony-mode
   '(progn
      (setq pony-snippet-dir
@@ -287,8 +286,8 @@
 ;; (remove-hook 'prog-mode-hook 'esk-turn-on-hl-line-mode)
 (eval-after-load 'starter-kit-autoloads
   '(progn
-     (add-hook 'prog-mode-hook 'whitespace-mode)
-     (add-hook 'emacs-lisp-mode-hook 'paredit-mode)))
+     (add-hook 'prog-mode-hook 'whitespace-mode)))
+
 
 (add-hook 'prog-mode-hook 'mp-buffer-enable-whitespace-cleanup)
 
