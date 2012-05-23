@@ -214,8 +214,11 @@
      (define-key markdown-mode-map (kbd "C-c s") 'markdown-copy-paste-html)
      (define-key markdown-mode-map (kbd "C-c =") 'markdown-cleanup-list-numbers)))
 
-;; pony-mode
 
+;; ocatve-mode
+(setq auto-mode-alist (cons '("\\.m$" . octave-mode) auto-mode-alist))
+
+;; pony-mode
 (eval-after-load 'pony-mode
   '(progn
      (setq pony-snippet-dir
