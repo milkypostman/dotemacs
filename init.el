@@ -137,6 +137,9 @@
 
 (global-set-key (kbd "C-c w") 'mp-copy-paste)
 
+(global-set-key (kbd "C-c +") 'evil-numbers/inc-at-pt)
+(global-set-key (kbd "C-c -") 'evil-numbers/dec-at-pt)
+
 (define-key key-translation-map (kbd "C-x C-m") (kbd "M-x"))
 
 
@@ -217,6 +220,12 @@
 
 ;; ocatve-mode
 (setq auto-mode-alist (cons '("\\.m$" . octave-mode) auto-mode-alist))
+(setenv "GNUTERM" "x11")
+
+;; evil-mode
+(eval-after-load 'evil
+  '(progn
+     (when (boundp 'global-surround-mode) (global-surround-mode))))
 
 ;; pony-mode
 (eval-after-load 'pony-mode
