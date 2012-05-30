@@ -227,6 +227,10 @@
   '(progn
      (when (boundp 'global-surround-mode) (global-surround-mode))))
 
+(eval-after-load 'evil-autoloads
+  '(progn
+     (add-hook 'after-init-hook 'evil-mode)))
+
 ;; pony-mode
 (eval-after-load 'pony-mode
   '(progn
