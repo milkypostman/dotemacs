@@ -223,14 +223,22 @@
 (setq auto-mode-alist (cons '("\\.m$" . octave-mode) auto-mode-alist))
 (setenv "GNUTERM" "x11")
 
+;; enable evil by default
+(eval-after-load 'evil-autoloads
+  '(progn
+     ;; we cannot require evil right away or it messes up the cursor.
+     (add-hook 'after-init-hook 'evil-mode)))
+
 ;; evil-mode
 (eval-after-load 'evil
   '(progn
-     (when (boundp 'global-surround-mode) (global-surround-mode))))
+     (when (boundp 'global-surround-mode) (global-surround-mode))
+     (ignore-errors (require 'evil-leader))))
 
-(eval-after-load 'evil-autoloads
+;; evil-mode
+(eval-after-load 'evil-leader
   '(progn
-     (add-hook 'after-init-hook 'evil-mode)))
+     (evil-leader/set-key (kbd "t") 'find-file-in-project)))
 
 ;; pony-mode
 (eval-after-load 'pony-mode
