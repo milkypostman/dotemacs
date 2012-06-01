@@ -150,6 +150,7 @@
 
 
 (add-hook 'emacs-lisp-mode-hook 'checkdoc-minor-mode)
+(add-hook 'emacs-lisp-mode-hook 'paredit-mode)
 (add-hook 'ido-setup-hook 'mp-ido-hook)
 
 
