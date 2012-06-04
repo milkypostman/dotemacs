@@ -347,6 +347,7 @@
 (add-font-lock-numbers 'c-mode)
 (add-font-lock-numbers 'c++-mode)
 (add-font-lock-numbers 'html-mode)
+(add-font-lock-numbers 'python-mode)
 (add-font-lock-numbers 'emacs-lisp-mode)
 
 
