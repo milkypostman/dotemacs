@@ -34,7 +34,7 @@
  '(ido-ubiquitous-function-exceptions (quote (grep-read-files ucs-insert)))
  '(ido-use-filename-at-point nil)
  '(inhibit-startup-echo-area-message "dcurtis")
- '(initial-frame-alist (quote ((vertical-scroll-bars) (top . 0) (left . 0) (width . 150) (height . 76))))
+ '(initial-frame-alist (quote ((vertical-scroll-bars) (top . 0) (left . 0))))
  '(ispell-extra-args (quote ("--sug-mode=ultra")))
  '(ispell-program-name "aspell")
  '(line-spacing 1)
