@@ -223,6 +223,16 @@
 (setq auto-mode-alist (cons '("\\.m$" . octave-mode) auto-mode-alist))
 (setenv "GNUTERM" "x11")
 
+(eval-after-load 'nxhtml-autoloads
+  '(progn
+     (autoload 'django-html-mumamo-mode
+       (expand-file-name "autostart.el"
+                         (file-name-directory (locate-library "nxhtml-autoloads"))))
+     (setq auto-mode-alist
+           (append '(("\\.html?$" . django-html-mumamo-mode)) auto-mode-alist))
+     (setq mumamo-background-colors nil)
+     (add-to-list 'auto-mode-alist '("\\.html$" . django-html-mumamo-mode))))
+
 ;; enable evil by default
 (eval-after-load 'evil-autoloads
   '(progn
