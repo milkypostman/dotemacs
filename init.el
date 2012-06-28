@@ -319,9 +319,9 @@
 (add-hook 'c-mode-common-hook 'mp-add-c-mode-bindings)
 
 ;; paredit
-;; (remove-hook 'prog-mode-hook 'esk-turn-on-hl-line-mode)
 (eval-after-load 'starter-kit-autoloads
   '(progn
+     ;; (remove-hook 'prog-mode-hook 'esk-turn-on-hl-line-mode)
      (add-hook 'prog-mode-hook 'whitespace-mode)))
 
 
