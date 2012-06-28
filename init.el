@@ -324,6 +324,13 @@
      ;; (remove-hook 'prog-mode-hook 'esk-turn-on-hl-line-mode)
      (add-hook 'prog-mode-hook 'whitespace-mode)))
 
+(eval-after-load 'highline
+  '(add-hook 'after-init-hook
+             (lambda ()
+               (set-face-attribute 'mode-line nil
+                                   :box nil)
+               (set-face-attribute 'mode-line-inactive nil
+                                   :box nil))))
 
 (add-hook 'prog-mode-hook 'mp-buffer-enable-whitespace-cleanup)
 
