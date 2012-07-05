@@ -180,7 +180,7 @@
      (add-hook 'markdown-mode-hook 'yas/minor-mode)
      (add-hook 'prog-mode-hook 'yas/minor-mode)))
 
-(eval-after-load 'expand-region
+(eval-after-load 'expand-region-autoloads
   '(progn 'er/expand-region
           (global-set-key (kbd "C-@") 'er/expand-region)))
 
