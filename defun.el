@@ -439,6 +439,12 @@ If cursor is not at the end of the user input, move to end of input."
     (end-of-line)
     (insert (format mp-wikipedia-url (mp-wikicase (match-string 1))))))
 
+;; kill region if active, otherwise kill backward word
+(defun mp-kill-region-or-backward-word ()
+  (interactive)
+  (if (region-active-p)
+      (kill-region (region-beginning) (region-end))
+    (backward-kill-word 1)))
 
 (defun package-update-all ()
   "Update all packages"
