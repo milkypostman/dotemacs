@@ -236,8 +236,10 @@
 ;; enable evil by default
 (eval-after-load 'evil-autoloads
   '(progn
+     (autoload 'evil-mode "evil" "EVIL MODE! RARR" t)
      ;; we cannot require evil right away or it messes up the cursor.
-     (add-hook 'after-init-hook 'evil-mode)))
+     ;;(add-hook 'after-init-hook 'evil-mode)
+     ))
 
 ;; evil-mode
 (eval-after-load 'evil
