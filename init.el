@@ -347,6 +347,7 @@
 (eval-after-load 'find-file-in-project
   '(progn
      (add-to-list 'ffip-patterns "*.c")
+     (add-to-list 'ffip-patterns "*.css")
      (add-to-list 'ffip-patterns "*.h")))
 
 (eval-after-load 'flymake
