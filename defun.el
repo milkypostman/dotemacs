@@ -367,7 +367,7 @@ oIf cursor is not at the end of the user input, move to end of input."
   (interactive "p")
   (if (region-active-p)
       (kill-region (region-beginning) (region-end))
-    (funcall (key-binding (kbd "M-<DEL>")) arg)))
+    (call-interactively (key-binding (kbd "M-<DEL>")) t (this-command-keys-vector))))
 
 ;; M-up is nicer in dired if it moves to the third line - straight to the ".."
 (defun mp-dired-back-to-top ()
