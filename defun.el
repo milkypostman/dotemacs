@@ -249,73 +249,11 @@ depending on the last command issued."
      )))
 
 
-
-(defun python-modes-init ()
-  "initialization for all python modes"
-  ;; (setup-virtualenv)
-  ;; (define-key python-mode-map (kbd "C-h")
-  ;; 'python-indent-dedent-line-backspace
-
-  (push "~/.virtualenvs/default/bin" exec-path)
-  (setenv "PATH"
-          (concat
-           "~/.virtualenvs/default/bin" ":"
-           (getenv "PATH")
-           ))
-
-  (font-lock-add-keywords 'python-mode
-                          `((,(rx symbol-start (or "import" "from")
-                                  symbol-end) 0 font-lock-preprocessor-face)))
-
-  (make-face 'font-lock-operator-face)
-  (set-face-attribute
-   'font-lock-operator-face nil :inherit font-lock-keyword-face)
-  (setq font-lock-operator-face 'font-lock-operator-face)
-  (font-lock-add-keywords
-   'python-mode
-   `((,(rx symbol-start (or "in" "and" "or" "is" "not") symbol-end)
-      0 font-lock-operator-face)))
-
-  (add-font-lock-numbers 'python-mode)
-  (font-lock-add-keywords
-   'python-mode
-   `(("^[       ]*\\(@\\)\\([a-zA-Z_][a-zA-Z_0-9.]+\\)\\((.+)\\)?"
-      (1 'font-lock-preprocessor-face)
-      (2 'font-lock-builtin-face))))
-  (local-set-key (kbd "M-n") 'flymake-goto-next-error)
-  (local-set-key (kbd "M-p") 'flymake-goto-prev-error))
-
-(defun mp-turn-on-abbrev-mode ()
-  "turn on abbrev-mode"
-  (abbrev-mode 1))
-
-
-(defun mp-ibuffer-hook ()
-  (ibuffer-auto-mode 1)
-  (ibuffer-switch-to-saved-filter-groups "default"))
-
 (defun mp-compile ()
   (interactive)
   (save-buffer)
   (compile "make -k"))
 
-(defun mp-add-c-mode-bindings ()
-  (local-set-key (kbd "C-c o") 'ff-find-other-file)
-  (local-set-key (kbd "C-c C-m") 'mp-compile))
-
-(defun mp-run-prog-mode-hook ()
-  (run-hooks 'prog-mode-hook))
-
-
-(defun mp-ido-hook ()
-  (define-key ido-completion-map (kbd "C-h") 'ido-delete-backward-updir)
-  (define-key ido-completion-map (kbd "C-w") 'ido-delete-backward-word-updir)
-  (define-key ido-completion-map (kbd "C-n") 'ido-next-match)
-  (define-key ido-completion-map (kbd "C-n") 'ido-next-match)
-  (define-key ido-completion-map (kbd "C-p") 'ido-prev-match)
-  (define-key ido-completion-map (kbd "C-e") 'mp-ido-edit-input)
-  (define-key ido-completion-map [tab] 'ido-complete)
-  (ido-ubiquitous-disable-in evil-ex))
 
 (defun mp-font-lock-restart ()
   (interactive)
@@ -359,7 +297,7 @@ ACTION associated with `block-close' syntax."
 
 (defun mp-ido-edit-input ()
   "Edit absolute file name entered so far with ido; terminate by RET.
-If cursor is not at the end of the user input, move to end of input."
+oIf cursor is not at the end of the user input, move to end of input."
   (interactive)
   (if (not (eobp))
       (end-of-line)
@@ -367,23 +305,8 @@ If cursor is not at the end of the user input, move to end of input."
     (setq ido-exit 'edit)
     (exit-minibuffer)))
 
-(defun mp-buffer-enable-whitespace-cleanup ()
-  "enable whitespace-cleanup in the current buffer"
-  (add-hook 'before-save-hook 'whitespace-cleanup nil t))
 
-;; (defun flymake-create-temp-in-system-tempdir (filename prefix)
-;;   (make-temp-file (or prefix "flymake")))
-
-(defun mp-flymake-pyflakes-init (&optional trigger-type)
-  ;; Make sure it's not a remote buffer or flymake would not work
-  (let* ((temp-file (flymake-init-create-temp-buffer-copy
-                     'flymake-create-temp-with-folder-structure))
-         (local-file (file-relative-name
-                      temp-file
-                      (file-name-directory buffer-file-name))))
-    (list "/Users/dcurtis/.virtualenv/bin/pyflakes" (list temp-file))))
-
-(defun orgtbl-to-pandoc-cell (val colwidth align)
+(defun mp-orgtbl-to-pandoc-cell (val colwidth align)
   "convert an org-mode table cell to pandoc"
   (setq colwidth (1+ colwidth))
   (if align
@@ -391,7 +314,7 @@ If cursor is not at the end of the user input, move to end of input."
     (concat val (make-string (- colwidth (length val)) ? ))))
 
 
-(defun orgtbl-to-pandoc (table params)
+(defun mp-orgtbl-to-pandoc (table params)
   "convert and org-mode table to a pandoc table"
   (let* ((splicep (plist-get params :splice))
          (html-table-tag org-export-html-table-tag)
@@ -413,7 +336,7 @@ If cursor is not at the end of the user input, move to end of input."
                   (mapconcat
                    'identity
                    (mapcar*
-                    'orgtbl-to-pandoc-cell
+                    'mp-orgtbl-to-pandoc-cell
                     x
                     org-table-last-column-widths
                     org-table-last-alignment) " ")))
@@ -440,29 +363,32 @@ If cursor is not at the end of the user input, move to end of input."
     (insert (format mp-wikipedia-url (mp-wikicase (match-string 1))))))
 
 ;; kill region if active, otherwise kill backward word
-(defun mp-kill-region-or-backward-word ()
-  (interactive)
+(defun mp-kill-region-or-backward-word (arg)
+  (interactive "p")
   (if (region-active-p)
       (kill-region (region-beginning) (region-end))
-    (backward-kill-word 1)))
+    (funcall (key-binding (kbd "M-<DEL>")) arg)))
 
-(defun package-update-all ()
-  "Update all packages"
+;; M-up is nicer in dired if it moves to the third line - straight to the ".."
+(defun mp-dired-back-to-top ()
   (interactive)
-  (dolist (elt package-alist)
-    (let* ((name (car elt))
-           (file-name (symbol-name name))
-           (available-pkg (assq name package-archive-contents))
-           (available-version (and available-pkg
-                                   (package-desc-vers (cdr available-pkg))))
-           (current-version (package-desc-vers (cdr elt)))
-           )
-      (when (and available-version
-                 (version-list-< current-version available-version))
-        (message "Updating to: %s-%s" file-name
-                 (package-version-join available-version))
-        (package-install name)
-        (package-delete file-name (package-version-join current-version))))))
+  (beginning-of-buffer)
+  (next-line 2)
+  (mp-dired-back-to-start-of-files))
 
+;; M-down is nicer in dired if it moves to the last file
+(defun mp-dired-jump-to-bottom ()
+  (interactive)
+  (end-of-buffer)
+  (next-line -1)
+  (mp-dired-back-to-start-of-files))
+
+;; C-a is nicer in dired if it moves back to start of files
+(defun mp-dired-back-to-start-of-files ()
+  (interactive)
+  (backward-char (- (current-column) 2)))
+
+(defun mp-run-prog-mode-hook ()
+  (run-hooks 'prog-mode-hook))
 
 (provide 'defun)
