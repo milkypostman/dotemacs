@@ -212,6 +212,11 @@
           (global-set-key (kbd "C-@") 'er/expand-region)))
 
 
+;;; ace-jump-mode
+(eval-after-load 'ace-jump-mode-autoloads
+  '(progn
+     (define-key global-map (kbd "C-c SPC") 'ace-jump-mode)))
+
 ;;; mark-multiple
 (eval-after-load 'mark-multiple-autoloads
   '(progn
