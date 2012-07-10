@@ -270,16 +270,6 @@
      (add-to-list 'reftex-section-prefixes '(1 . "chap:"))))
 
 
-;;; highline
-;; (eval-after-load 'highline
-;;   '(add-hook 'after-init-hook
-;;              (lambda ()
-;;                (set-face-attribute 'mode-line nil
-;;                                    :box nil)
-;;                (set-face-attribute 'mode-line-inactive nil
-;;                                    :box nil))))
-
-
 ;;; markdown
 (setq auto-mode-alist
       (cons '("\\.te?xt\\'" . markdown-mode) auto-mode-alist))
