@@ -25,10 +25,10 @@
 
 (setq mp-extra-paths
       '("~/.virtualenv/bin/"
-       "~/.cabal/bin/"
-       "~/bin/"
-       "/usr/local/bin/"
-       "/usr/texbin/"))
+        "~/.cabal/bin/"
+        "~/bin/"
+        "/usr/local/bin/"
+        "/usr/texbin/"))
 
 (setenv "PATH"
         (mapconcat
