@@ -211,6 +211,24 @@
   '(progn 'er/expand-region
           (global-set-key (kbd "C-@") 'er/expand-region)))
 
+
+;;; mark-multiple
+(eval-after-load 'mark-multiple-autoloads
+  '(progn
+     (global-set-key (kbd "C-x r t") 'inline-string-rectangle)
+     (global-set-key (kbd "C-<") 'mark-previous-like-this)
+     (global-set-key (kbd "C->") 'mark-next-like-this)
+     (global-set-key (kbd "C-M-m") 'mark-more-like-this) ; like the other two, but takes an argument (negative is previous)
+     (global-set-key (kbd "C-*") 'mark-all-like-this)))
+
+;; (eval-after-load 'mark-multiple
+;;   '(progn
+;;      (require 'multiple-cursors)
+;;      (global-set-key (kbd "C-S-c C-S-c") 'mc/add-multiple-cursors-to-region-lines)
+;;      (global-set-key (kbd "C-S-c C-e") 'mc/edit-ends-of-lines)
+;;      (global-set-key (kbd "C-S-c C-a") 'mc/edit-beginnings-of-lines)))
+
+
 ;;; rainbow-delimiters
 (eval-after-load 'rainbow-delimiters-autoloads
   '(progn
