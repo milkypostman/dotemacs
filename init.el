@@ -104,7 +104,6 @@
 (global-set-key (kbd "C-x g") 'magit-status)
 
 (global-set-key (kbd "C-w") 'mp-kill-region-or-backward-word)
-(global-set-key (kbd "C-w") (kbd "M-<DEL>"))
 (global-set-key (kbd "C-h") (kbd "<DEL>"))
 
 (global-set-key (kbd "C-c h") 'help-command)
