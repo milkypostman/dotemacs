@@ -121,6 +121,10 @@
 
 (global-set-key (kbd "C-x C-i") 'imenu)
 
+(global-set-key (kbd "C-.") 'hippie-expand)
+(global-set-key (kbd "C-:") 'hippie-expand-lines)
+
+
 (define-key ctl-x-4-map (kbd "f") 'ido-find-file-other-window)
 
 (define-key isearch-mode-map "\C-h" 'isearch-delete-char)
