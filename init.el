@@ -51,7 +51,6 @@
 (ignore-errors (server-start))
 
 ;;; aliases
-(defalias 'wq 'save-buffers-kill-emacs)
 (defalias 'qrr 'query-replace-regexp)
 (defalias 'qr 'query-replace)
 (defalias 'eshell/ff 'find-file)
@@ -103,7 +102,8 @@
 (global-set-key (kbd "C-c C-k") 'kill-this-buffer)
 (global-set-key (kbd "C-x C-b") 'ibuffer)
 
-(global-set-key (kbd "C-x C-c") 'close-frame-or-client)
+(global-set-key (kbd "C-x r q") 'save-buffers-kill-terminal)
+(global-set-key (kbd "C-x C-c") 'delete-frame)
 (global-set-key (kbd "RET") 'newline-and-indent)
 
 (global-set-key (kbd "C-c r") 'iterm-run-previous-command)
@@ -277,15 +277,6 @@
 
 
 ;;; ido
-;; (defun mp-ido-edit-input ()
-;;   "Edit absolute file name entered so far with ido; terminate by RET.
-;; oIf cursor is not at the end of the user input, move to end of input."
-;;   (interactive)
-;;   (if (not (eobp))
-;;       (end-of-line)
-;;     (setq ido-text-init ido-text)
-;;     (setq ido-exit 'edit)
-;;     (exit-minibuffer)))
 
 (ido-mode t)
 (ido-everywhere t)
@@ -295,6 +286,16 @@
 (setq ido-read-file-name-non-ido nil)
 (setq ido-use-filename-at-point (quote guess))
 (setq ido-use-virtual-buffers t)
+
+;; (defun mp-ido-edit-input ()
+;;   "Edit absolute file name entered so far with ido; terminate by RET.
+;; oIf cursor is not at the end of the user input, move to end of input."
+;;   (interactive)
+;;   (if (not (eobp))
+;;       (end-of-line)
+;;     (setq ido-text-init ido-text)
+;;     (setq ido-exit 'edit)
+;;     (exit-minibuffer)))
 
 (defun mp-ido-hook ()
   (define-key ido-completion-map (kbd "C-h") 'ido-delete-backward-updir)
@@ -306,6 +307,7 @@
   (define-key ido-completion-map [tab] 'ido-complete))
 
 (add-hook 'ido-setup-hook 'mp-ido-hook)
+
 
 ;;; ido-ubiquitous
 (after 'ido-ubiquitous
