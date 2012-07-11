@@ -121,7 +121,7 @@
 
 (global-set-key (kbd "C-x C-i") 'imenu)
 
-(define-key ctl-x-4-map "f" 'ido-find-file-other-window)
+(define-key ctl-x-4-map (kbd "f") 'ido-find-file-other-window)
 
 (define-key isearch-mode-map "\C-h" 'isearch-delete-char)
 
@@ -227,6 +227,9 @@
 
 
 ;;; dired
+(global-set-key (kbd "C-x C-j") 'dired-jump)
+(define-key ctl-x-4-map (kbd "C-j") 'dired-jump-other-window)
+
 (after 'dired
        (define-key dired-mode-map (kbd "M-p") 'dired-back-to-top)
        (define-key dired-mode-map (kbd "M-n") 'dired-jump-to-bottom)
@@ -342,7 +345,7 @@
 (global-set-key (kbd "C-x r t") 'inline-string-rectangle)
 (global-set-key (kbd "C-<") 'mark-previous-like-this)
 (global-set-key (kbd "C->") 'mark-next-like-this)
-(global-set-key (kbd "C-M-m") 'mark-more-like-this) ; like the other two, but takes an argument (negative is previous)
+(global-set-key (kbd "C-M-m") 'mark-more-like-this)
 (global-set-key (kbd "C-*") 'mark-all-like-this)
 
 (global-set-key (kbd "C-S-c C-S-c") 'mc/add-multiple-cursors-to-region-lines)
