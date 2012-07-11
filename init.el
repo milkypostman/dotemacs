@@ -310,12 +310,13 @@
 
 
 ;;; ido-ubiquitous
-(after 'ido-ubiquitous
-       (ido-ubiquitous-disable-in evil-ex))
+(after 'ido-ubiquitous-autoloads (ido-ubiquitous-mode t))
+(after 'ido-ubiquitous (ido-ubiquitous-disable-in evil-ex))
 
-;; (ido-ubiquitous-mode t)
-;; (setq ido-ubiquitous-command-exceptions (quote (evil-ex execute-extended-command)))
-;; (setq ido-ubiquitous-function-exceptions (quote (grep-read-files ucs-insert)))
+(setq ido-ubiquitous-command-exceptions '(evil-ex execute-extended-command))
+(setq ido-ubiquitous-function-exceptions '(grep-read-files ucs-insert))
+
+
 
 ;;; smex
 (after 'smex-autoloads (smex-initialize))
