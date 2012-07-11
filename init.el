@@ -171,7 +171,6 @@
 (setq custom-theme-directory "~/.emacs.d/themes/")
 (setq default-frame-alist (quote ((font . "Monaco-10"))))
 (setq delete-auto-save-files nil)
-(setq delete-by-moving-to-trash t)
 (setq diff-switches "-u")
 (setq enable-recursive-minibuffers t)
 (setq flymake-gui-warnings-enabled t)
@@ -224,6 +223,21 @@
 (setq user-full-name "Donald Ephraim Curtis")
 (setq user-mail-address "dcurtis@milkbox.net")
 (setq visible-bell nil)
+
+;;;; darwin Specific
+(cond ((eq system-type 'darwin)
+       (setq delete-by-moving-to-trash t)
+       (setq trash-directory "~/.Trash/")
+       (setenv
+	"PYTHONPATH"
+	"/Users/dcurtis/src/compepi:/Users/dcurtis/src/networkx")))
+
+;;;; graphical settings
+(when window-system
+  (menu-bar-mode t)
+  ;; specify a unicode font : MENLO (forced normal)
+  (set-fontset-font "fontset-default" 'unicode "-apple-Menlo-medium-normal-normal-*-11-*-*-*-m-0-iso10646-1"))
+
 
 
 ;;; dired
@@ -626,21 +640,6 @@
     (setq custom-file "~/.emacs.d/aqustom.el")
   (setq custom-file "~/.emacs.d/custom.el"))
 (load custom-file)
-
-;;;; darwin Specific
-(cond ((eq system-type 'darwin)
-       (setq delete-by-moving-to-trash t)
-       (setq trash-directory "~/.Trash/")
-       (setenv
-	"PYTHONPATH"
-	"/Users/dcurtis/src/compepi:/Users/dcurtis/src/networkx")))
-
-;;;; graphical settings
-(when window-system
-  (menu-bar-mode t)
-  ;; specify a unicode font : MENLO (forced normal)
-  (set-fontset-font "fontset-default" 'unicode "-apple-Menlo-medium-normal-normal-*-11-*-*-*-m-0-iso10646-1"))
-
 
 (put 'narrow-to-region 'disabled nil)
 
