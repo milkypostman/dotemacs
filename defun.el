@@ -46,7 +46,7 @@
         (file2 (pop command-line-args-left)))
     (ediff file1 file2)))
 
-(defun mp-paste-previous-osx-app ()
+(defun paste-previous-osx-app ()
   "paste the current buffer into the previous OS X application.
 either the one specified in the '.meta' file or the previously
 used app."
@@ -75,7 +75,7 @@ tell application \"System Events\" to keystroke \"a\" using {command down}
 tell application \"System Events\" to keystroke \"v\" using {command down}")))
 
 
-(defun mp-copy-paste ()
+(defun copy-paste ()
   "copy the buffer and paste it into the previous buffer or that
   determined by the '.meta' file"
   (interactive)
@@ -88,7 +88,7 @@ tell application \"System Events\" to keystroke \"v\" using {command down}")))
         (setq begin-region (point-min)
               end-region (point-max)))
       (kill-ring-save begin-region end-region))
-    (mp-paste-previous-osx-app)))
+    (paste-previous-osx-app)))
 
 
 
@@ -249,18 +249,18 @@ depending on the last command issued."
      )))
 
 
-(defun mp-compile ()
+(defun compile-make ()
   (interactive)
   (save-buffer)
   (compile "make -k"))
 
 
-(defun mp-font-lock-restart ()
+(defun font-lock-restart ()
   (interactive)
   (setq font-lock-mode-major-mode nil)
   (font-lock-fontify-buffer))
 
-(defun mp-c-snug-if (syntax pos)
+(defun c-snug-if (syntax pos)
   "Dynamically calculate brace hanginess for do-while statements.
 Using this function, `while' clauses that end a `do-while' block will
 remain on the same line as the brace that closes that block.
@@ -270,15 +270,15 @@ ACTION associated with `block-close' syntax."
   (save-excursion
     (let (langelem)
       (if (and (eq syntax 'substatement-open)
-	       (setq langelem (assq 'substatement-open c-syntactic-context))
-	       (progn (goto-char (c-langelem-pos langelem))
-		      (if (eq (char-after) ?{)
-			  (c-safe (c-forward-sexp -1)))
-		      (looking-at "\\<if\\>[^_]")))
-	  '(after)
-	'(before after)))))
+               (setq langelem (assq 'substatement-open c-syntactic-context))
+               (progn (goto-char (c-langelem-pos langelem))
+                      (if (eq (char-after) ?{)
+                          (c-safe (c-forward-sexp -1)))
+                      (looking-at "\\<if\\>[^_]")))
+          '(after)
+        '(before after)))))
 
-(defun mp-swap-windows ()
+(defun swap-windows ()
  "If you have 2 windows, it swaps them."
  (interactive)
  (cond ((not (= (count-windows) 2))
@@ -295,18 +295,8 @@ ACTION associated with `block-close' syntax."
           (set-window-start w1 s2)
           (set-window-start w2 s1)))))
 
-(defun mp-ido-edit-input ()
-  "Edit absolute file name entered so far with ido; terminate by RET.
-oIf cursor is not at the end of the user input, move to end of input."
-  (interactive)
-  (if (not (eobp))
-      (end-of-line)
-    (setq ido-text-init ido-text)
-    (setq ido-exit 'edit)
-    (exit-minibuffer)))
 
-
-(defun mp-orgtbl-to-pandoc-cell (val colwidth align)
+(defun orgtbl-to-pandoc-cell (val colwidth align)
   "convert an org-mode table cell to pandoc"
   (setq colwidth (1+ colwidth))
   (if align
@@ -314,7 +304,7 @@ oIf cursor is not at the end of the user input, move to end of input."
     (concat val (make-string (- colwidth (length val)) ? ))))
 
 
-(defun mp-orgtbl-to-pandoc (table params)
+(defun orgtbl-to-pandoc (table params)
   "convert and org-mode table to a pandoc table"
   (let* ((splicep (plist-get params :splice))
          (html-table-tag org-export-html-table-tag)
@@ -336,7 +326,7 @@ oIf cursor is not at the end of the user input, move to end of input."
                   (mapconcat
                    'identity
                    (mapcar*
-                    'mp-orgtbl-to-pandoc-cell
+                    'orgtbl-to-pandoc-cell
                     x
                     org-table-last-column-widths
                     org-table-last-alignment) " ")))
@@ -345,50 +335,68 @@ oIf cursor is not at the end of the user input, move to end of input."
             "\n")))
 
 
-(defvar mp-wikipedia-url "http://en.wikipedia.org/wiki/%s" "Wikipedia URL")
+(defvar wikipedia-url "http://en.wikipedia.org/wiki/%s" "Wikipedia URL")
 
 
-(defun mp-wikicase (str)
+(defun wikicase (str)
   "change string to wikipedia case"
   (mapconcat 'capitalize (split-string str) "_"))
 
 
-(defun mp-markdown-wikipedia-link ()
-  "DOCSTRING"
+(defun markdown-wikipedia-link ()
+  "Insert a link to wikipedia based on the name of the current keyword link."
   (interactive)
   (save-excursion
     (back-to-indentation)
     (re-search-forward "\\[\\(.+\\)\\]:" (point-at-eol))
     (end-of-line)
-    (insert (format mp-wikipedia-url (mp-wikicase (match-string 1))))))
+    (insert (format wikipedia-url (wikicase (match-string 1))))))
 
 ;; kill region if active, otherwise kill backward word
-(defun mp-kill-region-or-backward-word (arg)
+(defun kill-region-or-backward-word (arg)
   (interactive "p")
   (if (region-active-p)
       (kill-region (region-beginning) (region-end))
     (call-interactively (key-binding (kbd "M-<DEL>")) t (this-command-keys-vector))))
 
 ;; M-up is nicer in dired if it moves to the third line - straight to the ".."
-(defun mp-dired-back-to-top ()
+(defun dired-back-to-top ()
   (interactive)
   (beginning-of-buffer)
   (next-line 2)
-  (mp-dired-back-to-start-of-files))
+  (dired-back-to-start-of-files))
 
 ;; M-down is nicer in dired if it moves to the last file
-(defun mp-dired-jump-to-bottom ()
+(defun dired-jump-to-bottom ()
   (interactive)
   (end-of-buffer)
   (next-line -1)
-  (mp-dired-back-to-start-of-files))
+  (dired-back-to-start-of-files))
 
 ;; C-a is nicer in dired if it moves back to start of files
-(defun mp-dired-back-to-start-of-files ()
+(defun dired-back-to-start-of-files ()
   (interactive)
   (backward-char (- (current-column) 2)))
 
-(defun mp-run-prog-mode-hook ()
+(defun run-prog-mode-hook ()
   (run-hooks 'prog-mode-hook))
+
+(defun move-line-down ()
+  (interactive)
+  (let ((col (current-column)))
+    (save-excursion
+      (next-line)
+      (transpose-lines 1))
+    (next-line)
+    (move-to-column col)))
+
+(defun move-line-up ()
+  (interactive)
+  (let ((col (current-column)))
+    (save-excursion
+      (next-line)
+      (transpose-lines -1))
+    (move-to-column col)))
+
 
 (provide 'defun)
