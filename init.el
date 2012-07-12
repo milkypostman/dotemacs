@@ -125,9 +125,9 @@
 (global-set-key (kbd "C-:") 'hippie-expand-lines)
 
 
-(define-key ctl-x-4-map (kbd "f") 'ido-find-file-other-window)
 
 (define-key isearch-mode-map "\C-h" 'isearch-delete-char)
+(define-key 'help-command "a" 'apropos)
 
 
 ;;; macros
@@ -149,7 +149,7 @@
 ;;; generic
 (blink-cursor-mode nil)
 (global-auto-revert-mode t)
-(fringe-mode 0)
+(fringe-mode 1)
 (mac-mouse-wheel-mode t)
 (menu-bar-mode nil)
 (mouse-wheel-mode t)
@@ -161,80 +161,70 @@
 (visual-line-mode -1)
 (winner-mode t)
 
-;;; the uncustomizable
-(setq ring-bell-function 'ignore)
-(setq redisplay-dont-pause t)
-(setq whitespace-style '(face trailing lines-tail space-before-tab indentation space-after-tab))
 
-(setq ansi-color-faces-vector [default bold shadow italic underline bold bold-italic bold])
-(setq ansi-color-for-comint-mode t)
-(setq ansi-color-names-vector ["#242424" "#e5786d" "#95e454" "#cae682" "#8ac6f2" "#333366" "#ccaa8f" "#f6f3e8"])
-(setq auto-save-file-name-transforms (quote ((".*" "~/.emacs.d/autosave/" t))))
-(setq backup-directory-alist (quote (("." . "~/.emacs.d/backups/"))))
-(setq cua-enable-cua-keys nil)
-(setq custom-theme-directory "~/.emacs.d/themes/")
-(setq default-frame-alist (quote ((font . "Monaco-10"))))
-(setq delete-auto-save-files nil)
-(setq diff-switches "-u")
-(setq enable-recursive-minibuffers t)
-(setq flymake-gui-warnings-enabled t)
-(setq ibuffer-expert t)
-(setq ibuffer-show-empty-filter-groups nil)
-(setq imenu-auto-rescan t)
-(setq indent-tabs-mode nil)
-(setq indicate-empty-lines t)
-(setq inhibit-startup-echo-area-message "dcurtis")
-(setq inhibit-startup-screen t)
-(setq ispell-extra-args (quote ("--sug-mode=ultra")))
-(setq ispell-program-name "aspell")
-(setq line-spacing 2)
-(setq mode-line-in-non-selected-windows t)
-(setq mode-line-inverse-video t)
-(setq mouse-wheel-scroll-amount (quote (0.01)))
-(setq mouse-yank-at-point t)
-(setq ns-alternate-modifier (quote super))
-(setq ns-command-modifier (quote meta))
-(setq ns-pop-up-frames nil)
-(setq ns-right-alternate-modifier (quote alt))
-(setq ns-tool-bar-display-mode 'both)
-(setq ns-tool-bar-size-mode 'regular)
-(setq save-place t)
-(setq save-place-file "~/.emacs.d/places")
-(setq scroll-conservatively 5)
-(setq scroll-margin 5)
-(setq send-mail-function (quote mailclient-send-it))
-(setq sentence-end-double-space nil)
-(setq set-mark-command-repeat-pop t)
-(setq shift-select-mode nil)
-(setq split-height-threshold nil)
-(setq time-stamp-format "%04y-%02m-%02d %02H:%02M:%02S (%u)")
-(setq tramp-remote-path '(tramp-default-remote-path
-			  tramp-own-remote-path
-			  "/bin"
-			  "/usr/bin"
-			  "/usr/sbin"
-			  "/usr/local/bin"
-			  "/local/bin"
-			  "/local/freeware/bin"
-			  "/local/gnu/bin"
-			  "/usr/freeware/bin"
-			  "/usr/pkg/bin"
-			  "/usr/contrib/bin"))
-(setq truncate-lines t)
-(setq uniquify-buffer-name-style 'reverse)
-(setq uniquify-ignore-buffers-re "^\\*")
-(setq uniquify-separator " • ")
-(setq user-full-name "Donald Ephraim Curtis")
-(setq user-mail-address "dcurtis@milkbox.net")
-(setq visible-bell nil)
+;;; the uncustomizable
+(set-face-attribute 'default nil :font "Monaco-10")
+(setq-default
+ ansi-color-faces-vector [default bold shadow italic underline bold bold-italic bold]
+ ansi-color-for-comint-mode t
+ ansi-color-names-vector ["#242424" "#e5786d" "#95e454" "#cae682" "#8ac6f2" "#333366" "#ccaa8f" "#f6f3e8"]
+ auto-save-file-name-transforms (quote ((".*" "~/.emacs.d/autosave/" t)))
+ backup-directory-alist (quote (("." . "~/.emacs.d/backups/")))
+ cua-enable-cua-keys nil
+ custom-theme-directory "~/.emacs.d/themes/"
+ delete-auto-save-files nil
+ diff-switches "-u"
+ enable-recursive-minibuffers t
+ flymake-gui-warnings-enabled t
+ ibuffer-expert t
+ ibuffer-show-empty-filter-groups nil
+ imenu-auto-rescan t
+ indent-tabs-mode nil
+ indicate-empty-lines t
+ inhibit-startup-echo-area-message "dcurtis"
+ inhibit-startup-screen t
+ ispell-extra-args (quote ("--sug-mode=ultra"))
+ ispell-program-name "aspell"
+ line-spacing 2
+ mode-line-in-non-selected-windows t
+ mode-line-inverse-video t
+ mouse-wheel-scroll-amount (quote (0.01))
+ mouse-yank-at-point t
+ ns-alternate-modifier (quote super)
+ ns-command-modifier (quote meta)
+ ns-pop-up-frames nil
+ ns-right-alternate-modifier (quote alt)
+ ns-tool-bar-display-mode 'both
+ ns-tool-bar-size-mode 'regular
+ redisplay-dont-pause t
+ ring-bell-function 'ignore
+ save-place t
+ save-place-file "~/.emacs.d/places"
+ scroll-conservatively 5
+ scroll-margin 5
+ send-mail-function (quote mailclient-send-it)
+ sentence-end-double-space nil
+ set-mark-command-repeat-pop t
+ shift-select-mode nil
+ split-height-threshold nil
+ time-stamp-format "%04y-%02m-%02d %02H:%02M:%02S (%u)"
+ tramp-remote-path '(tramp-default-remote-path tramp-own-remote-path "/bin" "/usr/bin" "/usr/sbin" "/usr/local/bin" "/local/bin" "/local/freeware/bin" "/local/gnu/bin" "/usr/freeware/bin" "/usr/pkg/bin" "/usr/contrib/bin")
+ truncate-lines t
+ uniquify-buffer-name-style 'reverse
+ uniquify-ignore-buffers-re "^\\*"
+ uniquify-separator " • "
+ user-full-name "Donald Ephraim Curtis"
+ user-mail-address "dcurtis@milkbox.net"
+ visible-bell nil
+ whitespace-style '(face trailing lines-tail space-before-tab indentation space-after-tab))
 
 ;;;; darwin Specific
 (cond ((eq system-type 'darwin)
        (setq delete-by-moving-to-trash t)
        (setq trash-directory "~/.Trash/")
        (setenv
-	"PYTHONPATH"
-	"/Users/dcurtis/src/compepi:/Users/dcurtis/src/networkx")))
+        "PYTHONPATH"
+        "/Users/dcurtis/src/compepi:/Users/dcurtis/src/networkx")))
 
 ;;;; graphical settings
 (when window-system
@@ -247,8 +237,10 @@
 ;;; dired
 (global-set-key (kbd "C-x C-j") 'dired-jump)
 (define-key ctl-x-4-map (kbd "C-j") 'dired-jump-other-window)
+(global-set-key (kbd "M-s f") 'find-name-dired)
 
 (after 'dired
+       (after 'dired+-autoloads)
        (define-key dired-mode-map (kbd "M-p") 'dired-back-to-top)
        (define-key dired-mode-map (kbd "M-n") 'dired-jump-to-bottom)
        (define-key dired-mode-map (kbd "C-a") 'dired-back-to-start-of-files))
@@ -256,21 +248,21 @@
 ;;; ibuffer
 (setq ibuffer-saved-filter-groups
       '(("default"
-	 ("115" (filename . "115"))
-	 ("325" (filename . "325"))
-	 ("705" (filename . "705"))
-	 ("345" (filename . "345"))
-	 ("455" (filename . "455"))
-	 ("dirs" (or
-		  (mode . dired-mode)
-		  (mode . wdired-mode)))
-	 ("notes" (filename . "Elements"))
-	 ("magit" (name . "\*magit"))
-	 ("help" (or (name . "\*Help\*")
-		     (name . "\*Apropos\*")
-		     (name . "\*info\*")))
-	 ("econfig" (or (filename . ".emacs.d")
-			(filename . "init.el"))))))
+         ("115" (filename . "115"))
+         ("325" (filename . "325"))
+         ("705" (filename . "705"))
+         ("345" (filename . "345"))
+         ("455" (filename . "455"))
+         ("dirs" (or
+                  (mode . dired-mode)
+                  (mode . wdired-mode)))
+         ("notes" (filename . "Elements"))
+         ("magit" (name . "\*magit"))
+         ("help" (or (name . "\*Help\*")
+                     (name . "\*Apropos\*")
+                     (name . "\*info\*")))
+         ("econfig" (or (filename . ".emacs.d")
+                        (filename . "init.el"))))))
 
 
 (defun mp-ibuffer-hook ()
@@ -285,11 +277,14 @@
 (ido-mode t)
 (ido-everywhere t)
 (setq ido-enable-flex-matching t)
+(setq ido-create-new-buffer 'always)
 (setq ido-everywhere t)
 (setq ido-max-prospects 10)
 (setq ido-read-file-name-non-ido nil)
-(setq ido-use-filename-at-point (quote guess))
+(setq ido-use-filename-at-point 'guess)
 (setq ido-use-virtual-buffers t)
+
+(define-key ctl-x-4-map (kbd "f") 'ido-find-file-other-window)
 
 ;; (defun mp-ido-edit-input ()
 ;;   "Edit absolute file name entered so far with ido; terminate by RET.
@@ -343,7 +338,7 @@
 (after 'yasnippet
        (require 'dropdown-list)
        (yas/load-directory
-	(format "%ssnippets/" (file-name-directory (locate-library "yasnippet"))))
+        (format "%ssnippets/" (file-name-directory (locate-library "yasnippet"))))
        (yas/load-directory "~/.emacs.d/snippets/")
        (setq yas/prompt-functions '(yas/dropdown-prompt yas/ido-prompt yas/completing-prompt yas/x-prompt yas/no-prompt)))
 
@@ -420,8 +415,8 @@
        ;; (setq-default TeX-master nil)
        ;; (setq LaTeX-command "latex")
        (setq TeX-view-program-list
-	     '(("Skim"
-		"/Applications/Skim.app/Contents/SharedSupport/displayline %n %o %b")))
+             '(("Skim"
+                "/Applications/Skim.app/Contents/SharedSupport/displayline %n %o %b")))
        (setq TeX-view-program-selection '((output-pdf "Skim")))
 
 
@@ -499,15 +494,15 @@
 
 ;;; c / c++ mode
 (setq c-cleanup-list '(defun-close-semi
-			list-close-comma
-			scope-operator
-			compact-empty-funcall
-			comment-close-slash))
+                        list-close-comma
+                        scope-operator
+                        compact-empty-funcall
+                        comment-close-slash))
 (setq c-default-style '((c-mode . "cc-mode")
-			(c++-mode . "cc-mode")
-			(java-mode . "java")
-			(awk-mode . "awk")
-			(other . "gnu")))
+                        (c++-mode . "cc-mode")
+                        (java-mode . "java")
+                        (awk-mode . "awk")
+                        (other . "gnu")))
 (setq c-offsets-alist '((substatement-open . 0)))
 
 (add-font-lock-numbers 'c-mode)
@@ -521,7 +516,7 @@
 
 (if (< emacs-major-version 24)
     (mapc (lambda (h) (mapc (lambda (f) (add-hook h f)) prog-mode-hook))
-	  '(c++-mode-hook c-mode-hook)))
+          '(c++-mode-hook c-mode-hook)))
 
 
 ;;; python
@@ -535,14 +530,14 @@
 
   (push "~/.virtualenvs/default/bin" exec-path)
   (setenv "PATH"
-	  (concat
-	   "~/.virtualenvs/default/bin" ":"
-	   (getenv "PATH")
-	   ))
+          (concat
+           "~/.virtualenvs/default/bin" ":"
+           (getenv "PATH")
+           ))
 
   (font-lock-add-keywords 'python-mode
-			  `((,(rx symbol-start (or "import" "from")
-				  symbol-end) 0 font-lock-preprocessor-face)))
+                          `((,(rx symbol-start (or "import" "from")
+                                  symbol-end) 0 font-lock-preprocessor-face)))
 
   (make-face 'font-lock-operator-face)
   (set-face-attribute
@@ -568,15 +563,15 @@
 (defun mp-flymake-pyflakes-init (&optional trigger-type)
   ;; Make sure it's not a remote buffer or flymake would not work
   (let* ((temp-file (flymake-init-create-temp-buffer-copy
-		     'flymake-create-temp-with-folder-structure))
-	 (local-file (file-relative-name
-		      temp-file
-		      (file-name-directory buffer-file-name))))
+                     'flymake-create-temp-with-folder-structure))
+         (local-file (file-relative-name
+                      temp-file
+                      (file-name-directory buffer-file-name))))
     (list "/Users/dcurtis/.virtualenv/bin/pyflakes" (list temp-file))))
 
 (after 'flymake
        (add-to-list 'flymake-allowed-file-name-masks
-		    '("\\.py\\'" mp-flymake-pyflakes-init)))
+                    '("\\.py\\'" mp-flymake-pyflakes-init)))
 
 
 
@@ -621,10 +616,10 @@
 ;;; nxhtml
 (after 'nxhtml-autoloads
        (autoload 'django-html-mumamo-mode
-	 (expand-file-name "autostart.el"
-			   (file-name-directory (locate-library "nxhtml-autoloads"))))
+         (expand-file-name "autostart.el"
+                           (file-name-directory (locate-library "nxhtml-autoloads"))))
        (setq auto-mode-alist
-	     (append '(("\\.html?$" . django-html-mumamo-mode)) auto-mode-alist))
+             (append '(("\\.html?$" . django-html-mumamo-mode)) auto-mode-alist))
        (setq mumamo-background-colors nil)
        (add-to-list 'auto-mode-alist '("\\.html$" . django-html-mumamo-mode)))
 
@@ -632,9 +627,9 @@
 ;;; pony-mode
 (after 'pony-mode
        (setq pony-snippet-dir
-	     (expand-file-name
-	      "snippets/"
-	      (file-name-directory (locate-library "pony-mode")))))
+             (expand-file-name
+              "snippets/"
+              (file-name-directory (locate-library "pony-mode")))))
 
 
 ;;; ocatve-mode
@@ -660,3 +655,9 @@
 ;; time-stamp-start: "Updated: +"
 ;; time-stamp-end: "$"
 ;; End:
+
+
+
+
+
+
