@@ -94,7 +94,7 @@
 (global-set-key (kbd "C-x m") 'point-to-register)
 (global-set-key (kbd "C-x j") 'jump-to-register)
 
-(global-set-key (kbd "M-C-m") 'open-next-line)
+(global-set-key (kbd "M-<return>") 'open-next-line)
 (global-set-key (kbd "M-o") 'open-previous-line)
 
 (global-set-key (kbd "M-;") 'comment-dwim-line)
@@ -116,7 +116,7 @@
 
 (global-set-key (kbd "C-c +") 'increment-number-at-point)
 (global-set-key (kbd "C-c -") 'decrement-number-at-point)
-22
+
 (global-set-key (kbd "C-c w") 'copy-paste)
 
 (global-set-key (kbd "C-x C-i") 'imenu)
