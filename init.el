@@ -13,10 +13,10 @@
 (require 'package)
 (setq package-user-dir "~/.emacs.d/elpa/")
 (add-to-list 'package-archives
-	     '("melpa" . "http://melpa.milkbox.net/packages/") t)
+             '("melpa" . "http://melpa.milkbox.net/packages/") t)
 (package-initialize)
 
-
+;; external libraries
 (require 'checkdoc)
 (require 'midnight)
 (require 'misc)
@@ -29,22 +29,22 @@
 
 (setq mp-extra-paths
       '("~/.virtualenv/bin/"
-	"~/.cabal/bin/"
-	"~/bin/"
-	"/usr/local/bin/"
-	"/usr/texbin/"))
+        "~/.cabal/bin/"
+        "~/bin/"
+        "/usr/local/bin/"
+        "/usr/texbin/"))
 
 (setenv "PATH"
-	(mapconcat
-	 'identity
-	 (delete-dups
-	  (append
-	   (mapcar (lambda (path)
-		     (if (string-match "^~" path)
-			 (replace-match (getenv "HOME") nil nil path)
-		       path)) mp-extra-paths)
-	   (split-string (getenv "PATH") ":")))
-	 ":"))
+        (mapconcat
+         'identity
+         (delete-dups
+          (append
+           (mapcar (lambda (path)
+                     (if (string-match "^~" path)
+                         (replace-match (getenv "HOME") nil nil path)
+                       path)) mp-extra-paths)
+           (split-string (getenv "PATH") ":")))
+         ":"))
 
 (mapc (lambda (path) (push path exec-path)) mp-extra-paths)
 
