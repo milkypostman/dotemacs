@@ -398,5 +398,16 @@ ACTION associated with `block-close' syntax."
       (transpose-lines -1))
     (move-to-column col)))
 
+(defun untabify-buffer ()
+  (interactive)
+  (untabify (point-min) (point-max)))
+
+(defun tabify-buffer ()
+  (interactive)
+  (tabify (point-min) (point-max)))
+
+(defun indent-buffer ()
+  (interactive)
+  (indent-region (point-min) (point-max)))
 
 (provide 'defun)
