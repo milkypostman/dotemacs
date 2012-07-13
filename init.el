@@ -399,11 +399,15 @@
        (evil-leader/set-key (kbd "t") 'find-file-in-project))
 
 
+;;; hl-sentence
+(after 'hl-sentence-autoloads
+ (add-hook 'LaTeX-mode-hook 'hl-sentence-mode))
+
+
 ;;; auctex
 (after 'latex
        (add-hook 'LaTeX-mode-hook 'TeX-source-correlate-mode)
        (add-hook 'LaTeX-mode-hook 'variable-pitch-mode)
-       (add-hook 'LaTeX-mode-hook 'hl-sentence-mode)
        (add-hook 'LaTeX-mode-hook 'TeX-fold-mode)
 
        (setq TeX-source-correlate-method 'synctex)
