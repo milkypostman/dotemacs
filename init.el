@@ -277,6 +277,7 @@
 (ido-mode t)
 (ido-everywhere t)
 (setq ido-enable-flex-matching t)
+(setq ido-auto-merge-work-directories-length nil)
 (setq ido-create-new-buffer 'always)
 (setq ido-everywhere t)
 (setq ido-max-prospects 10)
