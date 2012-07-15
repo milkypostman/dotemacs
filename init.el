@@ -235,6 +235,11 @@
   (set-fontset-font "fontset-default" 'unicode "-apple-Menlo-medium-normal-normal-*-11-*-*-*-m-0-iso10646-1"))
 
 
+;;; hippie-expand
+(dolist (f '(try-expand-line try-expand-list try-complete-file-name-partially))
+  (delete f hippie-expand-try-functions-list))
+(add-to-list 'hippie-expand-try-functions-list 'try-complete-file-name-partially t)
+
 
 ;;; dired
 (global-set-key (kbd "C-x C-j") 'dired-jump)
@@ -275,7 +280,6 @@
 
 
 ;;; ido
-
 (ido-mode t)
 (ido-everywhere t)
 (setq ido-enable-flex-matching t)
@@ -405,7 +409,7 @@
 
 ;;; hl-sentence
 (after 'hl-sentence-autoloads
- (add-hook 'LaTeX-mode-hook 'hl-sentence-mode))
+       (add-hook 'LaTeX-mode-hook 'hl-sentence-mode))
 
 
 ;;; auctex
