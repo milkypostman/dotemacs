@@ -410,4 +410,9 @@ ACTION associated with `block-close' syntax."
   (interactive)
   (indent-region (point-min) (point-max)))
 
+(defun other-window-reverse ()
+  "Select the other window but in reverse."
+  (interactive)
+  (other-window -1))
+
 (provide 'defun)

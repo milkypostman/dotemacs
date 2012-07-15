@@ -87,6 +87,7 @@
 
 (global-set-key (kbd "C-M-h") 'mark-defun)
 (global-set-key (kbd "C-M-,") 'beginning-of-buffer-other-window)
+(global-set-key (kbd "C-x O") 'other-window-reverse)
 (global-set-key (kbd "M-`") 'other-frame)
 
 (global-set-key (kbd "C-4") 'ctl-x-4-prefix)
