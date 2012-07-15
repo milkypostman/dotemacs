@@ -349,7 +349,7 @@
        (add-hook 'prog-mode-hook 'yas/minor-mode))
 
 ;;; expand-region
-(global-set-key (kbd "C-@") 'er/expand-region)
+(global-set-key (kbd "C-=") 'er/expand-region)
 
 ;;; jump-char
 (global-set-key (kbd "M-m") 'jump-char-forward)
