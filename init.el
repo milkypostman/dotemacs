@@ -218,7 +218,7 @@
  visible-bell nil
  whitespace-style '(face trailing lines-tail space-before-tab indentation space-after-tab))
 
-;;;; darwin Specific
+;;;; Darwin specific
 (cond ((eq system-type 'darwin)
        (setq delete-by-moving-to-trash t)
        (setq trash-directory "~/.Trash/")
@@ -226,7 +226,7 @@
         "PYTHONPATH"
         "/Users/dcurtis/src/compepi:/Users/dcurtis/src/networkx")))
 
-;;;; graphical settings
+;;;; GUI settings
 (when window-system
   (menu-bar-mode t)
   ;; specify a unicode font : MENLO (forced normal)
