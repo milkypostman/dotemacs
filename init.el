@@ -234,11 +234,16 @@
   ;; specify a unicode font : MENLO (forced normal)
   (set-fontset-font "fontset-default" 'unicode "-apple-Menlo-medium-normal-normal-*-11-*-*-*-m-0-iso10646-1"))
 
-
 ;;; hippie-expand
-(dolist (f '(try-expand-line try-expand-list try-complete-file-name-partially))
-  (delete f hippie-expand-try-functions-list))
-(add-to-list 'hippie-expand-try-functions-list 'try-complete-file-name-partially t)
+(setq hippie-expand-try-functions-list '(try-complete-file-name-partially
+                                         try-complete-file-name
+                                         try-expand-dabbrev
+                                         try-expand-dabbrev-all-buffers
+                                         try-expand-dabbrev-from-kill
+                                         try-expand-all-abbrevs
+                                         try-complete-lisp-symbol-partially
+                                         try-complete-lisp-symbol))
+
 
 
 ;;; dired
