@@ -504,6 +504,10 @@
  '(("'\\([0-9a-zA-Z-]*\\)" (1 'font-lock-variable-name-face))))
 (add-font-lock-numbers 'emacs-lisp-mode)
 
+(defun mp-buffer-enable-reindent ()
+  "enable indent-buffer on the current buffer"
+  (add-hook 'before-save-hook 'indent-buffer nil t))
+(add-hook 'emacs-lisp-mode-hook 'mp-buffer-enable-reindent)
 (add-hook 'emacs-lisp-mode-hook 'checkdoc-minor-mode)
 
 
