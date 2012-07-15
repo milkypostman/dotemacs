@@ -442,5 +442,12 @@ ACTION associated with `block-close' syntax."
     (switch-to-buffer-other-window buffer)))
 
 
+(defun hippie-expand-line ()
+  (interactive)
+  (let ((hippie-expand-try-functions-list '(try-expand-line
+                                            try-expand-line-all-buffers)))
+    (hippie-expand nil)))
+
+
 
 (provide 'defun)

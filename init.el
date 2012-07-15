@@ -124,7 +124,7 @@
 (global-set-key (kbd "C-x C-i") 'imenu)
 
 (global-set-key (kbd "C-.") 'hippie-expand)
-(global-set-key (kbd "C-:") 'hippie-expand-lines)
+(global-set-key (kbd "C-:") 'hippie-expand-line)
 
 
 
