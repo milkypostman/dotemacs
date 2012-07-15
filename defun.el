@@ -415,4 +415,32 @@ ACTION associated with `block-close' syntax."
   (interactive)
   (other-window -1))
 
+(defun shell-other-window (&optional buffer)
+  (interactive
+   (list
+    (and current-prefix-arg
+         (prog1
+             (read-buffer "Shell buffer: "
+                          (generate-new-buffer-name "*shell*"))
+           (if (file-remote-p default-directory)
+               ;; It must be possible to declare a local default-directory.
+               ;; FIXME: This can't be right: it changes the default-directory
+               ;; of the current-buffer rather than of the *shell* buffer.
+               (setq default-directory
+                     (expand-file-name
+                      (read-directory-name
+                       "Default directory: " default-directory default-directory
+                       t nil))))))))
+  (let ((buffer (save-window-excursion
+                  (shell buffer))))
+    (switch-to-buffer-other-window buffer)))
+
+(defun find-file-in-project-other-window ()
+  "Find a file in the current project in the other window."
+  (interactive)
+  (let ((buffer (save-window-excursion (find-file-in-project))))
+    (switch-to-buffer-other-window buffer)))
+
+
+
 (provide 'defun)

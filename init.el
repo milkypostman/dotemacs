@@ -287,7 +287,9 @@
 (setq ido-use-filename-at-point 'guess)
 (setq ido-use-virtual-buffers t)
 
-(define-key ctl-x-4-map (kbd "f") 'ido-find-file-other-window)
+(global-set-key (kbd "C-x f") 'find-file-in-project)
+(define-key ctl-x-4-map (kbd "f") 'find-file-in-project-other-window)
+(define-key ctl-x-4-map (kbd "s") 'shell-other-window)
 
 ;; (defun mp-ido-edit-input ()
 ;;   "Edit absolute file name entered so far with ido; terminate by RET.
