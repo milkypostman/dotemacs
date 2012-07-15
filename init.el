@@ -102,6 +102,7 @@
 (global-set-key (kbd "C-c k") 'kill-this-buffer)
 (global-set-key (kbd "C-c C-k") 'kill-this-buffer)
 (global-set-key (kbd "C-x C-b") 'ibuffer)
+(global-set-key (kbd "C-c y") 'bury-buffer)
 
 (global-set-key (kbd "C-x r q") 'save-buffers-kill-terminal)
 (global-set-key (kbd "C-x C-c") 'delete-frame)
