@@ -172,6 +172,7 @@
  ansi-color-names-vector ["#242424" "#e5786d" "#95e454" "#cae682" "#8ac6f2" "#333366" "#ccaa8f" "#f6f3e8"]
  auto-save-file-name-transforms (quote ((".*" "~/.emacs.d/autosave/" t)))
  backup-directory-alist (quote (("." . "~/.emacs.d/backups/")))
+ undo-tree-history-directory-alist (quote (("." . "~/.emacs.d/undo/")))
  cua-enable-cua-keys nil
  custom-theme-directory "~/.emacs.d/themes/"
  delete-auto-save-files nil
