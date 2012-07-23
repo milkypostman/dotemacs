@@ -125,6 +125,8 @@
 
 (global-set-key (kbd "C-.") 'hippie-expand)
 (global-set-key (kbd "C-:") 'hippie-expand-line)
+(global-set-key (kbd "M-/") 'hippie-expand)
+(global-set-key (kbd "C-M-/") 'hippie-expand-line)
 
 
 
