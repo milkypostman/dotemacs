@@ -446,6 +446,7 @@
        (add-hook 'LaTeX-mode-hook 'LaTeX-math-mode)
        (add-hook 'LaTeX-mode-hook 'turn-on-reftex)
        (setq reftex-plug-into-AUCTeX t)
+       (define-key TeX-mode-map (kbd "C-M-h") 'mark-paragraph)
        (define-key TeX-mode-map (kbd "C-c C-m") 'TeX-command-master)
        (define-key TeX-mode-map (kbd "C-c C-c") 'TeX-compile))
 
