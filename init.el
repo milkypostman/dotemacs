@@ -167,7 +167,7 @@
 
 
 ;;; the uncustomizable
-(set-face-attribute 'default nil :font "Monaco-10")
+(set-face-attribute 'default nil :font "Inconsolata-12")
 (setq-default
  ansi-color-faces-vector [default bold shadow italic underline bold bold-italic bold]
  ansi-color-for-comint-mode t
