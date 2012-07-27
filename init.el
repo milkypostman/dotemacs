@@ -517,6 +517,7 @@
 
 ;;; paredit
 (after 'paredit-autoloads (add-hook 'emacs-lisp-mode-hook 'paredit-mode))
+(after 'paredit-autoloads (add-hook 'clojure-mode-hook 'paredit-mode))
 
 
 ;;; c / c++ mode
