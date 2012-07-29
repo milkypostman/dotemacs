@@ -396,7 +396,8 @@
 ;;; undo-tree
 (after 'undo-tree-autoloads
        (global-undo-tree-mode t)
-       (setq undo-tree-auto-save-history t)
+       (when (version-list-<= '(24 1 50 1) (version-to-list emacs-version) )
+         (setq undo-tree-auto-save-history t))
        (setq undo-tree-visualizer-relative-timestamps t)
        (setq undo-tree-visualizer-timestamps t))
 
