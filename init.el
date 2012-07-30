@@ -491,6 +491,8 @@
        (define-key markdown-mode-map (kbd "C-c =") 'markdown-cleanup-list-numbers))
 
 (add-hook 'markdown-mode-hook 'abbrev-mode)
+(add-hook 'markdown-mode-hook 'toggle-truncate-lines)
+(add-hook 'markdown-mode-hook 'toggle-word-wrap)
 
 
 ;;; prog-mode
