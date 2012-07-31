@@ -477,7 +477,7 @@
       (cons '("\\.mm?d\\'" . markdown-mode) auto-mode-alist))
 (setq markdown-command "pandoc -S")
 (setq markdown-latex-command
-      "pandoc --template=$HOME/Coe/templates/pandocnarrow.tex -s -t latex -Vfontsize:10pt")
+      "pandoc --template=$HOME/Coe/templates/pandocwide.tex -s -t latex -Vfontsize:10pt")
 
 (after 'markdown-mode
        (remove-hook 'text-mode-hook 'turn-on-auto-fill)
