@@ -676,7 +676,10 @@
   (setq custom-file "~/.emacs.d/custom.el"))
 (load custom-file)
 
+
 (put 'narrow-to-region 'disabled nil)
+(put 'downcase-region 'disabled nil)
+
 
 (when (file-exists-p "~/.emacs.d/local.el")
   (load-file "~/.emacs.d/local.el"))
@@ -686,9 +689,4 @@
 ;; time-stamp-start: "Updated: +"
 ;; time-stamp-end: "$"
 ;; End:
-
-
-
-
-
 
