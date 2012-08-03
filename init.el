@@ -166,7 +166,6 @@
 
 
 ;;; the uncustomizable
-(set-face-attribute 'default nil :font "Inconsolata-12")
 (setq-default
  ansi-color-faces-vector [default bold shadow italic underline bold bold-italic bold]
  ansi-color-for-comint-mode t
@@ -234,6 +233,7 @@
 (when window-system
   (menu-bar-mode t)
   ;; specify a unicode font : MENLO (forced normal)
+  (set-face-attribute 'default nil :font "Inconsolata-13")
   (set-fontset-font "fontset-default" 'unicode "-apple-Menlo-medium-normal-normal-*-11-*-*-*-m-0-iso10646-1"))
 
 ;;; hippie-expand
