@@ -16,6 +16,39 @@
              '("melpa" . "http://melpa.milkbox.net/packages/") t)
 (package-initialize)
 
+;;; packages
+;; ace-jump-mode
+;; browse-kill-ring
+;; clojure-mode
+;; deft
+;; dired+
+;; expand-region
+;; full-ack
+;; ido-ubiquitous
+;; jump-char
+;; magit
+;; mark-multiple
+;; markdown-mode
+;; markdown-mode+
+;; mmm-mode
+;; multiple-cursors
+;; paredit
+;; smex
+;; undo-tree
+;; virtualenv
+;; yasnippet
+
+;;; themes
+;; color-theme-sanityinc-tomorrow
+;; ir-black-theme
+;; ir_black-theme
+;; pastels-on-dark-theme
+;; tango-2-theme
+;; twilight-anti-bright
+;; twilight-bright
+;; twilight-theme
+;; zen-and-art-theme
+
 ;; external libraries
 (require 'checkdoc)
 (require 'midnight)
@@ -23,6 +56,8 @@
 (require 'recentf)
 (require 'saveplace)
 (require 'uniquify)
+
+
 
 ;;; functions
 (require 'defun)
