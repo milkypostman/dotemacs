@@ -154,7 +154,6 @@
 (blink-cursor-mode nil)
 (global-auto-revert-mode t)
 (fringe-mode 1)
-(mac-mouse-wheel-mode t)
 (menu-bar-mode nil)
 (mouse-wheel-mode t)
 (recentf-mode t)
