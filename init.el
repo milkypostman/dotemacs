@@ -683,10 +683,12 @@
 (after 'mmm-mode-autoloads
        (require 'mmm-auto)
        (setq mmm-global-mode 'maybe)
-       (setq mmm-submode-decoration-level 2)
-       (setq nxml-slash-auto-complete-flag t)
-       (mmm-add-mode-ext-class 'nxml-mode "\\.php\\'" 'html-php)
-       (mmm-add-mode-ext-class 'html-mode "\\.php\\'" 'html-php)
+       (mmm-add-mode-ext-class 'html-mode "\\.html\\'" 'html-js)
+       (mmm-add-mode-ext-class 'html-mode "\\.html\\'" 'embedded-css)
+       ;; (setq mmm-submode-decoration-level 2)
+       ;; (setq nxml-slash-auto-complete-flag t)
+       ;; (mmm-add-mode-ext-class 'nxml-mode "\\.php\\'" 'html-php)
+       ;; (mmm-add-mode-ext-class 'html-mode "\\.php\\'" 'html-php)
        )
 
 
