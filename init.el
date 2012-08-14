@@ -399,9 +399,7 @@
 ;;; yas/snippets
 (after 'yasnippet
        (require 'dropdown-list)
-       (yas/load-directory
-        (format "%ssnippets/" (file-name-directory (locate-library "yasnippet"))))
-       (yas/load-directory "~/.emacs.d/snippets/")
+       (yas/reload-all)
        (setq yas/prompt-functions '(yas/dropdown-prompt yas/ido-prompt yas/completing-prompt yas/x-prompt yas/no-prompt)))
 
 (after 'yasnippet-autoloads
