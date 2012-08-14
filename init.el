@@ -278,6 +278,7 @@
 ;;;; GUI settings
 (when window-system
   (menu-bar-mode t)
+  (set-face-attribute 'default nil :font "Inconsolata-12")
   ;; specify a unicode font : MENLO (forced normal)
   (set-face-attribute 'default nil :font "Inconsolata-13")
   (set-fontset-font "fontset-default" 'unicode "-apple-Menlo-medium-normal-normal-*-11-*-*-*-m-0-iso10646-1"))
