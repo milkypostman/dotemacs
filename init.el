@@ -511,7 +511,7 @@
 
 
 (after 'deft
-       (setq deft-directory "/Users/dcurtis/Dropbox/Elements")
+       (setq deft-directory "/Users/dcurtis/Dropbox/notes")
        (setq deft-text-mode 'markdown-mode)
        (setq deft-use-filename-as-title t))
 
