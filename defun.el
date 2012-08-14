@@ -449,5 +449,16 @@ ACTION associated with `block-close' syntax."
     (hippie-expand nil)))
 
 
+(defun markdown-code-copy (begin end)
+  "Copy region from BEGIN to END to the clipboard with four spaces indenteded on each line.
+
+Taken from
+http://stackoverflow.com/questions/3519244/emacs-command-to-indent-code-by-4-spaces-to-format-for-paste-into-stackoverflow."
+  (interactive "r")
+  (let ((buffer (current-buffer)))
+    (with-temp-buffer
+      (insert-buffer-substring-no-properties buffer begin end)
+      (indent-rigidly (point-min) (point-max) 4)
+      (clipboard-kill-ring-save (point-min) (point-max)))))
 
 (provide 'defun)
