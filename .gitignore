@@ -18,3 +18,4 @@
 /local.el
 /package.el
 *.~undo-tree~
+/ac-comphist.dat
