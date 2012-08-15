@@ -403,8 +403,8 @@
        (setq yas/prompt-functions '(yas/dropdown-prompt yas/ido-prompt yas/completing-prompt yas/x-prompt yas/no-prompt)))
 
 (after 'yasnippet-autoloads
-       (add-hook 'markdown-mode-hook 'yas/minor-mode)
-       (add-hook 'prog-mode-hook 'yas/minor-mode))
+       (add-hook 'markdown-mode-hook 'yas-minor-mode)
+       (add-hook 'prog-mode-hook 'yas-minor-mode))
 
 ;;; expand-region
 (global-set-key (kbd "C-=") 'er/expand-region)
