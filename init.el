@@ -63,7 +63,7 @@
 (require 'defun)
 
 (setq mp-extra-paths
-      '("~/.virtualenv/bin/"
+      '("~/.virtualenv/default/bin/"
         "~/.cabal/bin/"
         "~/bin/"
         "/usr/local/bin/"
@@ -130,7 +130,7 @@
 (global-set-key (kbd "C-x m") 'point-to-register)
 (global-set-key (kbd "C-x j") 'jump-to-register)
 
-(global-set-key (kbd "M-<return>") 'open-next-line)
+(global-set-key (kbd "M-RET") 'open-next-line)
 (global-set-key (kbd "M-o") 'open-previous-line)
 
 (global-set-key (kbd "M-;") 'comment-dwim-line)
