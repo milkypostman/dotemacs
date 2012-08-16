@@ -273,7 +273,7 @@
        (setq trash-directory "~/.Trash/")
        (setenv
         "PYTHONPATH"
-        "/Users/dcurtis/.emacs.d/elisp/Pymacs:/Users/dcurtis/src/compepi:/Users/dcurtis/src/networkx")))
+        "/Users/dcurtis/src/compepi:/Users/dcurtis/src/networkx")))
 
 ;;;; GUI settings
 (when window-system
