@@ -332,6 +332,12 @@
 (add-hook 'ibuffer-mode-hook 'mp-ibuffer-hook)
 
 
+;;; helm
+(after 'helm-autoloads
+       (setq helm-ff-auto-update-initial-value nil)
+       (setq helm-quick-update t))
+
+
 ;;; ido
 (ido-mode t)
 (ido-everywhere t)
