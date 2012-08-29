@@ -613,6 +613,7 @@
       python-shell-completion-string-code "';'.join(get_ipython().Completer.all_completions('''%s'''))\n")
 
 (setq ein:use-auto-complete t
+      ein:complete-on-dot nil
       ein:notebook-console-executable (expand-file-name "~/.virtualenv/default/bin/ipython")
       ein:notebook-console-security-dir (expand-file-name "~/.ipython/profile_nbserver/security"))
 
