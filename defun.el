@@ -297,15 +297,17 @@ ACTION associated with `block-close' syntax."
 
 
 (defun orgtbl-to-pandoc-cell (val colwidth align)
-  "convert an org-mode table cell to pandoc"
-  (setq colwidth (1+ colwidth))
+  "Convert an `org-mode' table cell to pandoc.
+
+Format VAL for COLWIDTH column and specified ALIGN."
+  (setq colwidth (+ 2 colwidth))
   (if align
       (concat (make-string (- colwidth (length val)) ? ) val)
     (concat val (make-string (- colwidth (length val)) ? ))))
 
 
 (defun orgtbl-to-pandoc (table params)
-  "convert and org-mode table to a pandoc table"
+  "Convert `orgtbl' TABLE from to a pandoc table with given PARAMS."
   (let* ((splicep (plist-get params :splice))
          (html-table-tag org-export-html-table-tag)
          html)
