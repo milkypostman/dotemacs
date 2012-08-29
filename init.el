@@ -308,6 +308,9 @@
 ;;; ibuffer
 (setq ibuffer-saved-filter-groups
       '(("default"
+         ("melpa" (filename . "melpa"))
+         ("stonesoup" (filename . "stonesoup"))
+         ("FYS" (filename . "FYS"))
          ("115" (filename . "115"))
          ("325" (filename . "325"))
          ("705" (filename . "705"))
