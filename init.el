@@ -319,7 +319,7 @@
          ("dirs" (or
                   (mode . dired-mode)
                   (mode . wdired-mode)))
-         ("notes" (filename . "Elements"))
+         ("notes" (filename . "notes"))
          ("magit" (name . "\*magit"))
          ("help" (or (name . "\*Help\*")
                      (name . "\*Apropos\*")
