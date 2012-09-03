@@ -529,6 +529,8 @@
 (setq markdown-command "pandoc -S")
 (setq markdown-latex-command
       "pandoc --template=$HOME/Coe/templates/pandocwide.tex -s -t latex -Vfontsize:10pt")
+(setq markdown-pandoc-pdf-command
+      "pandoc --template=$HOME/Coe/templates/pandocwide.tex -s -Vfontsize:10pt")
 
 (after 'markdown-mode
        (remove-hook 'text-mode-hook 'turn-on-auto-fill)
@@ -542,7 +544,6 @@
        (define-key markdown-mode-map (kbd "C-c =") 'markdown-cleanup-list-numbers))
 
 (add-hook 'markdown-mode-hook 'abbrev-mode)
-(add-hook 'markdown-mode-hook 'toggle-truncate-lines)
 (add-hook 'markdown-mode-hook 'toggle-word-wrap)
 
 
