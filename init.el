@@ -553,7 +553,8 @@
 
 (add-hook 'prog-mode-hook 'mp-buffer-enable-whitespace-cleanup)
 (add-hook 'prog-mode-hook 'whitespace-mode)
-(add-hook 'prog-mode-hook 'hl-line-mode)
+;; (add-hook 'prog-mode-hook 'hl-line-mode)
+(add-hook 'prog-mode-hook 'toggle-truncate-lines)
 
 
 ;;; emacs lisp
