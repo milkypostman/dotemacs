@@ -234,7 +234,7 @@
  inhibit-startup-screen t
  ispell-extra-args (quote ("--sug-mode=ultra"))
  ispell-program-name "aspell"
- line-spacing 2
+ line-spacing 0
  mode-line-in-non-selected-windows t
  mode-line-inverse-video t
  mouse-wheel-scroll-amount (quote (0.01))
@@ -258,7 +258,6 @@
  split-height-threshold nil
  time-stamp-format "%04y-%02m-%02d %02H:%02M:%02S (%u)"
  tramp-remote-path '(tramp-default-remote-path tramp-own-remote-path "/bin" "/usr/bin" "/usr/sbin" "/usr/local/bin" "/local/bin" "/local/freeware/bin" "/local/gnu/bin" "/usr/freeware/bin" "/usr/pkg/bin" "/usr/contrib/bin")
- truncate-lines t
  uniquify-buffer-name-style 'reverse
  uniquify-ignore-buffers-re "^\\*"
  uniquify-separator " • "
