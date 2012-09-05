@@ -606,6 +606,32 @@
           '(c++-mode-hook c-mode-hook)))
 
 
+
+;;; auto-complete
+(after 'auto-complete
+       (setq ac-use-menu-map t)
+       (add-to-list 'ac-dictionary-directories "~/.emacs.d/dict"))
+
+(defun ac-python-mode-setup ()
+  (setq ac-sources (append '(ac-source-yasnippet) ac-sources)))
+
+(after 'auto-complete-config
+       (ac-config-default)
+       (setq-default ac-sources (append '(ac-source-imenu) ac-sources))
+       (add-hook 'python-mode-hook 'ac-python-mode-setup)
+       (when (file-exists-p (expand-file-name "/Users/dcurtis/.emacs.d/elisp/Pymacs"))
+         (ac-ropemacs-initialize)
+         (ac-ropemacs-setup)))
+
+(after 'auto-complete-autoloads
+       (require 'auto-complete-config))
+
+(when (file-exists-p (expand-file-name "/Users/dcurtis/.emacs.d/elisp/Pymacs"))
+  (setq ropemacs-enable-autoimport t)
+  (add-to-list 'load-path "/Users/dcurtis/.emacs.d/elisp/Pymacs"))
+
+
+
 ;;; python
 (add-font-lock-numbers 'python-mode)
 
@@ -621,31 +647,6 @@
       ein:complete-on-dot nil
       ein:notebook-console-executable (expand-file-name "~/.virtualenv/default/bin/ipython")
       ein:notebook-console-security-dir (expand-file-name "~/.ipython/profile_nbserver/security"))
-
-(after 'auto-complete
-       (add-to-list 'ac-dictionary-directories "~/.emacs.d/dict")
-       (setq ac-use-menu-map t)
-       (define-key ac-menu-map "\C-n" 'ac-next)
-       (define-key ac-menu-map "\C-p" 'ac-previous))
-
-(after 'auto-complete-config
-       (ac-config-default)
-       (when (file-exists-p (expand-file-name "/Users/dcurtis/.emacs.d/elisp/Pymacs"))
-         (ac-ropemacs-initialize)
-         (ac-ropemacs-setup)))
-
-(after 'auto-complete-autoloads
-       (autoload 'auto-complete-mode "auto-complete" "enable auto-complete-mode" t nil)
-       (add-hook 'python-mode-hook
-                 (lambda ()
-                   (require 'auto-complete-config)
-                   (add-to-list 'ac-sources 'ac-source-ropemacs)
-                   (auto-complete-mode))))
-
-
-(setq ropemacs-enable-autoimport t)
-(add-to-list 'load-path "/Users/dcurtis/.emacs.d/elisp/Pymacs")
-
 
 
 (defun python-modes-init ()
