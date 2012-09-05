@@ -570,6 +570,10 @@
 (add-hook 'emacs-lisp-mode-hook 'checkdoc-minor-mode)
 
 
+;;; clojure
+(add-hook 'clojure-mode-hook 'mp-buffer-enable-reindent)
+
+
 ;;; paredit
 (after 'paredit-autoloads (add-hook 'emacs-lisp-mode-hook 'paredit-mode))
 (after 'paredit-autoloads (add-hook 'clojure-mode-hook 'paredit-mode))
