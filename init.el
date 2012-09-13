@@ -454,9 +454,6 @@
 
 
 ;;; evil-mode
-(after 'evil-autoloads
-       (autoload 'evil-mode "evil" "EVIL MODE! RARR" t))
-
 (after 'evil
        (when (boundp 'global-surround-mode) (global-surround-mode))
        (ignore-errors (require 'evil-leader)))
