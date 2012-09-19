@@ -561,8 +561,13 @@
 (add-font-lock-numbers 'emacs-lisp-mode)
 
 (defun mp-buffer-enable-reindent ()
-  "enable indent-buffer on the current buffer"
+  "Enable `indent-buffer' on the current buffer."
   (add-hook 'before-save-hook 'indent-buffer nil t))
+
+(defun mp-buffer-disable-reindent ()
+  "Enable `indent-buffer' on the current buffer."
+  (remove-hook 'before-save-hook 'indent-buffer t))
+
 (add-hook 'emacs-lisp-mode-hook 'mp-buffer-enable-reindent)
 (add-hook 'emacs-lisp-mode-hook 'checkdoc-minor-mode)
 
