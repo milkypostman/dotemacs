@@ -333,6 +333,13 @@
 
 (add-hook 'ibuffer-mode-hook 'mp-ibuffer-hook)
 
+;;; surround-mode
+(global-set-key (kbd "M-C") 'surround-change)
+
+;;; change-inner
+(global-set-key (kbd "M-I") 'change-inner)
+(global-set-key (kbd "M-O") 'change-outer)
+
 
 ;;; helm
 (after 'helm-autoloads
@@ -426,17 +433,25 @@
 (define-key global-map (kbd "C-c SPC") 'ace-jump-mode)
 
 ;;; mark-multiple
-(global-set-key (kbd "C-x r t") 'inline-string-rectangle)
-(global-set-key (kbd "C-<") 'mark-previous-like-this)
-(global-set-key (kbd "C->") 'mark-next-like-this)
-(global-set-key (kbd "C-*") 'mark-all-like-this)
+(after 'mark-multiple-autoloads
+       (global-set-key (kbd "C-x r t") 'inline-string-rectangle)
+       (global-set-key (kbd "C-M-m") 'mark-more-like-this)
+       (global-set-key (kbd "C-<") 'mark-previous-like-this)
+       (global-set-key (kbd "C->") 'mark-next-like-this)
+       (global-set-key (kbd "C-*") 'mark-all-like-this))
 
 
 ;;; multiple-cursors
-(global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
-(global-set-key (kbd "C-S-c C-e") 'mc/edit-ends-of-lines)
-(global-set-key (kbd "C-S-c C-a") 'mc/edit-beginnings-of-lines)
-
+(after 'multiple-cursors-autoloads
+       (global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
+       (global-set-key (kbd "C-S-c C-e") 'mc/edit-ends-of-lines)
+       (global-set-key (kbd "C-S-c C-a") 'mc/edit-beginnings-of-lines)
+       (global-set-key (kbd "C->") 'mc/mark-next-like-this)
+       (global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
+       (global-set-key (kbd "C-M-m") 'mc/mark-more-like-this-extended)
+       (global-set-key (kbd "C-S-SPC") 'set-rectangular-region-anchor)
+       (global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
+       (global-set-key (kbd "C-*") 'mc/mark-all-like-this))
 
 ;;; rainbow-delimiters
 (after 'rainbow-delimiters-autoloads
