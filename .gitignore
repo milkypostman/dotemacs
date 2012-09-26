@@ -19,3 +19,4 @@
 /package.el
 *.~undo-tree~
 /ac-comphist.dat
+/var/pcache/gh/gh-gist-api/milkypostman
