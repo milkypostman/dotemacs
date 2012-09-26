@@ -632,13 +632,9 @@
        (setq ac-use-menu-map t)
        (add-to-list 'ac-dictionary-directories "~/.emacs.d/dict"))
 
-(defun ac-python-mode-setup ()
-  (setq ac-sources (append '(ac-source-yasnippet) ac-sources)))
-
 (after 'auto-complete-config
-       (ac-config-default)
-       (setq-default ac-sources (append '(ac-source-imenu) ac-sources))
-       (add-hook 'python-mode-hook 'ac-python-mode-setup)
+       ;;(ac-config-default)
+       (setq-default ac-sources (append '(ac-source-yasnippet ac-source-imenu) ac-sources))
        (when (file-exists-p (expand-file-name "/Users/dcurtis/.emacs.d/elisp/Pymacs"))
          (ac-ropemacs-initialize)
          (ac-ropemacs-setup)))
@@ -664,7 +660,7 @@
       python-shell-completion-string-code "';'.join(get_ipython().Completer.all_completions('''%s'''))\n")
 
 (setq ein:use-auto-complete t
-      ein:complete-on-dot nil
+      ein:complete-on-dot t
       ein:notebook-console-executable (expand-file-name "~/.virtualenv/default/bin/ipython")
       ein:notebook-console-security-dir (expand-file-name "~/.ipython/profile_nbserver/security"))
 
