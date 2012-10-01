@@ -226,6 +226,7 @@
  custom-theme-directory "~/.emacs.d/themes/"
  delete-auto-save-files nil
  diff-switches "-u"
+ ediff-window-setup-function 'ediff-setup-windows-plain
  enable-recursive-minibuffers t
  flymake-gui-warnings-enabled t
  ibuffer-expert t
