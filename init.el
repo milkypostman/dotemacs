@@ -344,6 +344,9 @@
 (global-set-key (kbd "M-I") 'change-inner)
 (global-set-key (kbd "M-O") 'change-outer)
 
+;;; smartrep
+(after 'smartrep-autoloads
+       (require 'smartrep))
 
 ;;; helm
 (after 'helm-autoloads
