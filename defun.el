@@ -75,9 +75,14 @@ tell application \"System Events\" to keystroke \"a\" using {command down}
 tell application \"System Events\" to keystroke \"v\" using {command down}")))
 
 
+(defun markdown-select-section-copy-paste ()
+  "Select the current section of markdown and copy and paste it."
+  (interactive)
+  (markdown-select-section)
+  (copy-paste))
+
 (defun copy-paste ()
-  "copy the buffer and paste it into the previous buffer or that
-  determined by the '.meta' file"
+  "Copy the buffer and paste it into the previous buffer or that determined by the '.meta' file."
   (interactive)
   (save-excursion
     (let ((begin-region)

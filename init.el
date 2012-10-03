@@ -550,6 +550,7 @@
        (define-key markdown-mode-map (kbd "C-c r") 'markdown-copy-rtf)
        (define-key markdown-mode-map (kbd "C-c l") 'markdown-export-latex)
        (define-key markdown-mode-map (kbd "C-c v") 'marked)
+       (define-key markdown-mode-map (kbd "C-c w") 'markdown-select-section-copy-paste)
        (define-key markdown-mode-map (kbd "C-c c") 'markdown-copy-html)
        (define-key markdown-mode-map (kbd "C-c p") 'markdown-export-pdf)
        (define-key markdown-mode-map (kbd "C-c s") 'markdown-copy-paste-html)
