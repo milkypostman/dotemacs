@@ -636,6 +636,7 @@
 
 (after 'auto-complete-config
        ;;(ac-config-default)
+       (add-hook 'ein:notebook-multilang-mode-hook 'auto-complete-mode)
        (setq-default ac-sources (append '(ac-source-yasnippet ac-source-imenu) ac-sources))
        (when (file-exists-p (expand-file-name "/Users/dcurtis/.emacs.d/elisp/Pymacs"))
          (ac-ropemacs-initialize)
@@ -661,10 +662,12 @@
       python-shell-completion-module-string-code "';'.join(module_completion('''%s'''))\n"
       python-shell-completion-string-code "';'.join(get_ipython().Completer.all_completions('''%s'''))\n")
 
-(setq ein:use-auto-complete t
+
+(setq ein:use-smartrep t
+      ein:use-auto-complete t
       ein:complete-on-dot t
       ein:notebook-console-executable (expand-file-name "~/.virtualenv/default/bin/ipython")
-      ein:notebook-console-security-dir (expand-file-name "~/.ipython/profile_nbserver/security"))
+      ein:notebook-console-security-dir (expand-file-name "~/.ipython/profile_default/security"))
 
 
 (defun python-modes-init ()
