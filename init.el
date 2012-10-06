@@ -260,6 +260,7 @@
  set-mark-command-repeat-pop t
  shift-select-mode nil
  split-height-threshold nil
+ split-width-threshold 159
  time-stamp-format "%04y-%02m-%02d %02H:%02M:%02S (%u)"
  tramp-remote-path '(tramp-default-remote-path tramp-own-remote-path "/bin" "/usr/bin" "/usr/sbin" "/usr/local/bin" "/local/bin" "/local/freeware/bin" "/local/gnu/bin" "/usr/freeware/bin" "/usr/pkg/bin" "/usr/contrib/bin")
  uniquify-buffer-name-style 'reverse
