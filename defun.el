@@ -75,10 +75,10 @@ tell application \"System Events\" to keystroke \"a\" using {command down}
 tell application \"System Events\" to keystroke \"v\" using {command down}")))
 
 
-(defun markdown-select-section-copy-paste ()
+(defun markdown-select-section-copy-paste (level)
   "Select the current section of markdown and copy and paste it."
-  (interactive)
-  (markdown-select-section)
+  (interactive "P")
+  (markdown-select-section level)
   (copy-paste))
 
 (defun copy-paste ()
