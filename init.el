@@ -201,6 +201,7 @@
 
 ;;; generic
 (blink-cursor-mode nil)
+(column-number-mode t)
 (global-auto-revert-mode t)
 (fringe-mode 1)
 (menu-bar-mode nil)
