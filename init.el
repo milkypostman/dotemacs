@@ -113,7 +113,8 @@
 
 (global-set-key (kbd "M-z") 'zap-up-to-char)
 (global-set-key (kbd "M-Z") 'zap-to-char)
-(global-unset-key (kbd "C-z"))
+(global-set-key (kbd "C-z") 'repeat)
+
 
 (global-set-key (kbd "C-x C-k") 'kill-region)
 (global-set-key (kbd "C-c n") 'cleanup-buffer)
@@ -456,7 +457,7 @@
        (global-set-key (kbd "C-S-c C-a") 'mc/edit-beginnings-of-lines)
        (global-set-key (kbd "C->") 'mc/mark-next-like-this)
        (global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
-       (global-set-key (kbd "C-M-m") 'mc/mark-more-like-this-extended)
+       (global-set-key (kbd "C-<return>") 'mc/mark-more-like-this-extended)
        (global-set-key (kbd "C-S-SPC") 'set-rectangular-region-anchor)
        (global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
        (global-set-key (kbd "C-*") 'mc/mark-all-like-this))
