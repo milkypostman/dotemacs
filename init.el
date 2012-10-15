@@ -38,7 +38,6 @@
 ;; paredit
 ;; smex
 ;; undo-tree
-;; virtualenv
 ;; yasnippet
 
 ;;; themes
@@ -66,8 +65,7 @@
 (require 'defun)
 
 (setq mp-extra-paths
-      '("~/.virtualenv/default/bin/"
-        "~/.cabal/bin/"
+      '("~/.cabal/bin/"
         "~/bin/"
         "/usr/local/bin/"
         "/usr/texbin/"))
@@ -676,17 +674,6 @@
 
 (defun python-modes-init ()
   "initialization for all python modes"
-  ;; (setup-virtualenv)
-  ;; (define-key python-mode-map (kbd "C-h")
-  ;; 'python-indent-dedent-line-backspace
-
-  (push "~/.virtualenvs/default/bin" exec-path)
-  (setenv "PATH"
-          (concat
-           "~/.virtualenvs/default/bin" ":"
-           (getenv "PATH")
-           ))
-
   (font-lock-add-keywords 'python-mode
                           `((,(rx symbol-start (or "import" "from")
                                   symbol-end) 0 font-lock-preprocessor-face)))
