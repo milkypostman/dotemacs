@@ -464,6 +464,16 @@ Including indent-buffer, which should not be called automatically on save."
   (let ((buffer (save-window-excursion (find-file-in-project))))
     (switch-to-buffer-other-window buffer)))
 
+(defun eval-and-replace ()
+  "Replace the preceding sexp with its value."
+  (interactive)
+  (backward-kill-sexp)
+  (condition-case nil
+      (prin1 (eval (read (current-kill 0)))
+             (current-buffer))
+    (error (message "Invalid expression")
+           (insert (current-kill 0)))))
+
 
 (defun hippie-expand-line ()
   (interactive)
