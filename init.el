@@ -157,6 +157,7 @@
 (global-set-key (kbd "C-c -") 'decrement-number-at-point)
 
 (global-set-key (kbd "C-c w") 'copy-paste)
+(global-set-key (kbd "C-c C-e") 'eval-and-replace)
 
 (global-set-key (kbd "C-x C-i") 'imenu)
 
@@ -437,7 +438,7 @@
 
 
 ;;; ace-jump-mode
-(define-key global-map (kbd "C-c SPC") 'ace-jump-mode)
+(define-key global-map (kbd "C-;") 'ace-jump-mode)
 
 ;;; mark-multiple
 (after 'mark-multiple-autoloads
