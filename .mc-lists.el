@@ -3,13 +3,14 @@
 
 (setq mc/cmds-to-run-for-all
       '(
-        isearch-forward-regexp
-        kill-region-or-backward-word
+        jump-char-process-char
+        python-indent-dedent-line-backspace
         sgml-slash
         ))
 
 (setq mc/cmds-to-run-once
       '(
+        jump-char-forward
         paredit-backward-delete
         python-backspace
         ))
