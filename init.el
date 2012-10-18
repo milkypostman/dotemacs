@@ -657,14 +657,37 @@
 ;;; python
 (add-font-lock-numbers 'python-mode)
 
-(setq python-shell-interpreter "ipython"
-      python-shell-interpreter-args ""
-      python-shell-prompt-regexp "In \\[[0-9]+\\]: "
-      python-shell-prompt-output-regexp "Out\\[[0-9]+\\]: "
-      python-shell-completion-setup-code "from IPython.core.completerlib import module_completion"
-      python-shell-completion-module-string-code "';'.join(module_completion('''%s'''))\n"
-      python-shell-completion-string-code "';'.join(get_ipython().Completer.all_completions('''%s'''))\n")
+(defun python-config-python ()
+  "Configure python.el to defaults of using python."
+  (interactive)
+  (setq python-shell-virtualenv-path "venv"
+        python-shell-interpreter "python"
+        python-shell-prompt-regexp ">>> "
+        python-shell-prompt-output-regexp ""
+        ;; python-shell-setup-codes '(python-shell-completion-setup-code python-ffap-setup-code python-eldoc-setup-code)
+        python-shell-completion-module-string-code ""
+        python-shell-completion-string-code "';'.join(__COMPLETER_all_completions('''%s'''))
+"))
 
+
+
+(setq python-shell-icompletion-setup-code "from IPython.core.completerlib import module_completion")
+
+(defun python-config-ipython ()
+  "Configure python.el to handle ipython."
+  (interactive)
+  (add-to-list 'python-shell-setup-codes 'python-shell-icompletion-setup-code)
+  (setq python-shell-interpreter "ipython"
+        python-shell-interpreter-args ""
+        python-shell-prompt-regexp "In \\[[0-9]+\\]: "
+        python-shell-prompt-output-regexp "Out\\[[0-9]+\\]: "
+        ;; python-shell-setup-codes '(python-shell-icompletion-setup-code python-ffap-setup-code python-eldoc-setup-code)
+        python-shell-completion-module-string-code "';'.join(module_completion('''%s'''))\n"
+        python-shell-completion-string-code "';'.join(get_ipython().Completer.all_completions('''%s'''))\n"))
+
+
+
+(setq python-shell-virtualenv-path "~/.virtualenv/default")
 
 (setq ein:use-smartrep t
       ein:use-auto-complete t
@@ -698,6 +721,7 @@
   (local-set-key (kbd "M-p") 'flymake-goto-prev-error))
 
 (after 'python-mode (python-modes-init))
+(after 'python (python-config-ipython))
 
 ;;;; pyflakes
 (defun mp-flymake-pyflakes-init (&optional trigger-type)
