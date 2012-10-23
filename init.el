@@ -273,7 +273,7 @@
  user-full-name "Donald Ephraim Curtis"
  user-mail-address "dcurtis@milkbox.net"
  visible-bell nil
- whitespace-style '(face trailing lines-tail space-before-tab indentation space-after-tab))
+ whitespace-style '(face tabs trailing lines-tail space-before-tab indentation space-after-tab))
 
 ;;;; Darwin specific
 (cond ((eq system-type 'darwin)
