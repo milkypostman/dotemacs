@@ -66,6 +66,7 @@
 
 (setq mp-extra-paths
       '("~/.cabal/bin/"
+        "/usr/local/share/npm/bin/"
         "~/bin/"
         "/usr/local/bin/"
         "/usr/texbin/"))
