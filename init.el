@@ -225,6 +225,7 @@
  backup-directory-alist (quote (("." . "~/.emacs.d/backups/")))
  backward-delete-char-untabify-method nil
  undo-tree-history-directory-alist (quote (("." . "~/.emacs.d/undo/")))
+ coffee-tab-width 2
  cua-enable-cua-keys nil
  custom-theme-directory "~/.emacs.d/themes/"
  delete-auto-save-files nil
