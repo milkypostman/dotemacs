@@ -327,6 +327,7 @@
          ("705" (filename . "705"))
          ("345" (filename . "345"))
          ("455" (filename . "455"))
+         ("mulchn" (filename . "mulchn"))
          ("dirs" (or
                   (mode . dired-mode)
                   (mode . wdired-mode)))
