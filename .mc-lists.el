@@ -3,14 +3,16 @@
 
 (setq mc/cmds-to-run-for-all
       '(
-        jump-char-process-char
         python-indent-dedent-line-backspace
-        sgml-slash
+        smex
+        yas-expand
         ))
 
 (setq mc/cmds-to-run-once
       '(
+        ido-switch-buffer
         jump-char-forward
         paredit-backward-delete
         python-backspace
+        save-some-buffers
         ))
