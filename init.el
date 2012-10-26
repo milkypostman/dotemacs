@@ -214,6 +214,7 @@
 (tool-bar-mode -1)
 (visual-line-mode -1)
 (winner-mode t)
+(prefer-coding-system 'utf-8)
 
 
 ;;; the uncustomizable
