@@ -287,6 +287,8 @@
 ;;;; GUI settings
 (when window-system
   (menu-bar-mode t)
+  (setq-default mac-option-modifier 'alt)
+
   (set-face-attribute 'default nil :font "Inconsolata-13")
   ;; specify a unicode font : MENLO (forced normal)
   (set-fontset-font "fontset-default" 'unicode "-apple-Menlo-medium-normal-normal-*-11-*-*-*-m-0-iso10646-1"))
