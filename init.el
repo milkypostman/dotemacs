@@ -274,7 +274,7 @@
  user-full-name "Donald Ephraim Curtis"
  user-mail-address "dcurtis@milkbox.net"
  visible-bell nil
- whitespace-style '(face tabs trailing lines-tail space-before-tab indentation space-after-tab))
+ whitespace-style '(face tabs trailing lines-tail space-before-tab space-after-tab))
 
 ;;;; Darwin specific
 (cond ((eq system-type 'darwin)
@@ -660,7 +660,6 @@
   (add-to-list 'load-path "/Users/dcurtis/.emacs.d/elisp/Pymacs"))
 
 
-
 ;;; python
 (add-font-lock-numbers 'python-mode)
 
@@ -676,10 +675,6 @@
         python-shell-completion-string-code "';'.join(__COMPLETER_all_completions('''%s'''))
 "))
 
-
-
-(setq python-shell-icompletion-setup-code "from IPython.core.completerlib import module_completion")
-
 (defun python-config-ipython ()
   "Configure python.el to handle ipython."
   (interactive)
@@ -692,11 +687,12 @@
         python-shell-completion-module-string-code "';'.join(module_completion('''%s'''))\n"
         python-shell-completion-string-code "';'.join(get_ipython().Completer.all_completions('''%s'''))\n"))
 
-
-
+(setq python-shell-icompletion-setup-code "from IPython.core.completerlib import module_completion")
 (setq python-shell-virtualenv-path "~/.virtualenv/default")
 
-(setq ein:use-smartrep t
+(after 'python (python-config-ipython))
+
+(setq ein:use-smartrep nil
       ein:use-auto-complete t
       ein:complete-on-dot t
       ein:notebook-console-executable (expand-file-name "~/.virtualenv/default/bin/ipython")
@@ -724,11 +720,11 @@
    `(("^[       ]*\\(@\\)\\([a-zA-Z_][a-zA-Z_0-9.]+\\)\\((.+)\\)?"
       (1 'font-lock-preprocessor-face)
       (2 'font-lock-builtin-face))))
+
   (local-set-key (kbd "M-n") 'flymake-goto-next-error)
   (local-set-key (kbd "M-p") 'flymake-goto-prev-error))
 
 (after 'python-mode (python-modes-init))
-(after 'python (python-config-ipython))
 
 ;;;; pyflakes
 (defun mp-flymake-pyflakes-init (&optional trigger-type)
