@@ -9,6 +9,23 @@
 ;; all functions defined in `defun'
 (add-to-list 'load-path "~/.emacs.d/")
 
+
+
+;;; cedet / semantic
+;; Add further minor-modes to be enabled by semantic-mode.
+;; See doc-string of `semantic-default-submodes' for other things
+;; you can use here.
+;; (when (file-exists-p (expand-file-name "~/.emacs.d/elisp/cedet"))
+;;   (load-file (expand-file-name "~/.emacs.d/elisp/cedet/cedet-devel-load.el"))
+;;   (add-to-list 'semantic-default-submodes 'global-semantic-idle-summary-mode t)
+;;   (add-to-list 'semantic-default-submodes 'global-semantic-idle-completions-mode t)
+;;   (add-to-list 'semantic-default-submodes 'global-cedet-m3-minor-mode t)
+;;   (semantic-mode 1)
+;;   (global-ede-mode 1)
+;;   (setq ede-arduino-appdir "/Applications/Arduino.app/Contents/Resources/Java"))
+
+
+
 ;;; packages
 (require 'package)
 (setq package-user-dir "~/.emacs.d/elpa/")
@@ -98,6 +115,9 @@
 ;;; random number generator
 (random t)
 
+(windmove-default-keybindings)
+
+
 ;;; remaps
 (define-key key-translation-map (kbd "<C-tab>") (kbd "M-TAB"))
 (define-key key-translation-map (kbd "C-x C-m") (kbd "M-x"))
@@ -107,8 +127,8 @@
 ;;; global key bindings
 (global-set-key (kbd "s-<return>") 'ns-toggle-fullscreen)
 (global-set-key (kbd "C-M-SPC") 'just-one-space)
-(global-set-key (kbd "A-h") 'ns-do-hide-emacs)
-(global-set-key (kbd "A-M-h") 'ns-do-hide-others)
+;;(global-set-key (kbd "A-h") 'ns-do-hide-emacs)
+;;(global-set-key (kbd "A-M-h") 'ns-do-hide-others)
 
 (global-set-key (kbd "M-z") 'zap-up-to-char)
 (global-set-key (kbd "M-Z") 'zap-to-char)
@@ -177,7 +197,10 @@
 (global-set-key (kbd "C-M-%") 'query-replace)
 
 
+(global-set-key (kbd "C-'") 'toggle-quotes)
 
+(global-set-key (kbd "C-x -") 'toggle-window-split)
+(global-set-key (kbd "C-x C--") 'rotate-windows)
 
 
 (define-key isearch-mode-map "\C-h" 'isearch-delete-char)
@@ -215,7 +238,8 @@
 (visual-line-mode -1)
 (winner-mode t)
 (prefer-coding-system 'utf-8)
-
+(global-subword-mode t)
+(delete-selection-mode t)
 
 ;;; the uncustomizable
 (setq-default
@@ -447,6 +471,11 @@
 ;;; ace-jump-mode
 (define-key global-map (kbd "C-;") 'ace-jump-mode)
 
+;;; wrap-region
+(after 'wrap-region-autoloads
+       (setq wrap-region-only-with-negative-prefix t)
+       (wrap-region-global-mode t))
+
 ;;; mark-multiple
 (after 'mark-multiple-autoloads
        (global-set-key (kbd "C-x r t") 'inline-string-rectangle)
@@ -472,6 +501,11 @@
 (after 'rainbow-delimiters-autoloads
        (add-hook 'prog-mode-hook 'rainbow-delimiters-mode-enable))
 
+
+;;; change-inner
+(after 'change-inner-autoloads
+       (global-set-key (kbd "M-I") 'change-inner)
+       (global-set-key (kbd "M-O") 'change-outer))
 
 ;;; undo-tree
 (after 'undo-tree-autoloads
@@ -540,7 +574,7 @@
 
 
 (after 'deft
-       (setq deft-directory "/Users/dcurtis/Dropbox/notes")
+       (setq deft-directory (expand-file-name "~/Dropbox/notes"))
        (setq deft-text-mode 'markdown-mode)
        (setq deft-use-filename-as-title t))
 
@@ -552,9 +586,9 @@
       (cons '("\\.mm?d\\'" . markdown-mode) auto-mode-alist))
 (setq markdown-command "pandoc -S")
 (setq markdown-latex-command
-      "pandoc --template=$HOME/Coe/templates/pandocnarrow.tex -s -t latex -Vfontsize:10pt")
+      "pandoc --template=$HOME/Dropbox/Resources/latex/pandocnarrow.tex -s -t latex -Vfontsize:10pt")
 (setq markdown-pandoc-pdf-command
-      "pandoc --template=$HOME/Coe/templates/pandocnarrow.tex -s -Vfontsize:10pt")
+      "pandoc --template=$HOME/Dropbox/Resources/latex/pandocnarrow.tex -s -Vfontsize:10pt")
 
 (after 'markdown-mode
        (remove-hook 'text-mode-hook 'turn-on-auto-fill)
@@ -576,12 +610,18 @@
 ;;; prog-mode
 (defun mp-buffer-enable-whitespace-cleanup ()
   "enable whitespace-cleanup in the current buffer"
+  (interactive)
   (add-hook 'before-save-hook 'whitespace-cleanup nil t))
+
+(defun mp-buffer-disable-whitespace-cleanup ()
+  "enable whitespace-cleanup in the current buffer"
+  (interactive)
+  (remove-hook 'before-save-hook 'whitespace-cleanup t))
 
 (add-hook 'prog-mode-hook 'mp-buffer-enable-whitespace-cleanup)
 (add-hook 'prog-mode-hook 'whitespace-mode)
 ;; (add-hook 'prog-mode-hook 'hl-line-mode)
-(add-hook 'prog-mode-hook 'toggle-truncate-lines)
+;; (add-hook 'prog-mode-hook 'toggle-truncate-lines)
 
 
 ;;; emacs lisp
@@ -592,10 +632,12 @@
 
 (defun mp-buffer-enable-reindent ()
   "Enable `indent-buffer' on the current buffer."
+  (interactive)
   (add-hook 'before-save-hook 'indent-buffer nil t))
 
 (defun mp-buffer-disable-reindent ()
   "Enable `indent-buffer' on the current buffer."
+  (interactive)
   (remove-hook 'before-save-hook 'indent-buffer t))
 
 (add-hook 'emacs-lisp-mode-hook 'mp-buffer-enable-reindent)
@@ -648,16 +690,16 @@
        ;;(ac-config-default)
        (add-hook 'ein:notebook-multilang-mode-hook 'auto-complete-mode)
        (setq-default ac-sources (append '(ac-source-yasnippet ac-source-imenu) ac-sources))
-       (when (file-exists-p (expand-file-name "/Users/dcurtis/.emacs.d/elisp/Pymacs"))
+       (when (file-exists-p (expand-file-name "~/.emacs.d/elisp/Pymacs"))
          (ac-ropemacs-initialize)
          (ac-ropemacs-setup)))
 
 (after 'auto-complete-autoloads
        (require 'auto-complete-config))
 
-(when (file-exists-p (expand-file-name "/Users/dcurtis/.emacs.d/elisp/Pymacs"))
+(when (file-exists-p (expand-file-name "~/.emacs.d/elisp/Pymacs"))
   (setq ropemacs-enable-autoimport t)
-  (add-to-list 'load-path "/Users/dcurtis/.emacs.d/elisp/Pymacs"))
+  (add-to-list 'load-path "~/.emacs.d/elisp/Pymacs"))
 
 
 ;;; python
@@ -678,7 +720,7 @@
 (defun python-config-ipython ()
   "Configure python.el to handle ipython."
   (interactive)
-  (add-to-list 'python-shell-setup-codes 'python-shell-icompletion-setup-code)
+  ;; (add-to-list 'python-shell-setup-codes 'python-shell-icompletion-setup-code)
   (setq python-shell-interpreter "ipython"
         python-shell-interpreter-args ""
         python-shell-prompt-regexp "In \\[[0-9]+\\]: "
@@ -734,7 +776,7 @@
          (local-file (file-relative-name
                       temp-file
                       (file-name-directory buffer-file-name))))
-    (list "/Users/dcurtis/.virtualenv/bin/pyflakes" (list temp-file))))
+    (list (expand-file-name "~/.virtualenv/bin/pyflakes") (list temp-file))))
 
 (after 'flymake
        (add-to-list 'flymake-allowed-file-name-masks

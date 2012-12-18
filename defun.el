@@ -385,6 +385,57 @@ Format VAL for COLWIDTH column and specified ALIGN."
   (interactive)
   (backward-char (- (current-column) 2)))
 
+(defun toggle-window-split ()
+  (interactive)
+  (if (= (count-windows) 2)
+      (let* ((this-win-buffer (window-buffer))
+             (next-win-buffer (window-buffer (next-window)))
+             (this-win-edges (window-edges (selected-window)))
+             (next-win-edges (window-edges (next-window)))
+             (this-win-2nd (not (and (<= (car this-win-edges)
+                                         (car next-win-edges))
+                                     (<= (cadr this-win-edges)
+                                         (cadr next-win-edges)))))
+             (splitter
+              (if (= (car this-win-edges)
+                     (car (window-edges (next-window))))
+                  'split-window-horizontally
+                'split-window-vertically)))
+        (delete-other-windows)
+        (let ((first-win (selected-window)))
+          (funcall splitter)
+          (if this-win-2nd (other-window 1))
+          (set-window-buffer (selected-window) this-win-buffer)
+          (set-window-buffer (next-window) next-win-buffer)
+          (select-window first-win)
+          (if this-win-2nd (other-window 1))))))
+
+(defun rotate-windows ()
+  "Rotate your windows"
+  (interactive)
+  (cond ((not (> (count-windows)1))
+         (message "You can't rotate a single window!"))
+        (t
+         (setq i 1)
+         (setq numWindows (count-windows))
+         (while  (< i numWindows)
+           (let* (
+                  (w1 (elt (window-list) i))
+                  (w2 (elt (window-list) (+ (% i numWindows) 1)))
+
+                  (b1 (window-buffer w1))
+                  (b2 (window-buffer w2))
+
+                  (s1 (window-start w1))
+                  (s2 (window-start w2))
+                  )
+             (set-window-buffer w1  b2)
+             (set-window-buffer w2 b1)
+             (set-window-start w1 s2)
+             (set-window-start w2 s1)
+             (setq i (1+ i)))))))
+
+
 (defun run-prog-mode-hook ()
   (run-hooks 'prog-mode-hook))
 
@@ -480,5 +531,42 @@ Including indent-buffer, which should not be called automatically on save."
   (let ((hippie-expand-try-functions-list '(try-expand-line
                                             try-expand-line-all-buffers)))
     (hippie-expand nil)))
+
+;; toggle quotes
+
+(defun current-quotes-char ()
+  (nth 3 (syntax-ppss)))
+
+(defalias 'point-is-in-string-p 'current-quotes-char)
+
+(defun move-point-forward-out-of-string ()
+  (while (point-is-in-string-p) (forward-char)))
+
+(defun move-point-backward-out-of-string ()
+  (while (point-is-in-string-p) (backward-char)))
+
+(defun alternate-quotes-char ()
+  (if (eq ?' (current-quotes-char)) ?\" ?'))
+
+(defun toggle-quotes ()
+  (interactive)
+  (if (point-is-in-string-p)
+      (let ((old-quotes (char-to-string (current-quotes-char)))
+            (new-quotes (char-to-string (alternate-quotes-char)))
+            (start (make-marker))
+            (end (make-marker)))
+        (save-excursion
+          (move-point-forward-out-of-string)
+          (backward-delete-char 1)
+          (set-marker end (point))
+          (insert new-quotes)
+          (move-point-backward-out-of-string)
+          (delete-char 1)
+          (insert new-quotes)
+          (set-marker start (point))
+          (replace-string new-quotes (concat "\\" new-quotes) nil start end)
+          (replace-string (concat "\\" old-quotes) old-quotes nil start end)))
+    (error "Point isn't in a string")))
+
 
 (provide 'defun)
