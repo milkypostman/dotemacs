@@ -366,6 +366,41 @@ Format VAL for COLWIDTH column and specified ALIGN."
       (kill-region (region-beginning) (region-end))
     (call-interactively (key-binding (kbd "M-<DEL>")) t (this-command-keys-vector))))
 
+(defun kill-to-beginning-of-line ()
+  (interactive)
+  (kill-region (save-excursion (beginning-of-line) (point))
+               (point)))
+
+(defun kill-and-retry-line ()
+  "Kill the entire current line and reposition point at indentation"
+  (interactive)
+  (back-to-indentation)
+  (kill-line))
+
+;; copy region if active
+;; otherwise copy to end of current line
+;;   * with prefix, copy N whole lines
+
+(defun copy-to-end-of-line ()
+  (interactive)
+  (kill-ring-save (point)
+                  (line-end-position))
+  (message "Copied to end of line"))
+
+(defun copy-line (arg)
+  "Copy to end of line, or as many lines as prefix argument"
+  (interactive "P")
+  (if (null arg)
+      (copy-to-end-of-line)
+    (copy-whole-lines (prefix-numeric-value arg))))
+
+(defun save-region-or-current-line (arg)
+  (interactive "P")
+  (if (region-active-p)
+      (kill-ring-save (region-beginning) (region-end))
+    (copy-line arg)))
+
+
 ;; M-up is nicer in dired if it moves to the third line - straight to the ".."
 (defun dired-back-to-top ()
   (interactive)
@@ -384,6 +419,20 @@ Format VAL for COLWIDTH column and specified ALIGN."
 (defun dired-back-to-start-of-files ()
   (interactive)
   (backward-char (- (current-column) 2)))
+
+(defun create-scratch-buffer nil
+  "create a new scratch buffer to work in. (could be *scratch* - *scratchX*)"
+  (interactive)
+  (let ((n 0)
+        bufname)
+    (while (progn
+             (setq bufname (concat "*scratch"
+                                   (if (= n 0) "" (int-to-string n))
+                                   "*"))
+             (setq n (1+ n))
+             (get-buffer bufname)))
+    (switch-to-buffer (get-buffer-create bufname))
+    (emacs-lisp-mode)))
 
 (defun toggle-window-split ()
   (interactive)

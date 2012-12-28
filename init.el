@@ -169,7 +169,20 @@
 (global-set-key (kbd "C-c r") 'iterm-run-previous-command)
 
 
+(global-set-key (kbd "C-S-k") 'kill-and-retry-line)
 (global-set-key (kbd "C-w") 'kill-region-or-backward-word)
+(global-set-key (kbd "C-c C-w") 'kill-to-beginning-of-line)
+
+;; Use M-w for copy-line if no active region
+(global-set-key (kbd "M-w") 'save-region-or-current-line)
+(global-set-key (kbd "M-W") '(lambda () (interactive) (save-region-or-current-line 1)))
+
+;; Eval buffer
+(global-set-key (kbd "C-c v") 'eval-buffer)
+
+;; Create scratch buffer
+(global-set-key (kbd "C-c b") 'create-scratch-buffer)
+
 (global-set-key (kbd "C-h") (kbd "<DEL>"))
 
 (global-set-key (kbd "C-c h") 'help-command)
