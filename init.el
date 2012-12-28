@@ -460,6 +460,14 @@
        (add-hook 'prog-mode-hook 'yas-minor-mode-on))
 
 
+;;; js2-mode
+(after 'js2-mode-autoloads
+       (add-to-list 'auto-mode-alist '("\\.js$" . js2-mode)))
+
+;;; js2-mode
+(after 'jinja2-mode-autoloads
+       (add-to-list 'auto-mode-alist '("\\.html$" . jinja2-mode)))
+
 ;;; expand-region
 (global-set-key (kbd "C-=") 'er/expand-region)
 
