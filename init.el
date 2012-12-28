@@ -226,6 +226,7 @@
 (blink-cursor-mode nil)
 (column-number-mode t)
 (global-auto-revert-mode t)
+(global-auto-revert-non-file-buffers t)
 (fringe-mode 1)
 (menu-bar-mode nil)
 (mouse-wheel-mode t)
