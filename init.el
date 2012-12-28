@@ -1,7 +1,14 @@
 ;;; init.el -- Milkmacs configuration file
 ;;
-;; based on emacs-starter-kit
 ;;
+;; Turn off mouse interface early in startup to avoid momentary display
+(if (fboundp 'menu-bar-mode) (menu-bar-mode -1))
+(if (fboundp 'tool-bar-mode) (tool-bar-mode -1))
+(if (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
+
+;; No splash screen please ... jeez
+(setq inhibit-startup-screen t)
+
 
 ;;; initialization
 (require 'cl)
@@ -226,15 +233,11 @@
 (blink-cursor-mode nil)
 (column-number-mode t)
 (global-auto-revert-mode t)
-(global-auto-revert-non-file-buffers t)
 (fringe-mode 1)
-(menu-bar-mode nil)
 (mouse-wheel-mode t)
 (recentf-mode t)
 (savehist-mode t)
-(scroll-bar-mode -1)
 (show-paren-mode t)
-(tool-bar-mode -1)
 (visual-line-mode -1)
 (winner-mode t)
 (prefer-coding-system 'utf-8)
@@ -258,13 +261,12 @@
  ediff-window-setup-function 'ediff-setup-windows-plain
  enable-recursive-minibuffers t
  flymake-gui-warnings-enabled t
+ global-auto-revert-non-file-buffers t
  ibuffer-expert t
  ibuffer-show-empty-filter-groups nil
  imenu-auto-rescan t
  indent-tabs-mode nil
  indicate-empty-lines t
- inhibit-startup-echo-area-message "dcurtis"
- inhibit-startup-screen t
  ispell-extra-args (quote ("--sug-mode=ultra"))
  ispell-program-name "aspell"
  line-spacing 0
