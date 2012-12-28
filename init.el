@@ -592,8 +592,6 @@
   (setq magit-diff-options (remove "-w" magit-diff-options))
   (magit-refresh))
 
-(define-key magit-status-mode-map (kbd "W") 'magit-toggle-whitespace)
-
 ;; full screen magit-status
 (defadvice magit-status (around magit-fullscreen activate)
   (window-configuration-to-register :magit-fullscreen)
@@ -606,9 +604,10 @@
   (kill-buffer)
   (jump-to-register :magit-fullscreen))
 
-(define-key magit-status-mode-map (kbd "q") 'magit-quit-session)
 
-
+(after 'magit
+       (define-key magit-status-mode-map (kbd "W") 'magit-toggle-whitespace)
+       (define-key magit-status-mode-map (kbd "q") 'magit-quit-session))
 
 
 ;;; deft
