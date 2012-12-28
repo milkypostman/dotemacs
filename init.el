@@ -11,20 +11,6 @@
 
 
 
-;;; cedet / semantic
-;; Add further minor-modes to be enabled by semantic-mode.
-;; See doc-string of `semantic-default-submodes' for other things
-;; you can use here.
-;; (when (file-exists-p (expand-file-name "~/.emacs.d/elisp/cedet"))
-;;   (load-file (expand-file-name "~/.emacs.d/elisp/cedet/cedet-devel-load.el"))
-;;   (add-to-list 'semantic-default-submodes 'global-semantic-idle-summary-mode t)
-;;   (add-to-list 'semantic-default-submodes 'global-semantic-idle-completions-mode t)
-;;   (add-to-list 'semantic-default-submodes 'global-cedet-m3-minor-mode t)
-;;   (semantic-mode 1)
-;;   (global-ede-mode 1)
-;;   (setq ede-arduino-appdir "/Applications/Arduino.app/Contents/Resources/Java"))
-
-
 
 ;;; packages
 (require 'package)
