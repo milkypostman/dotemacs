@@ -858,6 +858,7 @@
 
 (after 'find-file-in-project
        (add-to-list 'ffip-patterns "*.c")
+       (add-to-list 'ffip-patterns "*.less")
        (add-to-list 'ffip-patterns "*.coffee")
        (add-to-list 'ffip-patterns "*.css")
        (add-to-list 'ffip-patterns "*.h"))
