@@ -473,6 +473,11 @@
 (after 'jinja2-mode-autoloads
        (add-to-list 'auto-mode-alist '("\\.html$" . jinja2-mode)))
 
+(after 'jinja2-mode
+       (add-to-list 'jinja2-user-keywords "assets")
+       ;; (add-to-list 'jinja2-user-keywords "for")
+       )
+
 ;;; expand-region
 (global-set-key (kbd "C-=") 'er/expand-region)
 
