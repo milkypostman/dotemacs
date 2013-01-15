@@ -398,7 +398,7 @@
 (setq ido-everywhere t)
 (setq ido-max-prospects 10)
 (setq ido-read-file-name-non-ido nil)
-(setq ido-use-filename-at-point 'guess)
+(setq ido-use-filename-at-point nil)
 (setq ido-use-virtual-buffers t)
 
 (global-set-key (kbd "C-x f") 'find-file-in-project)
