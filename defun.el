@@ -387,8 +387,15 @@ Format VAL for COLWIDTH column and specified ALIGN."
                   (line-end-position))
   (message "Copied to end of line"))
 
+(defun copy-whole-lines (arg)
+  "Copy ARG lines to the kill ring"
+  (interactive "p")
+  (kill-ring-save (line-beginning-position)
+                  (line-beginning-position (+ 1 arg)))
+  (message "%d line%s copied" arg (if (= 1 arg) "" "s")))
+
 (defun copy-line (arg)
-  "Copy to end of line, or as many lines as prefix argument"
+  "Copy to end of line, or ARG lines."
   (interactive "P")
   (if (null arg)
       (copy-to-end-of-line)
