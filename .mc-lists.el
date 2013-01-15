@@ -4,19 +4,13 @@
 (setq mc/cmds-to-run-for-all
       '(
         coffee-dedent-line-backspace
-        ein:notebook-complete-dot
-        indent-for-tab-command
         kill-region-or-backward-word
+        paredit-forward-delete
         python-backspace
-        python-indent-dedent-line-backspace
-        sgml-slash
-        transpose-words
+        python-electric-colon
         ))
 
 (setq mc/cmds-to-run-once
       '(
-        beginning-of-buffer
-        ein:worksheet-execute-cell-and-goto-next
-        save-some-buffers
-        smex
+        describe-key-briefly
         ))
