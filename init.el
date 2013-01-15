@@ -628,10 +628,27 @@
 (setq auto-mode-alist
       (cons '("\\.mm?d\\'" . markdown-mode) auto-mode-alist))
 (setq markdown-command "pandoc -S")
-(setq markdown-latex-command
-      "pandoc --template=$HOME/Dropbox/Resources/latex/pandocnarrow.tex -s -t latex -Vfontsize:10pt")
-(setq markdown-pandoc-pdf-command
-      "pandoc --template=$HOME/Dropbox/Resources/latex/pandocnarrow.tex -s -Vfontsize:10pt")
+
+(defun markdown-latex-narrow ()
+  (interactive)
+  (setq markdown-latex-command
+        "pandoc --template=$HOME/Dropbox/Resources/latex/pandocnarrow.tex -s -t latex -Vfontsize:10pt")
+  (setq markdown-pandoc-pdf-command
+        "pandoc --template=$HOME/Dropbox/Resources/latex/pandocnarrow.tex -s -Vfontsize:10pt"))
+
+(defun markdown-latex-wide ()
+  (interactive)
+  (setq markdown-latex-command
+        "pandoc --template=$HOME/Dropbox/Resources/latex/pandocwide.tex -s -t latex -Vfontsize:10pt")
+  (setq markdown-pandoc-pdf-command
+        "pandoc --template=$HOME/Dropbox/Resources/latex/pandocwide.tex -s -Vfontsize:10pt"))
+
+(defun markdown-latex-medium ()
+  (interactive)
+  (setq markdown-latex-command
+        "pandoc --template=$HOME/Dropbox/Resources/latex/pandocmedium.tex -s -t latex -Vfontsize:10pt")
+  (setq markdown-pandoc-pdf-command
+        "pandoc --template=$HOME/Dropbox/Resources/latex/pandocmedium.tex -s -Vfontsize:11pt"))
 
 (after 'markdown-mode
        (remove-hook 'text-mode-hook 'turn-on-auto-fill)
