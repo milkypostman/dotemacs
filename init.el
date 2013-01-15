@@ -363,6 +363,7 @@
          ("help" (or (name . "\*Help\*")
                      (name . "\*Apropos\*")
                      (name . "\*info\*")))
+         ("markdown" (mode . markdown-mode))
          ("econfig" (or (filename . ".emacs.d")
                         (filename . "init.el"))))))
 
