@@ -6,8 +6,11 @@
         coffee-dedent-line-backspace
         kill-region-or-backward-word
         paredit-forward-delete
+        paredit-forward-kill-word
+        paredit-kill
         python-backspace
         python-electric-colon
+        yas-expand
         ))
 
 (setq mc/cmds-to-run-once
