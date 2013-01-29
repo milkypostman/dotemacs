@@ -180,6 +180,8 @@
 
 (global-set-key (kbd "C-c h") 'help-command)
 
+(global-set-key (kbd "C-S-y") 'yank-unindented)
+
 (global-set-key (kbd "C-c +") 'increment-number-at-point)
 (global-set-key (kbd "C-c -") 'decrement-number-at-point)
 
@@ -203,12 +205,17 @@
 (global-set-key (kbd "M-%") 'query-replace-regexp)
 (global-set-key (kbd "C-M-%") 'query-replace)
 
+(global-set-key (kbd "C-c o") 'occur)
+(global-set-key (kbd "M-s m") 'multi-occur)
+(global-set-key (kbd "M-s M") 'multi-occur-in-matching-buffers)
 
 (global-set-key (kbd "C-'") 'toggle-quotes)
 
 (global-set-key (kbd "C-x -") 'toggle-window-split)
 (global-set-key (kbd "C-x C--") 'rotate-windows)
 
+(global-set-key (kbd "C-+") 'change-number-at-point)
+(global-set-key (kbd "C-x C-r") 'rename-this-buffer-and-file)
 
 (define-key isearch-mode-map "\C-h" 'isearch-delete-char)
 (define-key 'help-command "a" 'apropos)
@@ -342,6 +349,12 @@
        (define-key dired-mode-map (kbd "M-p") 'dired-back-to-top)
        (define-key dired-mode-map (kbd "M-n") 'dired-jump-to-bottom)
        (define-key dired-mode-map (kbd "C-a") 'dired-back-to-start-of-files))
+
+
+;;; browse-kill-ring
+(after 'browse-kill-ring-autoloads
+       (global-set-key (kbd "C-x C-y") 'browse-kill-ring))
+
 
 ;;; ibuffer
 (setq ibuffer-saved-filter-groups
@@ -497,7 +510,6 @@
 ;;; mark-multiple
 (after 'mark-multiple-autoloads
        (global-set-key (kbd "C-x r t") 'inline-string-rectangle)
-       (global-set-key (kbd "C-M-m") 'mark-more-like-this)
        (global-set-key (kbd "C-<") 'mark-previous-like-this)
        (global-set-key (kbd "C->") 'mark-next-like-this)
        (global-set-key (kbd "C-*") 'mark-all-like-this))
