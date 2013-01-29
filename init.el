@@ -268,6 +268,7 @@
  diff-switches "-u"
  ediff-window-setup-function 'ediff-setup-windows-plain
  enable-recursive-minibuffers t
+ erc-hide-list '("JOIN" "PART" "QUIT")
  flymake-gui-warnings-enabled t
  global-auto-revert-non-file-buffers t
  ibuffer-expert t
