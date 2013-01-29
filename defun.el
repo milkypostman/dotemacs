@@ -44,7 +44,7 @@
       (error "No number at point"))
   (replace-match (number-to-string (1- (string-to-number (match-string 0))))))
 
-(defun delete-this-buffer-and-file ()
+(defun delete-current-buffer-file ()
   "Deletes current buffer and file it is visiting."
   (interactive)
   (let ((filename (buffer-file-name)))
@@ -53,7 +53,7 @@
       (delete-file filename)
       (kill-this-buffer))))
 
-(defun rename-this-buffer-and-file ()
+(defun rename-current-buffer-file ()
   "Renames current buffer and file it is visiting."
   (interactive)
   (let ((name (buffer-name))
@@ -70,6 +70,7 @@
                (set-buffer-modified-p nil)
                (message "File '%s' successfully renamed to '%s'"
                         name (file-name-nondirectory new-name))))))))
+
 
 (defun command-line-diff (switch)
   (let ((file1 (pop command-line-args-left))
