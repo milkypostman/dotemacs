@@ -5,6 +5,7 @@
       '(
         coffee-dedent-line-backspace
         kill-region-or-backward-word
+        paredit-backslash
         paredit-forward-delete
         paredit-forward-kill-word
         paredit-kill
