@@ -241,8 +241,6 @@
 (blink-cursor-mode nil)
 (column-number-mode t)
 (global-auto-revert-mode t)
-(fringe-mode 1)
-(mouse-wheel-mode t)
 (recentf-mode t)
 (savehist-mode t)
 (show-paren-mode t)
@@ -321,6 +319,8 @@
 
 ;;;; GUI settings
 (when window-system
+  (fringe-mode 1)
+  (mouse-wheel-mode t)
   (menu-bar-mode t)
   (setq-default mac-option-modifier 'alt)
 
