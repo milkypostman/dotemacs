@@ -10,7 +10,7 @@
 (setq inhibit-startup-screen t)
 
 
-;;; initialization
+;;;; initialization
 (require 'cl)
 
 ;; all functions defined in `defun'
@@ -19,7 +19,7 @@
 
 
 
-;;; packages
+;;;; package.el
 (require 'package)
 (setq package-user-dir "~/.emacs.d/elpa/")
 ;; (add-to-list 'package-archives
@@ -29,7 +29,7 @@
 (package-initialize)
 
 
-;;; packages
+;;;; packages
 ;; ace-jump-mode
 ;; browse-kill-ring
 ;; clojure-mode
@@ -50,7 +50,7 @@
 ;; undo-tree
 ;; yasnippet
 
-;;; themes
+;;;; themes
 ;; color-theme-sanityinc-tomorrow
 ;; ir-black-theme
 ;; ir_black-theme
@@ -61,7 +61,7 @@
 ;; twilight-theme
 ;; zen-and-art-theme
 
-;; external libraries
+;;;; external libraries
 (require 'checkdoc)
 (require 'midnight)
 (require 'misc)
@@ -71,7 +71,7 @@
 
 
 
-;;; functions
+;;;; functions
 (require 'defun)
 
 (setq mp-extra-paths
@@ -97,7 +97,7 @@
 
 (ignore-errors (server-start))
 
-;;; aliases
+;;;; aliases
 (defalias 'qrr 'query-replace-regexp)
 (defalias 'qr 'query-replace)
 (defalias 'eshell/ff 'find-file)
@@ -105,19 +105,19 @@
 (defalias 'yes-or-no-p 'y-or-n-p)
 
 
-;;; random number generator
+;;;; random number generator
 (random t)
 
 (windmove-default-keybindings)
 
 
-;;; remaps
+;;;; remaps
 (define-key key-translation-map (kbd "<C-tab>") (kbd "M-TAB"))
 (define-key key-translation-map (kbd "C-x C-m") (kbd "M-x"))
 (define-key key-translation-map (kbd "C-x C-d") (kbd "C-x d"))
 
 
-;;; global key bindings
+;;;; global key bindings
 (global-set-key (kbd "s-<return>") 'ns-toggle-fullscreen)
 (global-set-key (kbd "C-M-SPC") 'just-one-space)
 ;;(global-set-key (kbd "A-h") 'ns-do-hide-emacs)
@@ -221,23 +221,23 @@
 (define-key 'help-command "a" 'apropos)
 
 
-;;; macros
+;;;; macros
 (defmacro after (mode &rest body)
   `(eval-after-load ,mode
      '(progn ,@body)))
 
 
-;;; advice
+;;;; advice
 (defadvice kill-line (after kill-line-cleanup-whitespace activate compile)
   "cleanup whitespace on kill-line"
   (if (not (bolp))
       (delete-region (point) (progn (skip-chars-forward " \t") (point)))))
 
-;;; hooks
+;;;; hooks
 (add-hook 'write-file-functions 'time-stamp)
 
 
-;;; generic
+;;;; generic
 (blink-cursor-mode nil)
 (column-number-mode t)
 (global-auto-revert-mode t)
@@ -250,7 +250,7 @@
 (global-subword-mode t)
 (delete-selection-mode t)
 
-;;; the uncustomizable
+;;;; the uncustomizable
 (setq-default
  ansi-color-faces-vector [default bold shadow italic underline bold bold-italic bold]
  ansi-color-for-comint-mode t
@@ -264,6 +264,7 @@
  custom-theme-directory "~/.emacs.d/themes/"
  delete-auto-save-files nil
  diff-switches "-u"
+ dired-use-ls-dired nil
  ediff-window-setup-function 'ediff-setup-windows-plain
  enable-recursive-minibuffers t
  erc-hide-list '("JOIN" "PART" "QUIT")
@@ -276,7 +277,7 @@
  indicate-empty-lines t
  ispell-extra-args (quote ("--sug-mode=ultra"))
  ispell-program-name "aspell"
- line-spacing 0
+ line-spacing 1
  mode-line-in-non-selected-windows t
  mode-line-inverse-video t
  mouse-wheel-scroll-amount (quote (0.01))
@@ -307,7 +308,7 @@
  user-full-name "Donald Ephraim Curtis"
  user-mail-address "dcurtis@milkbox.net"
  visible-bell nil
- whitespace-style '(face tabs trailing lines-tail space-before-tab space-after-tab))
+ whitespace-style '(face tabs spaces trailing lines-tail space-before-tab newline indentation empty space-after-tab))
 
 ;;;; Darwin specific
 (cond ((eq system-type 'darwin)
@@ -324,11 +325,11 @@
   (menu-bar-mode t)
   (setq-default mac-option-modifier 'alt)
 
-  (set-face-attribute 'default nil :font "Inconsolata-13")
+  (set-face-attribute 'default nil :font "Menlo-12")
   ;; specify a unicode font : MENLO (forced normal)
   (set-fontset-font "fontset-default" 'unicode "-apple-Menlo-medium-normal-normal-*-11-*-*-*-m-0-iso10646-1"))
 
-;;; hippie-expand
+;;;; hippie-expand
 (setq hippie-expand-try-functions-list '(try-complete-file-name-partially
                                          try-complete-file-name
                                          try-expand-dabbrev
@@ -340,7 +341,7 @@
 
 
 
-;;; dired
+;;;; dired
 (global-set-key (kbd "C-x C-j") 'dired-jump)
 (define-key ctl-x-4-map (kbd "C-j") 'dired-jump-other-window)
 (global-set-key (kbd "M-s f") 'find-name-dired)
@@ -352,12 +353,12 @@
        (define-key dired-mode-map (kbd "C-a") 'dired-back-to-start-of-files))
 
 
-;;; browse-kill-ring
+;;;; browse-kill-ring
 (after 'browse-kill-ring-autoloads
        (global-set-key (kbd "C-x C-y") 'browse-kill-ring))
 
 
-;;; ibuffer
+;;;; ibuffer
 (setq ibuffer-saved-filter-groups
       '(("default"
          ("melpa" (filename . "melpa"))
@@ -388,24 +389,24 @@
 
 (add-hook 'ibuffer-mode-hook 'mp-ibuffer-hook)
 
-;;; surround-mode
+;;;; surround-mode
 (global-set-key (kbd "M-C") 'surround-change)
 
-;;; change-inner
+;;;; change-inner
 (global-set-key (kbd "M-I") 'change-inner)
 (global-set-key (kbd "M-O") 'change-outer)
 
-;;; smartrep
+;;;; smartrep
 (after 'smartrep-autoloads
        (require 'smartrep))
 
-;;; helm
+;;;; helm
 (after 'helm-autoloads
        (setq helm-ff-auto-update-initial-value nil)
        (setq helm-quick-update t))
 
 
-;;; ido
+;;;; ido
 (ido-mode t)
 (ido-everywhere t)
 (setq ido-enable-flex-matching t)
@@ -421,16 +422,6 @@
 (define-key ctl-x-4-map (kbd "f") 'find-file-in-project-other-window)
 (define-key ctl-x-4-map (kbd "s") 'shell-other-window)
 
-;; (defun mp-ido-edit-input ()
-;;   "Edit absolute file name entered so far with ido; terminate by RET.
-;; oIf cursor is not at the end of the user input, move to end of input."
-;;   (interactive)
-;;   (if (not (eobp))
-;;       (end-of-line)
-;;     (setq ido-text-init ido-text)
-;;     (setq ido-exit 'edit)
-;;     (exit-minibuffer)))
-
 (defun mp-ido-hook ()
   (define-key ido-completion-map (kbd "C-h") 'ido-delete-backward-updir)
   (define-key ido-completion-map (kbd "C-w") 'ido-delete-backward-word-updir)
@@ -443,7 +434,7 @@
 (add-hook 'ido-setup-hook 'mp-ido-hook)
 
 
-;;; ido-ubiquitous
+;;;; ido-ubiquitous
 (after 'ido-ubiquitous-autoloads (ido-ubiquitous-mode t))
 (after 'ido-ubiquitous (ido-ubiquitous-disable-in evil-ex))
 
@@ -452,7 +443,7 @@
 
 
 
-;;; smex
+;;;; smex
 (after 'smex-autoloads (smex-initialize))
 
 (after 'smex
@@ -461,15 +452,15 @@
        (global-set-key (kbd "C-c C-c M-x") 'execute-extended-command))
 
 
-;;; ispell
+;;;; ispell
 (setq ispell-list-command "list")
 
 
-;;; diff commands
+;;;; diff commands
 (add-to-list 'command-switch-alist '("-diff" . command-line-diff))
 
 
-;;; yas/snippets
+;;;; yas/snippets
 (after 'yasnippet
        (require 'dropdown-list)
        (yas/reload-all)
@@ -479,11 +470,11 @@
        (add-hook 'prog-mode-hook 'yas-minor-mode))
 
 
-;;; js2-mode
+;;;; js2-mode
 (after 'js2-mode-autoloads
        (add-to-list 'auto-mode-alist '("\\.js$" . js2-mode)))
 
-;;; js2-mode
+;;;; jinja2-mode
 (after 'jinja2-mode-autoloads
        (add-to-list 'auto-mode-alist '("\\.html$" . jinja2-mode)))
 
@@ -492,23 +483,23 @@
        ;; (add-to-list 'jinja2-user-keywords "for")
        )
 
-;;; expand-region
+;;;; expand-region
 (global-set-key (kbd "C-=") 'er/expand-region)
 
-;;; jump-char
+;;;; jump-char
 (global-set-key (kbd "M-m") 'jump-char-forward)
 (global-set-key (kbd "M-M") 'jump-char-backward)
 
 
-;;; ace-jump-mode
+;;;; ace-jump-mode
 (define-key global-map (kbd "C-;") 'ace-jump-mode)
 
-;;; wrap-region
+;;;; wrap-region
 (after 'wrap-region-autoloads
        (setq wrap-region-only-with-negative-prefix t)
        (wrap-region-global-mode t))
 
-;;; mark-multiple
+;;;; mark-multiple
 (after 'mark-multiple-autoloads
        (global-set-key (kbd "C-x r t") 'inline-string-rectangle)
        (global-set-key (kbd "C-<") 'mark-previous-like-this)
@@ -516,7 +507,7 @@
        (global-set-key (kbd "C-*") 'mark-all-like-this))
 
 
-;;; multiple-cursors
+;;;; multiple-cursors
 (after 'multiple-cursors-autoloads
        (global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
        (global-set-key (kbd "C-S-c C-e") 'mc/edit-ends-of-lines)
@@ -528,17 +519,17 @@
        (global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
        (global-set-key (kbd "C-*") 'mc/mark-all-like-this))
 
-;;; rainbow-delimiters
+;;;; rainbow-delimiters
 (after 'rainbow-delimiters-autoloads
        (add-hook 'prog-mode-hook 'rainbow-delimiters-mode-enable))
 
 
-;;; change-inner
+;;;; change-inner
 (after 'change-inner-autoloads
        (global-set-key (kbd "M-I") 'change-inner)
        (global-set-key (kbd "M-O") 'change-outer))
 
-;;; undo-tree
+;;;; undo-tree
 (after 'undo-tree-autoloads
        (global-undo-tree-mode t)
        (setq undo-tree-visualizer-relative-timestamps t)
@@ -546,22 +537,22 @@
 
 
 
-;;; evil-mode
+;;;; evil-mode
 (after 'evil
        (when (boundp 'global-surround-mode) (global-surround-mode))
        (ignore-errors (require 'evil-leader)))
 
-;;; evil-leader
+;;;; evil-leader
 (after 'evil-leader
        (evil-leader/set-key (kbd "t") 'find-file-in-project))
 
 
-;;; hl-sentence
+;;;; hl-sentence
 (after 'hl-sentence-autoloads
        (add-hook 'LaTeX-mode-hook 'hl-sentence-mode))
 
 
-;;; auctex
+;;;; auctex
 (after 'latex
        (add-hook 'LaTeX-mode-hook 'TeX-source-correlate-mode)
        (add-hook 'LaTeX-mode-hook 'variable-pitch-mode)
@@ -595,7 +586,7 @@
        (add-to-list 'reftex-section-prefixes '(1 . "chap:")))
 
 
-;;; magit
+;;;; magit
 (global-set-key (kbd "C-x g") 'magit-status)
 
 (defun magit-toggle-whitespace ()
@@ -632,7 +623,7 @@
        (define-key magit-status-mode-map (kbd "q") 'magit-quit-session))
 
 
-;;; deft
+;;;; deft
 (global-set-key (kbd "C-c d") 'deft)
 
 
@@ -642,7 +633,7 @@
        (setq deft-use-filename-as-title t))
 
 
-;;; markdown
+;;;; markdown
 (setq auto-mode-alist
       (cons '("\\.te?xt\\'" . markdown-mode) auto-mode-alist))
 (setq auto-mode-alist
@@ -687,7 +678,7 @@
 (add-hook 'markdown-mode-hook 'toggle-word-wrap)
 
 
-;;; prog-mode
+;;;; prog-mode
 (defun mp-buffer-enable-whitespace-cleanup ()
   "enable whitespace-cleanup in the current buffer"
   (interactive)
@@ -704,11 +695,17 @@
 ;; (add-hook 'prog-mode-hook 'toggle-truncate-lines)
 
 
-;;; emacs lisp
+;;;; emacs lisp
 (font-lock-add-keywords
  'emacs-lisp-mode
  '(("'\\([0-9a-zA-Z-]*\\)" (1 'font-lock-variable-name-face))))
 (add-font-lock-numbers 'emacs-lisp-mode)
+
+(defun imenu-elisp-sections ()
+  (setq imenu-prev-index-position-function nil)
+  (add-to-list 'imenu-generic-expression '("Sections" "^;;;; \\(.+\\)$" 1) t))
+
+(add-hook 'emacs-lisp-mode-hook 'imenu-elisp-sections)
 
 (defun mp-buffer-enable-reindent ()
   "Enable `indent-buffer' on the current buffer."
@@ -724,16 +721,16 @@
 (add-hook 'emacs-lisp-mode-hook 'checkdoc-minor-mode)
 
 
-;;; clojure
+;;;; clojure
 (add-hook 'clojure-mode-hook 'mp-buffer-enable-reindent)
 
 
-;;; paredit
+;;;; paredit
 (after 'paredit-autoloads (add-hook 'emacs-lisp-mode-hook 'paredit-mode))
 (after 'paredit-autoloads (add-hook 'clojure-mode-hook 'paredit-mode))
 
 
-;;; c / c++ mode
+;;;; c / c++ mode
 (setq c-cleanup-list '(defun-close-semi
                         list-close-comma
                         scope-operator
@@ -761,7 +758,7 @@
 
 
 
-;;; auto-complete
+;;;; auto-complete
 (after 'auto-complete
        (setq ac-use-menu-map t)
        (add-to-list 'ac-dictionary-directories "~/.emacs.d/dict"))
@@ -782,7 +779,7 @@
   (add-to-list 'load-path "~/.emacs.d/elisp/Pymacs"))
 
 
-;;; python
+;;;; python
 (add-font-lock-numbers 'python-mode)
 
 (defun python-config-python ()
@@ -864,12 +861,12 @@
 
 
 
-;;; haskell
+;;;; haskell
 (add-hook 'haskell-mode-hook 'turn-on-haskell-doc-mode)
 (add-hook 'haskell-mode-hook 'turn-on-haskell-indentation)
 
 
-;;; ruby
+;;;; ruby
 (after 'ruby-mode
        (add-hook 'ruby-mode-hook 'run-prog-mode-hook))
 
@@ -884,16 +881,16 @@
        (add-to-list 'ffip-patterns "*.h"))
 
 
-;;; html
+;;;; html
 (add-font-lock-numbers 'html-mode)
 
 
-;;; php
+;;;; php
 (setq auto-mode-alist
       (cons '("\\.php[345]?\\'\\|\\.phtml\\." . php-mode) auto-mode-alist))
 
 
-;;; mmm-mode
+;;;; mmm-mode
 (after 'mmm-mode-autoloads
        (require 'mmm-auto)
        (setq mmm-global-mode 'maybe)
@@ -906,7 +903,7 @@
        )
 
 
-;;; nxhtml
+;;;; nxhtml
 (after 'nxhtml-autoloads
        (autoload 'django-html-mumamo-mode
          (expand-file-name "autostart.el"
@@ -917,7 +914,7 @@
        (add-to-list 'auto-mode-alist '("\\.html$" . django-html-mumamo-mode)))
 
 
-;;; pony-mode
+;;;; pony-mode
 (after 'pony-mode
        (setq pony-snippet-dir
              (expand-file-name
@@ -925,12 +922,12 @@
               (file-name-directory (locate-library "pony-mode")))))
 
 
-;;; ocatve-mode
+;;;; octave-mode
 (setq auto-mode-alist (cons '("\\.m$" . octave-mode) auto-mode-alist))
 (setenv "GNUTERM" "x11")
 
 
-;;; portability settings
+;;;; portability settings
 
 ;;;; aquamacs
 (if (boundp 'aquamacs-version)

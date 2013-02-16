@@ -4,6 +4,7 @@
 (setq mc/cmds-to-run-for-all
       '(
         coffee-dedent-line-backspace
+        evil-change
         kill-region-or-backward-word
         paredit-backslash
         paredit-forward-delete
@@ -11,10 +12,12 @@
         paredit-kill
         python-backspace
         python-electric-colon
+        repeat
         yas-expand
         ))
 
 (setq mc/cmds-to-run-once
       '(
         describe-key-briefly
+        smex
         ))
