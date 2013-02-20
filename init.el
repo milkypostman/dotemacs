@@ -16,7 +16,7 @@
 ;; all functions defined in `defun'
 (add-to-list 'load-path "~/.emacs.d/")
 
-
+(add-to-list 'custom-theme-load-path "~/src/base16-builder/output/emacs/")
 
 
 ;;;; package.el
@@ -246,9 +246,12 @@
 (show-paren-mode t)
 (visual-line-mode -1)
 (winner-mode t)
-(prefer-coding-system 'utf-8)
 (global-subword-mode t)
 (delete-selection-mode t)
+(set-terminal-coding-system 'utf-8)
+(set-keyboard-coding-system 'utf-8)
+(set-selection-coding-system 'utf-8)
+(prefer-coding-system 'utf-8)
 
 ;;;; the uncustomizable
 (setq-default
@@ -256,6 +259,7 @@
  ansi-color-for-comint-mode t
  ansi-color-names-vector ["#242424" "#e5786d" "#95e454" "#cae682" "#8ac6f2" "#333366" "#ccaa8f" "#f6f3e8"]
  auto-save-file-name-transforms (quote ((".*" "~/.emacs.d/autosave/" t)))
+ auto-revert-verbose nil
  backup-directory-alist (quote (("." . "~/.emacs.d/backups/")))
  backward-delete-char-untabify-method nil
  undo-tree-history-directory-alist (quote (("." . "~/.emacs.d/undo/")))
@@ -265,6 +269,8 @@
  delete-auto-save-files nil
  diff-switches "-u"
  dired-use-ls-dired nil
+ echo-keystrokes 0.1
+ ediff-split-window-function 'split-window-horizontally
  ediff-window-setup-function 'ediff-setup-windows-plain
  enable-recursive-minibuffers t
  erc-hide-list '("JOIN" "PART" "QUIT")
@@ -278,6 +284,7 @@
  ispell-extra-args (quote ("--sug-mode=ultra"))
  ispell-program-name "aspell"
  line-spacing 1
+ locale-coding-system 'utf-8
  mode-line-in-non-selected-windows t
  mode-line-inverse-video t
  mouse-wheel-scroll-amount (quote (0.01))
@@ -289,6 +296,7 @@
  ns-tool-bar-display-mode 'both
  ns-tool-bar-size-mode 'regular
  redisplay-dont-pause t
+ recentf-max-saved-items 100
  ring-bell-function 'ignore
  save-place t
  save-place-file "~/.emacs.d/places"
@@ -302,13 +310,13 @@
  split-width-threshold 159
  time-stamp-format "%04y-%02m-%02d %02H:%02M:%02S (%u)"
  tramp-remote-path '(tramp-default-remote-path tramp-own-remote-path "/bin" "/usr/bin" "/usr/sbin" "/usr/local/bin" "/local/bin" "/local/freeware/bin" "/local/gnu/bin" "/usr/freeware/bin" "/usr/pkg/bin" "/usr/contrib/bin")
- uniquify-buffer-name-style 'reverse
+ uniquify-buffer-name-style 'forward
  uniquify-ignore-buffers-re "^\\*"
  uniquify-separator " • "
  user-full-name "Donald Ephraim Curtis"
  user-mail-address "dcurtis@milkbox.net"
  visible-bell nil
- whitespace-style '(face tabs spaces trailing lines-tail space-before-tab newline indentation empty space-after-tab))
+ whitespace-style '(face tabs trailing lines-tail space-before-tab newline indentation empty space-after-tab))
 
 ;;;; Darwin specific
 (cond ((eq system-type 'darwin)
@@ -347,7 +355,6 @@
 (global-set-key (kbd "M-s f") 'find-name-dired)
 
 (after 'dired
-       (after 'dired+-autoloads)
        (define-key dired-mode-map (kbd "M-p") 'dired-back-to-top)
        (define-key dired-mode-map (kbd "M-n") 'dired-jump-to-bottom)
        (define-key dired-mode-map (kbd "C-a") 'dired-back-to-start-of-files))
@@ -489,6 +496,8 @@
 ;;;; jump-char
 (global-set-key (kbd "M-m") 'jump-char-forward)
 (global-set-key (kbd "M-M") 'jump-char-backward)
+(after 'jump-char
+       (setq jump-char-lazy-highlight-face nil))
 
 
 ;;;; ace-jump-mode
@@ -820,9 +829,21 @@
 
 (defun python-modes-init ()
   "initialization for all python modes"
+
+  (make-face 'font-lock-statement-face)
+  (set-face-attribute
+   'font-lock-statement-face nil :inherit font-lock-variable-name-face)
+  (setq font-lock-statement-face 'font-lock-statement-face)
+  (font-lock-add-keywords
+   'python-mode
+   `((,(rx symbol-start (or "def" "class" "return" "as" "try" "except" "raise") symbol-end)
+      0 font-lock-statement-face)))
+
+
   (font-lock-add-keywords 'python-mode
                           `((,(rx symbol-start (or "import" "from")
                                   symbol-end) 0 font-lock-preprocessor-face)))
+
 
   (make-face 'font-lock-operator-face)
   (set-face-attribute
@@ -833,17 +854,16 @@
    `((,(rx symbol-start (or "in" "and" "or" "is" "not") symbol-end)
       0 font-lock-operator-face)))
 
-  (add-font-lock-numbers 'python-mode)
   (font-lock-add-keywords
    'python-mode
    `(("^[       ]*\\(@\\)\\([a-zA-Z_][a-zA-Z_0-9.]+\\)\\((.+)\\)?"
-      (1 'font-lock-preprocessor-face)
-      (2 'font-lock-builtin-face))))
+      (1 'font-lock-keyword-face)
+      (2 'font-lock-function-name-face))))
 
   (local-set-key (kbd "M-n") 'flymake-goto-next-error)
   (local-set-key (kbd "M-p") 'flymake-goto-prev-error))
 
-(after 'python-mode (python-modes-init))
+;;(after 'python (python-modes-init))
 
 ;;;; pyflakes
 (defun mp-flymake-pyflakes-init (&optional trigger-type)
@@ -942,6 +962,7 @@
 
 (when (file-exists-p "~/.emacs.d/local.el")
   (load-file "~/.emacs.d/local.el"))
+
 
 
 ;; Local Variables:
