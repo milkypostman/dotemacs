@@ -38,6 +38,7 @@
            (unless (package-installed-p package)
              (package-install package)))
         '(ace-jump-mode
+          base16-theme
           browse-kill-ring
           clojure-mode
           deft
