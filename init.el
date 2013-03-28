@@ -524,9 +524,12 @@
 ;;;; expand-region
 (global-set-key (kbd "C-=") 'er/expand-region)
 
+
 ;;;; jump-char
-(global-set-key (kbd "M-m") 'jump-char-forward)
-(global-set-key (kbd "M-M") 'jump-char-backward)
+(after 'jump-char-autoloads
+       (global-set-key (kbd "M-m") 'jump-char-forward)
+       (global-set-key (kbd "M-M") 'jump-char-backward))
+
 (after 'jump-char
        (setq jump-char-lazy-highlight-face nil))
 
