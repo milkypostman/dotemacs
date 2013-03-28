@@ -5,14 +5,21 @@
       '(
         coffee-dedent-line-backspace
         evil-change
+        haskell-indentation-delete-backward-char
+        indent-for-tab-command
         kill-region-or-backward-word
+        markdown-exdent-or-delete
         paredit-backslash
         paredit-forward-delete
         paredit-forward-kill-word
         paredit-kill
+        paredit-semicolon
         python-backspace
         python-electric-colon
+        python-indent-dedent-line-backspace
         repeat
+        save-region-or-current-line
+        sgml-slash
         yas-expand
         ))
 
