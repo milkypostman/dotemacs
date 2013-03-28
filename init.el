@@ -341,7 +341,32 @@
 
   (set-face-attribute 'default nil :font "Menlo-12")
   ;; specify a unicode font : MENLO (forced normal)
-  (set-fontset-font "fontset-default" 'unicode "-apple-Menlo-medium-normal-normal-*-11-*-*-*-m-0-iso10646-1"))
+  (set-fontset-font "fontset-default" 'unicode "-apple-Menlo-medium-normal-normal-*-11-*-*-*-m-0-iso10646-1")
+
+  ;; for the height, subtract a couple hundred pixels
+  ;; from the screen height (for panels, menubars and
+  ;; whatnot), then divide by the height of a char to
+  ;; get the height we want
+  ;; (set-frame-size (selected-frame) 0 0)
+  ;; (add-to-list 'initial-frame-alist '(top . 10))
+  ;; (add-to-list 'initial-frame-alist '(left . 30))
+  ;; (set-frame-size (selected-frame))
+  ;; (set-frame-size (selected-frame) )
+  (add-to-list 'initial-frame-alist '(left . 1))
+  (add-to-list 'initial-frame-alist '(top . 1))
+
+  (add-to-list 'initial-frame-alist
+               (cons 'width
+                     (/ (ceiling (* (- (x-display-pixel-width)
+                                       (apply '+ (remove-if (lambda (i) (not i))
+                                                            (window-fringes))))
+                                    .667))
+                        (frame-char-width))))
+  (add-to-list 'initial-frame-alist (cons 'height (/ (x-display-pixel-height)
+                                                     (frame-char-height))))
+  ;; (add-to-list 'default-frame-alist (cons 'width (x-display-pixel-width)))
+  ;; (add-to-list 'default-frame-alist (cons 'height (x-display-pixel-height)))
+  )
 
 ;;;; hippie-expand
 (setq hippie-expand-try-functions-list '(try-complete-file-name-partially
