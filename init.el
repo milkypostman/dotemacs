@@ -26,29 +26,35 @@
 ;;              '("marmalade" . "http://marmalade-repo.org/packages/") t)
 (add-to-list 'package-archives
              '("melpa" . "http://melpa.milkbox.net/packages/") t)
+;; (add-to-list 'package-archives '("melpa-local" . "/Users/dcurtis/src/melpa/packages/") t)
 (package-initialize)
 
 
+(defun mp-install-sweet-packages ()
+  "Install only the sweetest of packages."
+  (interactive)
+  (package-refresh-contents)
+  (mapc '(lambda (package)
+           (unless (package-installed-p package)
+             (package-install package)))
+        '(ace-jump-mode
+          browse-kill-ring
+          clojure-mode
+          deft
+          dired+
+          expand-region
+          ido-ubiquitous
+          iy-go-to-char
+          magit
+          markdown-mode+
+          multiple-cursors
+          paredit
+          smex
+          undo-tree
+          yasnippet)))
+
+
 ;;;; packages
-;; ace-jump-mode
-;; browse-kill-ring
-;; clojure-mode
-;; deft
-;; dired+
-;; expand-region
-;; full-ack
-;; ido-ubiquitous
-;; jump-char
-;; magit
-;; mark-multiple
-;; markdown-mode
-;; markdown-mode+
-;; mmm-mode
-;; multiple-cursors
-;; paredit
-;; smex
-;; undo-tree
-;; yasnippet
 
 ;;;; themes
 ;; color-theme-sanityinc-tomorrow
