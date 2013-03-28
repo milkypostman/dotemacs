@@ -333,7 +333,7 @@
         "/Users/dcurtis/src/compepi:/Users/dcurtis/src/networkx")))
 
 ;;;; GUI settings
-(when window-system
+(when (display-graphic-p)
   (fringe-mode 1)
   (mouse-wheel-mode t)
   (menu-bar-mode t)
