@@ -392,6 +392,18 @@
        (define-key dired-mode-map (kbd "C-a") 'dired-back-to-start-of-files))
 
 
+;;;; powerline
+(after 'powerline-autoloads
+       (powerline-default-theme))
+
+;;;; diminish
+(after 'diminish-autoloads
+       (after 'paredit (diminish 'paredit-mode " pe"))
+       (after 'yasnippet (diminish 'yas-minor-mode " ys"))
+       (after 'undo-tree (diminish 'undo-tree-mode " ut"))
+       (after 'checkdoc (diminish 'checkdoc-minor-mode " cd")))
+
+
 ;;;; browse-kill-ring
 (after 'browse-kill-ring-autoloads
        (global-set-key (kbd "C-x C-y") 'browse-kill-ring))
