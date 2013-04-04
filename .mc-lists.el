@@ -4,16 +4,23 @@
 (setq mc/cmds-to-run-for-all
       '(
         coffee-dedent-line-backspace
+        delete-indentation
+        eval-last-sexp
         evil-change
         haskell-indentation-delete-backward-char
         indent-for-tab-command
         kill-region-or-backward-word
         markdown-exdent-or-delete
         paredit-backslash
+        paredit-backward-slurp-sexp
+        paredit-doublequote
         paredit-forward-delete
         paredit-forward-kill-word
         paredit-kill
+        paredit-newline
+        paredit-open-round
         paredit-semicolon
+        paredit-wrap-round
         python-backspace
         python-electric-colon
         python-indent-dedent-line-backspace
@@ -26,5 +33,9 @@
 (setq mc/cmds-to-run-once
       '(
         describe-key-briefly
+        end-of-buffer
+        eval-expression
+        isearch-backward-regexp
         smex
+        toggle-quotes
         ))
