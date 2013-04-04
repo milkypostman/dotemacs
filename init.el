@@ -15,6 +15,7 @@
 
 ;; all functions defined in `defun'
 (add-to-list 'load-path "~/.emacs.d/")
+(add-to-list 'load-path "~/src/powerline")
 
 (add-to-list 'custom-theme-load-path "~/src/base16-builder/output/emacs/")
 
@@ -42,6 +43,7 @@
           browse-kill-ring
           clojure-mode
           deft
+          diminish
           dired+
           expand-region
           ido-ubiquitous
@@ -259,6 +261,7 @@
 (set-keyboard-coding-system 'utf-8)
 (set-selection-coding-system 'utf-8)
 (prefer-coding-system 'utf-8)
+(which-function-mode t)
 
 ;;;; the uncustomizable
 (setq-default
@@ -812,15 +815,18 @@
     (mapc (lambda (h) (mapc (lambda (f) (add-hook h f)) prog-mode-hook))
           '(c++-mode-hook c-mode-hook)))
 
-
-
 ;;;; auto-complete
 (after 'auto-complete
+       (setq ac-auto-show-menu nil)
        (setq ac-use-menu-map t)
+       (define-key ac-menu-map (kbd "C-p") 'ac-previous)
+       (define-key ac-menu-map (kbd "C-n") 'ac-next)
+       ;; (define-key ac-menu-map "\C-p" 'ac-previous)
+       ;; (define-key ac-menu-map "\C-n" 'ac-next)
        (add-to-list 'ac-dictionary-directories "~/.emacs.d/dict"))
 
 (after 'auto-complete-config
-       ;;(ac-config-default)
+       ;; (ac-config-default)
        (add-hook 'ein:notebook-multilang-mode-hook 'auto-complete-mode)
        (setq-default ac-sources (append '(ac-source-yasnippet ac-source-imenu) ac-sources))
        (when (file-exists-p (expand-file-name "~/.emacs.d/elisp/Pymacs"))
@@ -876,7 +882,7 @@
 
 (defun python-modes-init ()
   "initialization for all python modes"
-
+  (interactive)
   (make-face 'font-lock-statement-face)
   (set-face-attribute
    'font-lock-statement-face nil :inherit font-lock-variable-name-face)
