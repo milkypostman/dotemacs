@@ -395,10 +395,6 @@
        (define-key dired-mode-map (kbd "C-a") 'dired-back-to-start-of-files))
 
 
-;;;; powerline
-(after 'powerline-autoloads
-       (powerline-default-theme))
-
 ;;;; diminish
 (after 'diminish-autoloads
        (after 'paredit (diminish 'paredit-mode " pe"))
