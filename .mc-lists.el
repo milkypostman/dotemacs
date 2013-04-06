@@ -3,6 +3,7 @@
 
 (setq mc/cmds-to-run-for-all
       '(
+        checkdoc-eval-defun
         coffee-dedent-line-backspace
         delete-indentation
         eval-last-sexp
@@ -20,6 +21,7 @@
         paredit-newline
         paredit-open-round
         paredit-semicolon
+        paredit-splice-sexp
         paredit-wrap-round
         python-backspace
         python-electric-colon
