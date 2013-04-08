@@ -39,6 +39,7 @@
            (unless (package-installed-p package)
              (package-install package)))
         '(ace-jump-mode
+          ag
           base16-theme
           browse-kill-ring
           clojure-mode
@@ -53,6 +54,7 @@
           multiple-cursors
           paredit
           smex
+          soothe-theme
           undo-tree
           yasnippet)))
 
