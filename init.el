@@ -363,17 +363,26 @@
   (add-to-list 'initial-frame-alist '(left . 1))
   (add-to-list 'initial-frame-alist '(top . 1))
 
-  (add-to-list 'initial-frame-alist
-               (cons 'width
-                     (/ (ceiling (* (- (x-display-pixel-width)
-                                       (apply '+ (remove-if (lambda (i) (not i))
-                                                            (window-fringes))))
-                                    .667))
-                        (frame-char-width))))
-  (add-to-list 'initial-frame-alist (cons 'height (/ (x-display-pixel-height)
-                                                     (frame-char-height))))
-  ;; (add-to-list 'default-frame-alist (cons 'width (x-display-pixel-width)))
-  ;; (add-to-list 'default-frame-alist (cons 'height (x-display-pixel-height)))
+  (cond
+   ((string-equal system-name "hendrix.local")
+    (add-to-list 'initial-frame-alist
+                 (cons 'width
+                       (/ (ceiling (* (- (display-pixel-width)
+                                         (apply '+ (remove-if (lambda (i) (not i))
+                                                              (window-fringes))))
+                                      .4))
+                          (frame-char-width))))
+    (add-to-list 'initial-frame-alist (cons 'height (/ (display-pixel-height)
+                                                       (frame-char-height)))))
+   (t (add-to-list 'initial-frame-alist
+                   (cons 'width
+                         (/ (ceiling (* (- (display-pixel-width)
+                                           (apply '+ (remove-if (lambda (i) (not i))
+                                                                (window-fringes))))
+                                        .667))
+                            (frame-char-width))))
+      (add-to-list 'initial-frame-alist (cons 'height (/ (display-pixel-height)
+                                                         (frame-char-height))))))
   )
 
 ;;;; hippie-expand
