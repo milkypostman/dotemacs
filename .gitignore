@@ -20,3 +20,5 @@
 *.~undo-tree~
 /ac-comphist.dat
 /var/pcache/gh/gh-gist-api/milkypostman
+/.emacs.desktop
+/.emacs.desktop.lock
