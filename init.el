@@ -31,7 +31,7 @@
 (package-initialize)
 
 
-(defun mp-install-sweet-packages ()
+(defun mp-install-rad-packages ()
   "Install only the sweetest of packages."
   (interactive)
   (package-refresh-contents)
@@ -53,6 +53,7 @@
           markdown-mode+
           multiple-cursors
           paredit
+          rainbow-delimiters
           smex
           soothe-theme
           undo-tree
@@ -251,6 +252,7 @@
 ;;;; generic
 (blink-cursor-mode nil)
 (column-number-mode t)
+(desktop-save-mode t)
 (global-auto-revert-mode t)
 (recentf-mode t)
 (savehist-mode t)
