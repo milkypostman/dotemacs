@@ -181,7 +181,7 @@
 
 ;; Use M-w for copy-line if no active region
 (global-set-key (kbd "M-w") 'save-region-or-current-line)
-(global-set-key (kbd "M-W") '(lambda () (interactive) (save-region-or-current-line 1)))
+(global-set-key (kbd "M-W") 'copy-whole-lines)
 
 ;; Eval buffer
 (global-set-key (kbd "C-c v") 'eval-buffer)
