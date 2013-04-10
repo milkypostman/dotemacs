@@ -10,6 +10,7 @@
         evil-change
         haskell-indentation-delete-backward-char
         indent-for-tab-command
+        isearch-forward-regexp
         kill-region-or-backward-word
         markdown-exdent-or-delete
         paredit-backslash
@@ -38,6 +39,7 @@
         end-of-buffer
         eval-expression
         isearch-backward-regexp
+        markdown-export-pdf
         smex
         toggle-quotes
         ))
