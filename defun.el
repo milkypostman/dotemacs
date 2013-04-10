@@ -189,17 +189,6 @@ region-end is used."
   (duplicate-region num (point-at-bol) (1+ (point-at-eol))))
 
 
-(defun open-previous-line (arg)
-  "Open a new line before the current one.
-     See also `newline-and-indent'."
-  (interactive "p")
-  (if (eolp) (save-excursion
-               (delete-region (point)
-                              (progn (skip-chars-backward " \t") (point)))))
-  (beginning-of-line)
-  (open-line arg)
-  (indent-according-to-mode))
-
 
 (defun finder ()
   "Open the current working directory in finder."
@@ -273,13 +262,25 @@ end tell"))
 
 
 
-
-
 (defun what-face (pos)
   (interactive "d")
   (let ((face (or (get-char-property (point) 'read-face-name)
                   (get-char-property (point) 'face))))
     (if face (message "Face: %s" face) (message "No face at %d" pos))))
+
+
+(defun open-previous-line (arg)
+  "Open a new line before the current one.
+     See also `newline-and-indent'."
+  (interactive "p")
+  (when (eolp)
+    (save-excursion
+      (delete-region (point)
+                     (progn (skip-chars-backward " \t") (point)))))
+  (beginning-of-line)
+  (open-line arg)
+  (indent-according-to-mode))
+
 
 (defun open-next-line (arg)
   "Move to the next line and then opens a line.
@@ -287,6 +288,23 @@ end tell"))
   (interactive "p")
   (end-of-line)
   (newline-and-indent))
+
+
+(defun open-line-indent (n)
+  "Insert a new line and leave point before it. With arg N insert N newlines."
+  (interactive "*p")
+  (save-excursion
+    (newline n)
+    (indent-according-to-mode)))
+
+
+(defun new-line-in-between ()
+  (interactive)
+  (newline)
+  (save-excursion
+    (newline)
+    (indent-for-tab-command))
+  (indent-for-tab-command))
 
 
 (defun kmacro-edit-lossage ()
