@@ -17,7 +17,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(hl-sentence-face ((t (:foreground "white"))) t)
- '(mode-line ((t (:box nil :height 100))))
- '(powerline-active1 ((t (:inherit mode-line :background "#123550"))))
- '(powerline-active2 ((t (:inherit mode-line :background "#112230"))))
+ '(mode-line ((t (:height 100))))
+ '(powerline-active1 ((t (:inherit mode-line :background "#123550"))) t)
+ '(powerline-active2 ((t (:inherit mode-line :background "#112230"))) t)
  '(variable-pitch ((t (:foreground "gray60" :height 140 :family "Cochin")))))
