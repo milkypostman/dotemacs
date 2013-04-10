@@ -185,6 +185,7 @@
 
 ;; Eval buffer
 (global-set-key (kbd "C-c v") 'eval-buffer)
+(global-set-key (kbd "C-c d") 'duplicate-current-line-or-region)
 
 ;; Create scratch buffer
 (global-set-key (kbd "C-c b") 'create-scratch-buffer)
@@ -570,13 +571,6 @@
   (setq wrap-region-only-with-negative-prefix t)
   (wrap-region-global-mode t))
 
-;;;; mark-multiple
-(after 'mark-multiple-autoloads
-  (global-set-key (kbd "C-x r t") 'inline-string-rectangle)
-  (global-set-key (kbd "C-<") 'mark-previous-like-this)
-  (global-set-key (kbd "C->") 'mark-next-like-this)
-  (global-set-key (kbd "C-*") 'mark-all-like-this))
-
 
 ;;;; multiple-cursors
 (after 'multiple-cursors-autoloads
@@ -587,8 +581,9 @@
   (global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
   (global-set-key (kbd "C-<return>") 'mc/mark-more-like-this-extended)
   (global-set-key (kbd "C-S-SPC") 'set-rectangular-region-anchor)
-  (global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
-  (global-set-key (kbd "C-*") 'mc/mark-all-like-this))
+  (global-set-key (kbd "C-M-=") 'mc/insert-numbers)
+  (global-set-key (kbd "C-*") 'mc/mark-all-like-this)
+  (global-set-key (kbd "C-S-<mouse-1>") 'mc/add-cursor-on-click))
 
 ;;;; rainbow-delimiters
 (after 'rainbow-delimiters-autoloads
@@ -695,9 +690,6 @@
 
 
 ;;;; deft
-(global-set-key (kbd "C-c d") 'deft)
-
-
 (after 'deft
   (setq deft-directory (expand-file-name "~/Dropbox/notes"))
   (setq deft-text-mode 'markdown-mode)
