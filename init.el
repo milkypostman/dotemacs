@@ -156,11 +156,13 @@
 
 (global-set-key (kbd "C-4") 'ctl-x-4-prefix)
 
+(global-set-key (kbd "M-RET") 'open-next-line)
+(global-set-key (kbd "C-o") 'open-line-indent)
+(global-set-key (kbd "M-o") 'open-previous-line)
+(global-set-key (kbd "C-M-<return>") 'new-line-in-between)
+
 (global-set-key (kbd "C-x m") 'point-to-register)
 (global-set-key (kbd "C-x j") 'jump-to-register)
-
-(global-set-key (kbd "M-RET") 'open-next-line)
-(global-set-key (kbd "M-o") 'open-previous-line)
 
 (global-set-key (kbd "M-;") 'comment-dwim-line)
 (global-set-key (kbd "C-c k") 'kill-this-buffer)
