@@ -18,6 +18,7 @@
 (add-to-list 'load-path "~/src/powerline")
 
 (add-to-list 'custom-theme-load-path "~/src/base16-builder/output/emacs/")
+(add-to-list 'custom-theme-load-path "~/src/emacs-soothe-theme/")
 
 
 ;;;; package.el
