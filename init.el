@@ -405,22 +405,22 @@
 (global-set-key (kbd "M-s f") 'find-name-dired)
 
 (after 'dired
-       (define-key dired-mode-map (kbd "M-p") 'dired-back-to-top)
-       (define-key dired-mode-map (kbd "M-n") 'dired-jump-to-bottom)
-       (define-key dired-mode-map (kbd "C-a") 'dired-back-to-start-of-files))
+  (define-key dired-mode-map (kbd "M-p") 'dired-back-to-top)
+  (define-key dired-mode-map (kbd "M-n") 'dired-jump-to-bottom)
+  (define-key dired-mode-map (kbd "C-a") 'dired-back-to-start-of-files))
 
 
 ;;;; diminish
 (after 'diminish-autoloads
-       (after 'paredit (diminish 'paredit-mode " pe"))
-       (after 'yasnippet (diminish 'yas-minor-mode " ys"))
-       (after 'undo-tree (diminish 'undo-tree-mode " ut"))
-       (after 'checkdoc (diminish 'checkdoc-minor-mode " cd")))
+  (after 'paredit (diminish 'paredit-mode " pe"))
+  (after 'yasnippet (diminish 'yas-minor-mode " ys"))
+  (after 'undo-tree (diminish 'undo-tree-mode " ut"))
+  (after 'checkdoc (diminish 'checkdoc-minor-mode " cd")))
 
 
 ;;;; browse-kill-ring
 (after 'browse-kill-ring-autoloads
-       (global-set-key (kbd "C-x C-y") 'browse-kill-ring))
+  (global-set-key (kbd "C-x C-y") 'browse-kill-ring))
 
 
 ;;;; ibuffer
@@ -463,12 +463,12 @@
 
 ;;;; smartrep
 (after 'smartrep-autoloads
-       (require 'smartrep))
+  (require 'smartrep))
 
 ;;;; helm
 (after 'helm-autoloads
-       (setq helm-ff-auto-update-initial-value nil)
-       (setq helm-quick-update t))
+  (setq helm-ff-auto-update-initial-value nil)
+  (setq helm-quick-update t))
 
 
 ;;;; ido
@@ -512,9 +512,9 @@
 (after 'smex-autoloads (smex-initialize))
 
 (after 'smex
-       (global-set-key (kbd "M-x") 'smex)
-       (global-set-key (kbd "M-X") 'smex-major-mode-commands)
-       (global-set-key (kbd "C-c C-c M-x") 'execute-extended-command))
+  (global-set-key (kbd "M-x") 'smex)
+  (global-set-key (kbd "M-X") 'smex-major-mode-commands)
+  (global-set-key (kbd "C-c C-c M-x") 'execute-extended-command))
 
 
 ;;;; ispell
@@ -527,26 +527,26 @@
 
 ;;;; yas/snippets
 (after 'yasnippet
-       (require 'dropdown-list)
-       (yas/reload-all)
-       (setq yas/prompt-functions '(yas/dropdown-prompt yas/ido-prompt yas/completing-prompt yas/x-prompt yas/no-prompt)))
+  (require 'dropdown-list)
+  (yas/reload-all)
+  (setq yas/prompt-functions '(yas/dropdown-prompt yas/ido-prompt yas/completing-prompt yas/x-prompt yas/no-prompt)))
 
 (after 'yasnippet-autoloads
-       (add-hook 'prog-mode-hook 'yas-minor-mode))
+  (add-hook 'prog-mode-hook 'yas-minor-mode))
 
 
 ;;;; js2-mode
 (after 'js2-mode-autoloads
-       (add-to-list 'auto-mode-alist '("\\.js$" . js2-mode)))
+  (add-to-list 'auto-mode-alist '("\\.js$" . js2-mode)))
 
 ;;;; jinja2-mode
 (after 'jinja2-mode-autoloads
-       (add-to-list 'auto-mode-alist '("\\.html$" . jinja2-mode)))
+  (add-to-list 'auto-mode-alist '("\\.html$" . jinja2-mode)))
 
 (after 'jinja2-mode
-       (add-to-list 'jinja2-user-keywords "assets")
-       ;; (add-to-list 'jinja2-user-keywords "for")
-       )
+  (add-to-list 'jinja2-user-keywords "assets")
+  ;; (add-to-list 'jinja2-user-keywords "for")
+  )
 
 ;;;; expand-region
 (global-set-key (kbd "C-=") 'er/expand-region)
@@ -554,11 +554,11 @@
 
 ;;;; jump-char
 (after 'jump-char-autoloads
-       (global-set-key (kbd "M-m") 'jump-char-forward)
-       (global-set-key (kbd "M-M") 'jump-char-backward))
+  (global-set-key (kbd "M-m") 'jump-char-forward)
+  (global-set-key (kbd "M-M") 'jump-char-backward))
 
 (after 'jump-char
-       (setq jump-char-lazy-highlight-face nil))
+  (setq jump-char-lazy-highlight-face nil))
 
 
 ;;;; ace-jump-mode
@@ -566,94 +566,94 @@
 
 ;;;; wrap-region
 (after 'wrap-region-autoloads
-       (setq wrap-region-only-with-negative-prefix t)
-       (wrap-region-global-mode t))
+  (setq wrap-region-only-with-negative-prefix t)
+  (wrap-region-global-mode t))
 
 ;;;; mark-multiple
 (after 'mark-multiple-autoloads
-       (global-set-key (kbd "C-x r t") 'inline-string-rectangle)
-       (global-set-key (kbd "C-<") 'mark-previous-like-this)
-       (global-set-key (kbd "C->") 'mark-next-like-this)
-       (global-set-key (kbd "C-*") 'mark-all-like-this))
+  (global-set-key (kbd "C-x r t") 'inline-string-rectangle)
+  (global-set-key (kbd "C-<") 'mark-previous-like-this)
+  (global-set-key (kbd "C->") 'mark-next-like-this)
+  (global-set-key (kbd "C-*") 'mark-all-like-this))
 
 
 ;;;; multiple-cursors
 (after 'multiple-cursors-autoloads
-       (global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
-       (global-set-key (kbd "C-S-c C-e") 'mc/edit-ends-of-lines)
-       (global-set-key (kbd "C-S-c C-a") 'mc/edit-beginnings-of-lines)
-       (global-set-key (kbd "C->") 'mc/mark-next-like-this)
-       (global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
-       (global-set-key (kbd "C-<return>") 'mc/mark-more-like-this-extended)
-       (global-set-key (kbd "C-S-SPC") 'set-rectangular-region-anchor)
-       (global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
-       (global-set-key (kbd "C-*") 'mc/mark-all-like-this))
+  (global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
+  (global-set-key (kbd "C-S-c C-e") 'mc/edit-ends-of-lines)
+  (global-set-key (kbd "C-S-c C-a") 'mc/edit-beginnings-of-lines)
+  (global-set-key (kbd "C->") 'mc/mark-next-like-this)
+  (global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
+  (global-set-key (kbd "C-<return>") 'mc/mark-more-like-this-extended)
+  (global-set-key (kbd "C-S-SPC") 'set-rectangular-region-anchor)
+  (global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
+  (global-set-key (kbd "C-*") 'mc/mark-all-like-this))
 
 ;;;; rainbow-delimiters
 (after 'rainbow-delimiters-autoloads
-       (add-hook 'prog-mode-hook 'rainbow-delimiters-mode-enable))
+  (add-hook 'prog-mode-hook 'rainbow-delimiters-mode-enable))
 
 
 ;;;; change-inner
 (after 'change-inner-autoloads
-       (global-set-key (kbd "M-I") 'change-inner)
-       (global-set-key (kbd "M-O") 'change-outer))
+  (global-set-key (kbd "M-I") 'change-inner)
+  (global-set-key (kbd "M-O") 'change-outer))
 
 ;;;; undo-tree
 (after 'undo-tree-autoloads
-       (global-undo-tree-mode t)
-       (setq undo-tree-visualizer-relative-timestamps t)
-       (setq undo-tree-visualizer-timestamps t))
+  (global-undo-tree-mode t)
+  (setq undo-tree-visualizer-relative-timestamps t)
+  (setq undo-tree-visualizer-timestamps t))
 
 
 
 ;;;; evil-mode
 (after 'evil
-       (when (boundp 'global-surround-mode) (global-surround-mode))
-       (ignore-errors (require 'evil-leader)))
+  (when (boundp 'global-surround-mode) (global-surround-mode))
+  (ignore-errors (require 'evil-leader)))
 
 ;;;; evil-leader
 (after 'evil-leader
-       (evil-leader/set-key (kbd "t") 'find-file-in-project))
+  (evil-leader/set-key (kbd "t") 'find-file-in-project))
 
 
 ;;;; hl-sentence
 (after 'hl-sentence-autoloads
-       (add-hook 'LaTeX-mode-hook 'hl-sentence-mode))
+  (add-hook 'LaTeX-mode-hook 'hl-sentence-mode))
 
 
 ;;;; auctex
 (after 'latex
-       (add-hook 'LaTeX-mode-hook 'TeX-source-correlate-mode)
-       (add-hook 'LaTeX-mode-hook 'variable-pitch-mode)
-       (add-hook 'LaTeX-mode-hook 'TeX-fold-mode)
+  (add-hook 'LaTeX-mode-hook 'TeX-source-correlate-mode)
+  (add-hook 'LaTeX-mode-hook 'variable-pitch-mode)
+  (add-hook 'LaTeX-mode-hook 'TeX-fold-mode)
 
-       (setq TeX-source-correlate-method 'synctex)
-       (setq TeX-auto-save t)
-       (setq TeX-parse-self t)
-       (setq TeX-save-query nil)
-       (setq TeX-item-indent 0)
-       (setq TeX-newline-function 'reindent-then-newline-and-indent)
-       (setq-default TeX-PDF-mode t)
-       ;; (setq-default TeX-master nil)
-       ;; (setq LaTeX-command "latex")
-       (setq TeX-view-program-list
-             '(("Skim"
-                "/Applications/Skim.app/Contents/SharedSupport/displayline %n %o %b")))
-       (setq TeX-view-program-selection '((output-pdf "Skim")))
+  (setq TeX-source-correlate-method 'synctex)
+  (setq TeX-auto-save t)
+  (setq TeX-parse-self t)
+  (setq TeX-save-query nil)
+  (setq TeX-item-indent 0)
+  (setq TeX-newline-function 'reindent-then-newline-and-indent)
+  (setq-default TeX-PDF-mode t)
+  ;; (setq-default TeX-master nil)
+  ;; (setq LaTeX-command "latex")
+  (setq TeX-view-program-list
+        '(("Skim"
+           "/Applications/Skim.app/Contents/SharedSupport/displayline %n %o %b")))
+  (setq TeX-view-program-selection '((output-pdf "Skim")))
 
 
-       ;; (add-hook 'LaTeX-mode-hook 'longlines-mode)
-       (add-hook 'LaTeX-mode-hook 'flyspell-mode)
-       (add-hook 'LaTeX-mode-hook 'LaTeX-math-mode)
-       (add-hook 'LaTeX-mode-hook 'turn-on-reftex)
-       (setq reftex-plug-into-AUCTeX t)
-       (define-key TeX-mode-map (kbd "C-M-h") 'mark-paragraph)
-       (define-key TeX-mode-map (kbd "C-c C-m") 'TeX-command-master)
-       (define-key TeX-mode-map (kbd "C-c C-c") 'TeX-compile))
+  ;; (add-hook 'LaTeX-mode-hook 'longlines-mode)
+  (add-hook 'LaTeX-mode-hook 'flyspell-mode)
+  (add-hook 'LaTeX-mode-hook 'LaTeX-math-mode)
+  (add-hook 'LaTeX-mode-hook 'turn-on-reftex)
+  (setq reftex-plug-into-AUCTeX t)
+  (define-key TeX-mode-map (kbd "C-M-h") 'mark-paragraph)
+  (define-key TeX-mode-map (kbd "C-c C-m") 'TeX-command-master)
+  (define-key TeX-mode-map (kbd "C-c C-c") 'TeX-compile))
 
 (after 'reftex
-       (add-to-list 'reftex-section-prefixes '(1 . "chap:")))
+  (add-to-list 'reftex-section-prefixes '(1 . "chap:")))
 
 
 ;;;; magit
@@ -689,8 +689,8 @@
 
 
 (after 'magit
-       (define-key magit-status-mode-map (kbd "W") 'magit-toggle-whitespace)
-       (define-key magit-status-mode-map (kbd "q") 'magit-quit-session))
+  (define-key magit-status-mode-map (kbd "W") 'magit-toggle-whitespace)
+  (define-key magit-status-mode-map (kbd "q") 'magit-quit-session))
 
 
 ;;;; deft
@@ -698,9 +698,9 @@
 
 
 (after 'deft
-       (setq deft-directory (expand-file-name "~/Dropbox/notes"))
-       (setq deft-text-mode 'markdown-mode)
-       (setq deft-use-filename-as-title t))
+  (setq deft-directory (expand-file-name "~/Dropbox/notes"))
+  (setq deft-text-mode 'markdown-mode)
+  (setq deft-use-filename-as-title t))
 
 
 ;;;; markdown
@@ -732,17 +732,17 @@
         "pandoc --template=$HOME/Dropbox/Resources/latex/pandocmedium.tex -s -Vfontsize:11pt"))
 
 (after 'markdown-mode
-       (remove-hook 'text-mode-hook 'turn-on-auto-fill)
-       (define-key markdown-mode-map (kbd "<backtab>") 'markdown-shifttab)
-       (define-key markdown-mode-map (kbd "C-c r") 'markdown-copy-rtf)
-       (define-key markdown-mode-map (kbd "C-c l") 'markdown-export-latex)
-       (define-key markdown-mode-map (kbd "C-c v") 'marked)
-       (define-key markdown-mode-map (kbd "C-c w") 'markdown-select-section-copy-paste)
-       (define-key markdown-mode-map (kbd "C-c s") 'markdown-select-section)
-       (define-key markdown-mode-map (kbd "C-c c") 'markdown-copy-html)
-       (define-key markdown-mode-map (kbd "C-c p") 'markdown-export-pdf)
-       (define-key markdown-mode-map (kbd "C-c q") 'markdown-copy-paste-html)
-       (define-key markdown-mode-map (kbd "C-c =") 'markdown-cleanup-list-numbers))
+  (remove-hook 'text-mode-hook 'turn-on-auto-fill)
+  (define-key markdown-mode-map (kbd "<backtab>") 'markdown-shifttab)
+  (define-key markdown-mode-map (kbd "C-c r") 'markdown-copy-rtf)
+  (define-key markdown-mode-map (kbd "C-c l") 'markdown-export-latex)
+  (define-key markdown-mode-map (kbd "C-c v") 'marked)
+  (define-key markdown-mode-map (kbd "C-c w") 'markdown-select-section-copy-paste)
+  (define-key markdown-mode-map (kbd "C-c s") 'markdown-select-section)
+  (define-key markdown-mode-map (kbd "C-c c") 'markdown-copy-html)
+  (define-key markdown-mode-map (kbd "C-c p") 'markdown-export-pdf)
+  (define-key markdown-mode-map (kbd "C-c q") 'markdown-copy-paste-html)
+  (define-key markdown-mode-map (kbd "C-c =") 'markdown-cleanup-list-numbers))
 
 (add-hook 'markdown-mode-hook 'abbrev-mode)
 (add-hook 'markdown-mode-hook 'toggle-word-wrap)
@@ -828,24 +828,24 @@
 
 ;;;; auto-complete
 (after 'auto-complete
-       (setq ac-auto-show-menu nil)
-       (setq ac-use-menu-map t)
-       (define-key ac-menu-map (kbd "C-p") 'ac-previous)
-       (define-key ac-menu-map (kbd "C-n") 'ac-next)
-       ;; (define-key ac-menu-map "\C-p" 'ac-previous)
-       ;; (define-key ac-menu-map "\C-n" 'ac-next)
-       (add-to-list 'ac-dictionary-directories "~/.emacs.d/dict"))
+  (setq ac-auto-show-menu nil)
+  (setq ac-use-menu-map t)
+  (define-key ac-menu-map (kbd "C-p") 'ac-previous)
+  (define-key ac-menu-map (kbd "C-n") 'ac-next)
+  ;; (define-key ac-menu-map "\C-p" 'ac-previous)
+  ;; (define-key ac-menu-map "\C-n" 'ac-next)
+  (add-to-list 'ac-dictionary-directories "~/.emacs.d/dict"))
 
 (after 'auto-complete-config
-       ;; (ac-config-default)
-       (add-hook 'ein:notebook-multilang-mode-hook 'auto-complete-mode)
-       (setq-default ac-sources (append '(ac-source-yasnippet ac-source-imenu) ac-sources))
-       (when (file-exists-p (expand-file-name "~/.emacs.d/elisp/Pymacs"))
-         (ac-ropemacs-initialize)
-         (ac-ropemacs-setup)))
+  ;; (ac-config-default)
+  (add-hook 'ein:notebook-multilang-mode-hook 'auto-complete-mode)
+  (setq-default ac-sources (append '(ac-source-yasnippet ac-source-imenu) ac-sources))
+  (when (file-exists-p (expand-file-name "~/.emacs.d/elisp/Pymacs"))
+    (ac-ropemacs-initialize)
+    (ac-ropemacs-setup)))
 
 (after 'auto-complete-autoloads
-       (require 'auto-complete-config))
+  (require 'auto-complete-config))
 
 (when (file-exists-p (expand-file-name "~/.emacs.d/elisp/Pymacs"))
   (setq ropemacs-enable-autoimport t)
@@ -940,8 +940,8 @@
     (list (expand-file-name "~/.virtualenv/bin/pyflakes") (list temp-file))))
 
 (after 'flymake
-       (add-to-list 'flymake-allowed-file-name-masks
-                    '("\\.py\\'" mp-flymake-pyflakes-init)))
+  (add-to-list 'flymake-allowed-file-name-masks
+               '("\\.py\\'" mp-flymake-pyflakes-init)))
 
 
 
@@ -952,17 +952,17 @@
 
 ;;;; ruby
 (after 'ruby-mode
-       (add-hook 'ruby-mode-hook 'run-prog-mode-hook))
+  (add-hook 'ruby-mode-hook 'run-prog-mode-hook))
 
 (after 'rvm-autoloads
-       (add-hook 'ruby-mode-hook 'rvm-use-default))
+  (add-hook 'ruby-mode-hook 'rvm-use-default))
 
 (after 'find-file-in-project
-       (add-to-list 'ffip-patterns "*.c")
-       (add-to-list 'ffip-patterns "*.less")
-       (add-to-list 'ffip-patterns "*.coffee")
-       (add-to-list 'ffip-patterns "*.css")
-       (add-to-list 'ffip-patterns "*.h"))
+  (add-to-list 'ffip-patterns "*.c")
+  (add-to-list 'ffip-patterns "*.less")
+  (add-to-list 'ffip-patterns "*.coffee")
+  (add-to-list 'ffip-patterns "*.css")
+  (add-to-list 'ffip-patterns "*.h"))
 
 
 ;;;; html
@@ -976,34 +976,34 @@
 
 ;;;; mmm-mode
 (after 'mmm-mode-autoloads
-       (require 'mmm-auto)
-       (setq mmm-global-mode 'maybe)
-       (mmm-add-mode-ext-class 'html-mode "\\.html\\'" 'html-js)
-       (mmm-add-mode-ext-class 'html-mode "\\.html\\'" 'embedded-css)
-       ;; (setq mmm-submode-decoration-level 2)
-       ;; (setq nxml-slash-auto-complete-flag t)
-       ;; (mmm-add-mode-ext-class 'nxml-mode "\\.php\\'" 'html-php)
-       ;; (mmm-add-mode-ext-class 'html-mode "\\.php\\'" 'html-php)
-       )
+  (require 'mmm-auto)
+  (setq mmm-global-mode 'maybe)
+  (mmm-add-mode-ext-class 'html-mode "\\.html\\'" 'html-js)
+  (mmm-add-mode-ext-class 'html-mode "\\.html\\'" 'embedded-css)
+  ;; (setq mmm-submode-decoration-level 2)
+  ;; (setq nxml-slash-auto-complete-flag t)
+  ;; (mmm-add-mode-ext-class 'nxml-mode "\\.php\\'" 'html-php)
+  ;; (mmm-add-mode-ext-class 'html-mode "\\.php\\'" 'html-php)
+  )
 
 
 ;;;; nxhtml
 (after 'nxhtml-autoloads
-       (autoload 'django-html-mumamo-mode
-         (expand-file-name "autostart.el"
-                           (file-name-directory (locate-library "nxhtml-autoloads"))))
-       (setq auto-mode-alist
-             (append '(("\\.html?$" . django-html-mumamo-mode)) auto-mode-alist))
-       (setq mumamo-background-colors nil)
-       (add-to-list 'auto-mode-alist '("\\.html$" . django-html-mumamo-mode)))
+  (autoload 'django-html-mumamo-mode
+    (expand-file-name "autostart.el"
+                      (file-name-directory (locate-library "nxhtml-autoloads"))))
+  (setq auto-mode-alist
+        (append '(("\\.html?$" . django-html-mumamo-mode)) auto-mode-alist))
+  (setq mumamo-background-colors nil)
+  (add-to-list 'auto-mode-alist '("\\.html$" . django-html-mumamo-mode)))
 
 
 ;;;; pony-mode
 (after 'pony-mode
-       (setq pony-snippet-dir
-             (expand-file-name
-              "snippets/"
-              (file-name-directory (locate-library "pony-mode")))))
+  (setq pony-snippet-dir
+        (expand-file-name
+         "snippets/"
+         (file-name-directory (locate-library "pony-mode")))))
 
 
 ;;;; octave-mode
