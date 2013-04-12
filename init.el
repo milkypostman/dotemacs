@@ -303,7 +303,7 @@
  indicate-empty-lines t
  ispell-extra-args (quote ("--sug-mode=ultra"))
  ispell-program-name "aspell"
- line-spacing 1
+ line-spacing 0
  locale-coding-system 'utf-8
  mode-line-in-non-selected-windows t
  mode-line-inverse-video t
@@ -353,9 +353,9 @@
   (menu-bar-mode t)
   (setq-default mac-option-modifier 'alt)
 
-  (set-face-attribute 'default nil :font "Menlo-12")
+  (set-face-attribute 'default nil :font "Inconsolata-13")
   ;; specify a unicode font : MENLO (forced normal)
-  (set-fontset-font "fontset-default" 'unicode "-apple-Menlo-medium-normal-normal-*-11-*-*-*-m-0-iso10646-1")
+  (set-fontset-font "fontset-default" 'unicode "-apple-Inconsolata-medium-normal-normal-*-13-*-*-*-m-0-iso10646-1")
 
   ;; for the height, subtract a couple hundred pixels
   ;; from the screen height (for panels, menubars and
