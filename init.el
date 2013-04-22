@@ -11,7 +11,6 @@
 
 
 ;;;; initialization
-(require 'cl)
 
 ;; all functions defined in `defun'
 (add-to-list 'load-path "~/.emacs.d/")
