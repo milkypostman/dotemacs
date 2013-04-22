@@ -41,5 +41,6 @@
         isearch-backward-regexp
         markdown-export-pdf
         smex
+        toggle-input-method
         toggle-quotes
         ))
