@@ -310,9 +310,9 @@
  mouse-wheel-scroll-amount (quote (0.01))
  mouse-yank-at-point t
  ns-alternate-modifier (quote super)
+ ns-function-modifier (quote hyper)
  ns-command-modifier (quote meta)
  ns-pop-up-frames nil
- ns-right-alternate-modifier (quote alt)
  ns-tool-bar-display-mode 'both
  ns-tool-bar-size-mode 'regular
  redisplay-dont-pause t
