@@ -57,6 +57,7 @@
           smex
           soothe-theme
           undo-tree
+          dropdown-list
           yasnippet)))
 
 
