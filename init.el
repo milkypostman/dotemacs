@@ -353,7 +353,8 @@
   (fringe-mode 1)
   (mouse-wheel-mode t)
   (menu-bar-mode t)
-  (setq-default mac-option-modifier 'alt)
+  (setq-default mac-option-modifier 'super)
+  (setq-default mac-pass-command-to-system nil)
 
   (set-face-attribute 'default nil :font "Inconsolata-13")
   ;; specify a unicode font : MENLO (forced normal)
