@@ -377,8 +377,8 @@
     (add-to-list 'initial-frame-alist
                  (cons 'width
                        (/ (ceiling (* (- (display-pixel-width)
-                                         (apply '+ (remove-if (lambda (i) (not i))
-                                                              (window-fringes))))
+                                         (apply '+ (cl-remove-if (lambda (i) (not i))
+                                                                 (window-fringes))))
                                       .4))
                           (frame-char-width))))
     (add-to-list 'initial-frame-alist (cons 'height (/ (display-pixel-height)
@@ -386,8 +386,8 @@
    (t (add-to-list 'initial-frame-alist
                    (cons 'width
                          (/ (ceiling (* (- (display-pixel-width)
-                                           (apply '+ (remove-if (lambda (i) (not i))
-                                                                (window-fringes))))
+                                           (apply '+ (cl-remove-if (lambda (i) (not i))
+                                                                   (window-fringes))))
                                         .667))
                             (frame-char-width))))
       (add-to-list 'initial-frame-alist (cons 'height (/ (display-pixel-height)
