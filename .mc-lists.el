@@ -38,8 +38,10 @@
         describe-key-briefly
         end-of-buffer
         eval-expression
+        ido-switch-buffer-other-window
         isearch-backward-regexp
         markdown-export-pdf
+        marked
         smex
         toggle-input-method
         toggle-quotes
