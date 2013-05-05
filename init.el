@@ -1,23 +1,21 @@
 ;;; init.el -- Milkmacs configuration file
 ;;
 ;;
+;;
+;;;; config top initialization
+
+
+
 ;; Turn off mouse interface early in startup to avoid momentary display
 (if (fboundp 'menu-bar-mode) (menu-bar-mode -1))
 (if (fboundp 'tool-bar-mode) (tool-bar-mode -1))
 (if (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
 
+
 ;; No splash screen please... jeez
 (setq inhibit-startup-screen t)
 
 
-;;;; initialization
-
-;; all functions defined in `defun'
-(add-to-list 'load-path "~/.emacs.d/")
-(add-to-list 'load-path "~/src/powerline")
-
-(add-to-list 'custom-theme-load-path "~/src/base16-builder/output/emacs/")
-(add-to-list 'custom-theme-load-path "~/src/emacs-soothe-theme/")
 
 
 ;;;; package.el
@@ -1748,7 +1746,6 @@ Including indent-buffer, which should not be called automatically on save."
 
 (when (file-exists-p "~/.emacs.d/local.el")
   (load-file "~/.emacs.d/local.el"))
-
 
 
 
