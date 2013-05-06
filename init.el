@@ -103,7 +103,10 @@
 (random t)
 
 ;; (windmove-default-keybindings)
-;;(global-set-key (kbd "A"))
+(global-set-key (kbd "s-l") 'windmove-right)
+(global-set-key (kbd "s-h") 'windmove-left)
+(global-set-key (kbd "s-j") 'windmove-down)
+(global-set-key (kbd "s-k") 'windmove-up)
 
 
 ;;;; remaps
