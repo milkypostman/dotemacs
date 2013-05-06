@@ -1,21 +1,12 @@
-;;; init.el -- Milkmacs configuration file
-;;
-;;
-;;
-;;;; config top initialization
-
-
+;;; init.el --- Milkmacs configuration file
 
 ;; Turn off mouse interface early in startup to avoid momentary display
-(if (fboundp 'menu-bar-mode) (menu-bar-mode -1))
-(if (fboundp 'tool-bar-mode) (tool-bar-mode -1))
-(if (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
-
+(when (fboundp 'menu-bar-mode) (menu-bar-mode -1))
+(when (fboundp 'tool-bar-mode) (tool-bar-mode -1))
+(when (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
 
 ;; No splash screen please... jeez
 (setq inhibit-startup-screen t)
-
-
 
 
 ;;;; package.el
@@ -45,6 +36,7 @@
           diminish
           dired+
           expand-region
+          git-commit-mode
           ido-ubiquitous
           iy-go-to-char
           magit
@@ -59,19 +51,13 @@
           dropdown-list
           yasnippet)))
 
+;;;; macros
+(defmacro after (mode &rest body)
+  "`eval-after-load' MODE evaluate BODY."
+  (declare (indent defun))
+  `(eval-after-load ,mode
+     '(progn ,@body)))
 
-;;;; packages
-
-;;;; themes
-;; color-theme-sanityinc-tomorrow
-;; ir-black-theme
-;; ir_black-theme
-;; pastels-on-dark-theme
-;; tango-2-theme
-;; twilight-anti-bright
-;; twilight-bright
-;; twilight-theme
-;; zen-and-art-theme
 
 ;;;; external libraries
 (require 'checkdoc)
@@ -134,7 +120,8 @@
 
 (global-set-key (kbd "M-z") 'zap-up-to-char)
 (global-set-key (kbd "M-Z") 'zap-to-char)
-(global-set-key (kbd "C-z") 'repeat)
+(global-set-key (kbd "C-z") 'other-window)
+(global-set-key (kbd "C-S-z") 'other-window-reverse)
 
 
 (global-set-key (kbd "C-x C-k") 'kill-region)
@@ -202,8 +189,7 @@
 
 (global-set-key (kbd "C-x C-i") 'imenu)
 
-(global-set-key (kbd "C-.") 'hippie-expand)
-(global-set-key (kbd "C-:") 'hippie-expand-line)
+(global-set-key (kbd "C-.") 'repeat)
 (global-set-key (kbd "M-/") 'hippie-expand)
 (global-set-key (kbd "C-M-/") 'hippie-expand-line)
 
@@ -231,14 +217,6 @@
 
 (define-key isearch-mode-map "\C-h" 'isearch-delete-char)
 (define-key 'help-command "a" 'apropos)
-
-
-;;;; macros
-(defmacro after (mode &rest body)
-  "`eval-after-load' MODE evaluate BODY."
-  (declare (indent defun))
-  `(eval-after-load ,mode
-     '(progn ,@body)))
 
 
 ;;;; advice
@@ -314,8 +292,8 @@
  redisplay-dont-pause t
  recentf-max-saved-items 100
  ring-bell-function 'ignore
- save-place t
  save-place-file "~/.emacs.d/places"
+ save-place t
  scroll-conservatively 5
  scroll-margin 5
  send-mail-function (quote mailclient-send-it)
@@ -773,16 +751,16 @@
 
 
 ;;;; emacs lisp
-(font-lock-add-keywords
- 'emacs-lisp-mode
- '(("'\\([0-9a-zA-Z-]*\\)" (1 'font-lock-variable-name-face))))
-(add-font-lock-numbers 'emacs-lisp-mode)
-
 (defun imenu-elisp-sections ()
   (setq imenu-prev-index-position-function nil)
   (add-to-list 'imenu-generic-expression '("Sections" "^;;;; \\(.+\\)$" 1) t))
 
 (add-hook 'emacs-lisp-mode-hook 'imenu-elisp-sections)
+
+(font-lock-add-keywords
+ 'emacs-lisp-mode
+ '(("'\\([0-9a-zA-Z-]*\\)" (1 'font-lock-variable-name-face))))
+(add-font-lock-numbers 'emacs-lisp-mode)
 
 (defun mp-buffer-enable-reindent ()
   "Enable `indent-buffer' on the current buffer."
@@ -1747,7 +1725,7 @@ Including indent-buffer, which should not be called automatically on save."
 (when (file-exists-p "~/.emacs.d/local.el")
   (load-file "~/.emacs.d/local.el"))
 
-
+;;; init.el ends here
 
 ;; Local Variables:
 ;; time-stamp-start: "Updated: +"
