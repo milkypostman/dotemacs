@@ -759,6 +759,7 @@
   (add-to-list 'imenu-generic-expression '("Sections" "^;;;; \\(.+\\)$" 1) t))
 
 (add-hook 'emacs-lisp-mode-hook 'imenu-elisp-sections)
+(add-hook 'emacs-lisp-mode-hook 'hl-sexp-mode)
 
 (font-lock-add-keywords
  'emacs-lisp-mode
