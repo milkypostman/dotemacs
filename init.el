@@ -39,6 +39,7 @@
           git-commit-mode
           ido-ubiquitous
           iy-go-to-char
+          hl-sexp
           magit
           markdown-mode+
           multiple-cursors
