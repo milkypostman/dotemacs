@@ -37,6 +37,7 @@
           dired+
           expand-region
           git-commit-mode
+          gist
           ido-ubiquitous
           iy-go-to-char
           hl-sexp
