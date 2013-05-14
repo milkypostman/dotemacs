@@ -967,6 +967,9 @@
 
 (after 'find-file-in-project
   (add-to-list 'ffip-patterns "*.c")
+  (add-to-list 'ffip-patterns "*.java")
+  (add-to-list 'ffip-patterns "*.xml")
+  (add-to-list 'ffip-patterns "*.jsp")
   (add-to-list 'ffip-patterns "*.less")
   (add-to-list 'ffip-patterns "*.coffee")
   (add-to-list 'ffip-patterns "*.css")
