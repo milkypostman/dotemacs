@@ -953,6 +953,11 @@
 (add-hook 'haskell-mode-hook 'turn-on-haskell-indentation)
 
 
+;;;; android-mode
+(after 'android-mode-autoloads
+  (setq android-mode-sdk-dir "~/opt/android"))
+
+
 ;;;; ruby
 (after 'ruby-mode
   (add-hook 'ruby-mode-hook 'run-prog-mode-hook))
