@@ -17,16 +17,15 @@
 (add-to-list 'package-archives
              '("melpa" . "http://melpa.milkbox.net/packages/") t)
 ;; (add-to-list 'package-archives '("melpa-local" . "/Users/dcurtis/src/melpa/packages/") t)
-(package-initialize)
 
 
 (defun mp-install-rad-packages ()
   "Install only the sweetest of packages."
   (interactive)
   (package-refresh-contents)
-  (mapc '(lambda (package)
-           (unless (package-installed-p package)
-             (package-install package)))
+  (mapc #'(lambda (package)
+            (unless (package-installed-p package)
+              (package-install package)))
         '(ace-jump-mode
           ag
           base16-theme
