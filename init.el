@@ -464,6 +464,9 @@
 (after 'smartrep-autoloads
   (require 'smartrep))
 
+;;;; term-mode
+(setq system-uses-terminfo nil)
+
 ;;;; helm
 (after 'helm-autoloads
   (setq helm-ff-auto-update-initial-value nil)
