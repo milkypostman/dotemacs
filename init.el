@@ -1725,11 +1725,12 @@ Including indent-buffer, which should not be called automatically on save."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(ansi-term-color-vector [unspecified "#202020" "#fb9fb1" "#acc267" "#ddb26f" "#6fc2ef" "#e1a3ee" "#6fc2ef" "#e0e0e0"])
+ '(ansi-term-color-vector [unspecified "#202020" "#fb9fb1" "#acc267" "#ddb26f" "#6fc2ef" "#e1a3ee" "#6fc2ef" "#e0e0e0"] t)
  '(custom-enabled-themes (quote (naquadah)))
  '(custom-safe-themes (quote ("e5a32add82d288d27323f9cbb9f78e3da3949bdc6283073cb98ae1dc712b6b71" default)))
  '(fci-rule-character-color "#452E2E")
  '(fci-rule-color "#2a2a2a")
+ '(safe-local-variable-values (quote ((eval when (and (buffer-file-name) (file-regular-p (buffer-file-name)) (string-match-p "^[^.]" (buffer-file-name))) (emacs-lisp-mode) (unless (featurep (quote package-build)) (let ((load-path (cons ".." load-path))) (require (quote package-build)))) (package-build-minor-mode)))))
  '(virtualenv-root "/Users/dcurtis/.virtualenv/"))
 
 (custom-set-faces
