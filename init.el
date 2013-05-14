@@ -786,8 +786,17 @@
 
 
 ;;;; paredit
-(after 'paredit-autoloads (add-hook 'emacs-lisp-mode-hook 'paredit-mode))
-(after 'paredit-autoloads (add-hook 'clojure-mode-hook 'paredit-mode))
+(after 'paredit-autoloads
+
+  ;; Enable `paredit-mode' in the minibuffer, during `eval-expression'.
+  (defun conditionally-enable-paredit-mode ()
+    (if (eq this-command 'eval-expression)
+        (paredit-mode 1)))
+
+  (add-hook 'minibuffer-setup-hook 'conditionally-enable-paredit-mode)
+
+  (add-hook 'emacs-lisp-mode-hook 'paredit-mode)
+  (add-hook 'clojure-mode-hook 'paredit-mode))
 
 
 ;;;; c / c++ mode
