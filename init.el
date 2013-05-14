@@ -8,6 +8,7 @@
 ;; No splash screen please... jeez
 (setq inhibit-startup-screen t)
 
+(add-to-list 'load-path "~/src/powerline/")
 
 ;;;; package.el
 (require 'package)
