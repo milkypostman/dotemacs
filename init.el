@@ -422,6 +422,13 @@
   (global-set-key (kbd "C-x C-y") 'browse-kill-ring))
 
 
+;;;; erc
+(setq erc-autojoin-channels-alist '(("freenode.net" "#emacs" "#golang"))
+      erc-nick "milkpost"
+      erc-user-full-name "dc"
+      erc-track-show-count t
+      erc-track-exclude-types '("JOIN" "NICK" "PART" "QUIT"))
+
 ;;;; ibuffer
 (setq ibuffer-saved-filter-groups
       '(("default"
