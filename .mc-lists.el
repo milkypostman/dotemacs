@@ -42,6 +42,7 @@
         isearch-backward-regexp
         markdown-export-pdf
         marked
+        point-to-register
         smex
         toggle-input-method
         toggle-quotes
