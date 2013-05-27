@@ -1835,8 +1835,8 @@ Including indent-buffer, which should not be called automatically on save."
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(ansi-term-color-vector [unspecified "#202020" "#fb9fb1" "#acc267" "#ddb26f" "#6fc2ef" "#e1a3ee" "#6fc2ef" "#e0e0e0"] t)
- '(custom-enabled-themes (quote (naquadah)))
- '(custom-safe-themes (quote ("e5a32add82d288d27323f9cbb9f78e3da3949bdc6283073cb98ae1dc712b6b71" default)))
+ '(custom-enabled-themes nil)
+ '(custom-safe-themes (quote ("2e60db7f24913de7cea9d719dc25fcf6b45682bef4693e35aec88aed3da1443e" "30d00875497336895044c85527e72453e1cf845d7315ad1fa9614078ae24591f" "b2b7a3f00d564f6b748e5cd841f7ab46fddaf84eb6b82b6cd0d5056eb0c648de" "e5a32add82d288d27323f9cbb9f78e3da3949bdc6283073cb98ae1dc712b6b71" default)))
  '(fci-rule-character-color "#452E2E")
  '(fci-rule-color "#2a2a2a")
  '(safe-local-variable-values (quote ((eval when (and (buffer-file-name) (file-regular-p (buffer-file-name)) (string-match-p "^[^.]" (buffer-file-name))) (emacs-lisp-mode) (unless (featurep (quote package-build)) (let ((load-path (cons ".." load-path))) (require (quote package-build)))) (package-build-minor-mode)))))
