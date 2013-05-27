@@ -864,7 +864,9 @@ mouse-1: Display Line and Column Mode Menu")))))))
   (add-to-list 'imenu-generic-expression '("Sections" "^;;;; \\(.+\\)$" 1) t))
 
 (add-hook 'emacs-lisp-mode-hook 'imenu-elisp-sections)
-(add-hook 'emacs-lisp-mode-hook 'hl-sexp-mode)
+
+(after 'hl-sexp-autoloads
+  (add-hook 'emacs-lisp-mode-hook 'hl-sexp-mode))
 
 (font-lock-add-keywords
  'emacs-lisp-mode
