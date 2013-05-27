@@ -183,7 +183,7 @@
 
 (global-set-key (kbd "C-h") (kbd "<DEL>"))
 
-(global-set-key (kbd "C-c h") 'help-command)
+;;(global-set-key (kbd "C-c h") 'help-command)
 
 (global-set-key (kbd "C-S-y") 'yank-unindented)
 
