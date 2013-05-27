@@ -373,6 +373,88 @@
       (add-to-list 'initial-frame-alist (cons 'height (/ (display-pixel-height)
                                                          (frame-char-height)))))))
 
+;;;; mode-line
+(setq mode-line-modes
+      (let ((recursive-edit-help-echo "Recursive edit, type C-M-c to get out"))
+        (list (propertize "%[" 'help-echo recursive-edit-help-echo)
+              "("
+              `(:propertize ("" mode-name)
+                            face font-lock-string-face
+                            help-echo "Major mode\n\
+mouse-1: Display major mode menu\n\
+mouse-2: Show help for major mode\n\
+mouse-3: Toggle minor modes"
+                            mouse-face mode-line-highlight
+                            local-map ,mode-line-major-mode-keymap)
+              '("" mode-line-process)
+              `(:propertize ("" minor-mode-alist)
+                            mouse-face mode-line-highlight
+                            help-echo "Minor mode\n\
+mouse-1: Display minor mode menu\n\
+mouse-2: Show help for minor mode\n\
+mouse-3: Toggle minor modes"
+                            local-map ,mode-line-minor-mode-keymap)
+              (propertize "%n" 'help-echo "mouse-2: Remove narrowing from buffer"
+                          'mouse-face 'mode-line-highlight
+                          'local-map (make-mode-line-mouse-map
+                                      'mouse-2 #'mode-line-widen))
+              ")"
+              (propertize "%]" 'help-echo recursive-edit-help-echo)
+              " ")))
+
+(setq mode-line-position
+      `((-3 ,(propertize
+              "%p"
+              'face 'font-lock-constant-face
+              'local-map mode-line-column-line-number-mode-map
+              'mouse-face 'mode-line-highlight
+              ;; XXX needs better description
+              'help-echo "Size indication mode\n\
+mouse-1: Display Line and Column Mode Menu"))
+        (size-indication-mode
+         (8 ,(concat " / "
+                     (propertize
+                      "%I"
+                      'face 'font-lock-constant-face
+                      'local-map mode-line-column-line-number-mode-map
+                      'mouse-face 'mode-line-highlight
+                      ;; XXX needs better description
+                      'help-echo "Size indication mode\n\
+mouse-1: Display Line and Column Mode Menu"))))
+        (line-number-mode
+         ((column-number-mode
+           (10 ,(concat " ("
+                        (propertize
+                         "%l"
+                         'face 'font-lock-type-face
+                         'local-map mode-line-column-line-number-mode-map
+                         'mouse-face 'mode-line-highlight
+                         'help-echo "Line number and Column number\n\
+mouse-1: Display Line and Column Mode Menu")
+                        ","
+                        (propertize
+                         "%c"
+                         'face 'font-lock-type-face
+                         'local-map mode-line-column-line-number-mode-map
+                         'mouse-face 'mode-line-highlight
+                         'help-echo "Line number and Column number\n\
+mouse-1: Display Line and Column Mode Menu")
+                        ")"))
+           (6 ,(propertize
+                " L%l"
+                'local-map mode-line-column-line-number-mode-map
+                'mouse-face 'mode-line-highlight
+                'help-echo "Line Number\n\
+mouse-1: Display Line and Column Mode Menu"))))
+         ((column-number-mode
+           (5 ,(propertize
+                " C%c"
+                'local-map mode-line-column-line-number-mode-map
+                'mouse-face 'mode-line-highlight
+                'help-echo "Column number\n\
+mouse-1: Display Line and Column Mode Menu")))))))
+
+
 ;;;; faces
 (make-face 'font-lock-number-face)
 (set-face-attribute 'font-lock-number-face nil :inherit font-lock-constant-face)
