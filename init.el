@@ -538,7 +538,8 @@ mouse-1: Display Line and Column Mode Menu")))))))
                      (name . "\*info\*")))
          ("markdown" (mode . markdown-mode))
          ("econfig" (or (filename . ".emacs.d")
-                        (filename . "init.el"))))))
+                        (filename . "init.el")))
+         ("irc" (mode . erc-mode)))))
 
 
 (defun mp-ibuffer-hook ()
