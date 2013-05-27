@@ -678,13 +678,20 @@ mouse-1: Display Line and Column Mode Menu")))))))
   (global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
   (global-set-key (kbd "C-S-c C-e") 'mc/edit-ends-of-lines)
   (global-set-key (kbd "C-S-c C-a") 'mc/edit-beginnings-of-lines)
-  (global-set-key (kbd "C->") 'mc/mark-next-like-this)
-  (global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
   (global-set-key (kbd "C-<return>") 'mc/mark-more-like-this-extended)
   (global-set-key (kbd "C-S-SPC") 'set-rectangular-region-anchor)
+  (global-set-key (kbd "C->") 'mc/mark-next-like-this)
+  (global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
   (global-set-key (kbd "C-M-=") 'mc/insert-numbers)
   (global-set-key (kbd "C-*") 'mc/mark-all-like-this)
-  (global-set-key (kbd "C-S-<mouse-1>") 'mc/add-cursor-on-click))
+  (global-set-key (kbd "s-SPC") 'set-rectangular-region-anchor)
+  (global-set-key (kbd "C-S-<mouse-1>") 'mc/add-cursor-on-click)
+  (defadvice require (around require-advice (feature &optional filename noerror) activate)
+    (save-excursion
+      (let (deactivate-mark)
+        ad-do-it))))
+
+
 
 ;;;; rainbow-delimiters
 (after 'rainbow-delimiters-autoloads
