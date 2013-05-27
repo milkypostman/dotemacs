@@ -609,6 +609,11 @@ mouse-1: Display Line and Column Mode Menu")))))))
   (ido-vertical-mode t))
 
 
+;;;; flx
+(after 'flx-autoloads
+  (flx-ido-mode t))
+
+
 ;;;; smex
 (after 'smex-autoloads (smex-initialize))
 
