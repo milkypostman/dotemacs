@@ -506,11 +506,15 @@ mouse-1: Display Line and Column Mode Menu")))))))
 
 
 ;;;; erc
-(setq erc-autojoin-channels-alist '(("freenode.net" "#emacs" "#golang"))
+(setq erc-autojoin-channels-alist '(("freenode.net" "#emacs" "#go-nuts"))
       erc-nick "milkpost"
       erc-user-full-name "dc"
       erc-track-show-count t
       erc-track-exclude-types '("JOIN" "NICK" "PART" "QUIT"))
+
+(after 'erc
+  (add-to-list 'erc-modules 'services)
+  (erc-update-modules))
 
 ;;;; ibuffer
 (setq ibuffer-saved-filter-groups
