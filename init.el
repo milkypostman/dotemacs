@@ -18,6 +18,7 @@
 (add-to-list 'package-archives
              '("melpa" . "http://melpa.milkbox.net/packages/") t)
 ;; (add-to-list 'package-archives '("melpa-local" . "/Users/dcurtis/src/melpa/packages/") t)
+(package-initialize)
 
 
 (defun mp-install-rad-packages ()
