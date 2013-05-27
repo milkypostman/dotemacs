@@ -3,7 +3,7 @@
 
 (setq mc/cmds-to-run-for-all
       '(
-        checkdoc-eval-defun
+        beginning-of-buffer
         coffee-dedent-line-backspace
         delete-indentation
         eval-last-sexp
@@ -30,14 +30,18 @@
         repeat
         save-region-or-current-line
         sgml-slash
+        toggle-quotes
         yas-expand
         ))
 
 (setq mc/cmds-to-run-once
       '(
+        checkdoc-eval-defun
         describe-key-briefly
         end-of-buffer
         eval-expression
+        ido-display-buffer
+        ido-switch-buffer
         ido-switch-buffer-other-window
         isearch-backward-regexp
         markdown-export-pdf
@@ -45,5 +49,5 @@
         point-to-register
         smex
         toggle-input-method
-        toggle-quotes
+        universal-argument-minus
         ))
