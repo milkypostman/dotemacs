@@ -37,9 +37,11 @@
           diminish
           dired+
           expand-region
+          flx
           git-commit-mode
           gist
           ido-ubiquitous
+          ido-vertical-mode
           iy-go-to-char
           hl-sexp
           magit
@@ -58,7 +60,7 @@
 (defmacro after (mode &rest body)
   "`eval-after-load' MODE evaluate BODY."
   (declare (indent defun))
-  `(eval-after-load ,mode
+  `(eval-after-load ',mode
      '(progn ,@body)))
 
 
@@ -486,22 +488,22 @@ mouse-1: Display Line and Column Mode Menu")))))))
 (define-key ctl-x-4-map (kbd "C-j") 'dired-jump-other-window)
 (global-set-key (kbd "M-s f") 'find-name-dired)
 
-(after 'dired
+(after dired
   (define-key dired-mode-map (kbd "M-p") 'dired-back-to-top)
   (define-key dired-mode-map (kbd "M-n") 'dired-jump-to-bottom)
   (define-key dired-mode-map (kbd "C-a") 'dired-back-to-start-of-files))
 
 
 ;;;; diminish
-(after 'diminish-autoloads
-  (after 'paredit (diminish 'paredit-mode " pe"))
-  (after 'yasnippet (diminish 'yas-minor-mode " ys"))
-  (after 'undo-tree (diminish 'undo-tree-mode " ut"))
-  (after 'checkdoc (diminish 'checkdoc-minor-mode " cd")))
+(after diminish-autoloads
+  (after paredit (diminish 'paredit-mode " pe"))
+  (after yasnippet (diminish 'yas-minor-mode " ys"))
+  (after undo-tree (diminish 'undo-tree-mode " ut"))
+  (after checkdoc (diminish 'checkdoc-minor-mode " cd")))
 
 
 ;;;; browse-kill-ring
-(after 'browse-kill-ring-autoloads
+(after browse-kill-ring-autoloads
   (global-set-key (kbd "C-x C-y") 'browse-kill-ring))
 
 
@@ -512,7 +514,7 @@ mouse-1: Display Line and Column Mode Menu")))))))
       erc-track-show-count t
       erc-track-exclude-types '("JOIN" "NICK" "PART" "QUIT"))
 
-(after 'erc
+(after erc
   (add-to-list 'erc-modules 'services)
   (erc-update-modules))
 
@@ -556,14 +558,14 @@ mouse-1: Display Line and Column Mode Menu")))))))
 (global-set-key (kbd "M-O") 'change-outer)
 
 ;;;; smartrep
-(after 'smartrep-autoloads
+(after smartrep-autoloads
   (require 'smartrep))
 
 ;;;; term-mode
 (setq system-uses-terminfo nil)
 
 ;;;; helm
-(after 'helm-autoloads
+(after helm-autoloads
   (setq helm-ff-auto-update-initial-value nil)
   (setq helm-quick-update t))
 
@@ -597,27 +599,27 @@ mouse-1: Display Line and Column Mode Menu")))))))
 
 
 ;;;; ido-ubiquitous
-(after 'ido-ubiquitous-autoloads (ido-ubiquitous-mode t))
-(after 'ido-ubiquitous (ido-ubiquitous-disable-in evil-ex))
+(after ido-ubiquitous-autoloads (ido-ubiquitous-mode t))
+(after ido-ubiquitous (ido-ubiquitous-disable-in evil-ex))
 
 (setq ido-ubiquitous-command-exceptions '(evil-ex execute-extended-command))
 (setq ido-ubiquitous-function-exceptions '(grep-read-files ucs-insert))
 
 
 ;;;; ido-vertical-mode
-(after 'ido-vertical-mode-autoloads
+(after ido-vertical-mode-autoloads
   (ido-vertical-mode t))
 
 
 ;;;; flx
-(after 'flx-autoloads
+(after flx-autoloads
   (flx-ido-mode t))
 
 
 ;;;; smex
-(after 'smex-autoloads (smex-initialize))
+(after smex-autoloads (smex-initialize))
 
-(after 'smex
+(after smex
   (global-set-key (kbd "M-x") 'smex)
   (global-set-key (kbd "M-X") 'smex-major-mode-commands)
   (global-set-key (kbd "C-c C-c M-x") 'execute-extended-command))
@@ -630,23 +632,23 @@ mouse-1: Display Line and Column Mode Menu")))))))
 (add-to-list 'command-switch-alist '("-diff" . command-line-diff))
 
 ;;;; yas/snippets
-(after 'yasnippet
+(after yasnippet
   (yas/reload-all)
   (setq yas/prompt-functions '(yas/ido-prompt yas/completing-prompt yas/no-prompt)))
 
-(after 'yasnippet-autoloads
+(after yasnippet-autoloads
   (add-hook 'prog-mode-hook 'yas-minor-mode))
 
 
 ;;;; js2-mode
-(after 'js2-mode-autoloads
+(after js2-mode-autoloads
   (add-to-list 'auto-mode-alist '("\\.js$" . js2-mode)))
 
 ;;;; jinja2-mode
-(after 'jinja2-mode-autoloads
+(after jinja2-mode-autoloads
   (add-to-list 'auto-mode-alist '("\\.html$" . jinja2-mode)))
 
-(after 'jinja2-mode
+(after jinja2-mode
   (add-to-list 'jinja2-user-keywords "assets")
   ;; (add-to-list 'jinja2-user-keywords "for")
   )
@@ -656,11 +658,11 @@ mouse-1: Display Line and Column Mode Menu")))))))
 
 
 ;;;; jump-char
-(after 'jump-char-autoloads
+(after jump-char-autoloads
   (global-set-key (kbd "M-m") 'jump-char-forward)
   (global-set-key (kbd "M-M") 'jump-char-backward))
 
-(after 'jump-char
+(after jump-char
   (setq jump-char-lazy-highlight-face nil))
 
 
@@ -668,13 +670,13 @@ mouse-1: Display Line and Column Mode Menu")))))))
 (define-key global-map (kbd "C-;") 'ace-jump-mode)
 
 ;;;; wrap-region
-(after 'wrap-region-autoloads
+(after wrap-region-autoloads
   (setq wrap-region-only-with-negative-prefix t)
   (wrap-region-global-mode t))
 
 
 ;;;; multiple-cursors
-(after 'multiple-cursors-autoloads
+(after multiple-cursors-autoloads
   (global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
   (global-set-key (kbd "C-S-c C-e") 'mc/edit-ends-of-lines)
   (global-set-key (kbd "C-S-c C-a") 'mc/edit-beginnings-of-lines)
@@ -694,17 +696,17 @@ mouse-1: Display Line and Column Mode Menu")))))))
 
 
 ;;;; rainbow-delimiters
-(after 'rainbow-delimiters-autoloads
+(after rainbow-delimiters-autoloads
   (add-hook 'prog-mode-hook 'rainbow-delimiters-mode-enable))
 
 
 ;;;; change-inner
-(after 'change-inner-autoloads
+(after change-inner-autoloads
   (global-set-key (kbd "M-I") 'change-inner)
   (global-set-key (kbd "M-O") 'change-outer))
 
 ;;;; undo-tree
-(after 'undo-tree-autoloads
+(after undo-tree-autoloads
   (global-undo-tree-mode t)
   (setq undo-tree-visualizer-relative-timestamps t)
   (setq undo-tree-visualizer-timestamps t))
@@ -712,22 +714,22 @@ mouse-1: Display Line and Column Mode Menu")))))))
 
 
 ;;;; evil-mode
-(after 'evil
+(after evil
   (when (boundp 'global-surround-mode) (global-surround-mode))
   (ignore-errors (require 'evil-leader)))
 
 ;;;; evil-leader
-(after 'evil-leader
+(after evil-leader
   (evil-leader/set-key (kbd "t") 'find-file-in-project))
 
 
 ;;;; hl-sentence
-(after 'hl-sentence-autoloads
+(after hl-sentence-autoloads
   (add-hook 'LaTeX-mode-hook 'hl-sentence-mode))
 
 
 ;;;; auctex
-(after 'latex
+(after latex
   (add-hook 'LaTeX-mode-hook 'TeX-source-correlate-mode)
   (add-hook 'LaTeX-mode-hook 'variable-pitch-mode)
   (add-hook 'LaTeX-mode-hook 'TeX-fold-mode)
@@ -756,7 +758,7 @@ mouse-1: Display Line and Column Mode Menu")))))))
   (define-key TeX-mode-map (kbd "C-c C-m") 'TeX-command-master)
   (define-key TeX-mode-map (kbd "C-c C-c") 'TeX-compile))
 
-(after 'reftex
+(after reftex
   (add-to-list 'reftex-section-prefixes '(1 . "chap:")))
 
 
@@ -785,7 +787,7 @@ mouse-1: Display Line and Column Mode Menu")))))))
   (kill-buffer)
   (jump-to-register :magit-fullscreen))
 
-(after 'magit
+(after magit
   (define-key magit-status-mode-map (kbd "W") 'magit-toggle-whitespace)
   (define-key magit-status-mode-map (kbd "q") 'magit-quit-session)
 
@@ -797,7 +799,7 @@ mouse-1: Display Line and Column Mode Menu")))))))
 
 
 ;;;; deft
-(after 'deft
+(after deft
   (setq deft-directory (expand-file-name "~/Dropbox/notes"))
   (setq deft-text-mode 'markdown-mode)
   (setq deft-use-filename-as-title t))
@@ -831,7 +833,7 @@ mouse-1: Display Line and Column Mode Menu")))))))
   (setq markdown-pandoc-pdf-command
         "pandoc --template=$HOME/Dropbox/Resources/latex/pandocmedium.tex -s -Vfontsize:11pt"))
 
-(after 'markdown-mode
+(after markdown-mode
   (remove-hook 'text-mode-hook 'turn-on-auto-fill)
   (define-key markdown-mode-map (kbd "<backtab>") 'markdown-shifttab)
   (define-key markdown-mode-map (kbd "C-c r") 'markdown-copy-rtf)
@@ -872,7 +874,7 @@ mouse-1: Display Line and Column Mode Menu")))))))
 
 (add-hook 'emacs-lisp-mode-hook 'imenu-elisp-sections)
 
-(after 'hl-sexp-autoloads
+(after hl-sexp-autoloads
   (add-hook 'emacs-lisp-mode-hook 'hl-sexp-mode))
 
 (font-lock-add-keywords
@@ -899,7 +901,7 @@ mouse-1: Display Line and Column Mode Menu")))))))
 
 
 ;;;; paredit
-(after 'paredit-autoloads
+(after paredit-autoloads
 
   ;; Enable `paredit-mode' in the minibuffer, during `eval-expression'.
   (defun conditionally-enable-paredit-mode ()
@@ -939,16 +941,14 @@ mouse-1: Display Line and Column Mode Menu")))))))
           '(c++-mode-hook c-mode-hook)))
 
 ;;;; auto-complete
-(after 'auto-complete
+(after auto-complete
   (setq ac-auto-show-menu nil)
   (setq ac-use-menu-map t)
   (define-key ac-menu-map (kbd "C-p") 'ac-previous)
   (define-key ac-menu-map (kbd "C-n") 'ac-next)
-  ;; (define-key ac-menu-map "\C-p" 'ac-previous)
-  ;; (define-key ac-menu-map "\C-n" 'ac-next)
   (add-to-list 'ac-dictionary-directories "~/.emacs.d/dict"))
 
-(after 'auto-complete-config
+(after auto-complete-config
   ;; (ac-config-default)
   (add-hook 'ein:notebook-multilang-mode-hook 'auto-complete-mode)
   (setq-default ac-sources (append '(ac-source-yasnippet ac-source-imenu) ac-sources))
@@ -956,7 +956,7 @@ mouse-1: Display Line and Column Mode Menu")))))))
     (ac-ropemacs-initialize)
     (ac-ropemacs-setup)))
 
-(after 'auto-complete-autoloads
+(after auto-complete-autoloads
   (require 'auto-complete-config))
 
 (when (file-exists-p (expand-file-name "~/.emacs.d/elisp/Pymacs"))
@@ -994,7 +994,7 @@ mouse-1: Display Line and Column Mode Menu")))))))
 (setq python-shell-icompletion-setup-code "from IPython.core.completerlib import module_completion")
 (setq python-shell-virtualenv-path "~/.virtualenv/default")
 
-(after 'python (python-config-ipython))
+(after python (python-config-ipython))
 
 (setq ein:use-smartrep nil
       ein:use-auto-complete t
@@ -1039,7 +1039,7 @@ mouse-1: Display Line and Column Mode Menu")))))))
   (local-set-key (kbd "M-n") 'flymake-goto-next-error)
   (local-set-key (kbd "M-p") 'flymake-goto-prev-error))
 
-;;(after 'python (python-modes-init))
+;;(after python (python-modes-init))
 
 ;;;; pyflakes
 (defun mp-flymake-pyflakes-init (&optional trigger-type)
@@ -1051,7 +1051,7 @@ mouse-1: Display Line and Column Mode Menu")))))))
                       (file-name-directory buffer-file-name))))
     (list (expand-file-name "~/.virtualenv/bin/pyflakes") (list temp-file))))
 
-(after 'flymake
+(after flymake
   (add-to-list 'flymake-allowed-file-name-masks
                '("\\.py\\'" mp-flymake-pyflakes-init)))
 
@@ -1063,18 +1063,18 @@ mouse-1: Display Line and Column Mode Menu")))))))
 
 
 ;;;; android-mode
-(after 'android-mode-autoloads
+(after android-mode-autoloads
   (setq android-mode-sdk-dir "~/opt/android"))
 
 
 ;;;; ruby
-(after 'ruby-mode
+(after ruby-mode
   (add-hook 'ruby-mode-hook 'run-prog-mode-hook))
 
-(after 'rvm-autoloads
+(after rvm-autoloads
   (add-hook 'ruby-mode-hook 'rvm-use-default))
 
-(after 'find-file-in-project
+(after find-file-in-project
   (add-to-list 'ffip-patterns "*.c")
   (add-to-list 'ffip-patterns "*.java")
   (add-to-list 'ffip-patterns "*.xml")
@@ -1095,7 +1095,7 @@ mouse-1: Display Line and Column Mode Menu")))))))
 
 
 ;;;; mmm-mode
-(after 'mmm-mode-autoloads
+(after mmm-mode-autoloads
   (require 'mmm-auto)
   (setq mmm-global-mode 'maybe)
   (mmm-add-mode-ext-class 'html-mode "\\.html\\'" 'html-js)
@@ -1108,7 +1108,7 @@ mouse-1: Display Line and Column Mode Menu")))))))
 
 
 ;;;; nxhtml
-(after 'nxhtml-autoloads
+(after nxhtml-autoloads
   (autoload 'django-html-mumamo-mode
     (expand-file-name "autostart.el"
                       (file-name-directory (locate-library "nxhtml-autoloads"))))
@@ -1119,7 +1119,7 @@ mouse-1: Display Line and Column Mode Menu")))))))
 
 
 ;;;; pony-mode
-(after 'pony-mode
+(after pony-mode
   (setq pony-snippet-dir
         (expand-file-name
          "snippets/"
@@ -1835,11 +1835,14 @@ Including indent-buffer, which should not be called automatically on save."
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(ansi-term-color-vector [unspecified "#202020" "#fb9fb1" "#acc267" "#ddb26f" "#6fc2ef" "#e1a3ee" "#6fc2ef" "#e0e0e0"] t)
- '(custom-enabled-themes nil)
- '(custom-safe-themes (quote ("2e60db7f24913de7cea9d719dc25fcf6b45682bef4693e35aec88aed3da1443e" "30d00875497336895044c85527e72453e1cf845d7315ad1fa9614078ae24591f" "b2b7a3f00d564f6b748e5cd841f7ab46fddaf84eb6b82b6cd0d5056eb0c648de" "e5a32add82d288d27323f9cbb9f78e3da3949bdc6283073cb98ae1dc712b6b71" default)))
+ '(custom-enabled-themes (quote (monokai)))
+ '(custom-safe-themes (quote ("7df1ccf73c0e12f97a91aaf5fed6a7594b154137190f4ab3232b3cbc42bc9052" "60a2ebd7effefeb960f61bc4772afd8b1ae4ea48fae4d732864ab9647c92093a" "98a444e42a8b2b6cc9c455914b82de687d126a4d1328fb227e82258ef9beb5aa" "06f5145c01ec774a0abb49eeffa3980743ce2f997112b537effeb188b7c51caf" "d6d8a574d826c260b23c487443cc0a904d00db791cf948777a559f1c2c05fecd" "2e60db7f24913de7cea9d719dc25fcf6b45682bef4693e35aec88aed3da1443e" "30d00875497336895044c85527e72453e1cf845d7315ad1fa9614078ae24591f" "b2b7a3f00d564f6b748e5cd841f7ab46fddaf84eb6b82b6cd0d5056eb0c648de" "e5a32add82d288d27323f9cbb9f78e3da3949bdc6283073cb98ae1dc712b6b71" default)))
  '(fci-rule-character-color "#452E2E")
  '(fci-rule-color "#2a2a2a")
  '(safe-local-variable-values (quote ((eval when (and (buffer-file-name) (file-regular-p (buffer-file-name)) (string-match-p "^[^.]" (buffer-file-name))) (emacs-lisp-mode) (unless (featurep (quote package-build)) (let ((load-path (cons ".." load-path))) (require (quote package-build)))) (package-build-minor-mode)))))
+ '(vc-annotate-background "#272822")
+ '(vc-annotate-color-map (quote ((20 . "#75715E") (40 . "#49483E") (60 . "#F92672") (80 . "#FC5C94") (100 . "#FD971F") (120 . "#FEB257") (140 . "#A6E22E") (160 . "#C1F161") (180 . "#E6DB74") (200 . "#F3EA98") (220 . "#66D9EF") (240 . "#8DE6F7") (260 . "#AE81FF") (280 . "#C2A1FF") (300 . "#A1EFE4") (320 . "#BBF7EF") (340 . "#FD5FF0") (360 . "#FE87F4"))))
+ '(vc-annotate-very-old-color "#FD5FF0")
  '(virtualenv-root "/Users/dcurtis/.virtualenv/"))
 
 (custom-set-faces
@@ -1848,6 +1851,7 @@ Including indent-buffer, which should not be called automatically on save."
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(hl-sentence-face ((t (:foreground "white"))) t)
+ '(mode-line ((t (:box nil))))
  '(variable-pitch ((t (:foreground "gray60" :height 140 :family "Cochin")))))
 
 
