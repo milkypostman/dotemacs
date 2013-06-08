@@ -46,6 +46,10 @@
         isearch-backward-regexp
         markdown-export-pdf
         marked
+        mc/mmlte--down
+        mc/mmlte--left
+        mc/mmlte--right
+        mc/mmlte--up
         point-to-register
         smex
         toggle-input-method
