@@ -553,10 +553,6 @@ mouse-1: Display Line and Column Mode Menu")))))))
 ;;;; surround-mode
 (global-set-key (kbd "M-C") 'surround-change)
 
-;;;; change-inner
-(global-set-key (kbd "M-I") 'change-inner)
-(global-set-key (kbd "M-O") 'change-outer)
-
 ;;;; smartrep
 (after smartrep-autoloads
   (require 'smartrep))
@@ -701,9 +697,9 @@ mouse-1: Display Line and Column Mode Menu")))))))
 
 
 ;;;; change-inner
-(after change-inner-autoloads
-  (global-set-key (kbd "M-I") 'change-inner)
-  (global-set-key (kbd "M-O") 'change-outer))
+;; (after change-inner-autoloads
+;;   (global-set-key (kbd "M-I") 'change-inner)
+;;   (global-set-key (kbd "M-O") 'change-outer))
 
 ;;;; undo-tree
 (after undo-tree-autoloads
@@ -1836,7 +1832,7 @@ Including indent-buffer, which should not be called automatically on save."
  ;; If there is more than one, they won't work right.
  '(ansi-term-color-vector [unspecified "#202020" "#fb9fb1" "#acc267" "#ddb26f" "#6fc2ef" "#e1a3ee" "#6fc2ef" "#e0e0e0"] t)
  '(custom-enabled-themes (quote (monokai)))
- '(custom-safe-themes (quote ("7df1ccf73c0e12f97a91aaf5fed6a7594b154137190f4ab3232b3cbc42bc9052" "60a2ebd7effefeb960f61bc4772afd8b1ae4ea48fae4d732864ab9647c92093a" "98a444e42a8b2b6cc9c455914b82de687d126a4d1328fb227e82258ef9beb5aa" "06f5145c01ec774a0abb49eeffa3980743ce2f997112b537effeb188b7c51caf" "d6d8a574d826c260b23c487443cc0a904d00db791cf948777a559f1c2c05fecd" "2e60db7f24913de7cea9d719dc25fcf6b45682bef4693e35aec88aed3da1443e" "30d00875497336895044c85527e72453e1cf845d7315ad1fa9614078ae24591f" "b2b7a3f00d564f6b748e5cd841f7ab46fddaf84eb6b82b6cd0d5056eb0c648de" "e5a32add82d288d27323f9cbb9f78e3da3949bdc6283073cb98ae1dc712b6b71" default)))
+ '(custom-safe-themes (quote ("3c708b84612872e720796ea1b069cf3c8b3e909a2e1da04131f40e307605b7f9" "7df1ccf73c0e12f97a91aaf5fed6a7594b154137190f4ab3232b3cbc42bc9052" "60a2ebd7effefeb960f61bc4772afd8b1ae4ea48fae4d732864ab9647c92093a" "98a444e42a8b2b6cc9c455914b82de687d126a4d1328fb227e82258ef9beb5aa" "06f5145c01ec774a0abb49eeffa3980743ce2f997112b537effeb188b7c51caf" "d6d8a574d826c260b23c487443cc0a904d00db791cf948777a559f1c2c05fecd" "2e60db7f24913de7cea9d719dc25fcf6b45682bef4693e35aec88aed3da1443e" "30d00875497336895044c85527e72453e1cf845d7315ad1fa9614078ae24591f" "b2b7a3f00d564f6b748e5cd841f7ab46fddaf84eb6b82b6cd0d5056eb0c648de" "e5a32add82d288d27323f9cbb9f78e3da3949bdc6283073cb98ae1dc712b6b71" default)))
  '(fci-rule-character-color "#452E2E")
  '(fci-rule-color "#2a2a2a")
  '(safe-local-variable-values (quote ((eval when (and (buffer-file-name) (file-regular-p (buffer-file-name)) (string-match-p "^[^.]" (buffer-file-name))) (emacs-lisp-mode) (unless (featurep (quote package-build)) (let ((load-path (cons ".." load-path))) (require (quote package-build)))) (package-build-minor-mode)))))
