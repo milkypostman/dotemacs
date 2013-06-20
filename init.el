@@ -8,8 +8,6 @@
 ;; No splash screen please... jeez
 (setq inhibit-startup-screen t)
 
-(add-to-list 'load-path "~/src/powerline/")
-
 ;;;; package.el
 (require 'package)
 (setq package-user-dir "~/.emacs.d/elpa/")
@@ -62,6 +60,10 @@
   (declare (indent defun))
   `(eval-after-load ',mode
      '(progn ,@body)))
+
+
+(add-to-list 'load-path "~/src/powerline/")
+(require 'powerline)
 
 
 ;;;; external libraries
@@ -279,6 +281,7 @@
  enable-recursive-minibuffers t
  erc-hide-list '("JOIN" "PART" "QUIT")
  flymake-gui-warnings-enabled t
+ frame-background-mode 'dark
  global-auto-revert-non-file-buffers t
  ibuffer-expert t
  ibuffer-show-empty-filter-groups nil
