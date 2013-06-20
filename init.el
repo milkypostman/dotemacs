@@ -224,6 +224,8 @@
 (global-set-key (kbd "C-x C-r") 'rename-this-buffer-and-file)
 
 (define-key isearch-mode-map "\C-h" 'isearch-delete-char)
+(global-set-key (kbd "C-c h") 'help-command)
+
 (define-key 'help-command "a" 'apropos)
 
 
