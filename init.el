@@ -1852,7 +1852,6 @@ Including indent-buffer, which should not be called automatically on save."
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(hl-sentence-face ((t (:foreground "white"))) t)
- '(mode-line ((t (:box nil))))
  '(variable-pitch ((t (:foreground "gray60" :height 140 :family "Cochin")))))
 
 
