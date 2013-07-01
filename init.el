@@ -598,9 +598,12 @@ mouse-1: Display Line and Column Mode Menu")))))))
 
 (after smartparens
   (define-key sp-keymap (kbd "C-M-k") 'sp-kill-sexp)
-  (define-key sp-keymap (kbd ")") 'sp-up-sexp)
-  (define-key sp-keymap (kbd "]") 'sp-up-sexp)
-  (define-key sp-keymap (kbd "}") 'sp-up-sexp)
+  (sp-with-modes sp--lisp-modes
+    (sp-local-pair "(" nil :bind "M-("))
+  ;; (define-key emacs-lisp-mode-map (kbd ")") 'sp-up-sexp)
+  ;; (define-key sp-keymap (kbd ")") 'sp-up-sexp)
+  ;; (define-key sp-keymap (kbd "]") 'sp-up-sexp)
+  ;; (define-key sp-keymap (kbd "}") 'sp-up-sexp)
   (show-smartparens-global-mode t))
 
 ;;;; surround-mode
@@ -1894,6 +1897,7 @@ Including indent-buffer, which should not be called automatically on save."
  '(fci-rule-character-color "#452E2E")
  '(fci-rule-color "#2a2a2a")
  '(safe-local-variable-values (quote ((eval when (and (buffer-file-name) (file-regular-p (buffer-file-name)) (string-match-p "^[^.]" (buffer-file-name))) (emacs-lisp-mode) (unless (featurep (quote package-build)) (let ((load-path (cons ".." load-path))) (require (quote package-build)))) (package-build-minor-mode)))))
+ '(sp-wrap-entire-symbol nil)
  '(vc-annotate-background "#272822")
  '(vc-annotate-color-map (quote ((20 . "#75715E") (40 . "#49483E") (60 . "#F92672") (80 . "#FC5C94") (100 . "#FD971F") (120 . "#FEB257") (140 . "#A6E22E") (160 . "#C1F161") (180 . "#E6DB74") (200 . "#F3EA98") (220 . "#66D9EF") (240 . "#8DE6F7") (260 . "#AE81FF") (280 . "#C2A1FF") (300 . "#A1EFE4") (320 . "#BBF7EF") (340 . "#FD5FF0") (360 . "#FE87F4"))))
  '(vc-annotate-very-old-color "#FD5FF0")
