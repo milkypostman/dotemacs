@@ -18,7 +18,6 @@
 ;; (add-to-list 'package-archives '("melpa-local" . "/Users/dcurtis/src/melpa/packages/") t)
 (package-initialize)
 
-
 (defun mp-install-rad-packages ()
   "Install only the sweetest of packages."
   (interactive)
@@ -42,13 +41,12 @@
           ido-ubiquitous
           ido-vertical-mode
           iy-go-to-char
-          hl-sexp
           magit
           markdown-mode+
           multiple-cursors
           naquadah-theme
-          paredit
           rainbow-delimiters
+          smartparens
           smex
           soothe-theme
           undo-tree
@@ -82,6 +80,7 @@
           multiple-cursors
           naquadah-theme
           paredit
+          smartparens
           rainbow-delimiters
           smex
           soothe-theme
@@ -347,6 +346,7 @@
  scroll-margin 5
  send-mail-function (quote mailclient-send-it)
  sentence-end-double-space nil
+ show-paren-style 'expression
  set-mark-command-repeat-pop t
  shift-select-mode nil
  split-height-threshold nil
@@ -590,6 +590,18 @@ mouse-1: Display Line and Column Mode Menu")))))))
   (ibuffer-switch-to-saved-filter-groups "default"))
 
 (add-hook 'ibuffer-mode-hook 'mp-ibuffer-hook)
+
+;;;; smartparens
+(after smartparens-autoloads
+  (require 'smartparens-config)
+  (smartparens-global-mode t))
+
+(after smartparens
+  (define-key sp-keymap (kbd "C-M-k") 'sp-kill-sexp)
+  (define-key sp-keymap (kbd ")") 'sp-up-sexp)
+  (define-key sp-keymap (kbd "]") 'sp-up-sexp)
+  (define-key sp-keymap (kbd "}") 'sp-up-sexp)
+  (show-smartparens-global-mode t))
 
 ;;;; surround-mode
 (global-set-key (kbd "M-C") 'surround-change)
@@ -915,6 +927,7 @@ mouse-1: Display Line and Column Mode Menu")))))))
 
 (add-hook 'emacs-lisp-mode-hook 'imenu-elisp-sections)
 
+;;;; hl-sexp
 (after hl-sexp-autoloads
   (add-hook 'emacs-lisp-mode-hook 'hl-sexp-mode))
 
@@ -1876,8 +1889,8 @@ Including indent-buffer, which should not be called automatically on save."
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(ansi-term-color-vector [unspecified "#202020" "#fb9fb1" "#acc267" "#ddb26f" "#6fc2ef" "#e1a3ee" "#6fc2ef" "#e0e0e0"] t)
- '(custom-enabled-themes (quote (cyberpunk)))
- '(custom-safe-themes (quote ("ea0c5df0f067d2e3c0f048c1f8795af7b873f5014837feb0a7c8317f34417b04" "98522c31200ec2ee2c84ae3dddac94e69730650096c3f4f751be4beece0f6781" "1e7e097ec8cb1f8c3a912d7e1e0331caeed49fef6cff220be63bd2a6ba4cc365" "fc5fcb6f1f1c1bc01305694c59a1a861b008c534cae8d0e48e4d5e81ad718bc6" "c42ac6cd0e60860c4db5edc97eecb587073d1a97c60f0b11f85f7d0a5ed6f5c7" "3c708b84612872e720796ea1b069cf3c8b3e909a2e1da04131f40e307605b7f9" "7df1ccf73c0e12f97a91aaf5fed6a7594b154137190f4ab3232b3cbc42bc9052" "60a2ebd7effefeb960f61bc4772afd8b1ae4ea48fae4d732864ab9647c92093a" "98a444e42a8b2b6cc9c455914b82de687d126a4d1328fb227e82258ef9beb5aa" "06f5145c01ec774a0abb49eeffa3980743ce2f997112b537effeb188b7c51caf" "d6d8a574d826c260b23c487443cc0a904d00db791cf948777a559f1c2c05fecd" "2e60db7f24913de7cea9d719dc25fcf6b45682bef4693e35aec88aed3da1443e" "30d00875497336895044c85527e72453e1cf845d7315ad1fa9614078ae24591f" "b2b7a3f00d564f6b748e5cd841f7ab46fddaf84eb6b82b6cd0d5056eb0c648de" "e5a32add82d288d27323f9cbb9f78e3da3949bdc6283073cb98ae1dc712b6b71" default)))
+ '(custom-enabled-themes (quote (moe-dark)))
+ '(custom-safe-themes (quote ("5ce9c2d2ea2d789a7e8be2a095b8bc7db2e3b985f38c556439c358298827261c" "752b605b3db4d76d7d8538bbc6fe8828f6d92a720c0ea334b4e01cea44d4b7a9" "c9d00d43bd5ad4eb7fa4c0e865b666216dfac4584eede68fbd20d7582013a703" "ea0c5df0f067d2e3c0f048c1f8795af7b873f5014837feb0a7c8317f34417b04" "98522c31200ec2ee2c84ae3dddac94e69730650096c3f4f751be4beece0f6781" "1e7e097ec8cb1f8c3a912d7e1e0331caeed49fef6cff220be63bd2a6ba4cc365" "fc5fcb6f1f1c1bc01305694c59a1a861b008c534cae8d0e48e4d5e81ad718bc6" "c42ac6cd0e60860c4db5edc97eecb587073d1a97c60f0b11f85f7d0a5ed6f5c7" "3c708b84612872e720796ea1b069cf3c8b3e909a2e1da04131f40e307605b7f9" "7df1ccf73c0e12f97a91aaf5fed6a7594b154137190f4ab3232b3cbc42bc9052" "60a2ebd7effefeb960f61bc4772afd8b1ae4ea48fae4d732864ab9647c92093a" "98a444e42a8b2b6cc9c455914b82de687d126a4d1328fb227e82258ef9beb5aa" "06f5145c01ec774a0abb49eeffa3980743ce2f997112b537effeb188b7c51caf" "d6d8a574d826c260b23c487443cc0a904d00db791cf948777a559f1c2c05fecd" "2e60db7f24913de7cea9d719dc25fcf6b45682bef4693e35aec88aed3da1443e" "30d00875497336895044c85527e72453e1cf845d7315ad1fa9614078ae24591f" "b2b7a3f00d564f6b748e5cd841f7ab46fddaf84eb6b82b6cd0d5056eb0c648de" "e5a32add82d288d27323f9cbb9f78e3da3949bdc6283073cb98ae1dc712b6b71" default)))
  '(fci-rule-character-color "#452E2E")
  '(fci-rule-color "#2a2a2a")
  '(safe-local-variable-values (quote ((eval when (and (buffer-file-name) (file-regular-p (buffer-file-name)) (string-match-p "^[^.]" (buffer-file-name))) (emacs-lisp-mode) (unless (featurep (quote package-build)) (let ((load-path (cons ".." load-path))) (require (quote package-build)))) (package-build-minor-mode)))))
