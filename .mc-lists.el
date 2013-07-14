@@ -6,6 +6,7 @@
         beginning-of-buffer
         coffee-dedent-line-backspace
         delete-indentation
+        duplicate-current-line-or-region
         eval-last-sexp
         evil-change
         haskell-indentation-delete-backward-char
@@ -30,6 +31,7 @@
         repeat
         save-region-or-current-line
         sgml-slash
+        sp--self-insert-command
         toggle-quotes
         yas-expand
         ))
