@@ -678,7 +678,7 @@ mouse-1: Display Line and Column Mode Menu")))))))
 
 
 ;;;; flx
-(after flx-autoloads
+(after flx-ido-autoloads
   (flx-ido-mode t))
 
 
