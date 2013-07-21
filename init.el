@@ -18,6 +18,36 @@
 ;; (add-to-list 'package-archives '("melpa-local" . "/Users/dcurtis/src/melpa/packages/") t)
 (package-initialize)
 
+(defvar mp-rad-packages
+  '(ace-jump-mode
+    ag
+    auto-complete
+    base16-theme
+    browse-kill-ring
+    clojure-mode
+    deft
+    diminish
+    dired+
+    evil
+    expand-region
+    flx
+    company
+    git-commit-mode
+    gist
+    ido-ubiquitous
+    ido-vertical-mode
+    iy-go-to-char
+    magit
+    markdown-mode+
+    multiple-cursors
+    naquadah-theme
+    rainbow-delimiters
+    smartparens
+    smex
+    soothe-theme
+    undo-tree
+    dropdown-list))
+
 (defun mp-install-rad-packages ()
   "Install only the sweetest of packages."
   (interactive)
@@ -25,68 +55,15 @@
   (mapc #'(lambda (package)
             (unless (package-installed-p package)
               (package-install package)))
-        '(ace-jump-mode
-          ag
-          auto-complete
-          base16-theme
-          browse-kill-ring
-          clojure-mode
-          deft
-          diminish
-          dired+
-          evil
-          expand-region
-          flx
-          git-commit-mode
-          gist
-          ido-ubiquitous
-          ido-vertical-mode
-          iy-go-to-char
-          magit
-          markdown-mode+
-          multiple-cursors
-          naquadah-theme
-          rainbow-delimiters
-          smartparens
-          smex
-          soothe-theme
-          undo-tree
-          dropdown-list)))
+        mp-rad-packages))
 
 
 (defun mp-build-rad-packages ()
   (interactive)
   (mapc #'(lambda (package)
             (package-build-archive package))
-        '(ace-jump-mode
-          ag
-          base16-theme
-          browse-kill-ring
-          clojure-mode
-          deft
-          diminish
-          dired+
-          evil
-          expand-region
-          flx
-          git-commit-mode
-          gist
-          ido-ubiquitous
-          ido-vertical-mode
-          iy-go-to-char
-          hl-sexp
-          magit
-          markdown-mode+
-          multiple-cursors
-          naquadah-theme
-          paredit
-          smartparens
-          rainbow-delimiters
-          smex
-          soothe-theme
-          undo-tree
-          dropdown-list
-          yasnippet)))
+        mp-rad-packages))
+
 
 ;;;; macros
 (defmacro after (mode &rest body)
@@ -205,7 +182,6 @@
 (global-set-key (kbd "RET") 'newline-and-indent)
 
 (global-set-key (kbd "C-c r") 'iterm-run-previous-command)
-
 
 (global-set-key (kbd "C-S-k") 'kill-and-retry-line)
 (global-set-key (kbd "C-w") 'kill-region-or-backward-word)
@@ -541,7 +517,8 @@ mouse-1: Display Line and Column Mode Menu")))))))
   (after paredit (diminish 'paredit-mode " pe"))
   (after yasnippet (diminish 'yas-minor-mode " ys"))
   (after undo-tree (diminish 'undo-tree-mode " ut"))
-  (after checkdoc (diminish 'checkdoc-minor-mode " cd")))
+  (after checkdoc (diminish 'checkdoc-minor-mode " cd"))
+  (after company (diminish 'company-mode " c")))
 
 
 ;;;; browse-kill-ring
@@ -1017,12 +994,24 @@ mouse-1: Display Line and Column Mode Menu")))))))
     (mapc (lambda (h) (mapc (lambda (f) (add-hook h f)) prog-mode-hook))
           '(c++-mode-hook c-mode-hook)))
 
+(after emacs-major-version)
+
+
+;;;; company
+(after company
+  (add-to-list 'company-backends 'company-capf)
+  (setq company-frontends '(company-pseudo-tooltip-frontend company-echo-metadata-frontend))
+  (setq company-idle-delay 0.1)
+  (setq company-begin-commands '(self-insert-command))
+  (define-key company-active-map (kbd "C-w") nil))
+
+
 ;;;; auto-complete
 (after auto-complete
-  (setq ac-auto-show-menu nil)
+  (setq ac-auto-show-menu .1)
   (setq ac-use-menu-map t)
-  (define-key ac-menu-map (kbd "C-p") 'ac-previous)
-  (define-key ac-menu-map (kbd "C-n") 'ac-next)
+  (setq ac-disable-inline t)
+  (setq ac-candidate-menu-min 0)
   (add-to-list 'ac-dictionary-directories "~/.emacs.d/dict"))
 
 (after auto-complete-config
@@ -1912,6 +1901,7 @@ Including indent-buffer, which should not be called automatically on save."
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(custom-enabled-themes (quote (hemisu-dark)))
+ '(custom-safe-themes (quote ("7feeed063855b06836e0262f77f5c6d3f415159a98a9676d549bfeb6c49637c4" default)))
  '(safe-local-variable-values (quote ((eval when (and (buffer-file-name) (file-regular-p (buffer-file-name)) (string-match-p "^[^.]" (buffer-file-name))) (emacs-lisp-mode) (unless (featurep (quote package-build)) (let ((load-path (cons ".." load-path))) (require (quote package-build)))) (package-build-minor-mode)))))
  '(sp-wrap-entire-symbol nil)
  '(virtualenv-root "/Users/dcurtis/.virtualenv/"))
