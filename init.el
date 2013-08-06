@@ -18,6 +18,14 @@
 ;; (add-to-list 'package-archives '("melpa-local" . "/Users/dcurtis/src/melpa/packages/") t)
 (package-initialize)
 
+;; ignore wiki packages
+(defadvice package--add-to-archive-contents
+  (around package-filter-wiki-packages (package archive) activate compile)
+  (unless (string-match-p "\\[wiki\\]$" (package-desc-doc (cdr package)))
+    ad-do-it))
+
+
+
 (defvar mp-rad-packages
   '(ace-jump-mode
     ag
