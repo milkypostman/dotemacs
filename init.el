@@ -25,36 +25,34 @@
     ad-do-it))
 
 
-
 (defvar mp-rad-packages
-  '(ace-jump-mode
-    ag
-    auto-complete
-    base16-theme
-    browse-kill-ring
-    clojure-mode
-    deft
-    diminish
-    dired+
-    evil
-    expand-region
-    flx
+  '(
+    ;; ace-jump-mode
+    ;; ag
+    ;; auto-complete
+    ;; base16-theme
+    ;; browse-kill-ring
+    ;; clojure-mode
     company
-    git-commit-mode
-    gist
+    ;; deft
+    diminish
+    ;; dired+
+    ;; evil
+    ;; expand-region
+    ;; flx
+    ;; company
+    ;; git-commit-mode
+    ;; gist
     ido-ubiquitous
     ido-vertical-mode
-    iy-go-to-char
     magit
-    markdown-mode+
     multiple-cursors
-    naquadah-theme
     rainbow-delimiters
     smartparens
     smex
-    soothe-theme
     undo-tree
-    dropdown-list))
+    ;; dropdown-list
+    ))
 
 (defun mp-install-rad-packages ()
   "Install only the sweetest of packages."
@@ -81,10 +79,11 @@
      '(progn ,@body)))
 
 
-(add-to-list 'load-path "~/src/powerline/")
+;; (add-to-list 'load-path "~/src/powerline/")
 ;; (require 'powerline)
+;; (setq powerline-default-separator 'butt)
+;; (powerline-reset)
 ;; (powerline-default-theme)
-
 
 ;;;; external libraries
 (require 'checkdoc)
@@ -244,7 +243,7 @@
 (global-set-key (kbd "C-x C--") 'rotate-windows)
 
 (global-set-key (kbd "C-+") 'change-number-at-point)
-(global-set-key (kbd "C-x C-r") 'rename-this-buffer-and-file)
+(global-set-key (kbd "C-x C-r") 'rename-current-buffer-and-file)
 
 (define-key isearch-mode-map "\C-h" 'isearch-delete-char)
 (global-set-key (kbd "C-c h") 'help-command)
@@ -331,7 +330,7 @@
  scroll-margin 5
  send-mail-function (quote mailclient-send-it)
  sentence-end-double-space nil
- show-paren-style 'expression
+ show-paren-style 'mixed
  set-mark-command-repeat-pop t
  shift-select-mode nil
  split-height-threshold nil
@@ -1904,8 +1903,14 @@ Including indent-buffer, which should not be called automatically on save."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(custom-enabled-themes (quote (hemisu-dark)))
- '(custom-safe-themes (quote ("7feeed063855b06836e0262f77f5c6d3f415159a98a9676d549bfeb6c49637c4" default)))
+ '(ansi-term-color-vector [unspecified "#081724" "#ff694d" "#68f6cb" "#fffe4e" "#bad6e2" "#afc0fd" "#d2f1ff" "#d3f9ee"])
+ '(background-color "#202020")
+ '(background-mode dark)
+ '(cursor-color "#cccccc")
+ '(custom-enabled-themes (quote (toxi)))
+ '(custom-safe-themes (quote ("b8f561a188a77e450ab8a060128244c81dea206f15c1152a6899423dd607b327" "1c1e6b2640daffcd23b1f7dd5385ca8484a060aec901b677d0ec0cf2927f7cde" "1a093e45e4c3e86fa5ad1f8003660e7cda4d961cd5d377cee3fee2dad2faf19b" "78cfbd96775588c06c4fff22573aaa5fa762ca2b8eda43cb964b7739194ed3c1" "88d556f828e4ec17ac074077ef9dcaa36a59dccbaa6f2de553d6528b4df79cbd" "76b9b3780c4844712e4a3ab05b8669eecd56a3864aae29e54005ffc68c24414c" "bb1eaf74fcfa24c8868078cac73abba4138d0ddb7f11f44d7e8f849edbf8b912" "383806d341087214fd44864170161c6bf34a41e866f501d1be51883e08cb674b" "a68fa33e66a883ce1a5698bc6ff355b445c87da1867fdb68b9a7325ee6ea3507" "466ae54a7b157ad02fd91da72b7871bccfb9bac98fdab95cf7a0d405c8572bd0" "88b663861db4767f7881e5ecff9bb46d65161a20e40585c8128e8bed8747dae5" "77bd459212c0176bdf63c1904c4ba20fce015f730f0343776a1a14432de80990" "c1fb68aa00235766461c7e31ecfc759aa2dd905899ae6d95097061faeb72f9ee" "446c73cdfb49f1dab4c322e51ac00a536fb0e3cb7e6809b9f4616e0858012e92" "9562e9eb5fd01677ac6b76b66f9a81338991fa9d270270802eeae5232c8da0a6" "6f3060ac8300275c990116794e1ba897b6a8af97c51a0cb226a98759752cddcf" "7feeed063855b06836e0262f77f5c6d3f415159a98a9676d549bfeb6c49637c4" default)))
+ '(fci-rule-color "#444444")
+ '(foreground-color "#cccccc")
  '(safe-local-variable-values (quote ((eval when (and (buffer-file-name) (file-regular-p (buffer-file-name)) (string-match-p "^[^.]" (buffer-file-name))) (emacs-lisp-mode) (unless (featurep (quote package-build)) (let ((load-path (cons ".." load-path))) (require (quote package-build)))) (package-build-minor-mode)))))
  '(sp-wrap-entire-symbol nil)
  '(virtualenv-root "/Users/dcurtis/.virtualenv/"))
