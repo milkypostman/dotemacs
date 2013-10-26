@@ -366,7 +366,7 @@
   (setq-default mac-option-modifier 'super)
   (setq-default mac-pass-command-to-system nil)
 
-  (set-face-attribute 'default nil :font "Inconsolata-13")
+  (set-face-attribute 'default nil :font "DejaVu Sans-12")
   ;; specify a unicode font : MENLO (forced normal)
   (set-fontset-font "fontset-default" 'unicode "-apple-Inconsolata-medium-normal-normal-*-13-*-*-*-m-0-iso10646-1")
 
