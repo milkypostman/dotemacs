@@ -130,6 +130,8 @@
 ;;;; random number generator
 (random t)
 
+(auto-insert-mode t)
+
 (windmove-default-keybindings)
 (global-set-key (kbd "<select>") 'windmove-up)
 ;; (global-set-key (kbd "s-l") 'windmove-right)
