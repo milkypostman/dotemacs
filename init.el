@@ -35,24 +35,24 @@
     ;; base16-theme
     ;; browse-kill-ring
     ;; clojure-mode
-    company
+    ;; company
     ;; deft
-    diminish
+    ;; diminish
     ;; dired+
     ;; evil
-    expand-region
+    ;; expand-region
     ;; flx
     ;; company
     ;; git-commit-mode
     ;; gist
-    ido-ubiquitous
-    ido-vertical-mode
-    magit
-    multiple-cursors
-    rainbow-delimiters
-    smartparens
-    smex
-    undo-tree
+    ;; ido-ubiquitous
+    ;; ido-vertical-mode
+    ;; magit
+    ;; multiple-cursors
+    ;; rainbow-delimiters
+    ;; smartparens
+    ;; smex
+    ;; undo-tree
     ;; dropdown-list
     ))
 
