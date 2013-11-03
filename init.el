@@ -190,7 +190,6 @@
 (global-set-key (kbd "C-c y") 'bury-buffer)
 
 (global-set-key (kbd "C-x r q") 'save-buffers-kill-terminal)
-(global-set-key (kbd "C-x C-c") 'delete-frame)
 (global-set-key (kbd "RET") 'newline-and-indent)
 
 (global-set-key (kbd "C-c r") 'iterm-run-previous-command)
@@ -1331,13 +1330,6 @@ tell application \"System Events\" to keystroke \"v\" using {command down}")))
       (kill-ring-save begin-region end-region))
     (paste-previous-osx-app)))
 
-
-
-(defun close-frame-or-client (&optional args)
-  (interactive "P")
-  (if (> (length (frame-list)) 1)
-      (progn (save-some-buffers)
-             (delete-frame))))
 
 
 (defun unfill-paragraph ()
