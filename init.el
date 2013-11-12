@@ -283,16 +283,16 @@
 (prefer-coding-system 'utf-8)
 (which-function-mode t)
 
+
 ;;;; the uncustomizable
 (setq-default
  ansi-color-faces-vector [default bold shadow italic underline bold bold-italic bold]
  ansi-color-for-comint-mode t
  ansi-color-names-vector ["#242424" "#e5786d" "#95e454" "#cae682" "#8ac6f2" "#333366" "#ccaa8f" "#f6f3e8"]
- auto-save-file-name-transforms (quote ((".*" "~/.emacs.d/autosave/" t)))
  auto-revert-verbose nil
+ auto-save-file-name-transforms (quote ((".*" "~/.emacs.d/autosave/" t)))
  backup-directory-alist (quote (("." . "~/.emacs.d/backups/")))
  backward-delete-char-untabify-method nil
- undo-tree-history-directory-alist (quote (("." . "~/.emacs.d/undo/")))
  coffee-tab-width 2
  cua-enable-cua-keys nil
  custom-theme-directory "~/.emacs.d/themes/"
@@ -305,6 +305,16 @@
  enable-recursive-minibuffers t
  erc-hide-list '("JOIN" "PART" "QUIT")
  flymake-gui-warnings-enabled t
+ fringe-indicator-alist '((truncation left-arrow right-arrow)
+                          (continuation nil right-curly-arrow)
+                          (overlay-arrow . right-triangle)
+                          (up . up-arrow)
+                          (down . down-arrow)
+                          (top top-left-angle top-right-angle)
+                          (bottom bottom-left-angle bottom-right-angle top-right-angle top-left-angle)
+                          (top-bottom left-bracket right-bracket top-right-angle top-left-angle)
+                          (empty-line . empty-line)
+                          (unknown . question-mark))
  global-auto-revert-non-file-buffers t
  ibuffer-expert t
  ibuffer-show-empty-filter-groups nil
@@ -320,27 +330,28 @@
  mouse-wheel-scroll-amount (quote (0.01))
  mouse-yank-at-point t
  ns-alternate-modifier (quote super)
- ns-function-modifier (quote hyper)
  ns-command-modifier (quote meta)
+ ns-function-modifier (quote hyper)
  ns-pop-up-frames nil
  ns-tool-bar-display-mode 'both
  ns-tool-bar-size-mode 'regular
- redisplay-dont-pause t
  recentf-max-saved-items 100
+ redisplay-dont-pause t
  ring-bell-function 'ignore
- save-place-file "~/.emacs.d/places"
  save-place t
+ save-place-file "~/.emacs.d/places"
  scroll-conservatively 5
  scroll-margin 5
  send-mail-function (quote mailclient-send-it)
  sentence-end-double-space nil
- show-paren-style 'mixed
  set-mark-command-repeat-pop t
  shift-select-mode nil
+ show-paren-style 'mixed
  split-height-threshold nil
  split-width-threshold 159
  time-stamp-format "%04y-%02m-%02d %02H:%02M:%02S (%u)"
  tramp-remote-path '(tramp-default-remote-path tramp-own-remote-path "/bin" "/usr/bin" "/usr/sbin" "/usr/local/bin" "/local/bin" "/local/freeware/bin" "/local/gnu/bin" "/usr/freeware/bin" "/usr/pkg/bin" "/usr/contrib/bin")
+ undo-tree-history-directory-alist (quote (("." . "~/.emacs.d/undo/")))
  uniquify-buffer-name-style 'forward
  uniquify-ignore-buffers-re "^\\*"
  uniquify-separator " • "
@@ -348,8 +359,8 @@
  user-mail-address "dcurtis@milkbox.net"
  visible-bell nil
  whitespace-style '(face tabs trailing lines-tail newline indentation empty space-after-tab)
- whitespace-style '(face tabs trailing lines-tail newline empty space-after-tab)
- )
+ whitespace-style '(face tabs trailing lines-tail newline empty space-after-tab))
+
 
 ;;;; Darwin specific
 (cond ((eq system-type 'darwin)
@@ -368,6 +379,7 @@
   (setq-default mac-pass-command-to-system nil)
 
   (set-face-attribute 'default nil :font "DejaVu Sans-12")
+  ;; (set-face-attribute 'default nil :font "Inconsolata-13")
   ;; specify a unicode font : MENLO (forced normal)
   (set-fontset-font "fontset-default" 'unicode "-apple-Inconsolata-medium-normal-normal-*-13-*-*-*-m-0-iso10646-1")
 
@@ -590,9 +602,9 @@ mouse-1: Display Line and Column Mode Menu")))))))
   (setq sp-cancel-autoskip-on-backward-movement nil)
   (setq sp-autoinsert-quote-if-followed-by-closing-pair t)
   (setq sp-autoinsert-if-followed-by-word t)
+  (setq sp-wrap-entire-symbol nil)
   (sp-pair "\"" nil)
-  (sp-with-modes sp--lisp-modes
-                 (sp-local-pair "(" nil :bind "M-("))
+  (sp-with-modes sp--lisp-modes (sp-local-pair "(" nil :bind "M-("))
   ;; (define-key emacs-lisp-mode-map (kbd ")") 'sp-up-sexp)
   ;; (define-key sp-keymap (kbd ")") 'sp-up-sexp)
   ;; (define-key sp-keymap (kbd "]") 'sp-up-sexp)
@@ -624,10 +636,11 @@ mouse-1: Display Line and Column Mode Menu")))))))
   (define-key helm-map (kbd "C-h") (kbd "<DEL>"))
   (define-key helm-map (kbd "C-w") 'subword-backward-kill)
   (define-key helm-map (kbd "M-w") 'helm-yank-text-at-point)
-  (setq helm-quick-update t))
+  (setq helm-quick-update t)
+  (setq helm-follow-mode-persistent t))
 
 (after helm-git-grep
-    (define-key helm-git-grep-map (kbd "C-w") 'subword-backward-kill))
+  (define-key helm-git-grep-map (kbd "C-w") 'subword-backward-kill))
 
 
 ;;;; ido
@@ -1919,10 +1932,11 @@ Including indent-buffer, which should not be called automatically on save."
  '(fci-rule-color "#444444")
  '(foreground-color "#cccccc")
  '(frame-brackground-mode (quote dark))
- '(helm-follow-mode-persistent t)
+ '(fringe-mode (quote (4 . 0)) nil (fringe))
+ '(indicate-buffer-boundaries (quote left))
  '(linum-format " %7i ")
+ '(overflow-newline-into-fringe t)
  '(safe-local-variable-values (quote ((eval when (and (buffer-file-name) (file-regular-p (buffer-file-name)) (string-match-p "^[^.]" (buffer-file-name))) (emacs-lisp-mode) (when (fboundp (quote flycheck-mode)) (flycheck-mode -1)) (unless (featurep (quote package-build)) (let ((load-path (cons ".." load-path))) (require (quote package-build)))) (package-build-minor-mode)) (eval when (and (buffer-file-name) (file-regular-p (buffer-file-name)) (string-match-p "^[^.]" (buffer-file-name))) (emacs-lisp-mode) (unless (featurep (quote package-build)) (let ((load-path (cons ".." load-path))) (require (quote package-build)))) (package-build-minor-mode)))))
- '(sp-wrap-entire-symbol nil)
  '(vc-annotate-background monokai-bg)
  '(vc-annotate-color-map (quote ((20 . monokai-fg-1) (40 . monokai-bg+2) (60 . monokai-red) (80 . monokai-red+1) (100 . monokai-orange) (120 . monokai-orange+1) (140 . monokai-green) (160 . monokai-green+1) (180 . monokai-yellow) (200 . monokai-yellow+1) (220 . monokai-blue) (240 . monokai-blue+1) (260 . monokai-purple) (280 . monokai-purple+1) (300 . monokai-cyan) (320 . monokai-cyan+1) (340 . monokai-magenta) (360 . monokai-magenta+1))))
  '(vc-annotate-very-old-color monokai-magenta)
