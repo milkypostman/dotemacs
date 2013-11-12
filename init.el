@@ -618,16 +618,23 @@ mouse-1: Display Line and Column Mode Menu")))))))
 (setq system-uses-terminfo nil)
 
 ;;;; helm
-(after helm-autoloads
+(after helm
   (setq helm-ff-auto-update-initial-value nil)
+  (define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action)
+  (define-key helm-map (kbd "C-h") (kbd "<DEL>"))
+  (define-key helm-map (kbd "C-w") 'subword-backward-kill)
+  (define-key helm-map (kbd "M-w") 'helm-yank-text-at-point)
   (setq helm-quick-update t))
+
+(after helm-git-grep
+    (define-key helm-git-grep-map (kbd "C-w") 'subword-backward-kill))
 
 
 ;;;; ido
 (ido-mode t)
 (ido-everywhere t)
 (setq ido-enable-flex-matching t)
-(setq ido-auto-merge-work-directories-length nil)
+(setq ido-auto-merge-work-directories-length -1)
 (setq ido-create-new-buffer 'always)
 (setq ido-everywhere t)
 (setq ido-max-prospects 10)
@@ -662,8 +669,12 @@ mouse-1: Display Line and Column Mode Menu")))))))
 
 ;;;; flx
 (after flx-ido-autoloads
+  (setq ido-use-faces nil)
   (flx-ido-mode t))
 
+;;;; ido-at-point
+(after ido-at-point-autoloads
+  (ido-at-point-mode))
 
 ;;;; smex
 (after smex-autoloads (smex-initialize))
@@ -929,7 +940,7 @@ mouse-1: Display Line and Column Mode Menu")))))))
 ;;;; emacs lisp
 (defun imenu-elisp-sections ()
   (setq imenu-prev-index-position-function nil)
-  (add-to-list 'imenu-generic-expression '("Sections" "^;;;; \\(.+\\)$" 1) t))
+  (add-to-list 'imenu-generic-expression '(nil "^;;;; \\(.+\\)$" 1) t))
 
 (add-hook 'emacs-lisp-mode-hook 'imenu-elisp-sections)
 
@@ -1903,11 +1914,12 @@ Including indent-buffer, which should not be called automatically on save."
  '(background-mode dark)
  '(cursor-color "#cccccc")
  '(custom-enabled-themes (quote (mustang)))
- '(custom-safe-themes (quote ("de2c46ed1752b0d0423cde9b6401062b67a6a1300c068d5d7f67725adc6c3afb" "9bac44c2b4dfbb723906b8c491ec06801feb57aa60448d047dbfdbd1a8650897" "1affe85e8ae2667fb571fc8331e1e12840746dae5c46112d5abb0c3a973f5f5a" "41b6698b5f9ab241ad6c30aea8c9f53d539e23ad4e3963abff4b57c0f8bf6730" "e53cc4144192bb4e4ed10a3fa3e7442cae4c3d231df8822f6c02f1220a0d259a" "c7359bd375132044fe993562dfa736ae79efc620f68bab36bd686430c980df1c" "f220c05492910a305f5d26414ad82bf25a321c35aa05b1565be12f253579dec6" "d0ff5ea54497471567ed15eb7279c37aef3465713fb97a50d46d95fe11ab4739" "dc46381844ec8fcf9607a319aa6b442244d8c7a734a2625dac6a1f63e34bc4a6" "29a4267a4ae1e8b06934fec2ee49472daebd45e1ee6a10d8ff747853f9a3e622" "e26780280b5248eb9b2d02a237d9941956fc94972443b0f7aeec12b5c15db9f3" "978bd4603630ecb1f01793af60beb52cb44734fc14b95c62e7b1a05f89b6c811" "1f3304214265481c56341bcee387ef1abb684e4efbccebca0e120be7b1a13589" "1cf3f29294c5a3509b7eb3ff9e96f8e8db9d2d08322620a04d862e40dc201fe2" "9ea054db5cdbd5baa4cda9d373a547435ba88d4e345f4b06f732edbc4f017dc3" "f48b43277382ee56a9e3c5d08b71c3639f401f6338da00039dcac3c21c0811b5" "b1e54397de2c207e550dc3a090844c4b52d1a2c4a48a17163cce577b09c28236" "bad832ac33fcbce342b4d69431e7393701f0823a3820f6030ccc361edd2a4be4" "7d090d4b15e530c28a35e084700aca464291264aad1fa2f2b6bba33dd2e92fd5" "b674ccba78eb688bea71ea8a1fd2782fcd69bd462e2504008903b5b6e018b480" "0c311fb22e6197daba9123f43da98f273d2bfaeeaeb653007ad1ee77f0003037" "af5f7d472ffeed85823d563512ce95e8ff7d648d8217d9ab79b17ae601b9a9d5" "7fa9dc3948765d7cf3d7a289e40039c2c64abf0fad5c616453b263b601532493" "e57e7b19da7b4cd0e5512d5e9bc20d31c9cf50112c462de15a76bce0ea3c5ef5" "75d4ccc5e912b93f722e57cca3ca1a15e079032cd69fd9bc67268b4c85639663" "d971315c813b0269a86e7c5e73858070063016d9585492bd8d0f27704d50fee7" "450b29ed22abeeac279b7eeea592f4eea810105737716fc29807e1684e729c55" "1278386c1d30fc24b4248ba69bc5b49d92981c3476de700a074697d777cb0752" "d7f1c86b425e148be505c689fc157d96323682c947b29ef00cf57b4e4e46e6c7" "9f42bccce1e13fa5017eb8718574db099e85358b9f424db78e7318f86d1be08f" "5339210234ec915d7d3fd87bfeb506bfc436ff7277a55516ab1781ec85c57224" "eacfc96fbe418c017f4a00fdde5d5029db8e2800a46251eb2174484fa431917e" "3bd9497fb8f39c28ab58a9e957152ba2dc41223c23c5520ef10fc7bd6b222384" "fa189fcf5074d4964f0a53f58d17c7e360bb8f879bd968ec4a56dc36b0013d29" "47583b577fb062aeb89d3c45689a4f2646b7ebcb02e6cb2d5f6e2790afb91a18" "98522c31200ec2ee2c84ae3dddac94e69730650096c3f4f751be4beece0f6781" "eef383086ae1f47f75cda814adfb9868a3dafa99b6eb67fdff780a52d326d468" "7153b82e50b6f7452b4519097f880d968a6eaf6f6ef38cc45a144958e553fbc6" "a0feb1322de9e26a4d209d1cfa236deaf64662bb604fa513cca6a057ddf0ef64" "465be5317c7d95a84e376e095c21242f4f2ad75692ed806dcbb6fe27078260f1" "f24462e7d2dcc5a7c6767ffc25cab208e6e3a963682b62bb2526eceb3899fff8" "f0283ec7a2385af8ea0fbb1466f340bbd0b2cededa60831394ec94e98096e1a8" "1d10043a0318d90a71cfa1f7e6b3b67f77c16ff9854f35a5b8722d87cb74f580" "b8f561a188a77e450ab8a060128244c81dea206f15c1152a6899423dd607b327" "1c1e6b2640daffcd23b1f7dd5385ca8484a060aec901b677d0ec0cf2927f7cde" "1a093e45e4c3e86fa5ad1f8003660e7cda4d961cd5d377cee3fee2dad2faf19b" "78cfbd96775588c06c4fff22573aaa5fa762ca2b8eda43cb964b7739194ed3c1" "88d556f828e4ec17ac074077ef9dcaa36a59dccbaa6f2de553d6528b4df79cbd" "76b9b3780c4844712e4a3ab05b8669eecd56a3864aae29e54005ffc68c24414c" "bb1eaf74fcfa24c8868078cac73abba4138d0ddb7f11f44d7e8f849edbf8b912" "383806d341087214fd44864170161c6bf34a41e866f501d1be51883e08cb674b" "a68fa33e66a883ce1a5698bc6ff355b445c87da1867fdb68b9a7325ee6ea3507" "466ae54a7b157ad02fd91da72b7871bccfb9bac98fdab95cf7a0d405c8572bd0" "88b663861db4767f7881e5ecff9bb46d65161a20e40585c8128e8bed8747dae5" "77bd459212c0176bdf63c1904c4ba20fce015f730f0343776a1a14432de80990" "c1fb68aa00235766461c7e31ecfc759aa2dd905899ae6d95097061faeb72f9ee" "446c73cdfb49f1dab4c322e51ac00a536fb0e3cb7e6809b9f4616e0858012e92" "9562e9eb5fd01677ac6b76b66f9a81338991fa9d270270802eeae5232c8da0a6" "6f3060ac8300275c990116794e1ba897b6a8af97c51a0cb226a98759752cddcf" "7feeed063855b06836e0262f77f5c6d3f415159a98a9676d549bfeb6c49637c4" default)))
+ '(custom-safe-themes (quote ("6e05b0a83b83b5efd63c74698e1ad6feaddf69a50b15a8b4a83b157aac45127c" "de2c46ed1752b0d0423cde9b6401062b67a6a1300c068d5d7f67725adc6c3afb" "9bac44c2b4dfbb723906b8c491ec06801feb57aa60448d047dbfdbd1a8650897" "1affe85e8ae2667fb571fc8331e1e12840746dae5c46112d5abb0c3a973f5f5a" "41b6698b5f9ab241ad6c30aea8c9f53d539e23ad4e3963abff4b57c0f8bf6730" "e53cc4144192bb4e4ed10a3fa3e7442cae4c3d231df8822f6c02f1220a0d259a" "c7359bd375132044fe993562dfa736ae79efc620f68bab36bd686430c980df1c" "f220c05492910a305f5d26414ad82bf25a321c35aa05b1565be12f253579dec6" "d0ff5ea54497471567ed15eb7279c37aef3465713fb97a50d46d95fe11ab4739" "dc46381844ec8fcf9607a319aa6b442244d8c7a734a2625dac6a1f63e34bc4a6" "29a4267a4ae1e8b06934fec2ee49472daebd45e1ee6a10d8ff747853f9a3e622" "e26780280b5248eb9b2d02a237d9941956fc94972443b0f7aeec12b5c15db9f3" "978bd4603630ecb1f01793af60beb52cb44734fc14b95c62e7b1a05f89b6c811" "1f3304214265481c56341bcee387ef1abb684e4efbccebca0e120be7b1a13589" "1cf3f29294c5a3509b7eb3ff9e96f8e8db9d2d08322620a04d862e40dc201fe2" "9ea054db5cdbd5baa4cda9d373a547435ba88d4e345f4b06f732edbc4f017dc3" "f48b43277382ee56a9e3c5d08b71c3639f401f6338da00039dcac3c21c0811b5" "b1e54397de2c207e550dc3a090844c4b52d1a2c4a48a17163cce577b09c28236" "bad832ac33fcbce342b4d69431e7393701f0823a3820f6030ccc361edd2a4be4" "7d090d4b15e530c28a35e084700aca464291264aad1fa2f2b6bba33dd2e92fd5" "b674ccba78eb688bea71ea8a1fd2782fcd69bd462e2504008903b5b6e018b480" "0c311fb22e6197daba9123f43da98f273d2bfaeeaeb653007ad1ee77f0003037" "af5f7d472ffeed85823d563512ce95e8ff7d648d8217d9ab79b17ae601b9a9d5" "7fa9dc3948765d7cf3d7a289e40039c2c64abf0fad5c616453b263b601532493" "e57e7b19da7b4cd0e5512d5e9bc20d31c9cf50112c462de15a76bce0ea3c5ef5" "75d4ccc5e912b93f722e57cca3ca1a15e079032cd69fd9bc67268b4c85639663" "d971315c813b0269a86e7c5e73858070063016d9585492bd8d0f27704d50fee7" "450b29ed22abeeac279b7eeea592f4eea810105737716fc29807e1684e729c55" "1278386c1d30fc24b4248ba69bc5b49d92981c3476de700a074697d777cb0752" "d7f1c86b425e148be505c689fc157d96323682c947b29ef00cf57b4e4e46e6c7" "9f42bccce1e13fa5017eb8718574db099e85358b9f424db78e7318f86d1be08f" "5339210234ec915d7d3fd87bfeb506bfc436ff7277a55516ab1781ec85c57224" "eacfc96fbe418c017f4a00fdde5d5029db8e2800a46251eb2174484fa431917e" "3bd9497fb8f39c28ab58a9e957152ba2dc41223c23c5520ef10fc7bd6b222384" "fa189fcf5074d4964f0a53f58d17c7e360bb8f879bd968ec4a56dc36b0013d29" "47583b577fb062aeb89d3c45689a4f2646b7ebcb02e6cb2d5f6e2790afb91a18" "98522c31200ec2ee2c84ae3dddac94e69730650096c3f4f751be4beece0f6781" "eef383086ae1f47f75cda814adfb9868a3dafa99b6eb67fdff780a52d326d468" "7153b82e50b6f7452b4519097f880d968a6eaf6f6ef38cc45a144958e553fbc6" "a0feb1322de9e26a4d209d1cfa236deaf64662bb604fa513cca6a057ddf0ef64" "465be5317c7d95a84e376e095c21242f4f2ad75692ed806dcbb6fe27078260f1" "f24462e7d2dcc5a7c6767ffc25cab208e6e3a963682b62bb2526eceb3899fff8" "f0283ec7a2385af8ea0fbb1466f340bbd0b2cededa60831394ec94e98096e1a8" "1d10043a0318d90a71cfa1f7e6b3b67f77c16ff9854f35a5b8722d87cb74f580" "b8f561a188a77e450ab8a060128244c81dea206f15c1152a6899423dd607b327" "1c1e6b2640daffcd23b1f7dd5385ca8484a060aec901b677d0ec0cf2927f7cde" "1a093e45e4c3e86fa5ad1f8003660e7cda4d961cd5d377cee3fee2dad2faf19b" "78cfbd96775588c06c4fff22573aaa5fa762ca2b8eda43cb964b7739194ed3c1" "88d556f828e4ec17ac074077ef9dcaa36a59dccbaa6f2de553d6528b4df79cbd" "76b9b3780c4844712e4a3ab05b8669eecd56a3864aae29e54005ffc68c24414c" "bb1eaf74fcfa24c8868078cac73abba4138d0ddb7f11f44d7e8f849edbf8b912" "383806d341087214fd44864170161c6bf34a41e866f501d1be51883e08cb674b" "a68fa33e66a883ce1a5698bc6ff355b445c87da1867fdb68b9a7325ee6ea3507" "466ae54a7b157ad02fd91da72b7871bccfb9bac98fdab95cf7a0d405c8572bd0" "88b663861db4767f7881e5ecff9bb46d65161a20e40585c8128e8bed8747dae5" "77bd459212c0176bdf63c1904c4ba20fce015f730f0343776a1a14432de80990" "c1fb68aa00235766461c7e31ecfc759aa2dd905899ae6d95097061faeb72f9ee" "446c73cdfb49f1dab4c322e51ac00a536fb0e3cb7e6809b9f4616e0858012e92" "9562e9eb5fd01677ac6b76b66f9a81338991fa9d270270802eeae5232c8da0a6" "6f3060ac8300275c990116794e1ba897b6a8af97c51a0cb226a98759752cddcf" "7feeed063855b06836e0262f77f5c6d3f415159a98a9676d549bfeb6c49637c4" default)))
  '(fci-rule-character-color "#192028")
  '(fci-rule-color "#444444")
  '(foreground-color "#cccccc")
  '(frame-brackground-mode (quote dark))
+ '(helm-follow-mode-persistent t)
  '(linum-format " %7i ")
  '(safe-local-variable-values (quote ((eval when (and (buffer-file-name) (file-regular-p (buffer-file-name)) (string-match-p "^[^.]" (buffer-file-name))) (emacs-lisp-mode) (when (fboundp (quote flycheck-mode)) (flycheck-mode -1)) (unless (featurep (quote package-build)) (let ((load-path (cons ".." load-path))) (require (quote package-build)))) (package-build-minor-mode)) (eval when (and (buffer-file-name) (file-regular-p (buffer-file-name)) (string-match-p "^[^.]" (buffer-file-name))) (emacs-lisp-mode) (unless (featurep (quote package-build)) (let ((load-path (cons ".." load-path))) (require (quote package-build)))) (package-build-minor-mode)))))
  '(sp-wrap-entire-symbol nil)
@@ -1922,7 +1934,7 @@ Including indent-buffer, which should not be called automatically on save."
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(hl-sentence-face ((t (:foreground "white"))) t)
- '(variable-pitch ((t (:foreground "gray60" :height 140 :family "Cochin")))))
+ '(variable-pitch ((t (:height 120 :family "DejaVu Sans")))))
 
 
 (put 'narrow-to-region 'disabled nil)
