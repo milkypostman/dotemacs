@@ -21,10 +21,10 @@
 (package-initialize)
 
 ;; ignore wiki packages
-(defadvice package--add-to-archive-contents
-  (around package-filter-wiki-packages (package archive) activate compile)
-  (unless (string-match-p "\\[wiki\\]$" (package-desc-doc (cdr package)))
-    ad-do-it))
+;; (defadvice package--add-to-archive-contents
+;;   (around package-filter-wiki-packages (package archive) activate compile)
+;;   (unless (string-match-p "\\[wiki\\]$" (package-desc-doc (cdr package)))
+;;     ad-do-it))
 
 
 (defvar mp-rad-packages
