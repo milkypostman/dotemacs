@@ -544,8 +544,8 @@ mouse-1: Display Line and Column Mode Menu")))))))
   (after 'company (diminish 'company-mode " c")))
 
 
-;;;; browse-kill-ring
-(after "browse-kill-ring-autoloads"
+;;;; smartparens
+(after "smartparens-autoloads"
   (require 'smartparens-config)
   (smartparens-global-mode t))
 
