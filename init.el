@@ -134,10 +134,6 @@
 
 (windmove-default-keybindings)
 (global-set-key (kbd "<select>") 'windmove-up)
-;; (global-set-key (kbd "s-l") 'windmove-right)
-;; (global-set-key (kbd "s-h") 'windmove-left)
-;; (global-set-key (kbd "s-j") 'windmove-down)
-;; (global-set-key (kbd "s-k") 'windmove-up)
 
 
 ;;;; remaps
@@ -149,8 +145,6 @@
 ;;;; global key bindings
 (global-set-key (kbd "s-<return>") 'ns-toggle-fullscreen)
 (global-set-key (kbd "C-M-SPC") 'just-one-space)
-;;(global-set-key (kbd "A-h") 'ns-do-hide-emacs)
-;;(global-set-key (kbd "A-M-h") 'ns-do-hide-others)
 
 (global-set-key (kbd "M-z") 'zap-up-to-char)
 (global-set-key (kbd "M-Z") 'zap-to-char)
