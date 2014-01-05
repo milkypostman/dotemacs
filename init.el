@@ -151,8 +151,6 @@
 (global-set-key (kbd "C-z") 'other-window)
 (global-set-key (kbd "C-S-z") 'other-window-reverse)
 
-
-
 (global-set-key (kbd "C-x C-k") 'kill-region)
 (global-set-key (kbd "C-c n") 'cleanup-buffer)
 
