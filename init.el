@@ -349,6 +349,7 @@
  uniquify-separator " • "
  user-full-name "Donald Ephraim Curtis"
  user-mail-address "dcurtis@milkbox.net"
+ vc-follow-symlinks t
  visible-bell nil
  whitespace-style '(face tabs trailing lines-tail newline indentation empty space-after-tab)
  whitespace-style '(face tabs trailing lines-tail newline empty space-after-tab))
@@ -690,7 +691,8 @@ mouse-1: Display Line and Column Mode Menu")))))))
 
 ;;;; ace-jump-mode
 (after "ace-jump-mode-autoloads"
-  (define-key global-map (kbd "C-;") 'ace-jump-mode))
+  (define-key global-map (kbd "C-;") 'ace-jump-mode)
+  (define-key global-map (kbd "C-c C-SPC") 'ace-jump-mode))
 
 ;;;; wrap-region
 (after "wrap-region-autoloads"
@@ -823,10 +825,11 @@ mouse-1: Display Line and Column Mode Menu")))))))
   (define-key magit-status-mode-map (kbd "q") 'magit-quit-session)
 
   ;; full screen magit-status
-  (defadvice magit-status (around magit-fullscreen activate)
-    (window-configuration-to-register :magit-fullscreen)
-    ad-do-it
-    (delete-other-windows)))
+  ;; (defadvice magit-status (around magit-fullscreen activate)
+  ;;   (window-configuration-to-register :magit-fullscreen)
+  ;;   ad-do-it
+  ;;   (delete-other-windows))
+  )
 
 
 ;;;; deft
