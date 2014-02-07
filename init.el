@@ -822,14 +822,7 @@ mouse-1: Display Line and Column Mode Menu")))))))
 
 (after 'magit
   (define-key magit-status-mode-map (kbd "W") 'magit-toggle-whitespace)
-  (define-key magit-status-mode-map (kbd "q") 'magit-quit-session)
-
-  ;; full screen magit-status
-  ;; (defadvice magit-status (around magit-fullscreen activate)
-  ;;   (window-configuration-to-register :magit-fullscreen)
-  ;;   ad-do-it
-  ;;   (delete-other-windows))
-  )
+  (define-key magit-status-mode-map (kbd "q") 'magit-quit-session))
 
 
 ;;;; deft
