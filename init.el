@@ -842,11 +842,12 @@ mouse-1: Display Line and Column Mode Menu")))))))
 
 
 ;;;; markdown
-(setq auto-mode-alist
-      (cons '("\\.te?xt\\'" . markdown-mode) auto-mode-alist))
-(setq auto-mode-alist
-      (cons '("\\.mm?d\\'" . markdown-mode) auto-mode-alist))
-(setq markdown-command "pandoc -S")
+(after "markdown-mode-autoloads"
+  (setq auto-mode-alist
+        (cons '("\\.te?xt\\'" . markdown-mode) auto-mode-alist))
+  (setq auto-mode-alist
+        (cons '("\\.mm?d\\'" . markdown-mode) auto-mode-alist))
+  (setq markdown-command "pandoc -S"))
 
 (defun markdown-latex-narrow ()
   (interactive)
