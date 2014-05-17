@@ -8,6 +8,8 @@
 ;; No splash screen please... jeez
 (setq inhibit-startup-screen t)
 
+(add-to-list 'load-path "~/src/melpa")
+
 ;;;; package.el
 (require 'package)
 (setq package-user-dir "~/.emacs.d/elpa/")
