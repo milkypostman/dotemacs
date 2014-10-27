@@ -18,8 +18,9 @@
 ;; (add-to-list 'package-archives
 ;;              '("melpa" . "http://melpa.milkbox.net/packages/") t)
 (add-to-list 'package-archives
-             '("quasi-melpa" . "http://quasi.milkbox.net/packages/") t)
+             '("melpa" . "http://melpa.org/packages/") t)
 ;; (add-to-list 'package-archives '("melpa-local" . "/Users/dcurtis/src/melpa/packages/") t)
+;; (add-to-list 'package-archives '("melpa-local" . "/home/d/src/melpa/packages/") t)
 (package-initialize)
 
 ;; ignore wiki packages
@@ -31,31 +32,31 @@
 
 (defvar mp-rad-packages
   '(
-    ;; ace-jump-mode
     ;; ag
     ;; auto-complete
     ;; base16-theme
     ;; browse-kill-ring
     ;; clojure-mode
     ;; company
-    ;; deft
-    ;; diminish
-    ;; dired+
-    ;; evil
-    ;; expand-region
-    ;; flx
     ;; company
-    ;; git-commit-mode
+    ;; deft
+    ;; dired+
+    ;; dropdown-list
+    ;; evil
+    ;; flx
     ;; gist
-    ;; ido-ubiquitous
-    ;; ido-vertical-mode
-    ;; magit
-    ;; multiple-cursors
     ;; rainbow-delimiters
     ;; smartparens
-    ;; smex
-    ;; undo-tree
-    ;; dropdown-list
+    ace-jump-mode
+    diminish
+    expand-region
+    git-commit-mode
+    ido-ubiquitous
+    ido-vertical-mode
+    magit
+    multiple-cursors
+    smex
+    undo-tree
     ))
 
 (defun mp-install-rad-packages ()
@@ -1884,7 +1885,7 @@ Including indent-buffer, which should not be called automatically on save."
  '(indicate-buffer-boundaries (quote left))
  '(linum-format " %7i ")
  '(overflow-newline-into-fringe t)
- '(safe-local-variable-values (quote ((eval when (and (buffer-file-name) (file-regular-p (buffer-file-name)) (string-match-p "^[^.]" (buffer-file-name))) (emacs-lisp-mode) (when (fboundp (quote flycheck-mode)) (flycheck-mode -1)) (unless (featurep (quote package-build)) (let ((load-path (cons ".." load-path))) (require (quote package-build)))) (package-build-minor-mode)))))
+ '(safe-local-variable-values (quote ((eval when (and (buffer-file-name) (file-regular-p (buffer-file-name)) (string-match-p "^[^.]" (buffer-file-name))) (emacs-lisp-mode) (when (fboundp (quote flycheck-mode)) (flycheck-mode -1)) (unless (featurep (quote package-build)) (let ((load-path (cons ".." load-path))) (require (quote package-build)))) (package-build-minor-mode) (set (make-local-variable (quote package-build-working-dir)) (expand-file-name "../working/")) (set (make-local-variable (quote package-build-archive-dir)) (expand-file-name "../packages/")) (set (make-local-variable (quote package-build-recipes-dir)) default-directory)) (eval when (and (buffer-file-name) (file-regular-p (buffer-file-name)) (string-match-p "^[^.]" (buffer-file-name))) (emacs-lisp-mode) (when (fboundp (quote flycheck-mode)) (flycheck-mode -1)) (unless (featurep (quote package-build)) (let ((load-path (cons ".." load-path))) (require (quote package-build)))) (package-build-minor-mode)))))
  '(virtualenv-root "/Users/dcurtis/.virtualenv/"))
 
 (custom-set-faces
