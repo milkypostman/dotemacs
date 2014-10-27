@@ -35,9 +35,7 @@
     ;; ag
     ;; auto-complete
     ;; base16-theme
-    ;; browse-kill-ring
     ;; clojure-mode
-    ;; company
     ;; company
     ;; deft
     ;; dired+
@@ -48,6 +46,7 @@
     ;; rainbow-delimiters
     ;; smartparens
     ace-jump-mode
+    browse-kill-ring
     diminish
     expand-region
     git-commit-mode
