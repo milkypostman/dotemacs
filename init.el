@@ -1,26 +1,11 @@
 ;;; init.el --- Milkmacs configuration file
 
-;; Turn off mouse interface early in startup to avoid momentary display
-(when (fboundp 'menu-bar-mode) (menu-bar-mode -1))
-(when (fboundp 'tool-bar-mode) (tool-bar-mode -1))
-(when (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
 
-;; No splash screen please... jeez
-(setq inhibit-startup-screen t)
-
+(add-to-list 'load-path "~/.emacs.d/vendor")
 (add-to-list 'load-path "~/src/melpa")
 
 ;;;; package.el
 (require 'package)
-(setq package-user-dir "~/.emacs.d/elpa/")
-;; (add-to-list 'package-archives
-;;              '("marmalade" . "http://marmalade-repo.org/packages/") t)
-;; (add-to-list 'package-archives
-;;              '("melpa" . "http://melpa.milkbox.net/packages/") t)
-(add-to-list 'package-archives
-             '("melpa" . "http://melpa.org/packages/") t)
-;; (add-to-list 'package-archives '("melpa-local" . "/Users/dcurtis/src/melpa/packages/") t)
-;; (add-to-list 'package-archives '("melpa-local" . "/home/d/src/melpa/packages/") t)
 (package-initialize)
 
 ;; ignore wiki packages
@@ -83,12 +68,6 @@
      '(progn ,@body)))
 
 
-;; (add-to-list 'load-path "~/src/powerline/")
-;; (require 'powerline)
-;; (setq powerline-default-separator 'butt)
-;; (powerline-reset)
-;; (powerline-default-theme)
-
 ;;;; external libraries
 (require 'checkdoc)
 (require 'midnight)
@@ -131,8 +110,6 @@
 
 ;;;; random number generator
 (random t)
-
-(auto-insert-mode t)
 
 (windmove-default-keybindings)
 (global-set-key (kbd "<select>") 'windmove-up)
@@ -260,101 +237,11 @@
 
 
 ;;;; generic
-(blink-cursor-mode nil)
-(column-number-mode t)
-                                        ;(desktop-save-mode t)
-(global-auto-revert-mode t)
-(recentf-mode t)
-(savehist-mode t)
-(show-paren-mode t)
-(visual-line-mode -1)
-(winner-mode t)
-(global-subword-mode t)
-(delete-selection-mode t)
 (set-terminal-coding-system 'utf-8)
 (set-keyboard-coding-system 'utf-8)
 (set-selection-coding-system 'utf-8)
 (prefer-coding-system 'utf-8)
-(which-function-mode t)
 
-
-;;;; the uncustomizable
-(setq-default
- ansi-color-faces-vector [default bold shadow italic underline bold bold-italic bold]
- ansi-color-for-comint-mode t
- ansi-color-names-vector ["#242424" "#e5786d" "#95e454" "#cae682" "#8ac6f2" "#333366" "#ccaa8f" "#f6f3e8"]
- auto-revert-verbose nil
- auto-save-file-name-transforms (quote ((".*" "~/.emacs.d/autosave/" t)))
- backup-directory-alist (quote (("." . "~/.emacs.d/backups/")))
- backward-delete-char-untabify-method nil
- coffee-tab-width 2
- cua-enable-cua-keys nil
- custom-theme-directory "~/.emacs.d/themes/"
- delete-auto-save-files nil
- diff-switches "-u"
- dired-use-ls-dired nil
- echo-keystrokes 0.1
- ediff-split-window-function 'split-window-horizontally
- ediff-window-setup-function 'ediff-setup-windows-plain
- enable-recursive-minibuffers t
- erc-hide-list '("JOIN" "PART" "QUIT")
- flymake-gui-warnings-enabled t
- fringe-indicator-alist '((truncation left-arrow right-arrow)
-                          (continuation nil right-curly-arrow)
-                          (overlay-arrow . right-triangle)
-                          (up . up-arrow)
-                          (down . down-arrow)
-                          (top top-left-angle top-right-angle)
-                          (bottom bottom-left-angle bottom-right-angle top-right-angle top-left-angle)
-                          (top-bottom left-bracket right-bracket top-right-angle top-left-angle)
-                          (empty-line . empty-line)
-                          (unknown . question-mark))
- global-auto-revert-non-file-buffers t
- ibuffer-expert t
- ibuffer-show-empty-filter-groups nil
- imenu-auto-rescan t
- indent-tabs-mode nil
- indicate-empty-lines t
- ispell-extra-args (quote ("--sug-mode=ultra"))
- ispell-program-name "aspell"
- line-spacing 0
- locale-coding-system 'utf-8
- mode-line-in-non-selected-windows t
- mode-line-inverse-video t
- mouse-wheel-scroll-amount (quote (0.01))
- mouse-yank-at-point t
- ns-alternate-modifier (quote super)
- ns-command-modifier (quote meta)
- ns-function-modifier (quote hyper)
- ns-pop-up-frames nil
- ns-tool-bar-display-mode 'both
- ns-tool-bar-size-mode 'regular
- recentf-max-saved-items 100
- redisplay-dont-pause t
- ring-bell-function 'ignore
- save-place t
- save-place-file "~/.emacs.d/places"
- scroll-conservatively 5
- scroll-margin 5
- send-mail-function (quote mailclient-send-it)
- sentence-end-double-space nil
- set-mark-command-repeat-pop t
- shift-select-mode nil
- show-paren-style 'mixed
- split-height-threshold nil
- split-width-threshold 159
- time-stamp-format "%04y-%02m-%02d %02H:%02M:%02S (%u)"
- tramp-remote-path '(tramp-default-remote-path tramp-own-remote-path "/bin" "/usr/bin" "/usr/sbin" "/usr/local/bin" "/local/bin" "/local/freeware/bin" "/local/gnu/bin" "/usr/freeware/bin" "/usr/pkg/bin" "/usr/contrib/bin")
- undo-tree-history-directory-alist (quote (("." . "~/.emacs.d/undo/")))
- uniquify-buffer-name-style 'forward
- uniquify-ignore-buffers-re "^\\*"
- uniquify-separator " • "
- user-full-name "Donald Ephraim Curtis"
- user-mail-address "dcurtis@milkbox.net"
- vc-follow-symlinks t
- visible-bell nil
- whitespace-style '(face tabs trailing lines-tail newline indentation empty space-after-tab)
- whitespace-style '(face tabs trailing lines-tail newline empty space-after-tab))
 
 
 ;;;; Darwin specific
@@ -367,130 +254,15 @@
 
 ;;;; GUI settings
 (when (display-graphic-p)
-  (fringe-mode 1)
-  (mouse-wheel-mode t)
-  (menu-bar-mode t)
   (setq-default mac-option-modifier 'super)
   (setq-default mac-pass-command-to-system nil)
 
   (set-face-attribute 'default nil :font "DejaVu Sans-12")
   ;; (set-face-attribute 'default nil :font "Inconsolata-13")
   ;; specify a unicode font : MENLO (forced normal)
-  (set-fontset-font "fontset-default" 'unicode "-apple-Inconsolata-medium-normal-normal-*-13-*-*-*-m-0-iso10646-1")
-
-  ;; for the height, subtract a couple hundred pixels
-  ;; from the screen height (for panels, menubars and
-  ;; whatnot), then divide by the height of a char to
-  ;; get the height we want
-  ;; (set-frame-size (selected-frame) 0 0)
-  ;; (add-to-list 'initial-frame-alist '(top . 10))
-  ;; (add-to-list 'initial-frame-alist '(left . 30))
-  ;; (set-frame-size (selected-frame))
-  ;; (set-frame-size (selected-frame) )
-  (add-to-list 'initial-frame-alist '(left . 1))
-  (add-to-list 'initial-frame-alist '(top . 1))
-
-  (cond
-   ((string-equal system-name "hendrix.local")
-    (add-to-list 'initial-frame-alist
-                 (cons 'width
-                       (/ (ceiling (* (- (display-pixel-width)
-                                         (apply '+ (cl-remove-if (lambda (i) (not i))
-                                                                 (window-fringes))))
-                                      .4))
-                          (frame-char-width))))
-    (add-to-list 'initial-frame-alist (cons 'height (/ (display-pixel-height)
-                                                       (frame-char-height)))))
-   (t (add-to-list 'initial-frame-alist
-                   (cons 'width
-                         (/ (ceiling (* (- (display-pixel-width)
-                                           (apply '+ (cl-remove-if (lambda (i) (not i))
-                                                                   (window-fringes))))
-                                        .667))
-                            (frame-char-width))))
-      (add-to-list 'initial-frame-alist (cons 'height (/ (display-pixel-height)
-                                                         (frame-char-height)))))))
-
-;;;; mode-line
-(setq mode-line-modes
-      (let ((recursive-edit-help-echo "Recursive edit, type C-M-c to get out"))
-        (list (propertize "%[" 'help-echo recursive-edit-help-echo)
-              "("
-              `(:propertize ("" mode-name)
-                            face font-lock-string-face
-                            help-echo "Major mode\n\
-mouse-1: Display major mode menu\n\
-mouse-2: Show help for major mode\n\
-mouse-3: Toggle minor modes"
-                            mouse-face mode-line-highlight
-                            local-map ,mode-line-major-mode-keymap)
-              '("" mode-line-process)
-              `(:propertize ("" minor-mode-alist)
-                            mouse-face mode-line-highlight
-                            help-echo "Minor mode\n\
-mouse-1: Display minor mode menu\n\
-mouse-2: Show help for minor mode\n\
-mouse-3: Toggle minor modes"
-                            local-map ,mode-line-minor-mode-keymap)
-              (propertize "%n" 'help-echo "mouse-2: Remove narrowing from buffer"
-                          'mouse-face 'mode-line-highlight
-                          'local-map (make-mode-line-mouse-map
-                                      'mouse-2 #'mode-line-widen))
-              ")"
-              (propertize "%]" 'help-echo recursive-edit-help-echo)
-              " ")))
-
-(setq mode-line-position
-      `((-3 ,(propertize
-              "%p"
-              'face 'font-lock-constant-face
-              'local-map mode-line-column-line-number-mode-map
-              'mouse-face 'mode-line-highlight
-              ;; XXX needs better description
-              'help-echo "Size indication mode\n\
-mouse-1: Display Line and Column Mode Menu"))
-        (size-indication-mode
-         (8 ,(concat " / "
-                     (propertize
-                      "%I"
-                      'face 'font-lock-constant-face
-                      'local-map mode-line-column-line-number-mode-map
-                      'mouse-face 'mode-line-highlight
-                      ;; XXX needs better description
-                      'help-echo "Size indication mode\n\
-mouse-1: Display Line and Column Mode Menu"))))
-        (line-number-mode
-         ((column-number-mode
-           (10 ,(concat " ("
-                        (propertize
-                         "%l"
-                         'face 'font-lock-type-face
-                         'local-map mode-line-column-line-number-mode-map
-                         'mouse-face 'mode-line-highlight
-                         'help-echo "Line number and Column number\n\
-mouse-1: Display Line and Column Mode Menu")
-                        ","
-                        (propertize
-                         "%c"
-                         'face 'font-lock-type-face
-                         'local-map mode-line-column-line-number-mode-map
-                         'mouse-face 'mode-line-highlight
-                         'help-echo "Line number and Column number\n\
-mouse-1: Display Line and Column Mode Menu")
-                        ")"))
-           (6 ,(propertize
-                " L%l"
-                'local-map mode-line-column-line-number-mode-map
-                'mouse-face 'mode-line-highlight
-                'help-echo "Line Number\n\
-mouse-1: Display Line and Column Mode Menu"))))
-         ((column-number-mode
-           (5 ,(propertize
-                " C%c"
-                'local-map mode-line-column-line-number-mode-map
-                'mouse-face 'mode-line-highlight
-                'help-echo "Column number\n\
-mouse-1: Display Line and Column Mode Menu")))))))
+  (set-fontset-font "fontset-default"
+                    'unicode
+                    "-apple-Inconsolata-medium-normal-normal-*-13-*-*-*-m-0-iso10646-1"))
 
 
 ;;;; faces
@@ -506,16 +278,6 @@ mouse-1: Display Line and Column Mode Menu")))))))
      (,(concat "\\<\\(" font-lock-hexnumber "\\)\\>" ) 0 font-lock-number-face)
      )))
 
-
-;;;; hippie-expand
-(setq hippie-expand-try-functions-list '(try-complete-file-name-partially
-                                         try-complete-file-name
-                                         try-expand-dabbrev
-                                         try-expand-dabbrev-all-buffers
-                                         try-expand-dabbrev-from-kill
-                                         try-expand-all-abbrevs
-                                         try-complete-lisp-symbol-partially
-                                         try-complete-lisp-symbol))
 
 
 
@@ -539,35 +301,9 @@ mouse-1: Display Line and Column Mode Menu")))))))
   (after 'company (diminish 'company-mode " c")))
 
 
-;;;; smartparens
-(after "smartparens-autoloads"
-  (require 'smartparens-config)
-  (smartparens-global-mode t))
-
-(after 'smartparens
-  (define-key sp-keymap (kbd "C-M-k") 'sp-kill-sexp)
-  (setq sp-cancel-autoskip-on-backward-movement nil)
-  (setq sp-autoinsert-quote-if-followed-by-closing-pair t)
-  (setq sp-autoinsert-if-followed-by-word t)
-  (setq sp-wrap-entire-symbol nil)
-  (sp-pair "\"" nil)
-  (sp-with-modes sp--lisp-modes (sp-local-pair "(" nil :bind "M-("))
-  ;; (define-key emacs-lisp-mode-map (kbd ")") 'sp-up-sexp)
-  ;; (define-key sp-keymap (kbd ")") 'sp-up-sexp)
-  ;; (define-key sp-keymap (kbd "]") 'sp-up-sexp)
-  ;; (define-key sp-keymap (kbd "}") 'sp-up-sexp)
-  (show-smartparens-global-mode t))
-
-
-;;;; phi-search
-(after "phi-search-autoloads"
-  (after 'multiple-cursors
-    (define-key mc/keymap (kbd "C-s") 'phi-search)
-    (define-key mc/keymap (kbd "C-p") 'phi-search-backward)))
-
-
 ;;;; surround-mode
-(global-set-key (kbd "M-C") 'surround-change)
+(after "surround-mode-autoloads"
+  (global-set-key (kbd "M-C") 'surround-change))
 
 ;;;; smartrep
 (after "smartrep-autoloads"
@@ -591,16 +327,6 @@ mouse-1: Display Line and Column Mode Menu")))))))
 
 
 ;;;; ido
-(ido-mode t)
-(ido-everywhere t)
-(setq ido-enable-flex-matching t)
-(setq ido-auto-merge-work-directories-length -1)
-(setq ido-create-new-buffer 'always)
-(setq ido-everywhere t)
-(setq ido-max-prospects 10)
-(setq ido-read-file-name-non-ido nil)
-(setq ido-use-filename-at-point nil)
-(setq ido-use-virtual-buffers t)
 
 (global-set-key (kbd "C-x f") 'find-file-in-project)
 (define-key ctl-x-4-map (kbd "f") 'find-file-in-project-other-window)
@@ -614,27 +340,6 @@ mouse-1: Display Line and Column Mode Menu")))))))
 (add-hook 'ido-setup-hook 'mp-ido-hook)
 
 
-;;;; ido-ubiquitous
-(after "ido-ubiquitous-autoloads" (ido-ubiquitous-mode t))
-;;(after 'ido-ubiquitous (ido-ubiquitous-disable-in evil-ex))
-
-(setq ido-ubiquitous-command-exceptions '(evil-ex execute-extended-command))
-(setq ido-ubiquitous-function-exceptions '(grep-read-files ucs-insert))
-
-
-;;;; ido-vertical-mode
-(after "ido-vertical-mode-autoloads"
-  (ido-vertical-mode t))
-
-
-;;;; flx
-(after "flx-ido-autoloads"
-  (setq ido-use-faces nil)
-  (flx-ido-mode t))
-
-;;;; ido-at-point
-(after "ido-at-point-autoloads"
-  (ido-at-point-mode))
 
 ;;;; smex
 (after "smex-autoloads" (smex-initialize))
@@ -644,9 +349,6 @@ mouse-1: Display Line and Column Mode Menu")))))))
   (global-set-key (kbd "M-X") 'smex-major-mode-commands)
   (global-set-key (kbd "C-c C-c M-x") 'execute-extended-command))
 
-
-;;;; ispell
-(setq ispell-list-command "list")
 
 ;;;; diff commands
 (add-to-list 'command-switch-alist '("-diff" . command-line-diff))
@@ -705,10 +407,14 @@ mouse-1: Display Line and Column Mode Menu")))))))
 ;;;; multiple-cursors
 (after "multiple-cursors-autoloads"
   (global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
+  (global-set-key (kbd "C-c m m") 'mc/edit-lines)
   (global-set-key (kbd "C-S-c C-e") 'mc/edit-ends-of-lines)
+  (global-set-key (kbd "C-c m e") 'mc/edit-ends-of-lines)
   (global-set-key (kbd "C-S-c C-a") 'mc/edit-beginnings-of-lines)
+  (global-set-key (kbd "C-c m a") 'mc/edit-beginnings-of-lines)
   (global-set-key (kbd "C-c <return>") 'mc/mark-more-like-this-extended)
   (global-set-key (kbd "C-<return>") 'mc/mark-more-like-this-extended)
+  (global-set-key (kbd "C-c RET") 'mc/mark-more-like-this-extended)
   (global-set-key (kbd "C-S-SPC") 'set-rectangular-region-anchor)
   (global-set-key (kbd "C->") 'mc/mark-next-like-this)
   (global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
@@ -727,8 +433,7 @@ mouse-1: Display Line and Column Mode Menu")))))))
 
 
 ;;;; flycheck
-(after "flycheck-autoloads"
-  (add-hook 'after-init-hook #'global-flycheck-mode))
+(after "flycheck-autoloads" (add-hook 'after-init-hook #'global-flycheck-mode))
 (after 'flycheck '(flycheck-package-setup))
 
 ;;;; rainbow-delimiters
@@ -1874,23 +1579,105 @@ Including indent-buffer, which should not be called automatically on save."
     (error "Point isn't in a string")))
 
 
-
 ;;; customizations
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(auto-insert-mode t)
+ '(auto-revert-verbose nil)
+ '(auto-save-file-name-transforms (quote ((".*" "~/.emacs.d/autosave/" t))))
+ '(backup-directory-alist (quote (("." . "~/.emacs.d/backups/"))))
+ '(backward-delete-char-untabify-method nil)
+ '(blink-cursor-mode t)
+ '(coffee-tab-width 2 t)
+ '(column-number-mode t)
+ '(cua-enable-cua-keys nil t)
  '(custom-safe-themes (quote ("97a2b10275e3e5c67f46ddaac0ec7969aeb35068c03ec4157cf4887c401e74b1" default)))
+ '(custom-theme-directory "~/.emacs.d/themes/")
+ '(delete-auto-save-files nil)
+ '(delete-selection-mode t)
+ '(diff-switches "-u")
+ '(dired-use-ls-dired nil)
+ '(echo-keystrokes 0.1)
+ '(ediff-split-window-function (quote split-window-horizontally))
+ '(ediff-window-setup-function (quote ediff-setup-windows-plain))
+ '(enable-recursive-minibuffers t)
+ '(erc-hide-list (quote ("JOIN" "PART" "QUIT")) t)
  '(fci-rule-character-color "#192028")
  '(fci-rule-color "#444444")
  '(foreground-color "#cccccc")
+ '(fringe-indicator-alist (quote ((truncation left-arrow right-arrow) (continuation nil right-curly-arrow) (overlay-arrow . right-triangle) (up . up-arrow) (down . down-arrow) (top top-left-angle top-right-angle) (bottom bottom-left-angle bottom-right-angle top-right-angle top-left-angle) (top-bottom left-bracket right-bracket top-right-angle top-left-angle) (empty-line . empty-line) (unknown . question-mark))) t)
  '(fringe-mode (quote (4 . 0)) nil (fringe))
+ '(global-auto-revert-mode t)
+ '(global-auto-revert-non-file-buffers t)
+ '(global-subword-mode t)
+ '(hippie-expand-try-functions-list (quote (try-complete-file-name-partially try-complete-file-name try-expand-dabbrev try-expand-dabbrev-all-buffers try-expand-dabbrev-from-kill try-expand-all-abbrevs try-complete-lisp-symbol-partially try-complete-lisp-symbol)))
+ '(ibuffer-expert t t)
+ '(ibuffer-show-empty-filter-groups nil t)
+ '(ido-auto-merge-work-directories-length -1)
+ '(ido-create-new-buffer (quote always))
+ '(ido-enable-flex-matching t)
+ '(ido-everywhere t)
+ '(ido-max-prospects 10)
+ '(ido-mode (quote both) nil (ido))
+ '(ido-ubiquitous-mode t)
+ '(ido-use-virtual-buffers t)
+ '(ido-vertical-mode t)
+ '(imenu-auto-rescan t)
+ '(indent-tabs-mode nil)
  '(indicate-buffer-boundaries (quote left))
+ '(indicate-empty-lines t)
+ '(inhibit-startup-screen t)
+ '(initial-frame-alist (quote ((vertical-scroll-bars) (left-fringe . 4) (right-fringe . 0))))
+ '(ispell-extra-args (quote ("--sug-mode=ultra")) t)
+ '(ispell-list-command "list" t)
+ '(ispell-program-name "aspell" t)
+ '(line-spacing 0)
  '(linum-format " %7i ")
+ '(locale-coding-system (quote utf-8) t)
+ '(menu-bar-mode (display-graphic-p))
+ '(mode-line-inverse-video t t)
+ '(mouse-wheel-scroll-amount (quote (0.01)))
+ '(mouse-yank-at-point t)
+ '(ns-pop-up-frames nil t)
+ '(ns-tool-bar-display-mode (quote both) t)
+ '(ns-tool-bar-size-mode (quote regular) t)
  '(overflow-newline-into-fringe t)
+ '(package-archives (quote (("gnu" . "http://elpa.gnu.org/packages/") ("melpa" . "http://melpa.org/packages/"))))
+ '(recentf-max-saved-items 100)
+ '(recentf-mode t)
+ '(redisplay-dont-pause t t)
+ '(ring-bell-function (quote ignore) t)
  '(safe-local-variable-values (quote ((eval when (and (buffer-file-name) (file-regular-p (buffer-file-name)) (string-match-p "^[^.]" (buffer-file-name))) (emacs-lisp-mode) (when (fboundp (quote flycheck-mode)) (flycheck-mode -1)) (unless (featurep (quote package-build)) (let ((load-path (cons ".." load-path))) (require (quote package-build)))) (package-build-minor-mode) (set (make-local-variable (quote package-build-working-dir)) (expand-file-name "../working/")) (set (make-local-variable (quote package-build-archive-dir)) (expand-file-name "../packages/")) (set (make-local-variable (quote package-build-recipes-dir)) default-directory)) (eval when (and (buffer-file-name) (file-regular-p (buffer-file-name)) (string-match-p "^[^.]" (buffer-file-name))) (emacs-lisp-mode) (when (fboundp (quote flycheck-mode)) (flycheck-mode -1)) (unless (featurep (quote package-build)) (let ((load-path (cons ".." load-path))) (require (quote package-build)))) (package-build-minor-mode)))))
- '(virtualenv-root "/Users/dcurtis/.virtualenv/"))
+ '(save-place t nil (saveplace))
+ '(save-place-file "~/.emacs.d/places")
+ '(savehist-mode t)
+ '(scroll-bar-mode nil)
+ '(scroll-conservatively 5)
+ '(scroll-margin 5)
+ '(send-mail-function (quote mailclient-send-it))
+ '(sentence-end-double-space nil)
+ '(set-mark-command-repeat-pop t)
+ '(shift-select-mode nil)
+ '(show-paren-mode t)
+ '(show-paren-style (quote mixed))
+ '(split-height-threshold nil)
+ '(split-width-threshold 159)
+ '(time-stamp-format "%04y-%02m-%02d %02H:%02M:%02S (%u)")
+ '(tool-bar-mode nil)
+ '(tramp-remote-path (quote (tramp-default-remote-path tramp-own-remote-path "/bin" "/usr/bin" "/usr/sbin" "/usr/local/bin" "/local/bin" "/local/freeware/bin" "/local/gnu/bin" "/usr/freeware/bin" "/usr/pkg/bin" "/usr/contrib/bin")))
+ '(undo-tree-history-directory-alist (quote (("." . "~/.emacs.d/undo/"))))
+ '(uniquify-buffer-name-style (quote forward) nil (uniquify))
+ '(uniquify-ignore-buffers-re "^\\*")
+ '(uniquify-separator " • ")
+ '(user-full-name "Donald Ephraim Curtis")
+ '(user-mail-address "d@milkbox.net")
+ '(vc-follow-symlinks t)
+ '(virtualenv-root "/Users/dcurtis/.virtualenv/")
+ '(visual-line-mode nil t)
+ '(winner-mode t))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -1900,13 +1687,13 @@ Including indent-buffer, which should not be called automatically on save."
  '(hl-sentence-face ((t (:foreground "white"))) t)
  '(variable-pitch ((t (:height 120 :family "DejaVu Sans")))))
 
-
 (put 'narrow-to-region 'disabled nil)
 (put 'downcase-region 'disabled nil)
 
 
 (when (file-exists-p "~/.emacs.d/local.el")
   (load-file "~/.emacs.d/local.el"))
+
 
 ;;; init.el ends here
 
