@@ -726,6 +726,11 @@ mouse-1: Display Line and Column Mode Menu")))))))
 
 
 
+;;;; flycheck
+(after "flycheck-autoloads"
+  (add-hook 'after-init-hook #'global-flycheck-mode))
+(after 'flycheck '(flycheck-package-setup))
+
 ;;;; rainbow-delimiters
 (after "rainbow-delimiters-autoloads"
   (add-hook 'prog-mode-hook 'rainbow-delimiters-mode-enable))
