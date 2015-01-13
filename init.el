@@ -15,33 +15,10 @@
 ;;     ad-do-it))
 
 
-(defvar mp-rad-packages
-  '(
-    ;; ag
-    ;; auto-complete
-    ;; base16-theme
-    ;; clojure-mode
-    ;; company
-    ;; deft
-    ;; dired+
-    ;; dropdown-list
-    ;; evil
-    ;; flx
-    ;; gist
-    ;; rainbow-delimiters
-    ;; smartparens
-    ace-jump-mode
-    browse-kill-ring
-    diminish
-    expand-region
-    git-commit-mode
-    ido-ubiquitous
-    ido-vertical-mode
-    magit
-    multiple-cursors
-    smex
-    undo-tree
-    ))
+(defcustom mp-rad-packages nil
+  "Packages to install easily."
+  :type '(repeat symbol)
+  :group 'mp)
 
 (defun mp-install-rad-packages ()
   "Install only the sweetest of packages."
@@ -257,7 +234,7 @@
   (setq-default mac-option-modifier 'super)
   (setq-default mac-pass-command-to-system nil)
 
-  (set-face-attribute 'default nil :font "DejaVu Sans-12")
+  ;; (set-face-attribute 'default nil :font "DejaVu Sans-12")
   ;; (set-face-attribute 'default nil :font "Inconsolata-13")
   ;; specify a unicode font : MENLO (forced normal)
   (set-fontset-font "fontset-default"
@@ -313,21 +290,30 @@
 (setq system-uses-terminfo nil)
 
 ;;;; helm
-(after 'helm
-  (setq helm-ff-auto-update-initial-value nil)
-  (define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action)
-  (define-key helm-map (kbd "C-h") (kbd "<DEL>"))
-  (define-key helm-map (kbd "C-w") 'subword-backward-kill)
-  (define-key helm-map (kbd "M-w") 'helm-yank-text-at-point)
-  (setq helm-quick-update t)
-  (setq helm-follow-mode-persistent t))
+;; (after 'helm-files
+;;   (defun helm-find-file-or-expand ()
+;;     (interactive)
+;;     (with-helm-window
+;;       (if (and (file-directory-p (helm-get-selection))
+;;                (< (length (helm-marked-candidates)) 2))
+;;           (helm-execute-persistent-action)
+;;         (helm-exit-minibuffer))))
+;;   (define-key helm-find-files-map (kbd "RET") 'helm-find-file-or-expand)
+;;   (define-key helm-find-files-map (kbd "<return>") 'helm-find-file-or-expand)
+;;   (define-key helm-find-files-map (kbd "C-w") 'helm-find-files-up-one-level))
 
-(after 'helm-git-grep
-  (define-key helm-git-grep-map (kbd "C-w") 'subword-backward-kill))
+;; (after 'helm
+;;   (define-key helm-map (kbd "C-w") 'subword-backward-kill))
+
+;; (after "helm-autoloads"
+;;   (require 'helm-config)
+;;   (global-set-key (kbd "C-x C-f") 'helm-find-files)
+;;   (global-set-key (kbd "C-x b") 'helm-mini)
+;;   (global-set-key (kbd "M-x") 'helm-M-x))
+
 
 
 ;;;; ido
-
 (global-set-key (kbd "C-x f") 'find-file-in-project)
 (define-key ctl-x-4-map (kbd "f") 'find-file-in-project-other-window)
 (define-key ctl-x-4-map (kbd "s") 'shell-other-window)
@@ -1594,7 +1580,10 @@ Including indent-buffer, which should not be called automatically on save."
  '(coffee-tab-width 2 t)
  '(column-number-mode t)
  '(cua-enable-cua-keys nil t)
- '(custom-safe-themes (quote ("97a2b10275e3e5c67f46ddaac0ec7969aeb35068c03ec4157cf4887c401e74b1" default)))
+ '(custom-enabled-themes (quote (darkclean)))
+ '(custom-safe-themes
+   (quote
+    ("98522c31200ec2ee2c84ae3dddac94e69730650096c3f4f751be4beece0f6781" "97a2b10275e3e5c67f46ddaac0ec7969aeb35068c03ec4157cf4887c401e74b1" default)))
  '(custom-theme-directory "~/.emacs.d/themes/")
  '(delete-auto-save-files nil)
  '(delete-selection-mode t)
@@ -1608,14 +1597,38 @@ Including indent-buffer, which should not be called automatically on save."
  '(fci-rule-character-color "#192028")
  '(fci-rule-color "#444444")
  '(foreground-color "#cccccc")
- '(fringe-indicator-alist (quote ((truncation left-arrow right-arrow) (continuation nil right-curly-arrow) (overlay-arrow . right-triangle) (up . up-arrow) (down . down-arrow) (top top-left-angle top-right-angle) (bottom bottom-left-angle bottom-right-angle top-right-angle top-left-angle) (top-bottom left-bracket right-bracket top-right-angle top-left-angle) (empty-line . empty-line) (unknown . question-mark))) t)
+ '(fringe-indicator-alist
+   (quote
+    ((truncation left-arrow right-arrow)
+     (continuation nil right-curly-arrow)
+     (overlay-arrow . right-triangle)
+     (up . up-arrow)
+     (down . down-arrow)
+     (top top-left-angle top-right-angle)
+     (bottom bottom-left-angle bottom-right-angle top-right-angle top-left-angle)
+     (top-bottom left-bracket right-bracket top-right-angle top-left-angle)
+     (empty-line . empty-line)
+     (unknown . question-mark))) t)
  '(fringe-mode (quote (4 . 0)) nil (fringe))
  '(global-auto-revert-mode t)
  '(global-auto-revert-non-file-buffers t)
  '(global-subword-mode t)
- '(hippie-expand-try-functions-list (quote (try-complete-file-name-partially try-complete-file-name try-expand-dabbrev try-expand-dabbrev-all-buffers try-expand-dabbrev-from-kill try-expand-all-abbrevs try-complete-lisp-symbol-partially try-complete-lisp-symbol)))
- '(ibuffer-expert t t)
- '(ibuffer-show-empty-filter-groups nil t)
+ '(helm-M-x-fuzzy-match t)
+ '(helm-always-two-windows nil)
+ '(helm-apropos-fuzzy-match t)
+ '(helm-autoresize-mode t)
+ '(helm-buffers-fuzzy-matching t)
+ '(helm-file-cache-fuzzy-match t)
+ '(helm-follow-mode-persistent t)
+ '(helm-imenu-fuzzy-match t)
+ '(helm-lisp-fuzzy-completion t)
+ '(helm-locate-fuzzy-match t)
+ '(helm-recentf-fuzzy-match t)
+ '(hippie-expand-try-functions-list
+   (quote
+    (try-complete-file-name-partially try-complete-file-name try-expand-dabbrev try-expand-dabbrev-all-buffers try-expand-dabbrev-from-kill try-expand-all-abbrevs try-complete-lisp-symbol-partially try-complete-lisp-symbol)))
+ '(ibuffer-expert t)
+ '(ibuffer-show-empty-filter-groups nil)
  '(ido-auto-merge-work-directories-length -1)
  '(ido-create-new-buffer (quote always))
  '(ido-enable-flex-matching t)
@@ -1630,7 +1643,11 @@ Including indent-buffer, which should not be called automatically on save."
  '(indicate-buffer-boundaries (quote left))
  '(indicate-empty-lines t)
  '(inhibit-startup-screen t)
- '(initial-frame-alist (quote ((vertical-scroll-bars) (left-fringe . 4) (right-fringe . 0))))
+ '(initial-frame-alist
+   (quote
+    ((vertical-scroll-bars)
+     (left-fringe . 4)
+     (right-fringe . 0))))
  '(ispell-extra-args (quote ("--sug-mode=ultra")) t)
  '(ispell-list-command "list" t)
  '(ispell-program-name "aspell" t)
@@ -1641,16 +1658,78 @@ Including indent-buffer, which should not be called automatically on save."
  '(mode-line-inverse-video t t)
  '(mouse-wheel-scroll-amount (quote (0.01)))
  '(mouse-yank-at-point t)
- '(ns-pop-up-frames nil t)
+ '(mp-rad-packages
+   (quote
+    (expand-region multiple-cursors magit ace-jump-mode ido-ubiquitous ido-vertical-mode smex undo-tree helm)))
+ '(ns-command-modifier (quote meta))
+ '(ns-pop-up-frames nil)
  '(ns-tool-bar-display-mode (quote both) t)
  '(ns-tool-bar-size-mode (quote regular) t)
  '(overflow-newline-into-fringe t)
- '(package-archives (quote (("gnu" . "http://elpa.gnu.org/packages/") ("melpa" . "http://melpa.org/packages/"))))
+ '(package-archives
+   (quote
+    (("gnu" . "http://elpa.gnu.org/packages/")
+     ("melpa" . "http://melpa.org/packages/"))))
  '(recentf-max-saved-items 100)
  '(recentf-mode t)
  '(redisplay-dont-pause t t)
  '(ring-bell-function (quote ignore) t)
- '(safe-local-variable-values (quote ((eval when (and (buffer-file-name) (file-regular-p (buffer-file-name)) (string-match-p "^[^.]" (buffer-file-name))) (emacs-lisp-mode) (when (fboundp (quote flycheck-mode)) (flycheck-mode -1)) (unless (featurep (quote package-build)) (let ((load-path (cons ".." load-path))) (require (quote package-build)))) (package-build-minor-mode) (set (make-local-variable (quote package-build-working-dir)) (expand-file-name "../working/")) (set (make-local-variable (quote package-build-archive-dir)) (expand-file-name "../packages/")) (set (make-local-variable (quote package-build-recipes-dir)) default-directory)) (eval when (and (buffer-file-name) (file-regular-p (buffer-file-name)) (string-match-p "^[^.]" (buffer-file-name))) (emacs-lisp-mode) (when (fboundp (quote flycheck-mode)) (flycheck-mode -1)) (unless (featurep (quote package-build)) (let ((load-path (cons ".." load-path))) (require (quote package-build)))) (package-build-minor-mode)))))
+ '(safe-local-variable-values
+   (quote
+    ((eval when
+           (and
+            (buffer-file-name)
+            (file-regular-p
+             (buffer-file-name))
+            (string-match-p "^[^.]"
+                            (buffer-file-name)))
+           (emacs-lisp-mode)
+           (when
+               (fboundp
+                (quote flycheck-mode))
+             (flycheck-mode -1))
+           (unless
+               (featurep
+                (quote package-build))
+             (let
+                 ((load-path
+                   (cons ".." load-path)))
+               (require
+                (quote package-build))))
+           (package-build-minor-mode)
+           (set
+            (make-local-variable
+             (quote package-build-working-dir))
+            (expand-file-name "../working/"))
+           (set
+            (make-local-variable
+             (quote package-build-archive-dir))
+            (expand-file-name "../packages/"))
+           (set
+            (make-local-variable
+             (quote package-build-recipes-dir))
+            default-directory))
+     (eval when
+           (and
+            (buffer-file-name)
+            (file-regular-p
+             (buffer-file-name))
+            (string-match-p "^[^.]"
+                            (buffer-file-name)))
+           (emacs-lisp-mode)
+           (when
+               (fboundp
+                (quote flycheck-mode))
+             (flycheck-mode -1))
+           (unless
+               (featurep
+                (quote package-build))
+             (let
+                 ((load-path
+                   (cons ".." load-path)))
+               (require
+                (quote package-build))))
+           (package-build-minor-mode)))))
  '(save-place t nil (saveplace))
  '(save-place-file "~/.emacs.d/places")
  '(savehist-mode t)
@@ -1667,7 +1746,9 @@ Including indent-buffer, which should not be called automatically on save."
  '(split-width-threshold 159)
  '(time-stamp-format "%04y-%02m-%02d %02H:%02M:%02S (%u)")
  '(tool-bar-mode nil)
- '(tramp-remote-path (quote (tramp-default-remote-path tramp-own-remote-path "/bin" "/usr/bin" "/usr/sbin" "/usr/local/bin" "/local/bin" "/local/freeware/bin" "/local/gnu/bin" "/usr/freeware/bin" "/usr/pkg/bin" "/usr/contrib/bin")))
+ '(tramp-remote-path
+   (quote
+    (tramp-default-remote-path tramp-own-remote-path "/bin" "/usr/bin" "/usr/sbin" "/usr/local/bin" "/local/bin" "/local/freeware/bin" "/local/gnu/bin" "/usr/freeware/bin" "/usr/pkg/bin" "/usr/contrib/bin")))
  '(undo-tree-history-directory-alist (quote (("." . "~/.emacs.d/undo/"))))
  '(uniquify-buffer-name-style (quote forward) nil (uniquify))
  '(uniquify-ignore-buffers-re "^\\*")
@@ -1684,8 +1765,7 @@ Including indent-buffer, which should not be called automatically on save."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(hl-sentence-face ((t (:foreground "white"))) t)
- '(variable-pitch ((t (:height 120 :family "DejaVu Sans")))))
+ '(hl-sentence-face ((t (:foreground "white"))) t))
 
 (put 'narrow-to-region 'disabled nil)
 (put 'downcase-region 'disabled nil)
