@@ -4,13 +4,19 @@
 (setq mc/cmds-to-run-for-all
       '(
         beginning-of-buffer
+        c-electric-brace
+        c-electric-delete-forward
+        c-electric-paren
+        c-electric-star
         coffee-dedent-line-backspace
         delete-indentation
         duplicate-current-line-or-region
+        electric-newline-and-maybe-indent
         eval-last-sexp
         evil-change
         haskell-indentation-delete-backward-char
         indent-for-tab-command
+        indent-region
         isearch-forward-regexp
         kill-region-or-backward-word
         markdown-exdent-or-delete
