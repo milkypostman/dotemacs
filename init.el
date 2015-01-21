@@ -1758,6 +1758,9 @@ Including indent-buffer, which should not be called automatically on save."
  '(vc-follow-symlinks t)
  '(virtualenv-root "/Users/dcurtis/.virtualenv/")
  '(visual-line-mode nil t)
+ '(whitespace-style
+   (quote
+    (face tabs trailing lines-tail space-before-tab newline indentation empty space-after-tab tab-mark newline-mark)))
  '(winner-mode t))
 
 (custom-set-faces
