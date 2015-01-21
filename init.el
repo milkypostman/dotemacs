@@ -1580,10 +1580,10 @@ Including indent-buffer, which should not be called automatically on save."
  '(coffee-tab-width 2 t)
  '(column-number-mode t)
  '(cua-enable-cua-keys nil t)
- '(custom-enabled-themes (quote (darkclean)))
+ '(custom-enabled-themes (quote (dark-tango)))
  '(custom-safe-themes
    (quote
-    ("98522c31200ec2ee2c84ae3dddac94e69730650096c3f4f751be4beece0f6781" "97a2b10275e3e5c67f46ddaac0ec7969aeb35068c03ec4157cf4887c401e74b1" default)))
+    ("eef383086ae1f47f75cda814adfb9868a3dafa99b6eb67fdff780a52d326d468" "98522c31200ec2ee2c84ae3dddac94e69730650096c3f4f751be4beece0f6781" "97a2b10275e3e5c67f46ddaac0ec7969aeb35068c03ec4157cf4887c401e74b1" default)))
  '(custom-theme-directory "~/.emacs.d/themes/")
  '(delete-auto-save-files nil)
  '(delete-selection-mode t)
