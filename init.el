@@ -7,35 +7,11 @@
 ;;;; package.el
 (require 'package)
 (package-initialize)
-
 ;; ignore wiki packages
 ;; (defadvice package--add-to-archive-contents
 ;;   (around package-filter-wiki-packages (package archive) activate compile)
 ;;   (unless (string-match-p "\\[wiki\\]$" (package-desc-doc (cdr package)))
 ;;     ad-do-it))
-
-
-(defcustom mp-rad-packages nil
-  "Packages to install easily."
-  :type '(repeat symbol)
-  :group 'mp)
-
-(defun mp-install-rad-packages ()
-  "Install only the sweetest of packages."
-  (interactive)
-  (package-refresh-contents)
-  (mapc #'(lambda (package)
-            (unless (package-installed-p package)
-              (package-install package)))
-        mp-rad-packages))
-
-
-(defun mp-build-rad-packages ()
-  (interactive)
-  (mapc #'(lambda (package)
-            (package-build-archive package))
-        mp-rad-packages))
-
 
 ;;;; macros
 (defmacro after (mode &rest body)
@@ -56,6 +32,7 @@
 
 (setq mp-extra-paths
       '("~/.cabal/bin/"
+        "/Library/TeX/texbin/"
         "/usr/local/share/npm/bin/"
         "~/bin/"
         "/usr/local/bin/"
@@ -1668,12 +1645,15 @@ Including indent-buffer, which should not be called automatically on save."
  '(overflow-newline-into-fringe t)
  '(package-archives
    (quote
-    (("gnu" . "http://elpa.gnu.org/packages/")
-     ("melpa" . "http://melpa.org/packages/"))))
+    (("gnu" . "https://elpa.gnu.org/packages/")
+     ("melpa" . "https://melpa.org/packages/"))))
+ '(package-selected-packages
+   (quote
+    (magit cider flycheck-package auctex clojure-mode scad-mode ido-ubiquitous smex expand-region multiple-cursors)))
  '(recentf-max-saved-items 100)
  '(recentf-mode t)
  '(redisplay-dont-pause t t)
- '(ring-bell-function (quote ignore) t)
+ '(ring-bell-function (quote ignore))
  '(safe-local-variable-values
    (quote
     ((eval when
@@ -1730,8 +1710,8 @@ Including indent-buffer, which should not be called automatically on save."
                (require
                 (quote package-build))))
            (package-build-minor-mode)))))
- '(save-place t nil (saveplace))
  '(save-place-file "~/.emacs.d/places")
+ '(save-place-mode t nil (saveplace))
  '(savehist-mode t)
  '(scroll-bar-mode nil)
  '(scroll-conservatively 5)
