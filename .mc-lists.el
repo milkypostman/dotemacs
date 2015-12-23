@@ -6,8 +6,11 @@
         beginning-of-buffer
         c-electric-brace
         c-electric-delete-forward
+        c-electric-lt-gt
         c-electric-paren
+        c-electric-semi&comma
         c-electric-star
+        c-indent-line-or-region
         coffee-dedent-line-backspace
         delete-indentation
         duplicate-current-line-or-region
@@ -15,9 +18,11 @@
         eval-last-sexp
         evil-change
         haskell-indentation-delete-backward-char
+        increment-number-at-point
         indent-for-tab-command
         indent-region
         isearch-forward-regexp
+        isearch-printing-char
         kill-region-or-backward-word
         markdown-exdent-or-delete
         paredit-backslash
