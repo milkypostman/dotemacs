@@ -3,68 +3,27 @@
 
 (setq mc/cmds-to-run-for-all
       '(
-        beginning-of-buffer
-        c-electric-brace
-        c-electric-delete-forward
-        c-electric-lt-gt
-        c-electric-paren
-        c-electric-semi&comma
-        c-electric-star
-        c-indent-line-or-region
-        coffee-dedent-line-backspace
-        delete-indentation
-        duplicate-current-line-or-region
-        electric-newline-and-maybe-indent
-        eval-last-sexp
-        evil-change
-        haskell-indentation-delete-backward-char
-        increment-number-at-point
-        indent-for-tab-command
-        indent-region
-        isearch-forward-regexp
-        isearch-printing-char
-        kill-region-or-backward-word
-        markdown-exdent-or-delete
-        paredit-backslash
-        paredit-backward-slurp-sexp
-        paredit-doublequote
-        paredit-forward-delete
-        paredit-forward-kill-word
-        paredit-kill
-        paredit-newline
-        paredit-open-round
-        paredit-semicolon
-        paredit-splice-sexp
-        paredit-wrap-round
-        python-backspace
-        python-electric-colon
-        python-indent-dedent-line-backspace
-        repeat
-        save-region-or-current-line
-        sgml-slash
-        sp--self-insert-command
-        toggle-quotes
-        yas-expand
+        backward-up-list
+        evil-normal-state
+        evil-previous-line
+        kill-sexp
+        open-line-indent
+        sp-backward-delete-char
+        sp-backward-sexp
+        sp-backward-slurp-sexp
+        sp-delete-char
+        sp-down-sexp
+        sp-forward-sexp
+        sp-forward-slurp-sexp
+        sp-kill-hybrid-sexp
+        sp-splice-sexp
+        sp-splice-sexp-killing-around
+        sp-splice-sexp-killing-backward
         ))
 
 (setq mc/cmds-to-run-once
       '(
-        checkdoc-eval-defun
         describe-key-briefly
-        end-of-buffer
-        eval-expression
-        ido-display-buffer
-        ido-switch-buffer
-        ido-switch-buffer-other-window
-        isearch-backward-regexp
-        markdown-export-pdf
-        marked
-        mc/mmlte--down
-        mc/mmlte--left
-        mc/mmlte--right
-        mc/mmlte--up
-        point-to-register
         smex
-        toggle-input-method
-        universal-argument-minus
+        what-cursor-position
         ))

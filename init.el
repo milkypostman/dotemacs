@@ -35,6 +35,7 @@
         "/Library/TeX/texbin/"
         "/usr/local/share/npm/bin/"
         "~/bin/"
+        "/usr/local/homebrew/bin/"
         "/usr/local/bin/"
         "/usr/texbin/"))
 
@@ -266,28 +267,30 @@
 ;;;; term-mode
 (setq system-uses-terminfo nil)
 
-;;;; helm
-;; (after 'helm-files
-;;   (defun helm-find-file-or-expand ()
-;;     (interactive)
-;;     (with-helm-window
-;;       (if (and (file-directory-p (helm-get-selection))
-;;                (< (length (helm-marked-candidates)) 2))
-;;           (helm-execute-persistent-action)
-;;         (helm-exit-minibuffer))))
-;;   (define-key helm-find-files-map (kbd "RET") 'helm-find-file-or-expand)
-;;   (define-key helm-find-files-map (kbd "<return>") 'helm-find-file-or-expand)
-;;   (define-key helm-find-files-map (kbd "C-w") 'helm-find-files-up-one-level))
 
-;; (after 'helm
-;;   (define-key helm-map (kbd "C-w") 'subword-backward-kill))
+(after 'cider
+  (defun spit-scad-last-expression ()
+    (interactive)
+    (cider-interactive-eval
+     (format
+      "(require 'scad-clj.scad)
+       (spit \"eval.scad\" (scad-clj.scad/write-scad %s))"
+      (cider-last-sexp))))
 
-;; (after "helm-autoloads"
-;;   (require 'helm-config)
-;;   (global-set-key (kbd "C-x C-f") 'helm-find-files)
-;;   (global-set-key (kbd "C-x b") 'helm-mini)
-;;   (global-set-key (kbd "M-x") 'helm-M-x))
+  (defun mp-buffer-enable-eval-on-save ()
+    "Enable whitespace-cleanup in the current buffer."
+    (interactive)
+    (add-hook 'after-save-hook 'cider-load-buffer nil t))
 
+  (defun mp-buffer-disable-eval-on-save ()
+    "Disable whitespace-cleanup in the current buffer."
+    (interactive)
+    (remove-hook 'after-save-hook 'cider-load-buffer t))
+
+  (define-key cider-mode-map (kbd "C-c s") 'spit-scad-last-expression))
+
+(after 'smartparens
+  (sp-pair "(" ")" :wrap "M-("))
 
 
 ;;;; ido
@@ -610,10 +613,13 @@
 ;;;; clojure
 (add-hook 'clojure-mode-hook 'mp-buffer-enable-reindent)
 
+;;;; smartparens
+(after "smartparens-autoloads"
+  (add-hook 'emacs-lisp-mode-hook 'smartparens-strict-mode)
+  (add-hook 'clojure-mode-hook 'smartparens-strict-mode))
 
 ;;;; paredit
 (after "paredit-autoloads"
-
   ;; Enable `paredit-mode' in the minibuffer, during `eval-expression'.
   (defun conditionally-enable-paredit-mode ()
     (if (eq this-command 'eval-expression)
@@ -686,6 +692,8 @@
   (setq ropemacs-enable-autoimport t)
   (add-to-list 'load-path "~/.emacs.d/elisp/Pymacs"))
 
+;;;; powerline
+(when nil (add-to-list 'load-path "~/src/powerline"))
 
 ;;;; python
 (add-font-lock-numbers 'python-mode)
@@ -1649,14 +1657,15 @@ Including indent-buffer, which should not be called automatically on save."
      ("melpa" . "https://melpa.org/packages/"))))
  '(package-selected-packages
    (quote
-    (magit cider flycheck-package auctex clojure-mode scad-mode ido-ubiquitous smex expand-region multiple-cursors)))
+    (cider smartparens clojure-mode evil evil-commentary evil-ediff evil-leader evil-surround markdown-mode magit ag powerline undo-tree flycheck-package auctex scad-mode smex expand-region multiple-cursors)))
  '(recentf-max-saved-items 100)
  '(recentf-mode t)
  '(redisplay-dont-pause t t)
  '(ring-bell-function (quote ignore))
  '(safe-local-variable-values
    (quote
-    ((eval when
+    ((checkdoc-minor-mode . 1)
+     (eval when
            (and
             (buffer-file-name)
             (file-regular-p
@@ -1722,6 +1731,9 @@ Including indent-buffer, which should not be called automatically on save."
  '(shift-select-mode nil)
  '(show-paren-mode t)
  '(show-paren-style (quote mixed))
+ '(sp-autoskip-closing-pair (quote always))
+ '(sp-base-key-bindings (quote paredit))
+ '(sp-hybrid-kill-entire-symbol nil)
  '(split-height-threshold nil)
  '(split-width-threshold 159)
  '(time-stamp-format "%04y-%02m-%02d %02H:%02M:%02S (%u)")
@@ -1740,7 +1752,7 @@ Including indent-buffer, which should not be called automatically on save."
  '(visual-line-mode nil t)
  '(whitespace-style
    (quote
-    (face tabs trailing lines-tail space-before-tab newline indentation empty space-after-tab tab-mark newline-mark)))
+    (face tabs trailing lines-tail space-before-tab newline indentation empty space-after-tab tab-mark)))
  '(winner-mode t))
 
 (custom-set-faces
@@ -1748,6 +1760,7 @@ Including indent-buffer, which should not be called automatically on save."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(default ((t (:inherit nil :stipple nil :background "#1a1e21" :foreground "#ffffff" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 110 :width normal :foundry "nil" :family "Menlo"))))
  '(hl-sentence-face ((t (:foreground "white"))) t))
 
 (put 'narrow-to-region 'disabled nil)
