@@ -445,6 +445,16 @@
 (after "hl-sentence-autoloads"
   (add-hook 'LaTeX-mode-hook 'hl-sentence-mode))
 
+;;;; go-mode
+(after 'go-mode
+  (defun mp-go-mode-hook ()
+
+    (setq prettify-symbols-alist
+          '(("!=" . "≠")
+            ("<=" . "≤")
+            (">=" . "≥"))))
+  (add-hook 'go-mode-hook #'mp-go-mode-hook)
+  (add-hook 'before-save-hook 'gofmt-before-save))
 
 ;;;; auctex
 (after 'latex
@@ -1564,11 +1574,11 @@ Including indent-buffer, which should not be called automatically on save."
  '(blink-cursor-mode t)
  '(coffee-tab-width 2 t)
  '(column-number-mode t)
- '(cua-enable-cua-keys nil t)
+ '(cua-enable-cua-keys nil)
  '(custom-enabled-themes (quote (dark-tango)))
  '(custom-safe-themes
    (quote
-    ("eef383086ae1f47f75cda814adfb9868a3dafa99b6eb67fdff780a52d326d468" "98522c31200ec2ee2c84ae3dddac94e69730650096c3f4f751be4beece0f6781" "97a2b10275e3e5c67f46ddaac0ec7969aeb35068c03ec4157cf4887c401e74b1" default)))
+    ("6f441c0e5d8199f08eb4b73e9c697710282bcae95e5925b7649ddfa8cea2e24c" "eef383086ae1f47f75cda814adfb9868a3dafa99b6eb67fdff780a52d326d468" "98522c31200ec2ee2c84ae3dddac94e69730650096c3f4f751be4beece0f6781" "97a2b10275e3e5c67f46ddaac0ec7969aeb35068c03ec4157cf4887c401e74b1" default)))
  '(custom-theme-directory "~/.emacs.d/themes/")
  '(delete-auto-save-files nil)
  '(delete-selection-mode t)
@@ -1597,7 +1607,9 @@ Including indent-buffer, which should not be called automatically on save."
  '(fringe-mode (quote (4 . 0)) nil (fringe))
  '(global-auto-revert-mode t)
  '(global-auto-revert-non-file-buffers t)
+ '(global-prettify-symbols-mode t)
  '(global-subword-mode t)
+ '(gofmt-command "goimports")
  '(helm-M-x-fuzzy-match t)
  '(helm-always-two-windows nil)
  '(helm-apropos-fuzzy-match t)
@@ -1657,7 +1669,8 @@ Including indent-buffer, which should not be called automatically on save."
      ("melpa" . "https://melpa.org/packages/"))))
  '(package-selected-packages
    (quote
-    (cider smartparens clojure-mode evil evil-commentary evil-ediff evil-leader evil-surround markdown-mode magit ag powerline undo-tree flycheck-package auctex scad-mode smex expand-region multiple-cursors)))
+    (go-mode ahungry-theme browse-kill-ring arduino-mode cider smartparens clojure-mode evil evil-commentary evil-ediff evil-leader evil-surround markdown-mode magit ag powerline undo-tree flycheck-package auctex scad-mode smex expand-region multiple-cursors)))
+ '(prettify-symbols-unprettify-at-point (quote right-edge))
  '(recentf-max-saved-items 100)
  '(recentf-mode t)
  '(redisplay-dont-pause t t)
