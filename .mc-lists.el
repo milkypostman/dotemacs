@@ -4,6 +4,8 @@
 (setq mc/cmds-to-run-for-all
       '(
         backward-up-list
+        comment-dwim-line
+        electric-newline-and-maybe-indent
         evil-normal-state
         evil-previous-line
         kill-sexp
