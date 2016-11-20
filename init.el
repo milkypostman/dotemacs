@@ -1669,7 +1669,7 @@ Including indent-buffer, which should not be called automatically on save."
      ("melpa" . "https://melpa.org/packages/"))))
  '(package-selected-packages
    (quote
-    (go-mode ahungry-theme browse-kill-ring arduino-mode cider smartparens clojure-mode evil evil-commentary evil-ediff evil-leader evil-surround markdown-mode magit ag powerline undo-tree flycheck-package auctex scad-mode smex expand-region multiple-cursors)))
+    (pabbrev go-mode ahungry-theme browse-kill-ring arduino-mode cider smartparens clojure-mode evil evil-commentary evil-ediff evil-leader evil-surround markdown-mode magit ag powerline undo-tree flycheck-package auctex scad-mode smex expand-region multiple-cursors)))
  '(prettify-symbols-unprettify-at-point (quote right-edge))
  '(recentf-max-saved-items 100)
  '(recentf-mode t)
@@ -1749,6 +1749,7 @@ Including indent-buffer, which should not be called automatically on save."
  '(sp-hybrid-kill-entire-symbol nil)
  '(split-height-threshold nil)
  '(split-width-threshold 159)
+ '(tab-width 4)
  '(time-stamp-format "%04y-%02m-%02d %02H:%02M:%02S (%u)")
  '(tool-bar-mode nil)
  '(tramp-remote-path
