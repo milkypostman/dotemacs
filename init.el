@@ -456,15 +456,27 @@
 (after "hl-sentence-autoloads"
   (add-hook 'LaTeX-mode-hook 'hl-sentence-mode))
 
+;;;; fish-mod
+(use-package fish-mode
+  :defer t
+  :ensure t
+  :config
+  (defun mp-fish-mode-hook ()
+    (add-hook 'before-save-hook #'fish_indent))
+  (add-hook 'fish-mode-hook #'mp-fish-mode-hook))
+
 ;;;; go-mode
-(use-package)
-(after 'go-mode
+(use-package go-mode
+  :config
   (defun mp-go-mode-hook ()
 
     (setq prettify-symbols-alist
           '(("!=" . "≠")
             ("<=" . "≤")
             (">=" . "≥"))))
+  (defun mp-go-run-buffer()
+    (interactive)
+    (shell-command (concat "go run " (buffer-name))))
   (add-hook 'go-mode-hook #'mp-go-mode-hook)
   (add-hook 'before-save-hook 'gofmt-before-save))
 
