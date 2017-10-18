@@ -429,29 +429,6 @@
   (setq undo-tree-visualizer-relative-timestamps t)
   (setq undo-tree-visualizer-timestamps t))
 
-
-
-;;;; evil-mode
-(after "evil-autoloads"
-  (setq evil-toggle-key "C-x C-z")
-  (evil-mode 1))
-
-(after 'evil
-  (define-key evil-normal-state-map (kbd "C-y") 'evil-paste-before)
-  (evil-set-initial-state 'git-commit-mode 'insert)
-  ;; (define-key evil-ex-map "e " 'ido-find-file)
-  ;; (define-key evil-ex-map "w " 'ido-write-file)
-  ;; (define-key evil-ex-map "b " 'ido-switch-buffer)
-  (when (boundp 'global-surround-mode) (global-surround-mode))
-  (ignore-errors (require 'evil-leader)))
-
-
-;;;; evil-leader
-(after 'evil-leader
-  (evil-leader/set-key (kbd "t") 'find-file-in-project)
-  (evil-leader/set-key (kbd "g") 'magit-status))
-
-
 ;;;; hl-sentence
 (after "hl-sentence-autoloads"
   (add-hook 'LaTeX-mode-hook 'hl-sentence-mode))
