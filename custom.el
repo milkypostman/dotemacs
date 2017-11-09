@@ -31,6 +31,7 @@
  '(ediff-window-setup-function (quote ediff-setup-windows-plain))
  '(enable-recursive-minibuffers t)
  '(erc-hide-list (quote ("JOIN" "PART" "QUIT")) t)
+ '(evil-leader/leader ",")
  '(fci-rule-character-color "#192028")
  '(fci-rule-color "#444444")
  '(foreground-color "#cccccc")
@@ -51,7 +52,11 @@
  '(global-auto-revert-non-file-buffers t)
  '(global-prettify-symbols-mode t)
  '(global-subword-mode t)
+ '(global-undo-tree-mode t)
  '(gofmt-command "goimports")
+ '(guide-key-mode t)
+ '(guide-key/guide-key-sequence t)
+ '(guide-key/idle-delay 0.5)
  '(helm-M-x-fuzzy-match t)
  '(helm-always-two-windows nil)
  '(helm-apropos-fuzzy-match t)
@@ -68,10 +73,9 @@
     (try-complete-file-name-partially try-complete-file-name try-expand-dabbrev try-expand-dabbrev-all-buffers try-expand-dabbrev-from-kill try-expand-all-abbrevs try-complete-lisp-symbol-partially try-complete-lisp-symbol)))
  '(ibuffer-expert t)
  '(ibuffer-show-empty-filter-groups nil)
- '(ido-auto-merge-work-directories-length -1)
  '(ido-create-new-buffer (quote always))
  '(ido-enable-flex-matching t)
- '(ido-everywhere t)
+ '(ido-everywhere nil)
  '(ido-max-prospects 10)
  '(ido-mode (quote both) nil (ido))
  '(ido-ubiquitous-mode t)
@@ -111,7 +115,7 @@
      ("melpa" . "https://melpa.org/packages/"))))
  '(package-selected-packages
    (quote
-    (fish-mode use-package pabbrev go-mode ahungry-theme browse-kill-ring arduino-mode cider smartparens clojure-mode evil evil-commentary evil-ediff evil-leader evil-surround markdown-mode magit ag powerline undo-tree flycheck-package auctex scad-mode smex expand-region multiple-cursors)))
+    (guide-key evil-space fish-mode use-package pabbrev go-mode ahungry-theme browse-kill-ring arduino-mode cider smartparens clojure-mode evil evil-commentary evil-ediff evil-leader evil-surround markdown-mode magit ag powerline undo-tree flycheck-package auctex scad-mode smex expand-region multiple-cursors)))
  '(prettify-symbols-unprettify-at-point (quote right-edge))
  '(recentf-max-saved-items 100)
  '(recentf-mode t)
@@ -216,7 +220,6 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:inherit nil :stipple nil :background "#1a1e21" :foreground "#ffffff" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 110 :width normal :foundry "nil" :family "Menlo"))))
  '(hl-sentence-face ((t (:foreground "white"))) t))
 
 

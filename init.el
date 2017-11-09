@@ -424,14 +424,36 @@
 ;;   (global-set-key (kbd "M-O") 'change-outer))
 
 ;;;; undo-tree
-(after "undo-tree-autoloads"
+(use-package undo-tree
+  :ensure t
+  :init
   (global-undo-tree-mode t)
+  :config
   (setq undo-tree-visualizer-relative-timestamps t)
   (setq undo-tree-visualizer-timestamps t))
 
 ;;;; hl-sentence
 (after "hl-sentence-autoloads"
   (add-hook 'LaTeX-mode-hook 'hl-sentence-mode))
+
+(use-package guide-key
+  :ensure t
+  :init (guide-key-mode 1))
+
+(use-package evil
+  :ensure t
+  :init
+  (use-package evil-leader
+    :ensure t
+    :init (global-evil-leader-mode 1)
+    :config
+    (evil-leader/set-key "fb" 'ido-switch-buffer))
+  (use-package evil-space
+    :ensure t
+    :init (evil-space-mode 1))
+  (evil-mode 1)
+  :config
+  (define-key evil-motion-state-map (kbd ";") 'evil-ex))
 
 ;;;; fish-mod
 (use-package fish-mode
