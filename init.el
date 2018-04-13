@@ -241,11 +241,7 @@
   (font-lock-add-keywords
    mode
    `((,(concat "\\<\\(" font-lock-number "\\)\\>" ) 0 font-lock-number-face)
-     (,(concat "\\<\\(" font-lock-hexnumber "\\)\\>" ) 0 font-lock-number-face)
-     )))
-
-
-
+     (,(concat "\\<\\(" font-lock-hexnumber "\\)\\>" ) 0 font-lock-number-face))))
 
 ;;;; dired
 (global-set-key (kbd "C-x C-j") 'dired-jump)
@@ -315,8 +311,6 @@
   (define-key ido-completion-map [tab] 'ido-complete))
 
 (add-hook 'ido-setup-hook 'mp-ido-hook)
-
-
 
 ;;;; smex
 (after "smex-autoloads" (smex-initialize))
@@ -418,11 +412,6 @@
   (add-hook 'prog-mode-hook 'rainbow-delimiters-mode-enable))
 
 
-;;;; change-inner
-;; (after "change-inner-autoloads"
-;;   (global-set-key (kbd "M-I") 'change-inner)
-;;   (global-set-key (kbd "M-O") 'change-outer))
-
 ;;;; undo-tree
 (use-package undo-tree
   :ensure t
@@ -436,9 +425,9 @@
 (after "hl-sentence-autoloads"
   (add-hook 'LaTeX-mode-hook 'hl-sentence-mode))
 
-(use-package guide-key
-  :ensure t
-  :init (guide-key-mode 1))
+(use-package which-key
+  :ensure t)
+
 
 (use-package evil
   :ensure t
@@ -464,8 +453,12 @@
     (add-hook 'before-save-hook #'fish_indent))
   (add-hook 'fish-mode-hook #'mp-fish-mode-hook))
 
+(use-package ivy
+  :ensure t)
+
 ;;;; go-mode
 (use-package go-mode
+  :ensure t
   :config
   (defun mp-go-mode-hook ()
 
@@ -538,7 +531,9 @@
   (kill-buffer)
   (jump-to-register :magit-fullscreen))
 
-(after 'magit
+(use-package magit
+  :ensure t
+  :config
   (define-key magit-status-mode-map (kbd "W") 'magit-toggle-whitespace)
   (define-key magit-status-mode-map (kbd "q") 'magit-quit-session))
 

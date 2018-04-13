@@ -91,9 +91,9 @@
     ((vertical-scroll-bars)
      (left-fringe . 4)
      (right-fringe . 0))))
- '(ispell-extra-args (quote ("--sug-mode=ultra")) t)
+ '(ispell-extra-args (quote ("--sug-mode=ultra")))
  '(ispell-list-command "list" t)
- '(ispell-program-name "aspell" t)
+ '(ispell-program-name "aspell")
  '(line-spacing 0)
  '(linum-format " %7i ")
  '(locale-coding-system (quote utf-8) t)
@@ -115,7 +115,7 @@
      ("melpa" . "https://melpa.org/packages/"))))
  '(package-selected-packages
    (quote
-    (guide-key evil-space fish-mode use-package pabbrev go-mode ahungry-theme browse-kill-ring arduino-mode cider smartparens clojure-mode evil evil-commentary evil-ediff evil-leader evil-surround markdown-mode magit ag powerline undo-tree flycheck-package auctex scad-mode smex expand-region multiple-cursors)))
+    (ivy which-key guide-key evil-space fish-mode use-package pabbrev go-mode ahungry-theme browse-kill-ring arduino-mode cider smartparens clojure-mode evil evil-commentary evil-ediff evil-leader evil-surround markdown-mode magit ag powerline undo-tree flycheck-package auctex scad-mode smex expand-region multiple-cursors)))
  '(prettify-symbols-unprettify-at-point (quote right-edge))
  '(recentf-max-saved-items 100)
  '(recentf-mode t)
