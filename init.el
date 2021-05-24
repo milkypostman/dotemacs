@@ -191,6 +191,7 @@ state, a message is sent to emacsclient to die causing a non-zero status."
   :ensure
   :init (global-evil-leader-mode)
   :config
+  (evil-leader/set-key "y" 'bury-buffer)
   (evil-leader/set-key "gg" 'magit-status)
   (evil-leader/set-key "f" 'find-file))
 
