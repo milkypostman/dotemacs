@@ -162,7 +162,7 @@ state, a message is sent to emacsclient to die causing a non-zero status."
 (use-package evil
   :ensure
   :bind (:map evil-normal-state-map
-	      ("M-y" . counsel-yank-pop)
+	      ("M-y" . consult-yank-from-kill-ring)
 	      :map evil-motion-state-map
 	      (";" . evil-ex)
 	      (":" . evil-repeat-find-char)
@@ -201,6 +201,9 @@ state, a message is sent to emacsclient to die causing a non-zero status."
 	      ("C-w" . selectrum-backward-kill-sexp)))
 
 (use-package selectrum-prescient
+  :ensure)
+
+(use-package consult
   :ensure)
 
 (provide 'init)

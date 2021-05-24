@@ -25,7 +25,7 @@
  '(indicate-empty-lines t)
  '(inhibit-startup-screen t)
  '(package-selected-packages
-   '(magit undo-fu selectrum-prescient selectrum evil-leader use-package evil))
+   '(consult magit undo-fu selectrum-prescient selectrum evil-leader use-package evil))
  '(prescient-filter-method '(literal regexp initialism fuzzy))
  '(ring-bell-function 'ignore)
  '(scroll-bar-mode nil)
