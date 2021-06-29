@@ -86,6 +86,7 @@ state, a message is sent to emacsclient to die causing a non-zero status."
 	     buffer-disable-reindent)
   :bind (("C-x C--" . rotate-windows)
 	 ("C-x C-i" . imenu)
+	 ("C-x r q" . save-buffers-kill-emacs)
 	 ("C-w" . kill-region-or-backward-word))
   :config
   (defun swap-windows (w1 w2)
@@ -192,8 +193,14 @@ state, a message is sent to emacsclient to die causing a non-zero status."
   :init (global-evil-leader-mode)
   :config
   (evil-leader/set-key "y" 'bury-buffer)
+  (evil-leader/set-key "n" 'next-error)
   (evil-leader/set-key "gg" 'magit-status)
-  (evil-leader/set-key "f" 'find-file))
+  (evil-leader/set-key "b" 'switch-to-buffer)
+  (evil-leader/set-key "q" 'query-replace-regexp)
+  (evil-leader/set-key "rg" 'rg)
+  (evil-leader/set-key "f" 'find-file)
+  )
+
 
 (use-package selectrum
   :ensure
@@ -315,6 +322,9 @@ displayed first and LAST-INDEX-DISPLAYED the index of the last one."
   :ensure)
 
 (use-package consult
+  :ensure)
+
+(use-package rg
   :ensure)
 
 (provide 'init)
