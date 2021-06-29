@@ -24,8 +24,11 @@
  '(indicate-buffer-boundaries nil)
  '(indicate-empty-lines t)
  '(inhibit-startup-screen t)
+ '(marginalia-align-offset 2)
+ '(ns-alternate-modifier 'alt)
+ '(ns-command-modifier 'meta)
  '(package-selected-packages
-   '(consult magit undo-fu selectrum-prescient selectrum evil-leader use-package evil))
+   '(marginalia rg consult magit undo-fu selectrum-prescient selectrum evil-leader use-package evil))
  '(prescient-filter-method '(literal regexp initialism fuzzy))
  '(ring-bell-function 'ignore)
  '(scroll-bar-mode nil)

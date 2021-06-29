@@ -198,7 +198,118 @@ state, a message is sent to emacsclient to die causing a non-zero status."
 (use-package selectrum
   :ensure
   :bind (:map selectrum-minibuffer-map
-	      ("C-w" . selectrum-backward-kill-sexp)))
+	      ("C-p" . selectrum-next-candidate)
+	      ("C-n" . selectrum-previous-candidate)
+	      ("C-w" . selectrum-backward-kill-sexp))
+  :config
+  (defun selectrum--vertical-display-style
+      (win input nrows _ncols index
+	   max-index _first-index-displayed _last-index-displayed)
+    "Insert candidates vertically into current buffer.
+Used as insertion function for `vertical' display style, see
+`selectrum-display-style'. WIN is the window where buffer will get
+displayed in. INPUT is the input string used to highlight the
+candidates. NROWS is the number of lines available and NCOLS the
+number of available columns. If there are candidates INDEX is the
+index of the currently selected candidate and MAX-INDEX is the index
+of the maximal index of the collection. When candidates are already
+displayed FIRST-INDEX-DISPLAYED is the index of the candidate that is
+displayed first and LAST-INDEX-DISPLAYED the index of the last one."
+    (let* ((first-index-displayed
+	    (if (not index)
+		0
+	      (selectrum--clamp
+	       ;; Adding one here makes it look slightly better, as
+	       ;; there are guaranteed to be more candidates shown
+	       ;; below the selection than above.
+	       (1+ (- index (max 1 (/ nrows 2))))
+	       0
+	       (max (- (1+ max-index) nrows)
+		    0))))
+	   (i first-index-displayed)
+	   (highlighted-candidates
+	    (selectrum--highlighted-candidates
+	     input
+	     first-index-displayed nrows))
+	   (fill-rows (max 0 (- nrows (length highlighted-candidates))))
+	   (metadata (selectrum--metadata))
+	   (annotf (or (completion-metadata-get metadata 'annotation-function)
+		       (plist-get completion-extra-properties
+				  :annotation-function)))
+	   (aff (or (completion-metadata-get metadata 'affixation-function)
+		    (plist-get completion-extra-properties
+			       :affixation-function)))
+	   (docsigf (plist-get completion-extra-properties :company-docsig))
+	   (groupf (and selectrum-group-format
+			(completion-metadata-get metadata 'group-function)))
+	   (candidates (cond (aff
+			      (selectrum--affixate aff highlighted-candidates))
+			     ((or annotf docsigf)
+			      (selectrum--annotate
+			       highlighted-candidates annotf docsigf))
+			     (t highlighted-candidates)))
+	   (last-title nil)
+	   (lines nil))
+      (dolist (cand candidates)
+	(when-let (new-title (and groupf (funcall groupf cand nil)))
+	  (unless (equal last-title new-title)
+	    (push (format selectrum-group-format (setq last-title new-title)) lines)
+	    (push "\n" lines))
+	  (setq cand (funcall groupf cand 'transform)))
+	(let* ((formatting-current-candidate
+		(eq i index))
+	       (newline
+		(if (and formatting-current-candidate
+			 (if (eq selectrum-extend-current-candidate-highlight
+				 'auto)
+			     (or aff annotf docsigf)
+			   selectrum-extend-current-candidate-highlight))
+		    (selectrum--selection-highlight "\n")
+		  "\n"))
+	       (padding
+		(if (and formatting-current-candidate
+			 (if (eq selectrum-extend-current-candidate-highlight
+				 'auto)
+			     (or aff annotf docsigf)
+			   selectrum-extend-current-candidate-highlight))
+		    (selectrum--selection-highlight ">  ")
+		  "   "))
+	       (full-cand (selectrum--format-candidate
+			   input cand i index
+			   first-index-displayed
+			   'should-annotate)))
+	  (push newline lines)
+	  (push full-cand lines)
+	  (push padding lines)
+	  (cl-incf i)))
+      (list
+       (length highlighted-candidates)
+       first-index-displayed
+       (if highlighted-candidates
+	   (apply #'concat
+		  (append (make-list fill-rows "\n") lines))
+	 ""))))
+  (setq-default selectrum-display-action
+		'(display-buffer-in-side-window
+		  (side . bottom)
+		  (slot . -1)
+		  (window-parameters (mode-line-format . none))
+		  )))
+
+;; Enable richer annotations using the Marginalia package
+(use-package marginalia
+  :ensure
+  ;; Either bind `marginalia-cycle` globally or only in the minibuffer
+  :bind (("M-A" . marginalia-cycle)
+	 :map minibuffer-local-map
+	 ("M-A" . marginalia-cycle))
+
+  ;; The :init configuration is always executed (Not lazy!)
+  :init
+
+  ;; Must be in the :init section of use-package such that the mode gets
+  ;; enabled right away. Note that this forces loading the package.
+  (marginalia-mode))
 
 (use-package selectrum-prescient
   :ensure)
