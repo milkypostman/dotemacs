@@ -203,170 +203,28 @@ state, a message is sent to emacsclient to die causing a non-zero status."
   )
 
 
-;; (use-package selectrum
-;;   :ensure
-;;   :bind (:map selectrum-minibuffer-map
-;;	      ("C-p" . selectrum-next-candidate)
-;;	      ("C-n" . selectrum-previous-candidate)
-;;	      ("C-w" . selectrum-backward-kill-sexp))
-;;   :config
-;;   (defun selectrum--vertical-display-style
-;;       (win input nrows _ncols index
-;;	   max-index _first-index-displayed _last-index-displayed)
-;;     "Insert candidates vertically into current buffer.
-;; Used as insertion function for `vertical' display style, see
-;; `selectrum-display-style'. WIN is the window where buffer will get
-;; displayed in. INPUT is the input string used to highlight the
-;; candidates. NROWS is the number of lines available and NCOLS the
-;; number of available columns. If there are candidates INDEX is the
-;; index of the currently selected candidate and MAX-INDEX is the index
-;; of the maximal index of the collection. When candidates are already
-;; displayed FIRST-INDEX-DISPLAYED is the index of the candidate that is
-;; displayed first and LAST-INDEX-DISPLAYED the index of the last one."
-;;     (let* ((first-index-displayed
-;;	    (if (not index)
-;;		0
-;;	      (selectrum--clamp
-;;	       ;; Adding one here makes it look slightly better, as
-;;	       ;; there are guaranteed to be more candidates shown
-;;	       ;; below the selection than above.
-;;	       (1+ (- index (max 1 (/ nrows 2))))
-;;	       0
-;;	       (max (- (1+ max-index) nrows)
-;;		    0))))
-;;	   (i first-index-displayed)
-;;	   (highlighted-candidates
-;;	    (selectrum--highlighted-candidates
-;;	     input
-;;	     first-index-displayed nrows))
-;;	   (fill-rows (max 0 (- nrows (length highlighted-candidates))))
-;;	   (metadata (selectrum--metadata))
-;;	   (annotf (or (completion-metadata-get metadata 'annotation-function)
-;;		       (plist-get completion-extra-properties
-;;				  :annotation-function)))
-;;	   (aff (or (completion-metadata-get metadata 'affixation-function)
-;;		    (plist-get completion-extra-properties
-;;			       :affixation-function)))
-;;	   (docsigf (plist-get completion-extra-properties :company-docsig))
-;;	   (groupf (and selectrum-group-format
-;;			(completion-metadata-get metadata 'group-function)))
-;;	   (candidates (cond (aff
-;;			      (selectrum--affixate aff highlighted-candidates))
-;;			     ((or annotf docsigf)
-;;			      (selectrum--annotate
-;;			       highlighted-candidates annotf docsigf))
-;;			     (t highlighted-candidates)))
-;;	   (last-title nil)
-;;	   (lines nil))
-;;       (dolist (cand candidates)
-;;	(when-let (new-title (and groupf (funcall groupf cand nil)))
-;;	  (unless (equal last-title new-title)
-;;	    (push (format selectrum-group-format (setq last-title new-title)) lines)
-;;	    (push "\n" lines))
-;;	  (setq cand (funcall groupf cand 'transform)))
-;;	(let* ((formatting-current-candidate
-;;		(eq i index))
-;;	       (newline
-;;		(if (and formatting-current-candidate
-;;			 (if (eq selectrum-extend-current-candidate-highlight
-;;				 'auto)
-;;			     (or aff annotf docsigf)
-;;			   selectrum-extend-current-candidate-highlight))
-;;		    (selectrum--selection-highlight "\n")
-;;		  "\n"))
-;;	       (padding
-;;		(if (and formatting-current-candidate
-;;			 (if (eq selectrum-extend-current-candidate-highlight
-;;				 'auto)
-;;			     (or aff annotf docsigf)
-;;			   selectrum-extend-current-candidate-highlight))
-;;		    (selectrum--selection-highlight ">  ")
-;;		  "   "))
-;;	       (full-cand (selectrum--format-candidate
-;;			   input cand i index
-;;			   first-index-displayed
-;;			   'should-annotate)))
-;;	  (push newline lines)
-;;	  (push full-cand lines)
-;;	  (push padding lines)
-;;	  (cl-incf i)))
-;;       (list
-;;        (length highlighted-candidates)
-;;        first-index-displayed
-;;        (if highlighted-candidates
-;;	   (apply #'concat
-;;		  (append (make-list fill-rows "\n") lines))
-;;	 ""))))
-;;   (setq-default selectrum-display-action
-;;		'(display-buffer-in-side-window
-;;		  (side . bottom)
-;;		  (slot . -1)
-;;		  (window-parameters (mode-line-format . none))
-;;		  )))
-
-;; (use-package selectrum-prescient
-;;   :ensure)
-
 (use-package vertico
   :ensure
   :bind (:map vertico-map
-	      ("C-n" . vertico-previous)
-	      ("C-p" . vertico-next)
-	      ("C-w" . vertico--backward-updir)
+	      ("C-n" . vertico-next)
+	      ("C-p" . vertico-previous)
+	      ("C-w" . vertico-directory-delete-entry)
 	      ([up] . vertico-next)
 	      ([down] . vertico-previous))
 
   :init
-  (defun vertico--display-in-buffer (candidates)
-    (let ((buffer (get-buffer-create (format " *vertico-%s*" (- (recursion-depth) 1))))
-	  (fill-rows (max 0 (- vertico-count (length candidates)))))
-      (with-current-buffer buffer
-	(setq-local display-line-numbers nil
-		    show-trailing-whitespace nil
-		    inhibit-modification-hooks t)
-	(erase-buffer)
-	(insert (apply #'concat (make-list fill-rows "\n")))
-	(insert (string-join (nreverse candidates))) ;; NOTE: Reverse the candidates!
-	(goto-char (point-min)))
-      (display-buffer buffer
-		      `(display-buffer-in-side-window
-			(window-parameters (mode-line-format . none))
-			(window-height . ,vertico-count)
-			(side . bottom)
-			(slot . -1)))))
-
-  (advice-add #'vertico--display-candidates
-	      :override #'vertico--display-in-buffer)
-
-  (defun vertico--prefix-candidate (orig cand prefix suffix index)
-    (setq cand (funcall orig cand prefix suffix index))
-    (concat
-     (if (= vertico--index index)
-	 (propertize "» " 'face 'vertico-current)
-       "  ")
-     cand))
-  (advice-add #'vertico--format-candidate :around #'vertico--prefix-candidate)
-
-  (defun vertico--backward-updir ()
-    "Delete char before or go up directory, like `ido-mode'."
+  (defun vertico-directory-delete-entry ()
+    "Delete directory or entire entry before point."
     (interactive)
-    (if (eq (char-before) ?/)
-	(save-excursion
-	  (goto-char (1- (point)))
-	  (when (search-backward "/" (point-min) t)
-	    (delete-region (1+ (point)) (point-max))))
-      (call-interactively 'backward-kill-word)))
-
-  (defun vertico--display-above-prompt (lines)
-    (move-overlay vertico--candidates-ov (point-min) (point-min))
-    (overlay-put vertico--candidates-ov 'before-string
-		 (concat (make-string (- vertico-count (length lines)) ?\n)
-			 (apply #'concat (nreverse lines))))
-    (vertico--resize-window (length lines)))
-
-  (advice-add #'vertico--display-candidates
-	      :override #'vertico--display-above-prompt)
-  )
+    (when (and (> (point) (minibuffer-prompt-end))
+	       ;; Check vertico--base for stepwise file path completion
+	       (not (equal vertico--base ""))
+	       (eq 'file (vertico--metadata-get 'category)))
+      (save-excursion
+	(goto-char (1- (point)))
+	(when (search-backward "/" (minibuffer-prompt-end) t)
+	  (delete-region (1+ (point)) (point-max))
+	  t)))))
 
 (use-package orderless
   :ensure
